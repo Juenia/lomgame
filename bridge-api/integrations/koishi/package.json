@@ -1,0 +1,42 @@
+{
+  "name": "koishi-plugin-lom-bridge",
+  "version": "1.2.4",
+  "description": "《诡秘之主：群星低语》同人文字游戏 —— 内核一起打包，装完就能玩",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "core",
+    "readme.md",
+    "package.json"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "koishi-plugin",
+    "chatbot",
+    "game",
+    "qq",
+    "text-rpg"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "pack:core": "node scripts/pack-core.mjs",
+    "prepack": "npm run build && node scripts/pack-core.mjs"
+  },
+  "peerDependencies": {
+    "koishi": "^4.18.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "koishi": {
+    "description": {
+      "zh": "《诡秘之主》同人文字游戏：角色、途径、疯狂与污染。内核随插件打包，装完发 .帮助 就能玩。"
+    }
+  },
+  "dependencies": {
+    "yaml": "^2.8.1",
+    "zod": "^4.1.12"
+  },
+  "homepage": "https://www.npmjs.com/package/koishi-plugin-lom-bridge",
+  "author": "曾经"
+}
