@@ -1,0 +1,13 @@
+LIBRARY BeeGoPlugin
+EXPORTS
+  Bee_初始化=Bee_Init_Internal
+  Bee_插件被启用=Bee_Enable_Internal
+  Bee_插件被禁用=Bee_Disable_Internal
+  Bee_插件被卸载=Bee_Unload_Internal
+  Bee_插件设置=Bee_Settings_Internal
+  Bee_收到频道私信=Bee_ChannelPrivate_Internal
+  Bee_收到频道消息=Bee_ChannelMessage_Internal
+  Bee_收到频道事件=Bee_ChannelEvent_Internal
+  Bee_收到私聊消息=Bee_PrivateMessage_Internal
+  Bee_收到群聊消息=Bee_GroupMessage_Internal
+  Bee_收到通常事件=Bee_CommonEvent_Internal

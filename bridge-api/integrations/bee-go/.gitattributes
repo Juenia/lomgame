@@ -1,0 +1,11 @@
+# 这个目录里有三类文件对"字节"敏感，不能让 git 的换行转换碰它们。
+#
+# build.bat           必须是 GBK/CP936 + CRLF（脚本里 chcp 936）
+# other/BeePlugin.def 必须是 GBK（11 个中文导出名）
+# other/worker_runtime.go 的 build tag 会被构建工具逐字节比对
+#   （见 other/buildmeta/main.go 的 materializeWorkerRuntime），
+#   换行一旦被转成 CRLF，build.bat 会在第一步就失败：
+#   "other/worker_runtime.go missing bee_worker_runtime build tag"
+build.bat binary
+other/BeePlugin.def binary
+other/worker_runtime.go -text
