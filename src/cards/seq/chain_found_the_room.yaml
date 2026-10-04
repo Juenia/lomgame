@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：找到那间屋子（设 flag `found_the_room`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_found_the_room
+name: 椅子有人坐过
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:found_the_room'
+effects:
+  - { mad: 4 }
+  - { cor: 2 }
+texts:
+  priv: |
+    你后来又找到了那扇门，在另一个地方。
+    里面还是只有一把椅子。
+    **但椅子上是热的。**
+    你退出去的时候，听见里面有人站起来的声音。
+  group: 有人最近一直在找一扇说不清的门。
+daily_limit: 1

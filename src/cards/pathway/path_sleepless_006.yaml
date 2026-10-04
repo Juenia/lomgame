@@ -1,0 +1,38 @@
+id: path_sleepless_006
+name: 让所有人都怕的那一句
+trigger:
+  type: daily
+  weight: 6
+  cond: [ 'pathway:sleepless' ]
+  min_seq: 3
+  cooldown_days: 5
+effects:
+  - { dig: 7 }
+  - { cor: 3 }
+texts:
+  priv: |
+    你只说了一句话，屋里的人就全不动了。
+    不是你凶，是**他们心里那个最怕的东西被你叫出了名字**。
+    恐惧主教不需要动手。你转身出门的时候听见身后有人开始哭 —— 你没回头，因为回头就要解释。
+  group: 整条街安静了几秒，连狗都不叫了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 不回头，走出去
+    effects: [ { dig: 5 } ]
+    text: |
+      你走出去了。身后的哭声越来越远。
+      **而街上一个人都没有** —— 连刚才路过的都没有。
+  - key: '2'
+    label: 回头解释一句
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你回头说了一句。他们的脸色松了一点。
+      **而有一个人的脸更白了** —— 因为那句话里有一个名字。
+  - key: '3'
+    label: 把那句话再说一遍
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你又说了。这次没有人哭。
+      **他们只是站着** —— 站了很久，直到你走出去。

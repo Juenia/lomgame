@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「勇士与海酒吧」（warrior_and_sea_bar，危险度 2）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_warrior_and_sea_bar
+name: 谁先讲故事
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:勇士与海酒吧'
+effects:
+  - { dig: 3 }
+  - { cor: 1 }
+texts:
+  priv: |
+    这里的规矩是谁的故事最狠谁付账。
+    昨晚有个人讲了一件很硬的事。
+    **今早他没来。**
+    老板把昨晚的酒钱记在了他名下，说等他来。
+  group: 勇士与海酒吧有个人昨晚讲了个故事，今天没来。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 问老板昨晚他讲了什么
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      老板说了个大概。
+      **而他说到一半停了** —— 他说他记不清后半段了。
+  - key: '2'
+    label: 留下来等他来
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你等到打烊。他没有来。
+      **而他那杯酒一直摆在吧台上** —— 没有人收。
+  - key: '3'
+    label: 替他把酒钱付了
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你付了。老板在账本上划掉那一行。
+      **而账本上他那一行的后面** —— 还有三个被划掉的名字。

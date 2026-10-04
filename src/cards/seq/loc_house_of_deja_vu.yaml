@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「梦回之宅」（house_of_deja_vu，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_house_of_deja_vu
+name: 昨天的动作
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:梦回之宅'
+effects:
+  - { mad: 4 }
+  - { dig: 2 }
+texts:
+  priv: |
+    你在那栋房子里看见自己昨天的动作。
+    **不是回忆，是看见。** 就在走廊那头，做了同一件事。
+    你往前走，那个「你」也往前走。
+    你停下来。他也停。你等他先动 —— 他没有动。
+  group: 那栋空房子里昨天有两个人走路的声音。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 站着等他先动
+    effects: [ { dig: 6, cor: 3, mad: 4 } ]
+    text: |
+      你站着不动。他也不动。
+      **你们隔了十几步** —— 而你站了很久，久到腿开始酸。
+  - key: '2'
+    label: 故意做一个昨天没做的动作
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你抬起了手。他也抬了。
+      **而你昨天没有抬过手** —— 你看得清清楚楚。
+  - key: '3'
+    label: 退出去，把门关上
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你退出去，把门带上。
+      **门里传来一声关门声** —— 比你晚了一拍。

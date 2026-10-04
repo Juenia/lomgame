@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「康斯顿城城区」（konstun_center，危险度 1）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_konstun_center
+name: 银行家的儿子
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:康斯顿城城区'
+effects:
+  - { dig: 2 }
+  - { mad: 1 }
+texts:
+  priv: |
+    街上过去一辆马车，车徽是银行的。
+    车上坐着个年轻人，看着很体面。
+    **他一直盯着窗外的一堵墙。**
+    马车拐弯了，他还回头看了一眼。
+  group: 康斯顿城昨天有辆银行的车在一条街上绕了三圈。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 跟上去看那堵墙
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你去了。那堵墙很普通。
+      **而墙根下有一小堆新土** —— 像是有人挖过又填回去。
+  - key: '2'
+    label: 拦下那个年轻人问一句
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你拦了车。他看了你很久。
+      **然后他说：「你也看得见？」** —— 说完他就让车走了。
+  - key: '3'
+    label: 记下那堵墙的位置
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你把街名和门牌都记了下来。
+      **第二天再去** —— 那堵墙被刷白了，刷得很新。

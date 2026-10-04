@@ -1,0 +1,24 @@
+# 事件卡链（M2.87）—— **后续卡**：只有触发过前置卡的人才抽得到。
+# 前置：lost_005 叫你的那个声音（设 flag `found_way_back`）
+# 判据：`cond: flag:found_way_back`。
+#
+# ⚠️ 这一类此前**一条都没有**：全库 29 张卡设了 flag，而要求 flag 的卡是 **0 张** ——
+#    flag 设了就再没有人读，等于写了一半的链。这张是它的后半段。
+id: chain_found_way_back
+name: 路还在
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:found_way_back'
+effects:
+  - { dig: 2 }
+  - { cor: 2 }
+texts:
+  priv: |
+    你顺着那条路又走了一次。
+    **路还在。** 每一个拐角都跟你记得的一样。
+    但走到一半你发现，这次没有人叫你。
+    你自己走到了头。回头的时候，路已经没有了。
+  group: 有人昨天在一条早就拆了的巷子里走了很久。
+daily_limit: 1

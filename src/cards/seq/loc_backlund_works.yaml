@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「停摆车间」（backlund_works，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_backlund_works
+name: 新的油渍
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:停摆车间'
+effects:
+  - { dig: 3 }
+  - { cor: 1 }
+texts:
+  priv: |
+    所有的机器都停着，皮带松了，轮子锈了。
+    地上有油渍 —— **是新的。**
+    你蹲下来摸了一下，手指上还是滑的。
+    你抬头看那台机器。它的轮子刚才动过。
+  group: 那间停摆了十年的车间，地上有新的油。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 顺着油渍找过去
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你顺着油渍走。它从机器底下出来，到墙边就断了。
+      **而墙那边是空的** —— 墙后面什么都没有。
+  - key: '2'
+    label: 让它再动一次
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你站在那儿等。等了两个钟头。
+      **轮子又转了一圈** —— 转得很慢，而车间里没有风。
+  - key: '3'
+    label: 把轮子的位置记下来
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你在轮子上划了一道。
+      **第二天再来** —— 那一道跑到背面去了。

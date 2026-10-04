@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `found_artifact` → 后续卡 `chain_found_artifact`
+id: start_found_artifact
+name: 捡到一件东西
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { dig: 3 }
+  - { cor: 1 }
+  - { flag: found_artifact }
+texts:
+  priv: |
+    那东西就在路边，没人捡。
+    你捡起来的时候**手指麻了一下**。
+    很旧，看不出是干什么用的。
+    你把它放进口袋。走了一段路，口袋是热的。
+  group: 有人在路边捡了件旧东西，一直揣在兜里。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把它掏出来看清楚
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你掏出来看。它比刚才重了。
+      **而上面有一处磨得很亮** —— 那个位置正好是握手的形状。
+  - key: '2'
+    label: 把它扔掉
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你把它扔进了路边的沟里。
+      **第二天口袋还是热的** —— 你把口袋翻过来看，里面什么都没有。
+  - key: '3'
+    label: 一直揣着，看它还会热多久
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你揣了七天。它一直是热的。
+      **而第七天晚上** —— 它凉了，凉得很快，一刻钟就凉透了。

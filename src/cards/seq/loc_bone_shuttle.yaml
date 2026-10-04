@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「骨梭地窖」（bone_shuttle，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_bone_shuttle
+name: 梭子还在动
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:骨梭地窖'
+effects:
+  - { dig: 3 }
+  - { cor: 3 }
+texts:
+  priv: |
+    地窖里只有一台织机，很旧。
+    梭子是骨头做的 —— 你能看出那是什么骨头。
+    **它还在动。** 很慢，像快没力气了。
+    你看了很久。它一直在同一段上来回，织不动新的。
+  group: 那间地窖里的声音，隔着一层地板都听得见。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 走近看那根骨头
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你走近看。是人的桡骨。
+      **而它比一般的短** —— 短了大概一指。
+  - key: '2'
+    label: 把它停下来
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你伸手按住了梭子。它停了。
+      **而织机还在响** —— 声音从别的地方来的。
+  - key: '3'
+    label: 看它织出的那一段布
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你拉起那段布看。上面有花纹。
+      **花纹是字** —— 而你不认得那种写法。

@@ -1,0 +1,32 @@
+id: daily_024
+name: 过一次细筛
+trigger:
+  type: daily
+  weight: 5
+  cond:
+    - dig>=60
+effects:
+  - { item: 辅助材料·月长石粉, n: 1 }
+  - { dig: 1 }
+texts:
+  priv: |
+    你把月长石粉过了一遍细筛。指尖的感觉告诉你，这一次的分量是对的。
+  group: 有人在筛一种发亮的粉末。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把粉末收好
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你装进小瓶，封了口。
+  - key: '2'
+    label: 再筛一遍，这次更细
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      第二遍筛出来的分量少了一半 —— 而感觉更对。
+  - key: '3'
+    label: 看看筛出来的粗的那部分
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      粗的那部分里混着一点别的东西，不亮。

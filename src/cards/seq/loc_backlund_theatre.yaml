@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「皇家剧院」（backlund_theatre，危险度 2）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_backlund_theatre
+name: 台上多了一个
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:皇家剧院'
+effects:
+  - { dig: 3 }
+  - { mad: 2 }
+texts:
+  priv: |
+    戏演到第三幕，你数了一下台上的人。
+    **比开场多了一个。**
+    那个人站在最边上，穿着和其他人一样的衣服，跟着做动作。
+    谢幕的时候你再看，又对上了。
+  group: 皇家剧院昨天那场戏，有观众说台上多了一个人。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 盯着最边上那个人看
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你一直看着他。他的动作和旁边的人一模一样。
+      **而他的嘴一直在动** —— 台上的词早就念完了。
+  - key: '2'
+    label: 回去翻节目单
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你翻了节目单。演员一共十一个。
+      **而你刚才数出来的是十二个** —— 你数了两遍。
+  - key: '3'
+    label: 散场后去后台
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你去了后台。后台很挤。
+      **而有一件戏服挂在最里面** —— 干的，而所有别的都是湿的。

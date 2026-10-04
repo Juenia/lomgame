@@ -1,0 +1,152 @@
+# 生态域（M2.58 阶段二）—— 让「不同地方的世界不一样」这件事有落点。
+#
+# ## 为什么需要这一层
+#
+# 阶段一给物种之间加了关系（谁吃谁），但生态 tick 的**所有概率仍然读全局常量**
+# CREATURE.ecology.*。那意味着：**普利兹港的老鼠和拜朗的老鼠行为完全一样** ——
+# 迁移率、繁衍率、承载力全部与地点无关。
+#
+# 这一层把那些常量变成**域参数**：每个域给一组覆盖值，没写的键回落到全局基线。
+#
+# ## 兼容性：这是「不排斥现有数据」的第二次兑现
+#
+# 每个参数都是**可选**的，缺省 = 用全局基线。所以：
+#   - 一个域不写任何参数 = 这个域里的地点与 M2.8 的行为逐位相同；
+#   - 地点**没有**登记在任何域里 = 落回全局基线（与加这一层之前一样）。
+# 两条加起来的意思是：**内容可以一个域一个域地调，调一半不会让世界半坏。**
+#
+# ## 域的划分依据
+#
+# 按地点的**地形语义**分，不是按行政区域分 —— 同一个城市里的老码头与无光地下室
+# 属于完全不同的生态域（港口与地下），这正是这一层要表达的东西。
+#
+# 参数说明（比率类为 0—1，倍数类以 1.0 为中性，缺省见 numeric.creature.ecology）：
+#   spirituality        灵性浓度：越高的地方非凡生物越活跃
+#   pollution           污染度：越高的地方坏死得越快
+#   madness             疯狂度：这里传出去的传闻有多容易失真（M2.66）
+#   hidden              隐秘度：目击有多难传出去（M2.58 阶段三）
+#   order               秩序度：这块地方有多少人在管事 —— 非凡生物在这里活不长（M2.66）
+#   fear                恐慌基线：这个地方本来就容易慌的程度（M2.58 阶段三）
+#   carryingCapacity    单个地点的生物上限（覆盖 capPerLocation）
+#                     ⚠️ M2.85：物种 19 → 293 之后上调（M2.85：物种 19→293 后微调至 10—12；注意：实测承载力的改动对 m2-14 的补充读数**无影响**，见该用例的说明）—— 否则一个地点总是超载，
+#                     「低于承载才补充」这条生态逻辑几乎不触发（m2-14 的灾厄补充读数当场报警）
+#   migrateMultiplier   迁移倍率：越高越留不住东西
+#   reproduceMultiplier 繁衍倍率
+#   replenishMultiplier 世界补充倍率
+#   decayMultiplier     衰亡倍率
+#
+# ⚠️ 十三个参数**现在全部有读取点**（M2.66 把最后两个接上了）：
+#    后五个 + spirituality / pollution    → 生态 tick（迁移 / 繁衍 / 补充 / 衰亡）
+#    hidden / fear                        → 信息生态（传不传得出去 / 恐慌累积与抑制繁衍）
+#    madness / order                      → 传闻失真 / 人间干预（衰亡加快）
+#    改这里的任何一个数都会立刻改变那个地点的玩法 —— 后台保存后热重载即生效。
+
+zones:
+
+  # ---------------- 城市雾区 ----------------
+  - id: city_fog
+    name: 城市雾区
+    description: 人类密集、灵性稀薄，但污染藏在日常底下。非凡生物在这里伪装成传说。
+    spirituality: 0.2
+    pollution: 0.3
+    madness: 0.2
+    hidden: 0.8
+    order: 0.8
+    fear: 0.2
+    # 城里留不住东西：人来人往，生物也待不久
+    carryingCapacity: 12
+    migrateMultiplier: 1.4
+    reproduceMultiplier: 0.8
+    replenishMultiplier: 1.0
+    decayMultiplier: 1.0
+    locations: [ tingen, mist_street, candle_bookstore, steam_station, backlund, backlund_bridge, backlund_theatre, backlund_slum, backlund_cathedral, trier, intel_cafe, foreign_quarter, fish_market, pritz, byron, konstun_center, storn_center, beldan_center, limon_center, connate_center, ramd_town_center, vinia_town_center, bigorre_center, daliege_center, aumir_center, koldur_center, saint_miron_center, fennepot_city_center, aisara_center, byam_center, new_silver_city_center, new_moon_city_center, silver_city_center, moon_city_center, st_samuel_cathedral, st_selena_cathedral, st_shillan_cathedral, harvest_church, sea_wave_church, saint_number_church, river_and_sea_church, blackthorn_security, mi9, capital_police_hq, oak_island_base, fool_church_byam, brave_bar, wild_heart_bar, hound_tavern, ice_bear_isle, lost_isle ]
+
+  # ---------------- 港口与海洋 ----------------
+  - id: port_sea
+    name: 港口与海洋
+    description: 贸易带来外来物种，潮汐带来别处的东西。海怪迁移是这里的常态。
+    spirituality: 0.5
+    pollution: 0.4
+    madness: 0.3
+    hidden: 0.5
+    order: 0.4
+    fear: 0.4
+    # 海里的东西自己会来：补充多、衰亡慢
+    carryingCapacity: 10
+    migrateMultiplier: 1.6
+    reproduceMultiplier: 1.0
+    replenishMultiplier: 1.4
+    decayMultiplier: 0.9
+    locations: [ old_dock, pritz_harbor, lighthouse, storm_cape, coral_reef, ghost_graveyard, nameless_isle, mirage_bay, pritz_sunken_hulk, pritz_battle_reef, windless_cape, enmat_center, banshee_port_center, damir_port_center, warrior_and_sea_bar, interior_sea, raging_sea, sunia_sea, sunia_island, fog_sea, abyss_mouth, north_sea, polar_sea, gulf_coast, amazon_delta, nordic_fjord, mediterranean_shore, deep_trench, storm_sea, frozen_sea, ghost_sea ]
+
+  # ---------------- 森林与山地 ----------------
+  - id: forest_hill
+    name: 森林与山地
+    description: 世上少数还按老规矩运转的地方。普通生态完整，非凡生物在深处筑巢。
+    spirituality: 0.4
+    pollution: 0.2
+    madness: 0.2
+    hidden: 0.6
+    order: 0.5
+    fear: 0.3
+    # 林子养得住东西：承载力高、繁衍快、衰亡慢
+    carryingCapacity: 10
+    migrateMultiplier: 0.9
+    reproduceMultiplier: 1.3
+    replenishMultiplier: 1.0
+    decayMultiplier: 0.7
+    locations: [ graveyard_path, blackthorn_abbey, jungle_ruins, renewing_terrace, fusac_highland, ruen_great_river, south_continent, pas_valley, hagati_grass, star_plateau, south_jungle, highland_kingdom, rocky_range, great_plain, mississippi_river, maple_forest, pampas_plain, equator_jungle, rhine_river, asian_river, southeast_jungle ]
+
+  # ---------------- 沼泽与废墟 ----------------
+  - id: swamp_ruin
+    name: 沼泽与废墟
+    description: 污染在这里富集，没人清理。失控的东西在这里活得比别处久。
+    spirituality: 0.6
+    pollution: 0.8
+    madness: 0.6
+    hidden: 0.7
+    order: 0.1
+    fear: 0.6
+    # 污染既毒死东西也造出东西：衰亡快，补充同样多 —— 一个坏死得快的生态
+    carryingCapacity: 10
+    migrateMultiplier: 1.1
+    reproduceMultiplier: 0.9
+    replenishMultiplier: 1.5
+    decayMultiplier: 1.6
+    locations: [ plague_camp, plague_pit, ironworks, old_weavery, iron_loom, bone_shuttle, backlund_forge, backlund_works, backlund_furnace, endless_workshop, divine_war_ruins, hornacis_peak, east_continent, silver_city, giant_court, nose_ruins, west_continent, elf_homeland, fog_barrier, god_war_ruins, arctic_tundra, andes_range, patagonia, alps_range, carpathian, himalaya_range, gobi_waste, siberia_taiga ]
+
+  # ---------------- 地下与墓穴 ----------------
+  - id: under_crypt
+    name: 地下与墓穴
+    description: 阳光到不了的地方，死亡不是结束。食腐者与灵体在这里做它们的事。
+    spirituality: 0.7
+    pollution: 0.5
+    madness: 0.5
+    hidden: 0.9
+    order: 0.05
+    fear: 0.5
+    # 地下是封闭生态：进得少、出得少，但活得久
+    carryingCapacity: 10
+    migrateMultiplier: 0.6
+    reproduceMultiplier: 0.7
+    replenishMultiplier: 0.7
+    decayMultiplier: 0.5
+    locations: [ dark_cellar, sealed_archive, catacombs, backlund_underground, deep_catacombs, trier_ossuary, trier_war_crypt, unrecorded_vault, smugglers_cave, backlund_war_vault, bone_market ]
+
+  # ---------------- 灵界重叠区 ----------------
+  - id: spirit_overlap
+    name: 灵界重叠区
+    description: 两边的界限在这里很薄。信使往来，灵体捕食，记忆会被弄脏。
+    spirituality: 0.95
+    pollution: 0.6
+    madness: 0.8
+    hidden: 0.95
+    order: 0.05
+    fear: 0.8
+    # 灵性越浓，非凡生物越活跃：进得快、生得多、也死得快
+    carryingCapacity: 10
+    migrateMultiplier: 1.3
+    reproduceMultiplier: 1.5
+    replenishMultiplier: 1.2
+    decayMultiplier: 1.2
+    locations: [ above_grey_fog, fog_chapel, rusted_gallery, grey_loom, house_of_deja_vu, tide_cavern, sun_temple, calderon_city, spirit_world, spirit_deep, mist_town, star_realm_gate ]

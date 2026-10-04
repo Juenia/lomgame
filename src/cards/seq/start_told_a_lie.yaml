@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `told_a_lie` → 后续卡 `chain_told_a_lie`
+id: start_told_a_lie
+name: 说了一个谎
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { dig: 2 }
+  - { cor: 1 }
+  - { flag: told_a_lie }
+texts:
+  priv: |
+    那个谎很小，小到你自己都觉得不算什么。
+    **但它是谎。**
+    你说完之后对面的人点了头，信了。
+    回去的路上你把那句话在心里过了两遍。
+  group: 有人在路上自言自语了两句。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 回去把谎收回来
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你回去了，说了实话。
+      **而他说他早就知道** —— 他说他等你回来。
+  - key: '2'
+    label: 把它当成真的
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你反复说给自己听。说了十几遍。
+      **说到第十几遍的时候** —— 你已经分不清哪句是真的了。
+  - key: '3'
+    label: 把这件事记下来
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你写在了本子上，写了一行。
+      **写的时候你用了别人的语气** —— 而你自己没发觉。

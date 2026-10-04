@@ -1,0 +1,38 @@
+id: path_perfect_003
+name: 假的那一件
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:perfect' ]
+  min_seq: 7
+  cooldown_days: 3
+effects:
+  - { dig: 6 }
+  - { cor: 1 }
+texts:
+  priv: |
+    摊主说这是祖传的，开价不低。
+    你翻过来看了一眼接口，又看了一眼磨损的方向。
+    鉴定师不靠眼力，靠**东西自己说不通的地方** —— 一处说不通是意外，两处是伪造，三处是**有人希望你发现它是假的**。你把东西放下，问他这玩意是谁让他摆在这儿的。
+  group: 摊子上有一件东西被翻了个面。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 问他是谁让他摆在这儿的
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      他愣了一下，说是有人寄卖的。
+      **而他说不出那个人长什么样** —— 只说对方戴了手套。
+  - key: '2'
+    label: 把它买下来
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你付了钱。他收得很快。
+      **而你走出十几步他才喊你** —— 说价钱算错了，要退你一半。
+  - key: '3'
+    label: 告诉他这是假的
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你说了。他一点都不惊讶。
+      **他说他知道** —— 他说摆了三个月，你是第一个看出来的。

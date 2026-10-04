@@ -1,0 +1,22 @@
+# 事件卡链（M2.87）—— **链的第二段**（三级链的中间那一环）。
+# 前置：设 flag `joined_church` 的那张卡
+# 自身：要 `flag:joined_church`，并**设出** `church_task_done`（供第三段读）
+id: chain2_joined_church
+name: 交上去了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:joined_church'
+effects:
+  - { dig: 3 }
+  - { mp: 2 }
+  - { flag: church_task_done }
+texts:
+  priv: |
+    你写完那份东西，交上去了。
+    上头的人看完，没有评价，只是把它放进一个匣子。
+    **匣子里已经有很多份了。**
+    你出来的时候，注意到匣子上没有锁。
+  group: 教堂里那个匣子一直放在桌上，从没锁过。
+daily_limit: 1

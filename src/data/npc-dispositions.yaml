@@ -1,0 +1,398 @@
+# NPC 立场与性情（M2.85 RPG 化）
+#
+# 用户拍板的两条：
+#
+#   ① 「强大的对立高序列者甚至可以算计玩家或者 NPC，可以布局做出一些阴谋，类似阿蒙算计克莱恩」
+#
+#   ② 「玩家行为可能交恶或者交好 NPC；交恶则可能被厌恶，更黑暗向的 NPC 会对玩家不利；
+#
+#       交好的 NPC 可能在某个时刻帮助玩家，可能赠送符合他自己身份的物品」
+#
+# 所以这张表要回答三个问题：**他是哪种人**（temperament）、**他与谁对立**（hostilePathways）、
+#
+# **他手里有什么**（giftTier）。
+#
+#
+# 读取点：npc_relations 的好感结算 + npc_schemes 的阴谋判定 + 场景里的态度描述。
+meta:
+  source: M2.85 RPG 化：**NPC 的立场与性情**（用户拍板「高序列对立者会算计玩家/NPC」「玩家行为会交恶或交好 NPC」）
+  count: 41
+  temperament_note: temperament 由**途径气质**派生（原著里不同途径的行事风格差别很大）：dark = 交恶时会主动算计；kind = 交恶时克制、交好时伸手；neutral = 按利害行事。
+  hostile_note: hostilePathways 是**阵营对立**（原著里有明确对立的那些，例如错误途径 vs 愚者/门途径）。
+  layer_note: ⚠️ 本表是**项目设计**（性情归类与赠礼档位是派生的）；npcId/name/sequence 来自 npc-tracks.yaml（原作记载）。
+npc_dispositions:
+  - npcId: klein_moretti
+    name: 克莱恩·莫雷蒂
+    sequence: 0
+    pathways:
+      - seer
+      - door
+      - error
+    temperament: neutral
+    hostilePathways: []
+    giftTier: high
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: audrey_hall
+    name: 奥黛丽·霍尔
+    sequence: 3
+    pathways:
+      - spectator
+    temperament: neutral
+    hostilePathways: []
+    giftTier: high
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: alger_wilson
+    name: 阿尔杰·威尔逊
+    sequence: 4
+    pathways:
+      - sailor
+    temperament: neutral
+    hostilePathways: []
+    giftTier: mid
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: derrick_berg
+    name: 戴里克·伯格
+    sequence: 4
+    pathways:
+      - sun
+    temperament: kind
+    hostilePathways: []
+    giftTier: mid
+    note: 交恶时仍会克制；交好时会在关键时刻伸手
+  - npcId: fors_wall
+    name: 佛尔思·沃尔
+    sequence: 4
+    pathways:
+      - door
+    temperament: neutral
+    hostilePathways: []
+    giftTier: mid
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: xio_derecha
+    name: 休·迪尔查
+    sequence: 4
+    pathways:
+      - arbiter
+    temperament: kind
+    hostilePathways: []
+    giftTier: mid
+    note: 交恶时仍会克制；交好时会在关键时刻伸手
+  - npcId: cattleya
+    name: 嘉德丽雅
+    sequence: 3
+    pathways:
+      - mystery_pryer
+    temperament: neutral
+    hostilePathways: []
+    giftTier: high
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: emlyn_white
+    name: 埃姆林·怀特
+    sequence: 4
+    pathways:
+      - apothecary
+    temperament: neutral
+    hostilePathways: []
+    giftTier: mid
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: leonard_mitchell
+    name: 伦纳德·米切尔
+    sequence: 4
+    pathways:
+      - sleepless
+    temperament: kind
+    hostilePathways: []
+    giftTier: mid
+    note: 交恶时仍会克制；交好时会在关键时刻伸手
+  - npcId: gehrman_sparrow
+    name: 格尔曼·斯帕罗
+    sequence: null
+    pathways:
+      - seer
+    temperament: neutral
+    hostilePathways:
+      - error
+    giftTier: low
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: rosell_gustav
+    name: 罗塞尔·古斯塔夫
+    sequence: 0
+    pathways: []
+    temperament: neutral
+    hostilePathways: []
+    giftTier: high
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: lumian_lee
+    name: 卢米安·李
+    sequence: null
+    pathways: []
+    temperament: neutral
+    hostilePathways: []
+    giftTier: low
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: dunn_smith
+    name: 邓恩·史密斯
+    sequence: 7
+    pathways:
+      - sleepless
+    temperament: kind
+    hostilePathways: []
+    giftTier: low
+    note: 交恶时仍会克制；交好时会在关键时刻伸手
+  - npcId: daly_simone
+    name: 戴莉·西蒙妮
+    sequence: 5
+    pathways:
+      - corpse_collector
+    temperament: kind
+    hostilePathways:
+      - mother
+    giftTier: mid
+    note: 交恶时仍会克制；交好时会在关键时刻伸手
+  - npcId: frye
+    name: 弗莱
+    sequence: 7
+    pathways:
+      - corpse_collector
+    temperament: kind
+    hostilePathways:
+      - mother
+    giftTier: low
+    note: 交恶时仍会克制；交好时会在关键时刻伸手
+  - npcId: old_neil
+    name: 老尼尔
+    sequence: null
+    pathways: []
+    temperament: neutral
+    hostilePathways: []
+    giftTier: low
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: mr_a
+    name: A先生
+    sequence: 5
+    pathways: []
+    temperament: neutral
+    hostilePathways: []
+    giftTier: mid
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: rosago
+    name: 罗萨戈
+    sequence: 5
+    pathways:
+      - seer
+    temperament: neutral
+    hostilePathways:
+      - error
+    giftTier: mid
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: maric
+    name: 马里奇
+    sequence: 5
+    pathways: []
+    temperament: neutral
+    hostilePathways: []
+    giftTier: mid
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: susie
+    name: 苏茜
+    sequence: 5
+    pathways:
+      - spectator
+    temperament: neutral
+    hostilePathways: []
+    giftTier: mid
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: danitz
+    name: 达尼兹·迪布瓦
+    sequence: 6
+    pathways:
+      - hunter
+    temperament: neutral
+    hostilePathways: []
+    giftTier: mid
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: anderson_hood
+    name: 安德森·胡德
+    sequence: 5
+    pathways:
+      - hunter
+    temperament: neutral
+    hostilePathways: []
+    giftTier: mid
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: edwina_edwards
+    name: 艾德雯娜·爱德华兹
+    sequence: 5
+    pathways:
+      - reader
+    temperament: kind
+    hostilePathways: []
+    giftTier: mid
+    note: 交恶时仍会克制；交好时会在关键时刻伸手
+  - npcId: frank_lee
+    name: 弗兰克·李
+    sequence: 5
+    pathways:
+      - mother
+    temperament: kind
+    hostilePathways: []
+    giftTier: mid
+    note: 交恶时仍会克制；交好时会在关键时刻伸手
+  - npcId: arrodes
+    name: 阿罗德斯
+    sequence: null
+    pathways: []
+    temperament: neutral
+    hostilePathways: []
+    giftTier: low
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: solomon
+    name: “黑皇帝”所罗门
+    sequence: null
+    pathways:
+      - lawyer
+    temperament: neutral
+    hostilePathways: []
+    giftTier: low
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: alistair_tudor
+    name: “血皇帝”亚利斯塔·图铎
+    sequence: null
+    pathways: []
+    temperament: neutral
+    hostilePathways: []
+    giftTier: low
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: trenthorst
+    name: “夜皇”特伦索斯特
+    sequence: null
+    pathways: []
+    temperament: neutral
+    hostilePathways: []
+    giftTier: low
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: salinger
+    name: “冥皇”萨林格尔
+    sequence: null
+    pathways:
+      - corpse_collector
+    temperament: kind
+    hostilePathways:
+      - mother
+    giftTier: low
+    note: 交恶时仍会克制；交好时会在关键时刻伸手
+  - npcId: bethel_abraham
+    name: 伯特利·亚伯拉罕
+    sequence: 1
+    pathways:
+      - door
+    temperament: neutral
+    hostilePathways: []
+    giftTier: high
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: antigonus
+    name: 安提哥努斯
+    sequence: 2
+    pathways:
+      - seer
+    temperament: neutral
+    hostilePathways:
+      - error
+    giftTier: high
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: pales_zoroaster
+    name: 帕列斯·索罗亚斯德
+    sequence: 1
+    pathways:
+      - error
+    temperament: dark
+    hostilePathways:
+      - seer
+      - door
+    giftTier: high
+    note: 交恶时会**主动算计**（原著里这类人不会只是讨厌你）
+  - npcId: azik_eggs
+    name: 阿兹克·艾格斯
+    sequence: 2
+    pathways:
+      - corpse_collector
+    temperament: kind
+    hostilePathways:
+      - mother
+    giftTier: high
+    note: 交恶时仍会克制；交好时会在关键时刻伸手
+  - npcId: bernadette_gustav
+    name: 贝尔纳黛·古斯塔夫
+    sequence: 2
+    pathways:
+      - mystery_pryer
+    temperament: neutral
+    hostilePathways: []
+    giftTier: high
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: will_auceptin
+    name: 威尔·昂赛汀
+    sequence: 1
+    pathways:
+      - monster
+    temperament: neutral
+    hostilePathways:
+      - arbiter
+    giftTier: high
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: reinette_tinicole
+    name: 蕾妮特·缇尼科尔
+    sequence: 2
+    pathways: []
+    temperament: neutral
+    hostilePathways: []
+    giftTier: high
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: colin_iliad
+    name: 科林·伊利亚特
+    sequence: 3
+    pathways:
+      - warrior
+    temperament: neutral
+    hostilePathways: []
+    giftTier: high
+    note: 按利害行事——不主动害人，也不主动帮人
+  - npcId: lovia_tiffany
+    name: 洛薇雅·蒂芙尼
+    sequence: 4
+    pathways:
+      - secrets_supplicant
+    temperament: dark
+    hostilePathways:
+      - sun
+      - arbiter
+    giftTier: mid
+    note: 交恶时会**主动算计**（原著里这类人不会只是讨厌你）
+  - npcId: sharon
+    name: 莎伦
+    sequence: 4
+    pathways:
+      - prisoner
+    temperament: dark
+    hostilePathways: []
+    giftTier: mid
+    note: 交恶时会**主动算计**（原著里这类人不会只是讨厌你）
+  - npcId: trissy
+    name: 特莉丝
+    sequence: 4
+    pathways:
+      - assassin
+    temperament: dark
+    hostilePathways:
+      - arbiter
+      - sun
+    giftTier: mid
+    note: 交恶时会**主动算计**（原著里这类人不会只是讨厌你）
+  - npcId: ince_zangwill
+    name: 因斯·赞格威尔
+    sequence: 4
+    pathways: []
+    temperament: neutral
+    hostilePathways: []
+    giftTier: mid
+    note: 按利害行事——不主动害人，也不主动帮人

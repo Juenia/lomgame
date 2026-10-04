@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `spoke_to_the_dead` → 后续卡 `chain_spoke_to_the_dead`
+id: start_spoke_to_the_dead
+name: 问了死人
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { dig: 4 }
+  - { cor: 2 }
+  - { flag: spoke_to_the_dead }
+texts:
+  priv: |
+    你在他坟前问了一句话。
+    **答了。** 很轻，但很清楚。
+    他说的是那件事的真相 —— 和你猜的不一样。
+    你听完，站起来，把带来的东西放下了。
+  group: 有人在坟前说了一晚上的话。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 再问一句
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你又问了。这次没有答。
+      **而坟上的土动了一下** —— 很轻，像有什么在下面换了个姿势。
+  - key: '2'
+    label: 把放下的东西再拿回来
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你弯腰把它拾了回来。
+      **而它比刚才凉** —— 凉得像放了很久。
+  - key: '3'
+    label: 回去查他说的那件事
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      你回去查了三天。
+      **查到的东西和他说的不一样** —— 而你不知道该信哪一个。

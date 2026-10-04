@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **三级链的第三段（终点）**。
+# 前置链：第一段设 `diary` → 第二段读它、设 `diary_replies` → 本卡读 `diary_replies`。
+# 本卡**不再设新 flag** —— 链到此为止。
+id: chain3_diary_replies
+name: 它开始回长句
+trigger:
+  type: daily
+  weight: 10
+  cond:
+    - 'flag:diary_replies'
+effects:
+  - { mad: 4 }
+  - { dig: 4 }
+texts:
+  priv: |
+    你写了一句，它还一句。
+    你写了两句，它还两句。
+    **今天你写了整整一页** —— 它回了一页。
+    字迹比上次更像你的了。
+  group: 有人昨天在灯下写了很久，写满了一整页。
+daily_limit: 1

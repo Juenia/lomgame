@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「橡树岛皇家海军基地」（oak_island_base，危险度 3）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_oak_island_base
+name: 船坞里那艘船
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:橡树岛皇家海军基地'
+effects:
+  - { dig: 3 }
+  - { hp: 1 }
+texts:
+  priv: |
+    船坞里停着一艘没有名字的船。
+    船身很新，帆也收着。
+    **但登记簿上没有它。**
+    你问看守，他说那船一直在那儿，比他来得还早。
+  group: 橡树岛基地的船坞里有一艘没登记的船。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 上船看看
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你上了船。甲板很干。
+      **而缆绳是新的** —— 新到还在渗油。
+  - key: '2'
+    label: 翻登记簿往前查
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你往前翻了十年。没有这条船。
+      **而第十一页被撕掉了** —— 撕口很新。
+  - key: '3'
+    label: 问看守这船是谁修的
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      他说不知道。
+      **而他说每个月都有人来擦一次** —— 擦的人他不认识，也从来不说话。

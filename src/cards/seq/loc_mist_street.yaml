@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「迷雾街区」（mist_street，危险度 2）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_mist_street
+name: 雾里有人问路
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:迷雾街区'
+effects:
+  - { mad: 2 }
+  - { dig: 2 }
+texts:
+  priv: |
+    雾很大，你看不见五步以外。
+    前面有人问你路 —— 声音很近。
+    **你答了。** 答完才想起来：这条街只有一头能进。
+    你回头看。路上只有你自己的脚印。
+  group: 迷雾街区昨晚有人跟空气说了很久的话。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 回头看看是谁在问
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你回头。雾里什么都没有。
+      **而你的脚印只有来的那一串** —— 你自己也是走过来的。
+  - key: '2'
+    label: 再答一句，顺便问他是谁
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你问了。它答了。
+      **而它答的是你刚才说的那句话** —— 一个字不差，连语气都一样。
+  - key: '3'
+    label: 不说话，接着往前走
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你没答，一直往前走。
+      **它又问了一次** —— 问的还是同一条路。

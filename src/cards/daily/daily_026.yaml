@@ -1,0 +1,33 @@
+id: daily_026
+name: 推开那扇门
+trigger:
+  type: daily
+  weight: 5
+  cond:
+    - flag:dream_touched
+effects:
+  - { dig: 2 }
+  - { mad: 1 }
+  - { mp: -3 }
+texts:
+  priv: |
+    梦里那扇门又出现了。这一次你推开了它，然后从自己的床上醒来。
+  group: 有人在梦里推开了一扇门。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 躺回去再睡
+    effects: [ { dig: 5, cor: 2, mad: 3 } ]
+    text: |
+      你又睡着了。这次梦里那扇门是开着的。
+  - key: '2'
+    label: 看看床上有没有痕迹
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      床单上什么都没有 —— 而枕头是凉的。
+  - key: '3'
+    label: 去那个位置看看
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你去了梦里的那个位置。那里是一堵墙 —— 而你摸到了一条缝。

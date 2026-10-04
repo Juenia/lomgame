@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「丛林遗迹」（jungle_ruins，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_jungle_ruins
+name: 你读得懂
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:丛林遗迹'
+effects:
+  - { dig: 4 }
+  - { mad: 2 }
+texts:
+  priv: |
+    那面石壁上刻满了字，很深，被藤蔓盖了一半。
+    你拨开藤蔓，看了一会儿。
+    **你读得懂。** 不是学过的那种懂 —— 是看着就懂。
+    上面写的是怎么让东西不会死。你没有往下看。
+  group: 那片遗迹的石壁上刻着字，看得懂的人不敢多看。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把藤蔓全部拨开
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你把藤蔓都拨开了。整面墙都是字。
+      **而最后几行被凿掉了** —— 凿得很用力，凿到石头都裂了。
+  - key: '2'
+    label: 接着往下读
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你往下读了。读到第三段的时候你停了。
+      **因为第三段写的是一种做法** —— 而你知道自己会做。
+  - key: '3'
+    label: 把已经看到的那几句记下来
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你记在了本子上。写完再看，字变了。
+      **你写的是中文，纸上是石壁上的那种字。**

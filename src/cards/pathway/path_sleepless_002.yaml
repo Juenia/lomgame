@@ -1,0 +1,39 @@
+id: path_sleepless_002
+name: 梦里的第二个人
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:sleepless' ]
+  min_seq: 7
+  cooldown_days: 3
+effects:
+  - { dig: 6 }
+  - { mad: 2 }
+  - { flag: dream_touched }
+texts:
+  priv: |
+    你梦见自己在一间没有窗的屋子里写字。
+    写到一半你发现纸上多了一行，字迹是你的，但**你没写过**。
+    梦魇的本事不是造梦，是**在别人的梦里找到那个多余的人**。你抬起头，屋子里只有你。
+  group: 有人在睡梦里说了一句清楚的话，随即翻身。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 抬头看清屋里还有谁
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你抬起头。屋里只有你。
+      **而椅子上有一点凹** —— 像是刚有人坐过。
+  - key: '2'
+    label: 在纸上添一行
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你添了一行。写完那行字自己动了。
+      **它挪到了你刚才看见的那一行的下面** —— 像在回答。
+  - key: '3'
+    label: 把那张纸带出梦
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你攥着纸醒了。手里是空的。
+      **而指尖上有墨** —— 洗了两天才洗掉。

@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「圣塞琳娜大教堂」（backlund_cathedral，危险度 2）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_backlund_cathedral
+name: 执事的手
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:圣塞琳娜大教堂'
+effects:
+  - { dig: 2 }
+  - { cor: 1 }
+texts:
+  priv: |
+    执事把东西递给你的时候，你看见了他的手。
+    洗得很干净，指甲也修过。
+    **但指缝里有一点灰** —— 那种洗不掉的灰。
+    他注意到你在看，把手收回去了。
+  group: 圣塞琳娜大教堂的执事这几天一直戴着手套。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 什么都不说，接过东西
+    effects: [ { dig: 4 } ]
+    text: |
+      你接了东西，点点头走了。
+      **而他一直站在门口** —— 站到你拐过街角。
+  - key: '2'
+    label: 第二天再来看他的手
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      你第二天又来了。这次他戴着手套。
+      **而手套的右手食指磨破了** —— 磨破的地方是灰的。
+  - key: '3'
+    label: 问他把灰弄在哪儿了
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你问了。他愣了两秒，然后笑了一下。
+      **他说教堂后面有个炉子** —— 而那个炉子已经很多年不用了。

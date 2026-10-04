@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：救了一个不认识的人（设 flag `saved_a_stranger`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_saved_a_stranger
+name: 他回来了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:saved_a_stranger'
+effects:
+  - { dig: 3 }
+  - { hp: 2 }
+texts:
+  priv: |
+    那个人今天在你门口等着。
+    他带了一样东西，用布包着。
+    「**那天你没问我是谁，**」他说，「所以这个给你。」
+    你打开看。是一件很旧的东西。
+  group: 有人昨天在别人门口等了一上午。
+daily_limit: 1

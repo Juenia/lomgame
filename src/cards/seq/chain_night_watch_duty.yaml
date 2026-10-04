@@ -1,0 +1,24 @@
+# 事件卡链（M2.87）—— **后续卡**：只有触发过前置卡的人才抽得到。
+# 前置：daily_004 守夜三圈（设 flag `night_watch_duty`）
+# 判据：`cond: flag:night_watch_duty`。
+#
+# ⚠️ 这一类此前**一条都没有**：全库 29 张卡设了 flag，而要求 flag 的卡是 **0 张** ——
+#    flag 设了就再没有人读，等于写了一半的链。这张是它的后半段。
+id: chain_night_watch_duty
+name: 第三个晚上
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:night_watch_duty'
+effects:
+  - { mp: 2 }
+  - { dig: 2 }
+texts:
+  priv: |
+    第三个晚上你还是去了。
+    走到第二圈，你发现**旁边多了一个人的脚步声**。
+    你停下来。他也停。
+    你没有回头，接着走完了第三圈。
+  group: 值夜的人说这几天总觉得不止自己一个。
+daily_limit: 1

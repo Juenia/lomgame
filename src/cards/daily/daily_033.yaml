@@ -1,0 +1,33 @@
+# 原著依据：《日常生活.md》fun_circus —— 马戏团「有驯兽师兼占卜师（尖帽、黑长裙、脸涂油彩）」（ch4/ch5/ch37）
+# 本项目从该素材融合为事件卡（不是原作的原文，是依据它写的事件）。
+id: daily_033
+name: 马戏团的驯兽师
+trigger:
+  type: daily
+  weight: 6
+effects:
+  - { dig: 2 }
+  - { mad: 1 }
+texts:
+  priv: |
+    马戏团的驯兽师兼占卜师收了你三便士，把牌摊开又收起来。
+    「你的牌里有一张是反的。」她说，「我不收你的钱，你自己记着。」
+  group: 马戏团的帐篷后面传出兽吼，和一声很轻的笑。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 回去把那张反的牌找出来
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你摊了三次。第三次的时候有一张是反的。
+  - key: '2'
+    label: 问她为什么反的
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      她说反的那种牌不该出现。说完她把牌收了起来。
+  - key: '3'
+    label: 把那三便士留下
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你把钱放在了桌上。她没有拿。

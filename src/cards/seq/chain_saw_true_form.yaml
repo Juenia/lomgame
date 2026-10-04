@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：看见了（设 flag `saw_true_form`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_saw_true_form
+name: 它开始出现在别处
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:saw_true_form'
+effects:
+  - { mad: 4 }
+  - { dig: 2 }
+texts:
+  priv: |
+    你先是在一本书的插图上看见它。
+    然后是墙上的一块水渍。
+    **最后是在一个人的侧脸上。**
+    你眨了一下眼。那个人转过头来，是正常的。
+  group: 有人最近看什么都看很久。
+daily_limit: 1

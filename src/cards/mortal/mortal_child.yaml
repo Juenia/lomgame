@@ -1,0 +1,40 @@
+# M2.7.6：普通人专属事件卡（未入途径）。
+#
+# 口径（任务书 §5.5）：**描述模糊、信息少、压迫感强**。
+# 普通人不知道雾里是什么，只知道「不该待在这里」——
+# 同一张卡在入途径之后会被另一套卡替换掉（那个版本才有名字与解释）。
+#
+# cond: pathway:mortal —— 这一条同时是「普通人看不到 daily/random 池」的另一半：
+# 两个池子靠条件与命令层的硬过滤共同分开，任何一边漏了都不会互相串味。
+id: mortal_child
+name: 粉笔画的圈
+trigger:
+  type: random
+  weight: 8
+  cond: [ pathway:mortal ]
+effects:
+  - { mad: 1 }
+texts:
+  priv: |
+    一个小孩蹲在巷口，用粉笔在地上画圈。
+    你走近的时候他抬起头，说：「你也是来找的吗？」
+    你问他找什么。他低下头继续画。
+  group: 巷口有个孩子在画圈。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 蹲下来看他画的圈
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你蹲下来看。圈很多，一个套一个。
+  - key: '2'
+    label: 说一句「我也是」
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你说了。他抬起头，很久没说话 —— 然后把粉笔递给了你。
+  - key: '3'
+    label: 站起来走开
+    effects: [ { dig: 3 } ]
+    text: |
+      你走了。走的时候听见身后粉笔还在响。

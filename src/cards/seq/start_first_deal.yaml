@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `first_deal` → 后续卡 `chain_first_deal`
+id: start_first_deal
+name: 签了字
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { dig: 3 }
+  - { cor: 1 }
+  - { flag: first_deal }
+texts:
+  priv: |
+    那张纸上有几个条款你看不懂。
+    「不用看，」对面的人说，「都是惯例。」
+    **你签了。**
+    他把纸收起来，笑得很好。
+  group: 有人在事务所签了一份自己没看懂的契约。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 回去把那张纸再看一遍
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你回去要。他不给。
+      **而他说他可以念给你听** —— 念的时候跳过了第三条。
+  - key: '2'
+    label: 问那人第三条写的是什么
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      他笑了一下，说是格式。
+      **而他说这话的时候** —— 他把那张纸往内袋塞了塞。
+  - key: '3'
+    label: 什么都不做，接着过
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你把它放到一边。日子照过。
+      **而一个月后有人来找你** —— 说你的名字在那张纸上。

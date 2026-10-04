@@ -1,0 +1,579 @@
+# 初始历史（M2.61）—— 世界不是白板。
+#
+# ## 为什么需要这一层
+#
+# 在它之前，这个世界**没有过去**：
+#
+#   NUMERIC.epoch 存在（当前纪元 90 天 + 争神之战），但注释自陈「本版没有任何代码读它」——
+#   全仓 grep epoch 的命中只有它自己与别名导出。
+#   内容表里没有任何一处写纪元、王朝、战争、条约。
+#
+# 于是玩家脚下的每一寸地都是「刚刚生成的」：教会之间没有旧仇，封印物没有来历，
+# 官方的说法没有需要被掩盖的东西。
+#
+# ## 这一层的硬口径：历史必须**生成现在**
+#
+# 用户的设计原文是「初始历史应生成当前势力关系和区域状态，而不是只当背景文本」。
+# 所以每个事件都要带一段 effects，而且**每一条都必须指向真实存在的实体**：
+#
+#   power_relations  势力之间的旧仇 / 旧盟 / 旧债 —— 由 M2.59 的 PowerRelation 承接
+#   location_scars   地点伤痕：危险度加成 + 生态域参数偏移 —— 由 M2.58 的域参数承接
+#   sealed           埋在地点下的封印物（有危险等级与觊觎者）
+#   taboo_knowledge  不该被知道的事（谁想埋掉它、谁还记得）
+#
+# 一张只有「三百年前发生过一场战争」的历史表是背景文本；
+# 一张写着「那场战争让黑夜女神与永恒烈阳至今互相敌视」的历史表才会改变世界。
+#
+# ## 纪年
+#
+#   year 是**距今年数**（越大越古老），不是绝对年份 ——
+#   绝对纪年需要一条真实的时间线，而这条线上的每个点都得能被验证。
+#   用「距今多久」则每一条都能对应到当前世界的一个状态。
+#
+#   epoch 那一行特殊：它描述**当前**这个纪元（NUMERIC.epoch 的 90 天周期），
+#   以及它结束时的争神之战 —— 那是这个世界的下一个转折点。
+
+history:
+
+  - id: epoch_current
+    name: 当前纪元
+    type: epoch
+    year: 0
+    result: 这一纪已经走到第九十天前后的位置。每一次纪元更替都由一场争神之战决定谁配得上那个位置。
+    effects:
+      power_relations: []
+      location_scars: []
+      sealed: []
+      taboo_knowledge: []
+
+  - id: war_of_gods
+    name: 诸神黄昏之战
+    type: war
+    year: 312
+    result: 三方为「谁来封住灰雾之上那个口子」打了一场没有胜者的仗。口子被草草封上，代价被平摊给所有人。
+    locations: [ above_grey_fog, blackthorn_abbey ]
+    parties: [ night_goddess, eternal_blazing_sun, god_of_war ]
+    effects:
+      power_relations:
+        - { from: night_goddess, to: eternal_blazing_sun, kind: hostile }
+        - { from: eternal_blazing_sun, to: night_goddess, kind: hostile }
+      location_scars:
+        - { location: above_grey_fog, danger_bonus: 1, zone_patch: { pollution: 0.05, spirituality: 0.05 } }
+      sealed:
+        - { location: above_grey_fog, what: 灰雾之下那道封条, level: high }
+      taboo_knowledge: []
+
+  - id: fall_of_dynasty
+    name: 旧王朝倾覆
+    type: dynasty
+    year: 180
+    result: 上一朝在一夜之间换了姓。新王室留用了旧朝的警察厅 —— 因为需要有人替它记住哪些账还没清。
+    locations: [ backlund, tingen ]
+    parties: [ crown, police ]
+    effects:
+      power_relations:
+        - { from: crown, to: police, kind: ally }
+      location_scars:
+        - { location: backlund, danger_bonus: 0, zone_patch: { order: 0.05 } }
+      sealed: []
+      taboo_knowledge:
+        - { scope: backlund, what: 旧朝的血脉去了哪里, holder: crown }
+
+  - id: church_wars
+    name: 正神教会的百年争斗
+    type: war
+    year: 240
+    result: 七家正神在鲁恩争谁的教堂该修在城里。最后谁也没赢，但从此互相都记着对方的账。
+    locations: [ backlund_cathedral ]
+    parties: [ night_goddess, eternal_blazing_sun, god_of_war ]
+    effects:
+      power_relations:
+        - { from: god_of_war, to: night_goddess, kind: ally }
+      location_scars: []
+      sealed: []
+      taboo_knowledge:
+        - { scope: loen, what: 那场争斗到底为什么停下, holder: god_of_knowledge }
+
+  - id: intez_sea_war
+    name: 因蒂斯海战
+    type: war
+    year: 96
+    result: 因蒂斯国教想把海上也划进自己的教区。风暴之主教会把它们打回了岸上，但两边都没敢把这件事写进史书。
+    locations: [ trier, storm_cape ]
+    parties: [ eternal_blazing_sun, storm_lord ]
+    effects:
+      power_relations:
+        - { from: eternal_blazing_sun, to: storm_lord, kind: hostile }
+      location_scars:
+        - { location: storm_cape, danger_bonus: 1, zone_patch: { pollution: 0.05 } }
+      sealed: []
+      taboo_knowledge:
+        - { scope: trier, what: 海战那天沉了几条船, holder: eternal_blazing_sun }
+
+  - id: south_colony
+    name: 南大陆的开拓
+    type: treaty
+    year: 140
+    result: 鲁恩以「开拓」的名义进了南大陆。地是划下来了，但土里的人没有同意 —— 疫病坑就是那时候挖的。
+    locations: [ byron, jungle_ruins, plague_pit ]
+    parties: [ earth_mother, crown ]
+    effects:
+      power_relations:
+        - { from: earth_mother, to: crown, kind: hostile }
+      location_scars:
+        - { location: plague_pit, danger_bonus: 1, zone_patch: { pollution: 0.1 } }
+        - { location: jungle_ruins, danger_bonus: 1, zone_patch: { hidden: 0.05 } }
+      sealed:
+        - { location: jungle_ruins, what: 开拓队留下的铜箱, level: medium }
+      taboo_knowledge:
+        - { scope: byron, what: 开拓队真正在找什么, holder: earth_mother }
+
+  - id: sea_route_dispute
+    name: 航路之争
+    type: treaty
+    year: 72
+    result: 风暴之主教会名义上管着航路，实际做生意的另有其人。两边一直没撕破脸，因为都需要对方。
+    locations: [ pritz_harbor, coral_reef, mirage_bay ]
+    parties: [ storm_lord, gang ]
+    effects:
+      power_relations:
+        - { from: storm_lord, to: gang, kind: debt }
+      location_scars:
+        - { location: coral_reef, danger_bonus: 0, zone_patch: { pollution: 0.05 } }
+      sealed:
+        - { location: mirage_bay, what: 蜃景里的那条船, level: medium }
+      taboo_knowledge: []
+
+  - id: steam_dispute
+    name: 铁路与教堂之争
+    type: treaty
+    year: 58
+    result: 蒸汽教会要修铁路，战神教会要在铁路边修教堂。最后铁路绕了个弯 —— 那条弯至今还在。
+    locations: [ steam_station, backlund_works, ironworks ]
+    parties: [ god_of_steam, god_of_war ]
+    effects:
+      power_relations:
+        - { from: god_of_steam, to: god_of_war, kind: hostile }
+      location_scars:
+        - { location: ironworks, danger_bonus: 1, zone_patch: { pollution: 0.05 } }
+      sealed: []
+      taboo_knowledge: []
+
+  - id: blackthorn_scandal
+    name: 黑荆棘修道院的旧账
+    type: scandal
+    year: 31
+    result: 修道院底下埋着不该埋的东西。教会说是圣髑，知情的人说是别的。
+    locations: [ blackthorn_abbey, graveyard_path ]
+    parties: [ church, god_of_knowledge ]
+    effects:
+      power_relations:
+        - { from: god_of_knowledge, to: church, kind: hostile }
+      location_scars:
+        - { location: blackthorn_abbey, danger_bonus: 1, zone_patch: { hidden: 0.05 } }
+      sealed:
+        - { location: blackthorn_abbey, what: 圣髑匣（里外不是一个东西）, level: high }
+      taboo_knowledge:
+        - { scope: loen, what: 匣子里到底是什么, holder: god_of_knowledge }
+
+  - id: great_fog
+    name: 大雾灾
+    type: disaster
+    year: 18
+    result: 一场下了九天的大雾，之后城里多了一片没人愿意去的街区。官方说死了一百人。
+    locations: [ mist_street, old_dock, backlund_slum ]
+    parties: [ police, gang ]
+    effects:
+      power_relations:
+        - { from: police, to: gang, kind: hostile }
+      location_scars:
+        - { location: mist_street, danger_bonus: 2, zone_patch: { spirituality: 0.1, pollution: 0.05 } }
+        - { location: backlund_slum, danger_bonus: 1, zone_patch: { pollution: 0.05 } }
+      sealed:
+        - { location: dark_cellar, what: 雾里漂出来的那块布, level: medium }
+      taboo_knowledge:
+        - { scope: loen, what: 大雾灾那天到底死了多少人, holder: crown }
+
+  - id: deep_catacomb_collapse
+    name: 墓窟深处的塌方
+    type: disaster
+    year: 9
+    result: 地面塌了一角，露出下面比上面大得多的一层。教会封了入口，然后改口说那里从来只是墓穴。
+    locations: [ deep_catacombs, catacombs, trier_ossuary ]
+    parties: [ church, night_goddess ]
+    effects:
+      power_relations:
+        - { from: church, to: night_goddess, kind: ally }
+      location_scars:
+        - { location: deep_catacombs, danger_bonus: 1, zone_patch: { spirituality: 0.05, hidden: 0.05 } }
+      sealed:
+        - { location: deep_catacombs, what: 下面那一层的门, level: high }
+        - { location: trier_ossuary, what: 无名者骨牌, level: low }
+      taboo_knowledge:
+        - { scope: loen, what: 下面那一层是谁修的, holder: night_goddess }
+
+  - id: factory_fires
+    name: 停摆的车间接连失火
+    type: disaster
+    year: 4
+    result: 三年里烧了四座厂房。每次查到最后都说是意外，而每次失火前都有人在那里见过不该见的东西。
+    locations: [ backlund_forge, backlund_furnace, backlund_works, endless_workshop ]
+    parties: [ god_of_steam, gang ]
+    effects:
+      power_relations:
+        - { from: gang, to: god_of_steam, kind: hostile }
+      location_scars:
+        - { location: backlund_furnace, danger_bonus: 1, zone_patch: { pollution: 0.1 } }
+        - { location: endless_workshop, danger_bonus: 1, zone_patch: { madness: 0.05 } }
+      sealed:
+        - { location: endless_workshop, what: 烧不化的那台机器, level: medium }
+      taboo_knowledge: []
+
+  - id: new_era_rumor
+    name: 新纪元的传闻
+    type: epoch
+    year: 0
+    result: 这一纪快到头了。有人开始说，下一次争神之战的位置已经定在了灰雾之上 —— 而那不是一件好事。
+    locations: [ above_grey_fog, house_of_deja_vu ]
+    effects:
+      power_relations: []
+      location_scars: []
+      sealed:
+        - { location: house_of_deja_vu, what: 重复的那一天, level: high }
+      taboo_knowledge:
+        - { scope: loen, what: 下一次争神之战在哪里, holder: god_of_knowledge }
+
+  # ===== M2.85 内容填充 P6：原作年表（06-历史/世界大事年表.md）逐字取材 =====
+  # result 是原作年表「事件 + 影响」两列的原文（未改写）；effects 引用的势力与地点都必须是真实实体（逐条校验过）
+  - id: war_of_four_emperors
+    name: 四皇之战
+    type: war
+    year: 1535
+    result: 四位皇帝掀起了一场改变了整个世界局势的战争。黑皇帝所罗门、血皇帝图铎和夜皇特伦索斯特相继陨落；七神覆灭了缺少高位者的皇室，并在七神的支持下由四大贵族家族瓜分北大陆，建立起鲁恩、因蒂斯、弗萨克、费内波特四个国家。
+    parties:
+      - night_goddess
+      - storm_lord
+      - god_of_war
+      - crown
+    locations:
+      - backlund
+      - trier
+    effects:
+      power_relations:
+        - from: crown
+          to: night_goddess
+          kind: hostile
+        - from: night_goddess
+          to: crown
+          kind: hostile
+      location_scars:
+        - location: backlund
+          danger_bonus: 1
+          zone_patch:
+            spirituality: 0.03
+      sealed: []
+      taboo_knowledge:
+        - scope: backlund
+          what: 七神覆灭了缺少高位者的皇室，图铎帝国的贵族家族被追杀
+          holder: church
+  - id: great_cataclysm
+    name: 大灾变
+    type: disaster
+    year: 2600
+    result: 远古太阳神的陨落掀起了大灾变。巨人王庭所在的东大陆陷入黑暗，变成现在的神弃之地；深暗时代持续两千五百余年，白银之国变成现在的白银城。灾后新诞生的六位正神一同组成北大陆六大正神，后世的圣典抹去了远古太阳神的名字。
+    parties:
+      - night_goddess
+      - storm_lord
+      - eternal_blazing_sun
+      - god_of_knowledge
+      - earth_mother
+      - god_of_war
+    locations:
+      - above_grey_fog
+      - storm_cape
+      - mirage_bay
+    effects:
+      power_relations:
+        - from: night_goddess
+          to: storm_lord
+          kind: ally
+      location_scars:
+        - location: above_grey_fog
+          danger_bonus: 2
+          zone_patch:
+            pollution: 0.08
+            spirituality: 0.06
+        - location: storm_cape
+          danger_bonus: 1
+          zone_patch:
+            pollution: 0.05
+      sealed: []
+      taboo_knowledge:
+        - scope: storm_cape
+          what: 圣典抹去了远古太阳神的名字，把第二、第三纪写成正神带领人类战胜古神
+          holder: storm_lord
+  - id: fall_of_ancient_gods
+    name: 古神的陨落
+    type: war
+    year: 2800
+    result: 远古太阳神接连让古神陨落，相继摧毁了巨龙、巨人、不死鸟等种族的统治。空想之龙殒落后其从神归化；精灵王对抗后陨落；恶魔退回深渊、封闭入口。古神留下复活后手：格罗塞尔游记、被丢入灵界深处的卡尔德隆城。
+    parties:
+      - night_goddess
+      - earth_mother
+      - god_of_war
+    locations:
+      - jungle_ruins
+    effects:
+      power_relations:
+        - from: god_of_war
+          to: earth_mother
+          kind: ally
+      location_scars:
+        - location: jungle_ruins
+          danger_bonus: 2
+          zone_patch:
+            spirituality: 0.07
+      sealed: []
+      taboo_knowledge: []
+  - id: roselle_revolution
+    name: 罗塞尔时代
+    type: dynasty
+    year: 206
+    result: 黄涛穿越为罗塞尔·古斯塔夫，以「蒸汽之子」和教会成员的身份掀起工业革命，发明蒸汽机、改良帆船；推翻索伦家族对因蒂斯的统治、建立共和国，后改帝国自称凯撒大帝；1194 年发现通往南大陆的安全航道，开启殖民时代。151 年前被永恒烈阳教会、索伦家族与贵族联手刺杀，陨落于白枫宫。
+    parties:
+      - eternal_blazing_sun
+      - god_of_steam
+      - crown
+    locations:
+      - trier
+      - backlund
+      - foreign_quarter
+    effects:
+      power_relations:
+        - from: eternal_blazing_sun
+          to: crown
+          kind: hostile
+        - from: god_of_steam
+          to: eternal_blazing_sun
+          kind: hostile
+      location_scars:
+        - location: trier
+          danger_bonus: 1
+          zone_patch:
+            spirituality: 0.04
+      sealed: []
+      taboo_knowledge:
+        - scope: foreign_quarter
+          what: 「注视从星空投来，大地将四分五裂，世间的一切都会不复存在」—— 两百年内到来的末日预言
+          holder: god_of_knowledge
+  - id: colonial_conquest
+    name: 殖民时代
+    type: treaty
+    year: 155
+    result: 罗塞尔发现安全航道后，北大陆诸强国在约 155 年内入侵南大陆：因蒂斯共和国和鲁恩王国覆灭了原本的帕斯王国，分别在星星高原上的帕斯河谷左岸和右岸建立了殖民政权；南大陆的灵教团和玫瑰学派受到北大陆七神教会的毁灭性打击，但也传播到了北大陆。
+    parties:
+      - crown
+      - church
+      - storm_lord
+    locations:
+      - byron
+      - bone_market
+      - plague_camp
+    effects:
+      power_relations:
+        - from: crown
+          to: church
+          kind: ally
+      location_scars:
+        - location: byron
+          danger_bonus: 2
+          zone_patch:
+            pollution: 0.05
+        - location: bone_market
+          danger_bonus: 1
+      sealed: []
+      taboo_knowledge:
+        - scope: plague_camp
+          what: 七神教会打击原住民死神信仰、优待改信者；改信者增多后底层人民重新暗中崇拜死神
+          holder: church
+  - id: world_war_1350
+    name: 世界大战
+    type: war
+    year: 1
+    result: 弗萨克帝国的飞空艇编队空袭鲁恩首都贝克兰德，苏尼亚海舰队袭击普利兹港橡树岛的皇家海军基地，翌日鲁恩对弗萨克宣战。1350 年 12 月鲁恩国王乔治三世晋升黑皇帝失败陨落；1352 年神战中大地母神利用伪装杀死战神，战争以鲁恩一方获胜结束，亚当借此晋升序列 0「空想家」。
+    parties:
+      - night_goddess
+      - god_of_war
+      - god_of_steam
+      - storm_lord
+      - god_of_knowledge
+      - earth_mother
+    locations:
+      - backlund
+      - pritz_harbor
+      - byam_center
+      - trier
+    effects:
+      power_relations:
+        - from: night_goddess
+          to: god_of_war
+          kind: hostile
+        - from: god_of_war
+          to: night_goddess
+          kind: hostile
+        - from: god_of_steam
+          to: night_goddess
+          kind: hostile
+      location_scars:
+        - location: backlund
+          danger_bonus: 2
+          zone_patch:
+            pollution: 0.06
+        - location: pritz_harbor
+          danger_bonus: 1
+          zone_patch:
+            pollution: 0.04
+        - location: byam_center
+          danger_bonus: 2
+          zone_patch:
+            spirituality: 0.06
+      sealed: []
+      taboo_knowledge:
+        - scope: backlund
+          what: 黑夜女神取代战神的事实（教会暂不向普通民众宣扬）
+          holder: night_goddess
+  - id: great_plague_1337
+    name: 大瘟疫
+    type: disaster
+    year: 12
+    result: 1337 年大瘟疫之后，鲁恩王国逐步在首都贝克兰德建立起先进的下水道系统，一举超越了因蒂斯共和国的「罗塞尔遗产」。同一时期《济贫法》规定贫民最多只能在济贫院待五天，成为后期社会矛盾的焦点之一。
+    parties:
+      - crown
+      - police
+    locations:
+      - backlund
+      - backlund_underground
+      - backlund_slum
+    effects:
+      power_relations: []
+      location_scars:
+        - location: backlund_underground
+          danger_bonus: 1
+          zone_patch:
+            pollution: 0.07
+        - location: backlund_slum
+          danger_bonus: 1
+      sealed: []
+      taboo_knowledge: []
+
+  # ═══════════ M2.93：**远古段**（第一纪 — 第五纪初）═══════════
+  #
+  # 上面 20 条覆盖的是「近几百年」（year 96—312）。这一批补的是世界**更深的过去**：
+  # 原作《06-历史/世界大事年表.md》第一纪到第五纪初的那几个节点。
+  #
+  # 口径与上面完全一致：每个事件都带 effects，而且**每一条都指向真实存在的实体**。
+  #
+  # ⚠️ 远古的那些神（巨人王 / 精灵王 / 巨龙之王 / 不死鸟始祖…）**不在 powers.yaml 里** ⇒
+  #    这些条目的 effects 只走 location_scars 与 taboo_knowledge，**不硬凑 power_relations**
+  #    （凑了会被 loader 的 checkPower 判成 error，而且那本来也是编的）。
+  # ⚠️ 也不加 sealed：M2.85 清掉过 7 条「没有挖掘链路」的 sealed —— 埋一个挖不出来的东西，
+  #    与「显示个文本但没机制」是同一件事。
+
+  - id: primordial_awakening
+    name: 「最初」苏醒
+    type: disaster
+    year: 9000
+    result: 那一次醒来把整块地图重画了一遍 —— 北美洲成了北大陆，大西洋成了苏尼亚海。现在每一个地名都是那一次的残留。
+    locations: [ north_continent, sunia_sea ]
+    effects:
+      power_relations: []
+      location_scars:
+        - { location: north_continent, danger_bonus: 1, zone_patch: { madness: 0.05 } }
+        - { location: sunia_sea, danger_bonus: 1, zone_patch: { pollution: 0.05 } }
+      sealed: []
+      taboo_knowledge:
+        - { scope: north_continent, what: 那一次到底是从哪里开始的, holder: god_of_knowledge }
+
+  - id: nine_sephirah
+    name: 九份源质
+    type: epoch
+    year: 8500
+    result: 九份源质落地的那一刻，二十二条途径就定死了。灰雾之上之所以能压住那个口子，是因为它底下垫着其中一份。
+    locations: [ above_grey_fog ]
+    effects:
+      power_relations: []
+      location_scars:
+        - { location: above_grey_fog, danger_bonus: 0, zone_patch: { spirituality: 0.1, hidden: 0.05 } }
+      sealed: []
+      taboo_knowledge:
+        - { scope: above_grey_fog, what: 九份源质里哪一份压在灰雾下面, holder: night_goddess }
+
+  - id: western_continent_seal
+    name: 西大陆的封印
+    type: treaty
+    year: 8000
+    result: 灰雾被立起来的时候，西大陆就被留在了里面。屏障今天还在，只是比那时候薄。
+    locations: [ west_continent, above_grey_fog ]
+    effects:
+      power_relations: []
+      location_scars:
+        - { location: west_continent, danger_bonus: 2, zone_patch: { hidden: 0.15 } }
+        - { location: above_grey_fog, danger_bonus: 1 }
+      sealed: []
+      taboo_knowledge:
+        - { scope: west_continent, what: 屏障另一侧现在是什么样, holder: god_of_knowledge }
+
+  - id: eight_ancient_gods
+    name: 八大古神分庭抗礼
+    type: war
+    year: 6000
+    result: 巨人在北，精灵在西，巨龙盘在天上 —— 人类那时候是别人的附庸。这一仗没有赢家，但把「谁的地盘」定了下来。
+    locations: [ north_continent, west_continent ]
+    effects:
+      power_relations: []
+      location_scars:
+        - { location: north_continent, danger_bonus: 1, zone_patch: { fear: 0.05 } }
+      sealed: []
+      taboo_knowledge:
+        - { scope: north_continent, what: 那八位后来各自去了哪里, holder: god_of_war }
+
+  - id: night_country
+    name: 夜之国
+    type: dynasty
+    year: 4200
+    result: 霍纳奇斯山脉里曾经有一个不对外开放的国度。它撑了很久，最后被从山下上来的教会抹掉了 —— 山脉今天还留着那段时间的痕迹。
+    locations: [ hornacis_peak ]
+    effects:
+      power_relations: []
+      location_scars:
+        - { location: hornacis_peak, danger_bonus: 2, zone_patch: { hidden: 0.1, spirituality: 0.05 } }
+      sealed: []
+      taboo_knowledge:
+        - { scope: hornacis_peak, what: 夜之国的人后来怎么样了, holder: night_goddess }
+
+  - id: blasphemy_tablets
+    name: 亵渎石板
+    type: epoch
+    year: 8200
+    result: 两块石板把二十二条途径写成了可以照着走的路。它们现在在谁手里，没有人肯说。
+    locations: [ above_grey_fog ]
+    effects:
+      power_relations: []
+      location_scars: []
+      sealed: []
+      taboo_knowledge:
+        - { scope: loen, what: 第一块石板现在在哪, holder: god_of_knowledge }
+
+  - id: black_iron_epoch
+    name: 黑铁纪元的开始
+    type: epoch
+    year: 1200
+    result: 现在这一纪是从那一年开始数的。「黑铁」这个说法来自当时的人对铁的迷信 —— 他们以为换了金属就不会再打仗。
+    locations: [ backlund ]
+    effects:
+      power_relations: []
+      location_scars:
+        - { location: backlund, danger_bonus: 0, zone_patch: { order: 0.03 } }
+      sealed: []
+      taboo_knowledge:
+        - { scope: loen, what: 「黑铁」这个名字到底是谁起的, holder: crown }

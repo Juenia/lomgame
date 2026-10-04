@@ -1,0 +1,40 @@
+# 地点专属（M2.87）。地点：「烛火书店」（candle_bookstore，危险度 1）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_candle_bookstore
+name: 最上面那排
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:烛火书店'
+effects:
+  - { dig: 3 }
+texts:
+  priv: |
+    老板说过，随便看，别碰最上面那排。
+    你今天踮起脚看了一眼。
+    **那排书没有书名。** 书脊上什么都没有。
+    你把脚放下来，退了半步。
+  group: 有人在烛火书店踮脚看了一眼前，然后什么也没买就走了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 再踮脚看一眼
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你又看了一眼。这次你看清了一本。
+      **书脊上不是没有字** —— 是字被人磨掉了，磨得很仔细。
+  - key: '2'
+    label: 问老板那排是什么书
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你问了。他说是别人寄存的。
+      **而他说这话的时候在算账** —— 算的是这个月的账。
+  - key: '3'
+    label: 找把梯子把那本够下来
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你找来了梯子。够到的时候书自己动了一下。
+      **而老板在你身后说话了** —— 他一直站在那儿，你上来之前就站在那儿。

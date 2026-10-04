@@ -1,0 +1,157 @@
+# 扮演文案（M2.56）：玩家在 .扮演 菜单里看到的那句话。
+#
+# ## 为什么是「一条一行」而不是按途径嵌套
+#
+# 原来它是 pathways: { seer: { 占卜: ... } } —— 嵌套 map。那样人读着顺，
+# 但**管理后台的数据编辑器只认记录数组**（file + rootKey + idKey + fields），
+# 嵌套 map 装不进去，等于这批文案永远只能在代码里改。
+# 摊平成一条一行之后，后台能按途径筛、能搜、能改，而且给字段加规则也有了落点。
+#
+# ## ⚠️ 一条硬规则：text 里必须出现它自己的 tag
+#
+# 判定层（domain/play/score.ts）算消化度用的是**关键词包含匹配**：玩家扮演时说的
+# 那句话里出现了哪个标签词，就按那个标签算分。所以 text 里没有「占卜」两个字，
+# 玩家选了这条**不会涨消化度** —— 菜单就成了骗人的。
+#
+# 而这不会报任何错。这条规则由两处守着：
+#   · loader（data/loader.ts 的 loadTagPhrases）—— 内容表坏了服务起不来；
+#   · 后台（admin/schema.ts 的 mustContainField）—— 编辑时当场拒绝保存。
+
+# id = 途径.标签。**这个组合必须唯一** —— 后台按它定位这一条；
+# 单用标签词做 id 会撞（mother.守夜 与 perfect.守夜 是两条不同的文案）。
+phrases:
+  - { id: seer.占卜, pathway: seer, tag: 占卜, text: '摊开牌占卜一件还没发生的事' }
+  - { id: seer.预兆, pathway: seer, tag: 预兆, text: '留意街角重复出现的预兆' }
+  - { id: seer.命运, pathway: seer, tag: 命运, text: '推算今天的命运' }
+  - { id: seer.历史, pathway: seer, tag: 历史, text: '翻历史，把昨天那本笔记再看一遍' }
+  - { id: seer.幻觉, pathway: seer, tag: 幻觉, text: '分辨哪些是幻觉、哪些是真的' }
+  - { id: seer.幕后, pathway: seer, tag: 幕后, text: '退到幕后，看是谁在指挥这场戏' }
+  - { id: seer.观察, pathway: seer, tag: 观察, text: '在街口观察雾里的影子' }
+  - { id: seer.推算, pathway: seer, tag: 推算, text: '把线索摊在桌上推算一遍' }
+  - { id: seer.仪式, pathway: seer, tag: 仪式, text: '按规程做一次小仪式' }
+  - { id: seer.低语, pathway: seer, tag: 低语, text: '听清雾里的低语' }
+  - { id: seer.赌, pathway: seer, tag: 赌, text: '赌一把，把筹码押在直觉上' }
+  - { id: seer.潜行, pathway: seer, tag: 潜行, text: '贴着墙根潜行，不出声' }
+  - { id: seer.潜伏, pathway: seer, tag: 潜伏, text: '找个不起眼的位置潜伏着' }
+  - { id: seer.隐秘, pathway: seer, tag: 隐秘, text: '隐秘地把能证明你来过的东西收起来' }
+  - { id: seer.静默, pathway: seer, tag: 静默, text: '保持静默，什么也不说' }
+  - { id: seer.追踪, pathway: seer, tag: 追踪, text: '追踪那串脚印走一段' }
+  - { id: seer.守夜, pathway: seer, tag: 守夜, text: '守夜到天亮，看谁会在这时候出来' }
+  - { id: seer.梦, pathway: seer, tag: 梦, text: '把昨晚的梦记下来' }
+  - { id: seer.远行, pathway: seer, tag: 远行, text: '远行一趟，往没去过的街区走' }
+  - { id: seer.训练, pathway: seer, tag: 训练, text: '训练一遍手法' }
+  - { id: seer.武器, pathway: seer, tag: 武器, text: '把随身的武器擦到能反光' }
+  - { id: seer.威慑, pathway: seer, tag: 威慑, text: '威慑对方，让他先退一步' }
+  - { id: seer.勇气, pathway: seer, tag: 勇气, text: '鼓起勇气，往前站一步' }
+  - { id: warrior.战斗, pathway: warrior, tag: 战斗, text: '找个不伤人的机会战斗一场' }
+  - { id: warrior.冲锋, pathway: warrior, tag: 冲锋, text: '迎着危险冲锋过去' }
+  - { id: warrior.守护, pathway: warrior, tag: 守护, text: '守护在别人前面，把路让给他' }
+  - { id: warrior.勇气, pathway: warrior, tag: 勇气, text: '鼓起勇气，往前站一步' }
+  - { id: warrior.荣耀, pathway: warrior, tag: 荣耀, text: '在有人看着的地方挣一份荣耀' }
+  - { id: warrior.训练, pathway: warrior, tag: 训练, text: '把同一个动作训练到不会错为止' }
+  - { id: warrior.武器, pathway: warrior, tag: 武器, text: '把随身的武器擦到能反光' }
+  - { id: warrior.格挡, pathway: warrior, tag: 格挡, text: '练一遍格挡的架势' }
+  - { id: warrior.威慑, pathway: warrior, tag: 威慑, text: '威慑对面，让他先退一步' }
+  - { id: warrior.观察, pathway: warrior, tag: 观察, text: '观察对面有几个人、几把刀' }
+  - { id: warrior.推算, pathway: warrior, tag: 推算, text: '推算对面下一步会往哪走' }
+  - { id: warrior.仪式, pathway: warrior, tag: 仪式, text: '按规矩把这场仪式做完整' }
+  - { id: warrior.潜行, pathway: warrior, tag: 潜行, text: '压低身子潜行，从侧面绕过去' }
+  - { id: warrior.潜伏, pathway: warrior, tag: 潜伏, text: '找个掩体潜伏着，等对方先动' }
+  - { id: warrior.隐秘, pathway: warrior, tag: 隐秘, text: '隐秘地把痕迹收拾干净' }
+  - { id: warrior.静默, pathway: warrior, tag: 静默, text: '保持静默，只用眼睛' }
+  - { id: warrior.追踪, pathway: warrior, tag: 追踪, text: '追踪那串脚印' }
+  - { id: warrior.守夜, pathway: warrior, tag: 守夜, text: '守夜到天亮，看谁会在这时候出来' }
+  - { id: warrior.梦, pathway: warrior, tag: 梦, text: '把昨晚的梦再想一遍' }
+  - { id: warrior.远行, pathway: warrior, tag: 远行, text: '远行一趟，往更远的地方走' }
+  - { id: warrior.低语, pathway: warrior, tag: 低语, text: '听清对面在低语什么' }
+  - { id: warrior.赌, pathway: warrior, tag: 赌, text: '赌一把，把结果押在这一下上' }
+  - { id: warrior.幻觉, pathway: warrior, tag: 幻觉, text: '分辨哪些是幻觉' }
+  - { id: sailor.航行, pathway: sailor, tag: 航行, text: '按海图把这一程航行定下来' }
+  - { id: sailor.风暴, pathway: sailor, tag: 风暴, text: '走到风最大的地方，看这场风暴想说什么' }
+  - { id: sailor.操舵, pathway: sailor, tag: 操舵, text: '操舵，把船头压住不让它偏' }
+  - { id: sailor.甲板, pathway: sailor, tag: 甲板, text: '在甲板上走一圈，把每根缆绳都紧一遍' }
+  - { id: sailor.潮汐, pathway: sailor, tag: 潮汐, text: '记下今天的潮汐，和昨天比一比' }
+  - { id: sailor.观察, pathway: sailor, tag: 观察, text: '站在高处观察海面上的动静' }
+  - { id: sailor.远行, pathway: sailor, tag: 远行, text: '远行一趟，往没去过的码头走' }
+  - { id: sailor.勇气, pathway: sailor, tag: 勇气, text: '鼓起勇气，往前站一步' }
+  - { id: sailor.守夜, pathway: sailor, tag: 守夜, text: '守夜到天亮，看谁会在这时候出来' }
+  - { id: sailor.训练, pathway: sailor, tag: 训练, text: '训练一遍手法' }
+  - { id: sailor.潜行, pathway: sailor, tag: 潜行, text: '贴着墙根潜行，不出声' }
+  - { id: sailor.潜伏, pathway: sailor, tag: 潜伏, text: '找个不起眼的位置潜伏着' }
+  - { id: sailor.隐秘, pathway: sailor, tag: 隐秘, text: '隐秘地把能证明你来过的东西收起来' }
+  - { id: sailor.静默, pathway: sailor, tag: 静默, text: '保持静默，什么也不说' }
+  - { id: sailor.追踪, pathway: sailor, tag: 追踪, text: '追踪那串脚印走一段' }
+  - { id: sailor.梦, pathway: sailor, tag: 梦, text: '把昨晚的梦记下来' }
+  - { id: sailor.历史, pathway: sailor, tag: 历史, text: '翻历史，把昨天那本笔记再看一遍' }
+  - { id: sailor.幻觉, pathway: sailor, tag: 幻觉, text: '分辨哪些是幻觉、哪些是真的' }
+  - { id: sailor.赌, pathway: sailor, tag: 赌, text: '赌一把，把筹码押在直觉上' }
+  - { id: sailor.武器, pathway: sailor, tag: 武器, text: '把随身的武器擦到能反光' }
+  - { id: sailor.威慑, pathway: sailor, tag: 威慑, text: '威慑对方，让他先退一步' }
+  - { id: sailor.推算, pathway: sailor, tag: 推算, text: '把线索摊在桌上推算一遍' }
+  - { id: sailor.仪式, pathway: sailor, tag: 仪式, text: '按规程做一次小仪式' }
+  - { id: sailor.低语, pathway: sailor, tag: 低语, text: '听清雾里的低语' }
+  - { id: perfect.校准, pathway: perfect, tag: 校准, text: '把手里这件东西重新校准一遍，直到它自己发出该有的声音' }
+  - { id: perfect.机械, pathway: perfect, tag: 机械, text: '拆开一台坏掉的机械，看看是哪一颗齿轮先松的' }
+  - { id: perfect.齿轮, pathway: perfect, tag: 齿轮, text: '给齿轮上油，听它转起来是不是还带着那点杂音' }
+  - { id: perfect.打磨, pathway: perfect, tag: 打磨, text: '把边缘一点点打磨到不刮手为止' }
+  - { id: perfect.精准, pathway: perfect, tag: 精准, text: '练一遍手法，要求精准到每一次落点都在同一个地方' }
+  - { id: perfect.观察, pathway: perfect, tag: 观察, text: '站在边上观察机器的动静，先不动它' }
+  - { id: perfect.训练, pathway: perfect, tag: 训练, text: '训练一遍手法' }
+  - { id: perfect.武器, pathway: perfect, tag: 武器, text: '把随身的武器擦到能反光' }
+  - { id: perfect.守夜, pathway: perfect, tag: 守夜, text: '守夜，守着这台机器到天亮，看它有没有自己停下来' }
+  - { id: perfect.勇气, pathway: perfect, tag: 勇气, text: '鼓起勇气，把手伸进还在转的地方' }
+  - { id: perfect.远行, pathway: perfect, tag: 远行, text: '远行一趟，去找那种只有别处才有的零件' }
+  - { id: perfect.低语, pathway: perfect, tag: 低语, text: '听清蒸汽从阀口漏出来的低语' }
+  - { id: perfect.仪式, pathway: perfect, tag: 仪式, text: '按规程把这一道仪式走完，一步都不跳' }
+  - { id: perfect.推算, pathway: perfect, tag: 推算, text: '把图纸摊开推算一遍，看哪里对不上' }
+  - { id: perfect.赌, pathway: perfect, tag: 赌, text: '赌一把，把结果押在这一下上' }
+  - { id: reader.阅读, pathway: reader, tag: 阅读, text: '阅读手上这一页，读完再决定下一步' }
+  - { id: reader.记录, pathway: reader, tag: 记录, text: '把刚才发生的事原样记录，不加判断' }
+  - { id: reader.推算, pathway: reader, tag: 推算, text: '把已知的条件排开推算一遍，看哪一条对不上' }
+  - { id: reader.知识, pathway: reader, tag: 知识, text: '把这件事与读过的别的知识对上' }
+  - { id: reader.解构, pathway: reader, tag: 解构, text: '解构这段话，拆成它的前提，逐条看哪些站得住' }
+  - { id: reader.观察, pathway: reader, tag: 观察, text: '站在边上观察，先不插手' }
+  - { id: reader.历史, pathway: reader, tag: 历史, text: '翻历史，把同类的记载找出来比一比' }
+  - { id: reader.低语, pathway: reader, tag: 低语, text: '听清雾里的低语' }
+  - { id: reader.仪式, pathway: reader, tag: 仪式, text: '按规程做一次小仪式' }
+  - { id: reader.训练, pathway: reader, tag: 训练, text: '训练一遍手法' }
+  - { id: reader.守夜, pathway: reader, tag: 守夜, text: '守夜，守着这一页到天亮，看它有没有变' }
+  - { id: reader.远行, pathway: reader, tag: 远行, text: '远行一趟，去找那本书的另一个版本' }
+  - { id: reader.潜行, pathway: reader, tag: 潜行, text: '贴着墙根潜行，不出声' }
+  - { id: reader.静默, pathway: reader, tag: 静默, text: '保持静默，什么也不说' }
+  - { id: mother.耕种, pathway: mother, tag: 耕种, text: '耕种这块地，翻一遍，把石头捡出去' }
+  - { id: mother.生长, pathway: mother, tag: 生长, text: '看着它生长，不催它' }
+  - { id: mother.土壤, pathway: mother, tag: 土壤, text: '抓一把土壤，攥紧了再松开' }
+  - { id: mother.守候, pathway: mother, tag: 守候, text: '守候着这里，直到该来的来' }
+  - { id: mother.繁衍, pathway: mother, tag: 繁衍, text: '把种子分给还愿意种的人，让它繁衍下去' }
+  - { id: mother.观察, pathway: mother, tag: 观察, text: '观察，站在边上看着，先不动手' }
+  - { id: mother.忍耐, pathway: mother, tag: 忍耐, text: '忍耐着不动，等它自己好起来' }
+  - { id: mother.仪式, pathway: mother, tag: 仪式, text: '按老规矩做一次仪式' }
+  - { id: mother.医疗, pathway: mother, tag: 医疗, text: '医疗一处伤口，慢慢来' }
+  - { id: mother.守夜, pathway: mother, tag: 守夜, text: '守夜，守着这一夜，不许它出事' }
+  - { id: mother.低语, pathway: mother, tag: 低语, text: '听清土壤里的低语' }
+  - { id: mother.潜行, pathway: mother, tag: 潜行, text: '贴着墙根潜行，别踩坏东西' }
+  - { id: mother.静默, pathway: mother, tag: 静默, text: '保持静默，什么都不说，只是待着' }
+  - { id: mother.训练, pathway: mother, tag: 训练, text: '把同一件事再训练一遍' }
+  - { id: sleepless.守夜, pathway: sleepless, tag: 守夜, text: '守夜到天亮，看谁会在这时候出来' }
+  - { id: sleepless.黑夜, pathway: sleepless, tag: 黑夜, text: '等黑夜完全落下来再动' }
+  - { id: sleepless.梦, pathway: sleepless, tag: 梦, text: '把昨晚的梦记下来' }
+  - { id: sleepless.隐秘, pathway: sleepless, tag: 隐秘, text: '隐秘地把能证明你来过的东西收起来' }
+  - { id: sleepless.间谍, pathway: sleepless, tag: 间谍, text: '像间谍一样把听到的话记在心里，不写下来' }
+  - { id: sleepless.潜伏, pathway: sleepless, tag: 潜伏, text: '找个不起眼的位置潜伏着' }
+  - { id: sleepless.观察, pathway: sleepless, tag: 观察, text: '在街口观察雾里的影子' }
+  - { id: sleepless.追踪, pathway: sleepless, tag: 追踪, text: '追踪那串脚印走一段' }
+  - { id: sleepless.静默, pathway: sleepless, tag: 静默, text: '保持静默，什么也不说' }
+  - { id: sleepless.占卜, pathway: sleepless, tag: 占卜, text: '摊开牌占卜一件还没发生的事' }
+  - { id: sleepless.推算, pathway: sleepless, tag: 推算, text: '把线索摊在桌上推算一遍' }
+  - { id: sleepless.仪式, pathway: sleepless, tag: 仪式, text: '按规程做一次小仪式' }
+  - { id: sleepless.低语, pathway: sleepless, tag: 低语, text: '听清雾里的低语' }
+  - { id: sleepless.潜行, pathway: sleepless, tag: 潜行, text: '贴着墙根潜行，不出声' }
+  - { id: sleepless.远行, pathway: sleepless, tag: 远行, text: '远行一趟，往没去过的街区走' }
+  - { id: sleepless.训练, pathway: sleepless, tag: 训练, text: '训练一遍手法' }
+  - { id: sleepless.武器, pathway: sleepless, tag: 武器, text: '把随身的武器擦到能反光' }
+  - { id: sleepless.威慑, pathway: sleepless, tag: 威慑, text: '威慑对方，让他先退一步' }
+  - { id: sleepless.勇气, pathway: sleepless, tag: 勇气, text: '鼓起勇气，往前站一步' }
+  - { id: sleepless.历史, pathway: sleepless, tag: 历史, text: '翻历史，把昨天那本笔记再看一遍' }
+  - { id: sleepless.幻觉, pathway: sleepless, tag: 幻觉, text: '分辨哪些是幻觉、哪些是真的' }
+  - { id: sleepless.赌, pathway: sleepless, tag: 赌, text: '赌一把，把筹码押在直觉上' }

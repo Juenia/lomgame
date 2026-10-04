@@ -1,0 +1,148 @@
+/**
+ * **指令说明表**（M2.86）—— 图片菜单的唯一数据源。
+ *
+ * ## 和 `help.ts` 的 `HELP_TEXT` 是什么关系
+ *
+ * `HELP_TEXT` 是一段**手抄的**指令清单（AGENTS §3.1 明令禁止：手抄副本最贵的失败方式
+ * 是**它不报错** —— 类型上齐全、运行期安静地少读）。这一份不抄清单：
+ *
+ *   · **有哪些指令**：从 `router.commands` 派生（运行时真实注册表）；
+ *   · **只有「怎么用、干什么」是数据**（那是文档，本来就不可能从代码推出来）。
+ *
+ * `test/menu-image.test.ts` 会拿 `router.commands` 与这里的表**对账**：
+ * 有指令没写说明、或写了说明却没这条指令，**测试直接红** —— 这才叫一份清单。
+ *
+ * ## 为什么要做成图片
+ *
+ * 用户：「绘制永久性的精美图片菜单，不要过长，可以多分几张，菜单不应该是一次性的」。
+ * 文字版 `HELP_TEXT` 一屏塞 60 行，手机上是灾难；分成几张图之后每张只讲一类，
+ * 而且**图片带缓存**（同信息条那条路），「永久性」指的就是这个 —— 不是发一次就没了。
+ */
+
+export interface CommandDoc {
+  /** 指令名（与 `router.register` 的第一个参数逐字一致） */
+  name: string;
+  /** 一句话：它是干什么的 */
+  brief: string;
+  /** 用法（可选）—— 只在「光看名字猜不到怎么打」时写 */
+  usage?: string;
+}
+
+export interface CommandGroup {
+  id: string;
+  /** 这张图的标题 */
+  title: string;
+  /** 标题下的一句话（这张图解决什么） */
+  hint: string;
+  commands: readonly CommandDoc[];
+}
+
+/** 只给开发者/排障用的指令 —— **不进玩家菜单**，但对账时要认得它们 */
+export const INTERNAL_COMMANDS: readonly string[] = ['mdprobe', '探针'];
+
+export const COMMAND_GROUPS: readonly CommandGroup[] = [
+  {
+    id: 'start',
+    title: '第一步 · 你是谁',
+    hint: '还没有角色的时候，从这里开始。',
+    commands: [
+      { name: '创建', brief: '创建一个角色（会问一句性别，回 1 或 2）', usage: '.创建 姓名' },
+      { name: '状态', brief: '看清自己：生命 / 灵性 / 理智 / 疯狂 / 污染 / 消化' },
+      { name: '角色', brief: '把自己画成一张卡（图片）' },
+      { name: '线索', brief: '手上有哪几张配方线索、主材料去哪找' },
+      { name: '图鉴', brief: '查神明与塔罗牌', usage: '.图鉴 [神明/塔罗] [名字]' },
+      { name: '背包', brief: '看身上有什么（区分绑定与非绑定）', usage: '.背包 [页码]' },
+      { name: '帮助', brief: '常见问题 / 群规则 / 封测公告', usage: '.帮助 faq|规则|公告' },
+      { name: '菜单', brief: '把这 6 张指令表画成图片（随时可再取）', usage: '.菜单 [编号]' },
+    ],
+  },
+  {
+    id: 'explore',
+    title: '第二步 · 出门找路',
+    hint: '普通人阶段的主循环：看清这一带 → 走过去 → 探一探。',
+    commands: [
+      { name: '看', brief: '看清脚下这块地方：危不危险、能往哪走' },
+      { name: '走', brief: '走到相邻的地点（走完会直接给「探索这里」）', usage: '.走 地点名' },
+      { name: '探索', brief: '去具体地点翻东西（同一地点越探越亏）', usage: '.探索 地点' },
+      { name: '事件', brief: '主动撞一次事件（不指定地点就是脚下这里）', usage: '.事件 [地点]' },
+      { name: '今日', brief: '今天还能做什么 · 本城哪些地方能去' },
+      { name: '移动', brief: '跨城赶路（路上会遇到事）', usage: '.移动 城市名' },
+      { name: '遭遇', brief: '处理撞上的非凡生物 / 旅途事件' },
+    ],
+  },
+  {
+    id: 'grow',
+    title: '第三步 · 魔药与晋升',
+    hint: '消化魔药、往上走。这一屏决定你能爬多高。',
+    commands: [
+          { name: '行动', brief: '看自己这具身体此刻还能做什么' },
+      { name: '魔药', brief: '调制魔药（消耗灵性与材料，失败会涨污染）', usage: '.魔药 [配方]' },
+      { name: '服用', brief: '喝下魔药 —— 消度涨、疯狂也涨', usage: '.服用 [魔药]' },
+      { name: '晋升', brief: '序列 9 → 8：消耗消化度与材料（连续失败有保护）' },
+      { name: '仪式', brief: '晋升仪式（更高序列才用得上）' },
+    ],
+  },
+  {
+    id: 'gear',
+    title: '第四步 · 装备与恢复',
+    hint: '非凡物品带增幅，也带代价；撑不住的时候回这一屏。',
+    commands: [
+      { name: '使用', brief: '用消耗品 / 封印物 / 符咒', usage: '.使用 物品 [数量]' },
+      { name: '装备栏', brief: '看身上穿了什么（非凡物品带增幅，也带代价）' },
+      { name: '装备', brief: '戴上或换下非凡物品', usage: '.装备 物品名' },
+      { name: '卸下', brief: '摘下一件', usage: '.卸下 槽位' },
+      { name: '商店', brief: '看看本地这家店卖什么（每件都带按钮）', usage: '.商店' },
+  { name: '买', brief: '买一件（价格按原作物价锚点）', usage: '.买 物品名' },
+  { name: '卖', brief: '把背包里的一件换成钱（六成价）', usage: '.卖 物品名' },
+      { name: '休息', brief: 'MAD-5、HP+20（每日 1 次）' },
+      { name: '净化', brief: 'COR-15、MAD-8，消耗圣盐（每日 1 次）' },
+      { name: '占卜', brief: '看一段卜象（消耗灵性）', usage: '.占卜 问题' },
+    ],
+  },
+  {
+    id: 'society',
+    title: '第五步 · 与人打交道',
+    hint: '有人就有委托与交易 —— 交情是慢慢攒的。',
+    commands: [
+      { name: '委托', brief: '看有谁托你办事（与人交好才会有）' },
+      { name: '接', brief: '接下第几件委托', usage: '.接 编号' },
+      { name: '交', brief: '交差领报酬', usage: '.交 编号' },
+      { name: '查', brief: '追查身边说不通的事（被发现会提前收网）', usage: '.查 [编号]' },
+      { name: '队伍', brief: '组队（上限 4 人）', usage: '.队伍 创建|加入|任务|离开' },
+      { name: '教会', brief: '教会事务：捐献、贡献、教会内的位置' },
+      { name: '加入教会', brief: '加入一个教会（有归属就有庇护，也有约束）' },
+    ],
+  },
+  {
+    id: 'conflict',
+    title: '第六步 · 纷争与世界',
+    hint: '动手之前想清楚：这里归谁管。',
+    commands: [
+      { name: '交易', brief: '和另一个玩家换东西（物品立即冻结）', usage: '.交易 @玩家 物品 [数量] 价格' },
+      { name: '确认', brief: '确认一笔交易', usage: '.确认 单号' },
+      { name: '取消', brief: '取消一笔交易', usage: '.取消 单号' },
+      { name: '战斗', brief: '打一场（遭遇 / 挑战时用）', usage: '.战斗 攻击|防御|撤退' },
+      { name: '挑战', brief: '挑战更高序列的存在 —— 有风险，也有机会登神' },
+      { name: '袭击', brief: '把另一个玩家打成重伤（动手的地方归谁管，就被谁通缉）', usage: '.袭击 @玩家' },
+      { name: '举报', brief: '领通缉赏金（举报错了信誉 -5）', usage: '.举报 @玩家' },
+      { name: '干扰', brief: '打断别人正在做的事（对方会发现是你）' },
+      { name: '世界', brief: '当前时段、月相、雾日与各地天气', usage: '.世界 [地点]' },
+      {
+        name: '神战',
+        brief: '看有没有哪位存在在谋划什么 —— 也可以插手（插手会被发现，被发现要挨）',
+        usage: '.神战 / .神战 告密 / .神战 助推',
+      },
+      {
+        name: '王座',
+        brief: '空出来的神位怎么争 —— 上去要撑 7 天，而别人可以直接上来杀你',
+        usage: '.王座 / .王座 登位 <编号> / .王座 放弃',
+      },
+      { name: '反馈', brief: '提交 bug 或建议', usage: '.反馈 内容' },
+    ],
+  },
+];
+
+/** 这一份表里写到的全部指令名（对账用） */
+export function documentedNames(): string[] {
+  return COMMAND_GROUPS.flatMap((group) => group.commands.map((command) => command.name));
+}

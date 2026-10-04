@@ -1,0 +1,37 @@
+id: path_warrior_002
+name: 黎明的第一线
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:warrior' ]
+  min_seq: 6
+effects:
+  - { dig: 5 }
+  - { mp: 3 }
+texts:
+  priv: |
+    你在天没亮的时候站到屋顶上，等第一线光。
+    黎明骑士的力量不在光里，在**你愿意等它这一点上**。
+    光翻过屋脊的那一瞬，你腰间的剑自己响了一声 —— 很轻，像是有人在里面应了你。
+  group: 东边的云裂开一道缝，很快又合上了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 按着剑柄等光翻过屋脊
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你按着剑柄等。光翻过来了。
+      **而剑又响了一声** —— 这次比刚才响得长。
+  - key: '2'
+    label: 把剑拔出来
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你拔了出来。剑身上有一道光在走。
+      **而它走的方向是往回** —— 朝着你握剑的手。
+  - key: '3'
+    label: 从天亮站到天黑
+    effects: [ { dig: 6, hp: 2, cor: 2, mad: 2 } ]
+    text: |
+      你站了一天。太阳从东边走到西边。
+      **而你一直没动** —— 动的时候膝盖响了一声。

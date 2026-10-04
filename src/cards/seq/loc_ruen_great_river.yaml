@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「鲁恩大河」（ruen_great_river，危险度 3）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_ruen_great_river
+name: 河中间的东西
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:鲁恩大河'
+effects:
+  - { dig: 2 }
+  - { mad: 1 }
+texts:
+  priv: |
+    船到河中间的时候，水忽然静了。
+    **一点浪都没有。** 船家也停了桨。
+    底下有东西过去 —— 很大，但没有溅起水。
+    过了一会儿水又动了。船家开始划，划得很快。
+  group: 鲁恩大河中间有一段水，船家都绕开走。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 让船家停桨，听一会儿
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你们停在河中间。一点声音都没有。
+      **而底下有很闷的一声** —— 像有什么翻了个身。
+  - key: '2'
+    label: 低头看水底
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你低头看。水很清。
+      **而底下什么都没有** —— 连河床都看不见。
+  - key: '3'
+    label: 问船家刚才过去的是什么
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      他不答，只是划。
+      **划到岸边他才说了一句** —— 「你听见了就行，别问」。

@@ -1,0 +1,38 @@
+id: path_mother_003
+name: 今年的穗子
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:mother' ]
+  min_seq: 7
+  cooldown_days: 3
+effects:
+  - { dig: 6 }
+  - { item: 夜香草, n: 1 }
+texts:
+  priv: |
+    今年的麦穗比去年沉，沉得有点过分。
+    丰收祭司要做的不是庆祝，是**先尝一口**。
+    你掐下一粒放进嘴里。味道是对的，只是甜里带着一点点别的东西 —— 你把这穗单独收了起来，没有和其他的一起入仓。
+  group: 田间有风穿过，麦子一片片伏下去。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把这穗单独收起来
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你把它单独包好，写上今天的日子。
+      **而它比别的穗重** —— 你掂了两遍。
+  - key: '2'
+    label: 把那粒咽下去
+    effects: [ { dig: 6, hp: 2, cor: 2, mad: 2 } ]
+    text: |
+      你咽了。甜的，后面有一点凉。
+      **而凉的地方在往下走** —— 走到胃里就停了。
+  - key: '3'
+    label: 去问问别的祭司今年怎么样
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你问了。他们说今年好，好得反常。
+      **而其中一个说到一半停了** —— 他说他也留了一穗。

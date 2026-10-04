@@ -1,0 +1,34 @@
+id: lost_004
+name: 回过神的时候
+trigger:
+  type: random
+  weight: 7
+  cond:
+    - status:lost_control
+  cooldown_days: 2
+effects:
+  - { hp: -10 }
+  - { cor: 2 }
+texts:
+  priv: |
+    你回过神时正站在巷子深处，手上有别人的血，衣服上是自己的。
+    {{气味}}压不住。
+  group: "巷子里留下了一小片痕迹。"
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 找水把手洗了
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你在水沟边洗了很久。洗到最后水是清的，手还是红的。
+  - key: '2'
+    label: 顺着来路看一遍
+    effects: [ { dig: 5, cor: 2, mad: 3 } ]
+    text: |
+      你往回走。巷子里什么都没有 —— 除了一小片拖出来的痕。
+  - key: '3'
+    label: 把衣服换掉
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你换了衣服，把旧的塞进了床底。

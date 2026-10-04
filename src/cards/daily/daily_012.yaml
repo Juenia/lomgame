@@ -1,0 +1,32 @@
+id: daily_012
+name: 牌桌上的小钱
+trigger:
+  type: daily
+  weight: 5
+  cond: []
+effects:
+  - { dig: 1 }
+  - { hp: -3 }
+  - { item: 便士, n: 1 } # M2.5：货币单位改为便士，值不变
+texts:
+  priv: |
+    苦艾酒下去半杯，你在牌桌上赢了一点小钱，代价是胃里那把火。
+  group: 牌桌上有人笑得很大声。
+daily_limit: 2
+
+options:
+  - key: '1'
+    label: 把赢的钱收起来
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      钱不多。你收起来的时候手很稳。
+  - key: '2'
+    label: 再赌一把
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      这一把输了。而你觉得胃里那把火更旺了。
+  - key: '3'
+    label: 起身走人
+    effects: [ { dig: 4 } ]
+    text: |
+      你走出酒馆。身后的笑声一直跟到门口。

@@ -1,0 +1,31 @@
+id: daily_027
+name: 铜哨
+trigger:
+  type: daily
+  weight: 6
+  cond: []
+effects:
+  - { item: 铜哨, n: 1 }
+  - { dig: 1 }
+texts:
+  priv: |
+    你买了一枚铜哨。吹响它的时候，附近所有的狗都安静了。
+  group: 一声很短的哨音划过街区。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把哨子收起来
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你揣进兜里。整条街的狗过了一刻钟才重新叫起来。
+  - key: '2'
+    label: 再吹一次，这次对着人
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你对着一个路人吹了。他停下脚步，站了很久才继续走。
+  - key: '3'
+    label: 看看那些狗在往哪看
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      它们都在看同一个方向 —— 那边什么也没有。

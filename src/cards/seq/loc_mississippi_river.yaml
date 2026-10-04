@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「密西河」（mississippi_river，危险度 3）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_mississippi_river
+name: 岸边的脚印
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:密西河'
+effects:
+  - { dig: 2 }
+  - { cor: 1 }
+texts:
+  priv: |
+    河岸的泥很软，什么印子都留得住。
+    有一串脚印从水里出来，走了十几步，又回去了。
+    **只有出来和回去，没有别的。**
+    你在旁边站了一会儿，退开了。
+  group: 密西河岸上有脚印从水里出来又回去。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 量一量那串脚印
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你量了。步幅比你大。
+      **而脚印是赤脚的** —— 五个趾头，很清。
+  - key: '2'
+    label: 顺着脚印的方向看水里
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你看水里。水很浑。
+      **而浑水里有一样东西在动** —— 它没有靠近，也没有走。
+  - key: '3'
+    label: 自己也踩一个脚印比对
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你踩了一个。自己的脚印比它小一圈。
+      **而第二天你来看** —— 你的脚印不见了，那一串还在。

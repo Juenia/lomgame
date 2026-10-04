@@ -1,0 +1,34 @@
+# 原著依据：《日常生活.md》w_matchbox ——「糊火柴盒（妇女，计件）1 箩（130 盒以上）2¼ 便士」（ch119）
+# 本项目从该素材融合为事件卡（不是原作的原文，是依据它写的事件）。
+id: daily_039
+name: 一箩火柴盒
+trigger:
+  type: daily
+  weight: 6
+effects:
+  - { mad: 2 }
+  - { item: 便士, n: 2 }
+  - { dig: 1 }
+texts:
+  priv: |
+    楼道里的妇人糊了一整天火柴盒，一箩一百三十个，挣两便士多一点。
+    她分给你两个便士，让你替她数剩下的。「你眼神好，」她说，「我数不清了。」
+  group: 楼梯间堆着一箩糊好的火柴盒。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 替她数完
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你数了三遍。三遍的数字不一样。
+  - key: '2'
+    label: 问她数了多久
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      她说从早上到现在。而她箩里的盒子是一百三十个。
+  - key: '3'
+    label: 把两个便士还回去
+    effects: [ { dig: 3, mad: -1 } ]
+    text: |
+      她没收。她说数不清的人不该拿钱。

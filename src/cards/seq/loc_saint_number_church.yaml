@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「圣数教堂」（saint_number_church，危险度 1）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_saint_number_church
+name: 数错了一次
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:圣数教堂'
+effects:
+  - { mad: 2 }
+  - { dig: 2 }
+texts:
+  priv: |
+    这里的祷告要数数，一共三百遍。
+    你数到二百七十一的时候，**跳到了二百七十三**。
+    你重新数。数到二百七十一，又是二百七十三。
+    你停下来，抬头看。前面的人都在数，没有停。
+  group: 圣数教堂里的人昨天祷告了很久，出来的时候脸色都不太好。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 重新从一开始数
+    effects: [ { dig: 6, cor: 3, mad: 4 } ]
+    text: |
+      你从头数。数到二百七十一，又跳了。
+      **而这次你留了心** —— 跳过去的那一下，你的嘴是闭着的。
+  - key: '2'
+    label: 跳过那一段，接着数
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你跳过去，接着往下数。数完了三百遍。
+      **而数完之后你想不起中间那一段** —— 一点都想不起。
+  - key: '3'
+    label: 问旁边的人数到几了
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你问了。他停下来看你。
+      **而他说他数到二百七十一** —— 你们两个停在了同一个地方。

@@ -1,0 +1,34 @@
+id: daily_005
+name: 更稠的雾
+trigger:
+  type: daily
+  weight: 7
+  cond: []
+  location:
+    - 贝克兰德
+effects:
+  - { dig: 1 }
+  - { cor: 1 }
+  - { flag: touched_fog }
+texts:
+  priv: |
+    贝克兰德的雾比往年更稠。你伸手拨开它，指尖沾回一点凉。
+  group: 贝克兰德的雾今天格外稠。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把沾回来的那点凉留着
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你没有擦。那点凉在指尖上过了一夜。
+  - key: '2'
+    label: 往雾里走一段
+    effects: [ { dig: 5, cor: 2, mad: 1 } ]
+    text: |
+      你走了十几步。回头看的时候，来路上已经没有你的脚印。
+  - key: '3'
+    label: 回屋关门，把窗也关上
+    effects: [ { dig: 3 } ]
+    text: |
+      你把窗关严了。屋里还是有一点凉。

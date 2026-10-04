@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：去了一趟墓地（设 flag `visited_the_grave`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_visited_the_grave
+name: 你遇到那个人了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:visited_the_grave'
+effects:
+  - { dig: 3 }
+  - { cor: 2 }
+texts:
+  priv: |
+    你第二次去的时候，那里已经有人了。
+    是个老人，在换碑前的花。
+    **他看见你，愣了一下。**
+    「你也认识他？」他问。你点了点头。
+  group: 墓地那块碑前面一直有新鲜的花。
+daily_limit: 1

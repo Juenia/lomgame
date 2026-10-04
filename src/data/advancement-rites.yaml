@@ -1,0 +1,1070 @@
+# 晋升仪式要求（M2.85 内容填充 P6）—— **原作数据直出**
+#
+# 数据来源：诡秘之主原作数据/01-途径与序列/途径-*.yaml 的 sequences[].advancement_ritual
+#
+# 共 132 条（22 途径 × 序列 5—0）。原作对序列 6—9 没有记载（低序列服食魔药即可），
+# 所以本表不含那四档 —— **那是原作的空白，不是我们的缺口**。
+#
+# 读取点：`.仪式 准备` 的「原作记载」一栏（玩家在准备仪式时看到这一格的原作要求）。
+meta:
+  source: 诡秘之主原作数据/01-途径与序列/途径-*.yaml 的 sequences[].advancement_ritual
+  count: 132
+  note: 原作对序列 6—9 **没有**记载晋升仪式（低序列服食魔药即可）→ 本表只收序列 5—0 的 132 条，缺的部分不是漏了。
+  read_point: "`.仪式 准备`（仪式准备阶段的「原作记载」一栏）"
+advancement_rites:
+  - id: seer_5
+    pathway: seer
+    seq: 5
+    sequenceTitle: 秘偶大师
+    potion: 秘偶大师（Marionettist）
+    ritual: 在美人鱼的歌声里服食魔药
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: seer_4
+    pathway: seer
+    seq: 4
+    sequenceTitle: 诡法师
+    potion: 诡法师（Bizarro Sorcerer）
+    ritual: 主要依靠自身的力量和策划，在众多观众的目睹下，导演一出盛大的戏剧，以此谋杀一位半神或同等的超凡生物，然后，在戏剧的尾声部分，服食魔药
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: seer_3
+    pathway: seer
+    seq: 3
+    sequenceTitle: 古代学者
+    potion: 古代学者（Scholar of Yore）
+    ritual: 完全脱离现实至少三百年，在自己已成为历史，不属于当前时代后服食魔药
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: seer_2
+    pathway: seer
+    seq: 2
+    sequenceTitle: 奇迹师
+    potion: 奇迹师（Miracle Invoker）
+    ritual: 让一段遗落的历史重回当前时代
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: seer_1
+    pathway: seer
+    seq: 1
+    sequenceTitle: 诡秘侍者
+    potion: 诡秘侍者（Attendant of Mysteries）
+    ritual: 建立一个纯粹由秘偶组成的城镇，并为每一个秘偶设计自身的命运轨迹，让它们通过彼此的互动，演绎一副足够真实的生活画卷，于灵界诞生对应的区域。这个城镇的规模越大，秘偶越多，日常越精细，不同的命运越生动真实，延绵漫长，仪式的效果越好
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: seer_0
+    pathway: seer
+    seq: 0
+    sequenceTitle: 愚者
+    potion: 愚者（Fool）
+    ritual: 愚弄一次时间、历史或者命运
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: warrior_5
+    pathway: warrior
+    seq: 5
+    sequenceTitle: 守护者
+    potion: 守护者（Guardian）
+    ritual: 确立一个想要守护的人或群体，并为此恪尽职守至少一年
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: warrior_4
+    pathway: warrior
+    seq: 4
+    sequenceTitle: 猎魔者
+    potion: 猎魔者（Demon Hunter）
+    ritual: 解决强大恶魔或邪恶生物（强大的定义是具备神性）造成的一个问题或一场灾难
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: warrior_3
+    pathway: warrior
+    seq: 3
+    sequenceTitle: 银骑士
+    potion: 银骑士（Silver Knight）
+    ritual: 布置一个复杂的祭坛，将自身猎杀的六种强大生物的遗骸摆放到正确的位置，并得到神的祝福
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: warrior_2
+    pathway: warrior
+    seq: 2
+    sequenceTitle: 荣耀者
+    potion: 荣耀者（Glory）
+    ritual: 靠自己（可使用神奇物品）搏杀一位天使或同等强大的生物替祝福自身的神灵斩杀足够多足够分量的敌对者、亵渎者
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: warrior_1
+    pathway: warrior
+    seq: 1
+    sequenceTitle: 神明之手
+    potion: 神明之手（Hand of God）
+    ritual: 宣誓效忠于某位神灵或成为冥河（只要是“永暗之河”支流都可以）的侍者
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: warrior_0
+    pathway: warrior
+    seq: 0
+    sequenceTitle: 黄昏巨人
+    potion: 黄昏巨人（Twilight Giant）
+    ritual: 见证并参与一个种族或是一片大陆从兴盛到衰败，直至消亡的全部过程
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: sleepless_5
+    pathway: sleepless
+    seq: 5
+    sequenceTitle: 灵巫
+    potion: 灵巫（Spirit Warlock）
+    ritual: 找到办法，以肉体而非魂体的形式进入灵界，并与自身映射于灵界的关键信息汇合，然后服食魔药
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: sleepless_4
+    pathway: sleepless
+    seq: 4
+    sequenceTitle: 守夜人
+    potion: 守夜人（Night Watcher）
+    ritual: 搜集真神后裔的血脉特性，以此绘制一个有安魂效果的魔法阵，仪式中使用的真神后裔血脉特性不同，成为“守夜人”后得到的能力也将有一定的区别（注：若是想从“死神”或“战神”途径跳转到“黑暗”途径，那只能使用这三条途径对应真神的后裔血脉特性，任选其一）
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: sleepless_3
+    pathway: sleepless
+    seq: 3
+    sequenceTitle: 恐惧主教
+    potion: 恐惧主教（Horror Bishop）
+    ritual: 直面会真正带来死亡的危险，直面生物最深层次的恐惧，重要的不是活下来，而是战胜或者接受那种恐惧，要是未能达到要求，即使服食了魔药，也无法迎来“复活”，将彻底死亡
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: sleepless_2
+    pathway: sleepless
+    seq: 2
+    sequenceTitle: 隐秘之仆
+    potion: 隐秘之仆（Servant of Concealment）
+    ritual: 断绝与所有社会关系、所有外来事物的联系，不试图影响他人，也不能被他人影响，于黑暗寂静中孤独地生活三年且没有疯掉（注：凡是有时间限制的地方，“时之虫”都能利用BUG，但在这个仪式里不能直接让时间的流逝加快，以减少需要花费的真实时间，因为这等同于影响到晋升者，破坏仪式的基本条件，祂们可能需要“愚者”或者“命运”途径的一点小小帮助才能达成目的）
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: sleepless_1
+    pathway: sleepless
+    seq: 1
+    sequenceTitle: 厄难骑士
+    potion: 厄难骑士（Knight of Misfortune）
+    ritual: 给一位大天使或者一个文明、一片大陆、一个星球带去厄难（注：简单来说约等于“你们的厄难就是我”）
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: sleepless_0
+    pathway: sleepless
+    seq: 0
+    sequenceTitle: 黑暗
+    potion: 黑暗（Darkness）
+    ritual: 让一份唯一性或者一处神国或者一位真神永眠（仪式难度越高，效果越好）
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: sailor_5
+    pathway: sailor
+    seq: 5
+    sequenceTitle: 海洋歌者
+    potion: 海洋歌者（Ocean Songster）
+    ritual: 在一只奥布尼斯的肚子内服食魔药
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: sailor_4
+    pathway: sailor
+    seq: 4
+    sequenceTitle: 灾难主祭
+    potion: 灾难主祭（Cataclysmic Interrer）
+    ritual: 引发地震和海啸，在这样的环境下服食魔药，撑到结束
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: sailor_3
+    pathway: sailor
+    seq: 3
+    sequenceTitle: 海王
+    potion: 海王（Sea King）
+    ritual: 选择一片海域，靠自己的力量于海底修建起一座直达海面的石塔，然后降服300海里范围内的所有强大生物
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: sailor_2
+    pathway: sailor
+    seq: 2
+    sequenceTitle: 天灾
+    potion: 天灾（Calamity）
+    ritual: 仅靠自身力量，想办法引发一场至少能影响百万人的天灾，并在遭遇天灾的人们恐惧与绝望达到高峰时，主动现身，中止这场天灾，同样的，这个环节也只能利用自身的力量
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: sailor_1
+    pathway: sailor
+    seq: 1
+    sequenceTitle: 雷神
+    potion: 雷神（Thunder God）
+    ritual: 找到并利用闪电的力量破坏至少三场序列2天使晋升序列1的仪式（若是对应天使属于‘倒吊人’、‘白塔’、‘空想家’、‘太阳’和‘暴君’途径，则仪式效果最佳）
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: sailor_0
+    pathway: sailor
+    seq: 0
+    sequenceTitle: 暴君
+    potion: 暴君（Tyrant）
+    ritual: 需要数以十万计的因恐惧而服从而信仰的追随者；单独挑战一位真神，也就是其他序列0，并存活下来；在那恐惧与服从的气氛里服食魔药，完成晋升
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: perfect_5
+    pathway: perfect
+    seq: 5
+    sequenceTitle: 天文学家
+    potion: 天文学家（Astronomer）
+    ritual: 发现并命名一种天文学现象或一个星体。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: perfect_4
+    pathway: perfect
+    seq: 4
+    sequenceTitle: 炼金术士
+    potion: 炼金术士（Alchemist）
+    ritual: 抽取一定区域内的全部生命力，土壤将沙漠化，湖泊将干涸。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: perfect_3
+    pathway: perfect
+    seq: 3
+    sequenceTitle: 奥秘学者
+    potion: 奥秘学者（Arcane Scholar）
+    ritual: 挑选出某些特殊灵界知识，并想办法与它们紧密联系，在灵这个层面融为一体。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: perfect_2
+    pathway: perfect
+    seq: 2
+    sequenceTitle: 知识导师
+    potion: 知识导师（Knowledge Magister）
+    ritual: 在任意一个领域做出开创体系性的杰出贡献。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: perfect_1
+    pathway: perfect
+    seq: 1
+    sequenceTitle: 启蒙者
+    potion: 启蒙者（Illuminator）
+    ritual: 普及新知识，推动至少一个国家的文明换代。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: perfect_0
+    pathway: perfect
+    seq: 0
+    sequenceTitle: 完美者
+    potion: 完美者（Paragon）
+    ritual: 培育一个文明，见证并记录它从启蒙、发展、鼎盛、衰败到灭亡或换代的全部过程。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: reader_5
+    pathway: reader
+    seq: 5
+    sequenceTitle: 秘术导师
+    potion: 秘术导师（Mysticism Magister）
+    ritual: 教导出至少五十个通才或五名自行领悟“扮演法”的中序列非凡者
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: reader_4
+    pathway: reader
+    seq: 4
+    sequenceTitle: 预言家
+    potion: 预言家（Prophet）
+    ritual: 于灵界混乱重叠的时空里找到关于自己未来的部分信息，并让它们变成现实
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: reader_3
+    pathway: reader
+    seq: 3
+    sequenceTitle: 洞悉者
+    potion: 洞悉者（Cognizer）
+    ritual: 解析“知识”两途径天使的血肉或非凡特性，并掌握其中蕴含的部分知识（至少三分之一）；或得到祂们之一的祝福
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: reader_2
+    pathway: reader
+    seq: 2
+    sequenceTitle: 智天使
+    potion: 智天使（Wisdom Angel）
+    ritual: 凭借头脑而非实力让一位天使陨落
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: reader_1
+    pathway: reader
+    seq: 1
+    sequenceTitle: 全知之眼
+    potion: 全知之眼（Omniscient Eye）
+    ritual: 短暂进入半“混沌”状态，但又保持着基本意识和理智，在这个状态下服食魔药（办法路径包括但不限于借助“魔女”混沌化的影响、“混沌海”的侵染，等等，等等）
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: reader_0
+    pathway: reader
+    seq: 0
+    sequenceTitle: 白塔
+    potion: 白塔（White Tower）
+    ritual: 参与超过序列0的存在带来的灾祸（源质加相应旧日知识带来的也满足条件），并存活下来
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: mother_5
+    pathway: mother
+    seq: 5
+    sequenceTitle: 德鲁伊
+    potion: 德鲁伊（Druid）
+    ritual: 掌握多种普通动物三种超凡生物的生活习性、肉体结构。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: mother_4
+    pathway: mother
+    seq: 4
+    sequenceTitle: 古代炼金师
+    potion: 古代炼金师（Ancient Metallurgist）
+    ritual: 亲自炼制一颗“生命之石”。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: mother_3
+    pathway: mother
+    seq: 3
+    sequenceTitle: 抬棺人
+    potion: 抬棺人（Pallbearer）
+    ritual: 亲手埋葬一位“黑暗”途径、“死神”途径或“巨人”途径的序列3，见证他从生到死、再到归于大地的全部过程埋葬这三条途径之一的神话生物
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: mother_2
+    pathway: mother
+    seq: 2
+    sequenceTitle: 荒芜主母
+    potion: 荒芜主母（Desolate Matriarch）
+    ritual: 孕育、繁衍并培养出一个种族。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: mother_1
+    pathway: mother
+    seq: 1
+    sequenceTitle: 自然行者
+    potion: 自然行者（Naturewalker）
+    ritual: 想办法创造一个没有自然没有元素、只存在于概念中的世界，并完全包容它，然后借助它进入星界，服食魔药。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: mother_0
+    pathway: mother
+    seq: 0
+    sequenceTitle: 母亲
+    potion: 母亲（Mother）
+    ritual: 真实地孕育出一位神灵，或者在神秘学上等价于孕育出了一位神灵。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: door_5
+    pathway: door
+    seq: 5
+    sequenceTitle: 旅行家
+    potion: 旅行家（Traveler）
+    ritual: 于灵界深处四个完全不同，相隔很远的地方设立特殊坐标
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: door_4
+    pathway: door
+    seq: 4
+    sequenceTitle: 秘法师
+    potion: 秘法师（Secrets Sorcerer）
+    ritual: 封印一个半神层次的，有明确敌意的生物，越不借助外力，仪式效果越好
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: door_3
+    pathway: door
+    seq: 3
+    sequenceTitle: 漫游者
+    potion: 漫游者（Wanderer）
+    ritual: 找到三种投射于灵界的星界信息，进入它们衍生出来的危险场景，切实地全部记录下来，不能遗忘
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: door_2
+    pathway: door
+    seq: 2
+    sequenceTitle: 旅法师
+    potion: 旅法师（Planeswalker）
+    ritual: 在这个星球外的九个地方留下传说
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: door_1
+    pathway: door
+    seq: 1
+    sequenceTitle: 星之匙
+    potion: 星之匙（Key of Stars）
+    ritual: 找到一颗不断旋转、发出信号的沉重星球，靠近它，登上它，然后想办法和它建立起足够的神秘学联系。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: door_0
+    pathway: door
+    seq: 0
+    sequenceTitle: 门
+    potion: 门（Door）
+    ritual: 从真神的封印或者放逐中逃脱
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: sun_5
+    pathway: sun
+    seq: 5
+    sequenceTitle: 光之祭司
+    potion: 光之祭司（Priest of Light）
+    ritual: 在纯粹的黑暗中，将全身埋入正常不会融化的冰块里，然后服食魔药
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: sun_4
+    pathway: sun
+    seq: 4
+    sequenceTitle: 无暗者
+    potion: 无暗者（Unshadowed）
+    ritual: 将最强烈最不愿意舍弃的情感剥离出来，然后服食魔药，并在过程中回输这些情感
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: sun_3
+    pathway: sun
+    seq: 3
+    sequenceTitle: 正义导师
+    potion: 正义导师（Justice Mentor）
+    ritual: 明确自己的正义是什么，并践行这种正义三年，中途不能有丝毫违背，不能做任何与该正义有冲突的事情
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: sun_2
+    pathway: sun
+    seq: 2
+    sequenceTitle: 逐光者
+    potion: 逐光者（Lightseeker）
+    ritual: 找到一件至少天使位格、与神秘学“太阳”有密切联系的物品，想办法将自身核心正义紧密相关的、最重要的那段记忆与它捆绑在一起，放置在身前——这能为服下“逐光者”魔药的非凡者提供一个道标，帮助他们在“逐光”或“逐日”过程中不迷失方向，不混乱意识，提升他们坚持下去的信念，以此撑到魔药完成改造
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: sun_1
+    pathway: sun
+    seq: 1
+    sequenceTitle: 纯白天使
+    potion: 纯白天使（White Angel）
+    ritual: 包括自己在内的百万人类对自身虔诚唯一的赞美和崇拜，位格越高，需求的人数越少，但必须包含自己，并且不迷失自我
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: sun_0
+    pathway: sun
+    seq: 0
+    sequenceTitle: 太阳
+    potion: 太阳（Sun）
+    ritual: 于万物归宿之黑暗中或混沌海包含一切的颜色里服食魔药
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: corpse_collector_5
+    pathway: corpse_collector
+    seq: 5
+    sequenceTitle: 看门人
+    potion: 看门人（Gatekeeper）
+    ritual: 找到外溢的冥界气息，接触并活下来。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: corpse_collector_4
+    pathway: corpse_collector
+    seq: 4
+    sequenceTitle: 不死者
+    potion: 不死者（Undying）
+    ritual: 寻找受到死亡侵染的地下河，于河畔完成一场真正的葬礼，将自己和魔药共同埋葬在河畔六十天，六十天后若未能存活且保持一定的理智，则仪式失败。（此仪式若是失败，必然诞生危险的“尸王”）
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: corpse_collector_3
+    pathway: corpse_collector
+    seq: 3
+    sequenceTitle: 摆渡人
+    potion: 摆渡人（Ferryman）
+    ritual: 走入自己召唤的冥界之门，在里面死去的同时服食魔药。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: corpse_collector_2
+    pathway: corpse_collector
+    seq: 2
+    sequenceTitle: 死亡执政官
+    potion: 死亡执政官（Death Consul）
+    ritual: 成为冥界其中一层的主宰或是将一个国度完全变成亡灵的世界，并将冥界之门固定在这个世界中。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: corpse_collector_1
+    pathway: corpse_collector
+    seq: 1
+    sequenceTitle: 苍白皇帝
+    potion: 苍白皇帝（Pale Emperor）
+    ritual: 让自己的名与死亡、死后世界等概念挂钩，被所在界域绝大部分开智生灵传颂牢记。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: corpse_collector_0
+    pathway: corpse_collector
+    seq: 0
+    sequenceTitle: 死神
+    potion: 死神（Death）
+    ritual: 创造或是融合一个真正的亡者最终归宿，让它成为该界域所有死亡指向的地方。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: error_5
+    pathway: error
+    seq: 5
+    sequenceTitle: 窃梦者
+    potion: 窃梦者（Dream Stealer）
+    ritual: 在至少三十个人无意识的梦里成为重要配角或主要反派，这些梦持续多少天并不重要，重要的是服食魔药时，它们都正在发生
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: error_4
+    pathway: error
+    seq: 4
+    sequenceTitle: 寄生者
+    potion: 寄生者（Parasite）
+    ritual: 选择一个目标，让他、她、它或祂心甘情愿地供养你，奉献自身的所有给你，重复这样的事情，直到第九次
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: error_3
+    pathway: error
+    seq: 3
+    sequenceTitle: 欺瞒导师
+    potion: 欺瞒导师（Mentor of Deceit）
+    ritual: 不使用暴力，找到并利用规则的漏洞，让一片区域的秩序暂时瓦解（注：区域大小不低于一个乡村，也就是能在灵界形成一个整体投影的最小实体）
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: error_2
+    pathway: error
+    seq: 2
+    sequenceTitle: 命运木马
+    potion: 命运木马（Trojan Horse of Destiny）
+    ritual: 通过伪装、欺骗等不涉及超凡力量的办法成为另外一个人，并以此取得对方相应社会关系的信任，直至该身份自然死亡（注：顶替濒死者或三年内会死去的人，仪式无效；顶替的目标位格越高，仪式所需维持的时间越短——最短半年，无需维持到身份自然死亡。）
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: error_1
+    pathway: error
+    seq: 1
+    sequenceTitle: 时之虫
+    potion: 时之虫（Worm of Time）
+    ritual: 让一座城市陷入时光的混乱里至少七天
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: error_0
+    pathway: error
+    seq: 0
+    sequenceTitle: 错误
+    potion: 错误（Error）
+    ritual: 在别人的成神仪式上，顶替祂的位置
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: mystery_pryer_5
+    pathway: mystery_pryer
+    seq: 5
+    sequenceTitle: 星象师
+    potion: 星象师（Constellations Master）
+    ritual: 选择、观察并绘制一个星座的全幅图景，还原它真实的模样，并掌握与此对应的全部神秘学知识。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: mystery_pryer_4
+    pathway: mystery_pryer
+    seq: 4
+    sequenceTitle: 神秘学家
+    potion: 神秘学家（Mysticologist）
+    ritual: 需要完全解析一滴神话生物的血液，从中获得复杂而庞大的知识，这属于仪式的一部分，而因为采用的神话生物血液不同，一旦成功，他们在‘神秘学家’这个阶段的擅长也会有一定的不同。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: mystery_pryer_3
+    pathway: mystery_pryer
+    seq: 3
+    sequenceTitle: 预言大师
+    potion: 预言大师（Clairvoyant）
+    ritual: 搜集庞杂的信息，通过分析、推断和占卜，“预言”三年后将发生的某一件事情（必须是涉及半神的），并最终见证它的实现，整个过程中，不能依赖外力，也不能直接推动事情的发生，只能间接引导。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: mystery_pryer_2
+    pathway: mystery_pryer
+    seq: 2
+    sequenceTitle: 贤者
+    potion: 贤者（Sage）
+    ritual: 阻止一场涉及高层次力量的灾难。仪式本质是需要与该行为产生的灵界信息建立起某种联系，这样的信息有鲜明的烙印以及涉及很高层次而显得异常坚固，短时间内不会被其余信息冲散，帮助晋升者初步稳定住自身的意识，一点点收拢起发散淡化的本体信息洪流。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: mystery_pryer_1
+    pathway: mystery_pryer
+    seq: 1
+    sequenceTitle: 知识皇帝
+    potion: 知识皇帝（Knowledge Emperor）
+    ritual: 解析自身，掌握自身相关的全部知识，明悟并找到其中最核心最关键的部分（在西大陆，这叫明心见性），然后以此为纽带，想办法将剩余部分和拥有的其他知识统筹起来，初步形成一个整体（元神）。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: mystery_pryer_0
+    pathway: mystery_pryer
+    seq: 0
+    sequenceTitle: 隐者
+    potion: 隐者（Hermit）
+    ritual: 归拢自己在世界上留下的所有信息，找到合适的地方和办法将它们完全隐藏起来，不得有一点遗留痕迹。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: spectator_5
+    pathway: spectator
+    seq: 5
+    sequenceTitle: 梦境行者
+    potion: 梦境行者（Dreamwalker）
+    ritual: 去灵界契约一种生物，获得在梦境中保持清醒的特质寻找灵界人头鸟妖，与它签订契约，然后拿着它的一根尾羽，在或喜悦或愤怒的激烈情绪里服食魔药
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: spectator_4
+    pathway: spectator
+    seq: 4
+    sequenceTitle: 操纵师
+    potion: 操纵师（Manipulator）
+    ritual: 在有至少一万人的特定场合里，于他们情绪的巨大共鸣中服食魔药
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: spectator_3
+    pathway: spectator
+    seq: 3
+    sequenceTitle: 织梦人
+    potion: 织梦人（Dream Weaver）
+    ritual: 让至少十万个人在同一个夜晚做同样的梦
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: spectator_2
+    pathway: spectator
+    seq: 2
+    sequenceTitle: 洞察者
+    potion: 洞察者（Discerner）
+    ritual: 深入至少一万个人类的潜意识，弄清楚对应之人最真实的恐惧、最本能的欲望和所有心理问题的根源，然后留下属于自己的印记。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: spectator_1
+    pathway: spectator
+    seq: 1
+    sequenceTitle: 作家
+    potion: 作家（Author）
+    ritual: 以现实人物为角色，书写一本中长篇小说，并让那些现实人物的实际命运按照小说的情节发展、收尾，于灵界和命运长河中都留下相应的印记
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: spectator_0
+    pathway: spectator
+    seq: 0
+    sequenceTitle: 空想家
+    potion: 空想家（Visionary）
+    ritual: 让时代的发展符合自己的预想，然后在关键节点上，在规定的时代潮流中，服食魔药
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: apothecary_5
+    pathway: apothecary
+    seq: 5
+    sequenceTitle: 深红学者
+    potion: 深红学者（Scarlet Scholar）
+    ritual: 在满月的照耀之下，凑够代表不同月亮状态的金属、宝石，以及超凡生物的血液。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: apothecary_4
+    pathway: apothecary
+    seq: 4
+    sequenceTitle: 巫王
+    potion: 巫王（Shaman King）
+    ritual: 真正取得“月亮”的认可（注：有的“月亮”一直很危险，有的“月亮”在某些时刻很危险，有的“月亮”在你自己的心里）。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: apothecary_3
+    pathway: apothecary
+    seq: 3
+    sequenceTitle: 召唤大师
+    potion: 召唤大师（High Summoner）
+    ritual: 于灵界的深处找到一段与自身过去、现在、未来都存在密切关系，且和“月亮”深层缠绕的特殊信息，然后举行仪式，将它定义为自己用于各种神秘学的“真名”（如果选错了，找到了不正确的，那将成为“月亮”的奴仆）。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: apothecary_2
+    pathway: apothecary
+    seq: 2
+    sequenceTitle: 创生者
+    potion: 创生者（Life-Giver）
+    ritual: 将自身分割成五个部分，摧毁并封印于不同的地方，然后在彻底死亡前，由包含心脏的那部分躯体服食魔药（注：该仪式主要的困难有两个，一是怎么保证自身在那种状态下不立刻死亡，二是被封印的状态下怎么服食魔药）。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: apothecary_1
+    pathway: apothecary
+    seq: 1
+    sequenceTitle: 美神
+    potion: 美神（Beauty Goddess）
+    ritual: 用“月亮纸人”制作一个替身，让它长久的活动不被拆穿，且被大量的生物记住，数量越多越好，自身则躺在棺材内，深埋地底至少三百年，最后由本体服食魔药。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: apothecary_0
+    pathway: apothecary
+    seq: 0
+    sequenceTitle: 月亮
+    potion: 月亮（Moon）
+    ritual: 想办法进入星界，占据代表“月亮”的那个概念或者在这个概念内镌刻自身的真名（注：“月亮”这个概念并不独属于屏障内）。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: arbiter_5
+    pathway: arbiter
+    seq: 5
+    sequenceTitle: 惩戒骑士
+    potion: 惩戒骑士（Discipline Paladin）
+    ritual: 选定一个至少序列5的通缉犯，确定他的罪行，然后独自追踪他，锁定他，处决他。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: arbiter_4
+    pathway: arbiter
+    seq: 4
+    sequenceTitle: 律令法师
+    potion: 律令法师（Imperative Mage）
+    ritual: 制定一条与既有条文不同、但又不排斥的法律，让它通过当前国家的立法流程颁布实施，当违反这条法律并遭受相应处罚的人达到一万人以后，服食魔药。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: arbiter_3
+    pathway: arbiter
+    seq: 3
+    sequenceTitle: 混乱猎手
+    potion: 混乱猎手（Chaos Hunter）
+    ritual: 独自处理一起至少涉及天使层面力量的神秘学事件，让受影响的区域恢复正常的秩序，该区域的人和物损失越小，仪式效果越好。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: arbiter_2
+    pathway: arbiter
+    seq: 2
+    sequenceTitle: 平衡者
+    potion: 平衡者（Balancer）
+    ritual: 结束一片大陆的纷乱，让各个势力取得能维持至少百年的平衡，该仪式不需要仪式举行者占据主导地位，但必须发挥重要作用。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: arbiter_1
+    pathway: arbiter
+    seq: 1
+    sequenceTitle: 秩序之手
+    potion: 秩序之手（Hand of Order）
+    ritual: 建立一个人口至少千万的国度，让自己的意志成为该国度的秩序，成为严密的规则体系/同等效果的仪式：掌控一个人口至少五千万的国度，让自己的意志成为该国度的秩序，成为严密的规则体系。在这两个仪式里，国民中的非凡者越多、序列越高，所需得人口数量越少，但最少不能低于百万。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: arbiter_0
+    pathway: arbiter
+    seq: 0
+    sequenceTitle: 审判者
+    potion: 审判者（Justiciar）
+    ritual: 对涉及真神的一起严重事件做出符合自己之前建立的那些规则要求的、足够公正的审判，并确保判决结果得到真正意义上的履行，然后服食魔药。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: assassin_5
+    pathway: assassin
+    seq: 5
+    sequenceTitle: 痛苦
+    potion: 痛苦（Afflictions）
+    ritual: 不使用替身，在火刑架上被焚烧一刻钟并活下来，且没有疯掉。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: assassin_4
+    pathway: assassin
+    seq: 4
+    sequenceTitle: 绝望
+    potion: 绝望（Despair）
+    ritual: 让超过三万人卷入一场强烈的瘟疫，死者越多，绝望和痛苦越强烈，仪式效果越好。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: assassin_3
+    pathway: assassin
+    seq: 3
+    sequenceTitle: 不老
+    potion: 不老（Unaging）
+    ritual: 找到镜子中的自己，仅凭自己的力量奴役他，或者让他真正迷恋自己，或与他和解。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: assassin_2
+    pathway: assassin
+    seq: 2
+    sequenceTitle: 灾难
+    potion: 灾难（Catastrophe）
+    ritual: 以参与者的身份制造一场影响整片大陆的灾难，在灾难中晋升。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: assassin_1
+    pathway: assassin
+    seq: 1
+    sequenceTitle: 末日
+    potion: 末日（Apocalypse）
+    ritual: 在一个纪元公认的尾声或下个纪元的开端晋升;在末日来临的前兆和过程中晋升;在自身参与之事导致一位神灵陨落时晋升。三个仪式任选其一均是有效。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: assassin_0
+    pathway: assassin
+    seq: 0
+    sequenceTitle: 魔女
+    potion: 魔女（Demoness）
+    ritual: 深入地底，找到“混沌海”，承受“混沌海”一定的污染又保持住自我，不堕落，不异化。想办法从“混沌海”相关五条途径的序列1借取到特殊，组合成近乎混沌海的力量，并掌握它
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: criminal_5
+    pathway: criminal
+    seq: 5
+    sequenceTitle: 欲望使徒
+    potion: 欲望使徒（Desire Apostle）
+    ritual: 连环杀人，针对曾经堕落过的人；最低限度是13个人，最高是49个，仪式越完整，越有希望晋升。两次杀人之间，至少间隔三天，否则很容易失控，但间隔也不能超过九天，那会让仪式重置。每一次杀人，每一部分仪式后，恶魔都会吃掉被害人的内脏，从这开始，他将一直处于暴躁嗜血，想伤害他人的状态里，直到那种欲望再次得到满足。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: criminal_4
+    pathway: criminal
+    seq: 4
+    sequenceTitle: 魔鬼
+    potion: 魔鬼（Demon）
+    ritual: 诱使至少一万个智慧生物自愿出卖灵魂给自己（需成功获取到对应灵魂），满足条件的目标位格越高，所需数量越少。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: criminal_3
+    pathway: criminal
+    seq: 3
+    sequenceTitle: 呓语者
+    potion: 呓语者（Blatherer）
+    ritual: 想办法与“太阳”、“黄昏巨人”等有净化特质的途径所属半神或“母亲”等代表生命的途径所属半神，签订一份有时效性的或永久的“同生共死”契约，并在契约生效期内服食魔药。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: criminal_2
+    pathway: criminal
+    seq: 2
+    sequenceTitle: 鲜血大公
+    potion: 鲜血大公（Bloody Archduke）
+    ritual: 献祭十三个至少有万名智慧生物存在的聚居点给“深渊”，每次献祭不能间隔超过三个月，而且，献祭时需采用“鲜血仪式”，也就是逐个杀死聚居点每一个生物，用他们喷涌出来的鲜血清洗祭坛，重描对应的符号和花纹。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: criminal_1
+    pathway: criminal
+    seq: 1
+    sequenceTitle: 污秽君王
+    potion: 污秽君王（Filthy Monarch）
+    ritual: 让一个至少千万生灵的国度堕落，上层被欲望所控，人人皆如魔鬼，下层生无所依，看不到任何摆脱困境的希望，最终连自己的儿女自己的器官都成为他人之物，中层如攀爬在一层层垮塌的悬崖上，一边看着同伴随该层悬崖的垮塌跌落底层深渊，一边恐惧地拼命往上，刚有稳定，稍做喘息，悬崖的垮塌又至，而头顶是上层观看戏剧般的笑意。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: criminal_0
+    pathway: criminal
+    seq: 0
+    sequenceTitle: 深渊
+    potion: 深渊（Abyss）
+    ritual: 化一片大陆为深渊。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: hunter_5
+    pathway: hunter
+    seq: 5
+    sequenceTitle: 收割者
+    potion: 收割者（Reaper）
+    ritual: 策划一场阴谋，活捉一个序列高于自己的目标，在他的面前炫耀出完整的阴谋，于他恐惧懊恼的眼神里服食魔药。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: hunter_4
+    pathway: hunter
+    seq: 4
+    sequenceTitle: 铁血骑士
+    potion: 铁血骑士（Iron-Blooded Knight）
+    ritual: 组建一支至少三十个人的队伍，与他们培养深厚的战友情谊，让他们相继变得强大，并且配合默契，能根据眼神和动作领悟自己的意思，彼此近乎一体，然后由他们组成仪式。队伍的实力和默契度越高，仪式的效果越好。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: hunter_3
+    pathway: hunter
+    seq: 3
+    sequenceTitle: 战争主教
+    potion: 战争主教（War Bishop）
+    ritual: 带领属于自己的队伍，在一场战争中战胜强大的敌方势力。敌方势力越强，仪式效果越好。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: hunter_2
+    pathway: hunter
+    seq: 2
+    sequenceTitle: 天气术士
+    potion: 天气术士（Weather Warlock）
+    ritual: 不依靠外力的帮助，在很短时间内强行改变一个地区的天气。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: hunter_1
+    pathway: hunter
+    seq: 1
+    sequenceTitle: 征服者
+    potion: 征服者（Conqueror）
+    ritual: 征服一个人口超过三千万的国度，让这里所有生灵都恐惧、服从、敬畏自己。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: hunter_0
+    pathway: hunter
+    seq: 0
+    sequenceTitle: 红祭司
+    potion: 红祭司（Red Priest）
+    ritual: 掀起一场席卷大陆的战争并获得足够的胜利
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: lawyer_5
+    pathway: lawyer
+    seq: 5
+    sequenceTitle: 混乱导师
+    potion: 混乱导师（Mentor of Disorder）
+    ritual: 成为一座城市地下秩序的主导者，让这座城市的犯罪率提升超过十倍，该种状况必然维持至少三个月。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: lawyer_4
+    pathway: lawyer
+    seq: 4
+    sequenceTitle: 堕落伯爵
+    potion: 堕落伯爵（Earl of the Fallen）
+    ritual: 成为一个国家的中高层官员，并拉拢腐化七个和自己处于同一阶层的人员，与他们结成利益共同体，推动一项有利于自身不利于民众的国家政策得到实施。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: lawyer_3
+    pathway: lawyer
+    seq: 3
+    sequenceTitle: 狂乱法师
+    potion: 狂乱法师（Frenzied Mage）
+    ritual: 挑选三个至少涉及天使层面力量的仪式，以超出自身知识范围、纯凭直觉的方式修改其中关键描述，然后一一举行，最终存活下来。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: lawyer_2
+    pathway: lawyer
+    seq: 2
+    sequenceTitle: 熵之公爵
+    potion: 熵之公爵（Duke of Entropy）
+    ritual: 推动一个至少千万人的国度从内部腐化开始，在无外力直接干涉的情况下，逐渐崩塌（该国度非凡者越多越强，则所需人口数量越少）。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: lawyer_1
+    pathway: lawyer
+    seq: 1
+    sequenceTitle: 弑序亲王
+    potion: 弑序亲王（Prince of Abolition）
+    ritual: 在自身并非最强者的帝国内，隐蔽地以自身的秩序取代原本的部分秩序，并维持三年。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: lawyer_0
+    pathway: lawyer
+    seq: 0
+    sequenceTitle: 黑皇帝
+    potion: 黑皇帝（Black Emperor）
+    ritual: 拥有属于自己的国度，让自身的名字和皇帝这个称号联系在一起，成为民众的常识，并且，还需要建立一套严密复杂但却有违正常情况的规则，包括建筑风格。接着，驱使民众，秘密建立九座类似金字塔的陵寝，然后，进入其中一座，在绝大部分民众都参与的，散布于不同城市的相应祭祀仪式里，服食下序列0的魔药。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: monster_5
+    pathway: monster
+    seq: 5
+    sequenceTitle: 赢家
+    potion: 赢家（Winner）
+    ritual: 在持续一个月的时间里，让自己处于倒霉的状态，绝对不能有一次幸运
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: monster_4
+    pathway: monster
+    seq: 4
+    sequenceTitle: 厄运法师
+    potion: 厄运法师（Misfortune Mage）
+    ritual: 在不提前做准备，不找到消除或解轻相应影响的办法下，于自身幸运处于低谷时，直面一场大的灾祸，并活下来
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: monster_3
+    pathway: monster
+    seq: 3
+    sequenceTitle: 混乱行者
+    potion: 混乱行者（Chaoswalker）
+    ritual: 为自己未来十年的命运确定一个必然会抵达的节点，或者说道标
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: monster_2
+    pathway: monster
+    seq: 2
+    sequenceTitle: 先知
+    potion: 先知（Soothsayer）
+    ritual: 窥探命运长河，找到事关至少一个国家的重要启示，并确保这个启示最终以自己“看见”的模样呈现
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: monster_1
+    pathway: monster
+    seq: 1
+    sequenceTitle: 巨蛇
+    potion: 巨蛇（Giant Serpent）
+    ritual: 找到办法，将记忆全部抽离出来，在服食魔药后再灌输回去，或者能有“空想家”在晋升过程中，在仪式举行者回归胎儿状态，蒙昧了全部记忆的情况下，唤醒其埋藏在灵魂深处、心灵深处的全部认知，或者能达到类似效果的其他方法。西大陆专用术语：解开胎中之迷
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: monster_0
+    pathway: monster
+    seq: 0
+    sequenceTitle: 命运之轮
+    potion: 命运之轮（Wheel of Fortune）
+    ritual: 在命运的洪流里找到正确的契机
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: prisoner_5
+    pathway: prisoner
+    seq: 5
+    sequenceTitle: 怨魂
+    potion: 怨魂（Wraith）
+    ritual: 想办法进入灵界，找到对应自己的那部分信息，将它们封锁或封印至少3分钟，然后，在封锁解除前服食魔药。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: prisoner_4
+    pathway: prisoner
+    seq: 4
+    sequenceTitle: 木偶
+    potion: 木偶（Puppet）
+    ritual: 预备一具经特殊仪式制成的、含有神性的、原本属于“被缚者”途径的木乃伊，然后附身于上，服食魔药。（真正的木乃伊都是“被缚者”途径半神死亡后遗留的尸骸经内脏净化、诅咒铭刻、缠绕绷带、陵寝修建、安葬超过一年而来）
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: prisoner_3
+    pathway: prisoner
+    seq: 3
+    sequenceTitle: 沉默门徒
+    potion: 诅咒之物（Disciple of Silence）
+    ritual: 成立一个教团，培养至少千名追随者，让他们能理解你的眼神，明白你的想法，贯彻你的理念，最恰当地代行你的意志，替你说出你想说的话语——追随者位格越高，所需数量越少，不是必须达到千名。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: prisoner_2
+    pathway: prisoner
+    seq: 2
+    sequenceTitle: 古代邪物
+    potion: 古代邪物（Ancient Bane）
+    ritual: 需要找一件来自古代的、能承载天使力量的邪异物品。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: prisoner_1
+    pathway: prisoner
+    seq: 1
+    sequenceTitle: 神孽
+    potion: 神孽（Abomination）
+    ritual: 获得真神的祝福（至少是活化唯一性或容纳了唯一性的天使之王的祝福），这不是简单的、口头上的祝福，它意味着给出祝福的神灵将在仪式过程中遭受疯狂的诅咒，这相当危险。
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: prisoner_0
+    pathway: prisoner
+    seq: 0
+    sequenceTitle: 被缚者
+    potion: 被缚者（Chained）
+    ritual: 将自己活着制成木乃伊，然后把魔药作为内脏填充并囚禁于体内，最后，杀死自己，以真正木乃伊的状态封印在棺柩和陵寝中至少一百年而残存的精神和意志未消亡。（身是心和魔药的囚笼，棺柩和陵寝是身的囚笼）
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: secrets_supplicant_5
+    pathway: secrets_supplicant
+    seq: 5
+    sequenceTitle: 牧羊人
+    potion: 牧羊人（Shepherd）
+    ritual: 想办法将自己的灵魂抽离身体，并在这种情况下影响身体，让它服食魔药，最后完成回归
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: secrets_supplicant_4
+    pathway: secrets_supplicant
+    seq: 4
+    sequenceTitle: 黑骑士
+    potion: 黑骑士（Black Knight）
+    ritual: 不使用暴力，诱导超过一万人的堕落，堕落者序列越高，仪式效果越好，另外，从正常到堕落的转化节点在时间上越是集中在一起，仪式效果也越好
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: secrets_supplicant_3
+    pathway: secrets_supplicant
+    seq: 3
+    sequenceTitle: 三首圣堂
+    potion: 三首圣堂（Trinity Templar）
+    ritual: 利用各种手段，主动让自己人格分裂又不至于失控（注：在之前序列，要是已经人格分裂，晋升时会直接失控）
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: secrets_supplicant_2
+    pathway: secrets_supplicant
+    seq: 2
+    sequenceTitle: 秽语长老
+    potion: 秽语长老（Profane Presbyter）
+    ritual: 分离、击败并彻底掌控住自身的影子后，进入阴影世界，面对各种危险，建立起一片属于自己的“国度”——阴影世界是异度空间的一种，与镜中世界有交集
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: secrets_supplicant_1
+    pathway: secrets_supplicant
+    seq: 1
+    sequenceTitle: 暗天使
+    potion: 暗天使（Dark Angel）
+    ritual: 飞向神秘学意义上的太阳，坚持一刻钟，以成为光明之影的一部分
+    source: 萌娘百科《非凡途径》
+    confidence: 中高
+  - id: secrets_supplicant_0
+    pathway: secrets_supplicant
+    seq: 0
+    sequenceTitle: 倒吊人
+    potion: 倒吊人（Hanged Man）
+    ritual: 于混沌海上行走，让影子溶入进去，而身体不沉，精神不坠（身体不完全沉没，精神不完全堕落就算满足要求）
+    source: 萌娘百科《非凡途径》
+    confidence: 中高

@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `visited_the_grave` → 后续卡 `chain_visited_the_grave`
+id: start_visited_the_grave
+name: 去了一趟墓地
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { dig: 2 }
+  - { cor: 1 }
+  - { flag: visited_the_grave }
+texts:
+  priv: |
+    那块碑上的字已经浅了。
+    你蹲下来看了很久。
+    **碑前面的草是被人拔过的。**
+    你不知道是谁。你也没有问。
+  group: 有人昨天在墓地待了一下午。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 去问守墓的人谁拔的草
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      他说不知道。
+      **而他说这里每天都有人来** —— 来的人都往这一块走。
+  - key: '2'
+    label: 把碑上的字描清楚
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      你找了块石头，把字描了一遍。
+      **描完才发现** —— 那个名字底下还压着另一个，笔画更浅。
+  - key: '3'
+    label: 在碑前坐到天黑
+    effects: [ { dig: 7, cor: 2, mad: 3 } ]
+    text: |
+      你坐到天黑。风起来了。
+      **而碑那边的风是停的** —— 你摸了地上的草，只有这边在动。

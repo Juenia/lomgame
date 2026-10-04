@@ -1,0 +1,38 @@
+id: path_sleepless_004
+name: 灵体的口音
+trigger:
+  type: daily
+  weight: 6
+  cond: [ 'pathway:sleepless' ]
+  min_seq: 5
+  cooldown_days: 4
+effects:
+  - { dig: 6 }
+  - { mp: -5 }
+texts:
+  priv: |
+    你召来的那个东西说话带着南边的口音，尾音往上挑。
+    它告诉你的事你只信一半 —— 灵巫的规矩是**听内容，不听语气**。
+    它临走前问你要不要知道自己的死法。你说不用了。它笑了一下，那个笑很像活人。
+  group: 空气里有股旧纸和潮气的味道，一会儿就散了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 问它南边的事
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你问了。它说了三件事。
+      **三件事里有两件是假的** —— 而你不知道是哪两件。
+  - key: '2'
+    label: 再问一次自己的死法
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你问了。它笑了很久。
+      **笑完它说了一句很短的话** —— 那句话你听过，在很久以前的一个梦里。
+  - key: '3'
+    label: 按规矩只记内容
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你把内容记下来，语气一律不算。
+      **而写完你才发现** —— 记下来的东西读着像另一个人说的。

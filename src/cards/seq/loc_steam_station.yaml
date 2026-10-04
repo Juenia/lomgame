@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「蒸汽车站」（steam_station，危险度 1）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_steam_station
+name: 没有这趟车
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:蒸汽车站'
+effects:
+  - { dig: 2 }
+  - { mad: 1 }
+texts:
+  priv: |
+    时刻表上写着九点四十有一趟。
+    你等到九点四十。**没有车。** 站台上的人也都站着。
+    你去问售票的，他翻了半天，说没有这一趟。
+    你回到站台上，时刻表上那一行还在。
+  group: 蒸汽车站的时刻表上有一趟车，谁都说没这趟。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 留在站台上等下一班
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你等到了十点二十。来了一趟车。
+      **而车上没有乘客** —— 一节车厢都没有人。
+  - key: '2'
+    label: 把时刻表上那一行抄下来
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你抄了下来。抄完再看——那一行不见了。
+      **而你的本子上有** —— 字写得比平时用力。
+  - key: '3'
+    label: 去问站台上其他等车的人
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你问了三个。三个都在等九点四十。
+      **而他们说不出自己要去哪** —— 只说「就这趟」。

@@ -1,0 +1,37 @@
+id: path_lawyer_002
+name: 签了字的那一页
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:lawyer' ]
+  min_seq: 4
+effects:
+  - { dig: 6 }
+  - { cor: 2 }
+texts:
+  priv: |
+    合同很短，短得可疑。
+    你签了，因为条款里没有一条是假的 —— 它们只是**没写全**。
+    出门的时候你想不起自己让出了什么。
+  group: 有人从事务所出来，走得很慢。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 回去把合同再看一遍
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你回去了。合同还在桌上。
+      **而它比你签的时候多了一行** —— 那一行是你的字。
+  - key: '2'
+    label: 什么都不做，接着走
+    effects: [ { dig: 4 } ]
+    text: |
+      你走了。走了很久才想起来自己让出了什么。
+      **而你想起的那一样** —— 是你不记得自己有过的。
+  - key: '3'
+    label: 把合同抄一份留着
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你抄了一份。抄到一半你发现两处不一样。
+      **而两处你都记得签的是同一份** —— 你抄了两遍。

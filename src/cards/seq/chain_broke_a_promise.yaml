@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：没做到（设 flag `broke_a_promise`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_broke_a_promise
+name: 他开始提了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:broke_a_promise'
+effects:
+  - { cor: 3 }
+  - { dig: 2 }
+texts:
+  priv: |
+    他没有怪你。
+    他只是**每次见面都提一句**：「那件事还有机会吗？」
+    第三次的时候你说没有了。
+    他点点头，说好。之后再也没有提过。
+  group: 有人这几天一直在跟同一个人道歉。
+daily_limit: 1

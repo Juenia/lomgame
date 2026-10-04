@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **三级链的第三段（终点）**。
+# 前置链：第一段设 `church` → 第二段读它、设 `church_watching` → 本卡读 `church_watching`。
+# 本卡**不再设新 flag** —— 链到此为止。
+id: chain3_church_watching
+name: 册子上的第三页
+trigger:
+  type: daily
+  weight: 10
+  cond:
+    - 'flag:church_watching'
+effects:
+  - { cor: 3 }
+  - { dig: 3 }
+texts:
+  priv: |
+    他们第三次来的时候，册子翻到了第三页。
+    前面两页你都看过 —— 是你。
+    **第三页上贴着另一个人。**
+    「您认识他吗？」他们问。你说不认识。
+  group: 那两个人这个月来了三趟。
+daily_limit: 1

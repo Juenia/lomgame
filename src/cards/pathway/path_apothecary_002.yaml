@@ -1,0 +1,37 @@
+id: path_apothecary_002
+name: 渴的不是水
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:apothecary' ]
+  min_seq: 4
+effects:
+  - { dig: 6 }
+  - { cor: 2 }
+texts:
+  priv: |
+    你灌了两大杯水，喉咙还是干。
+    第三杯你放下了 —— 因为你终于明白它要的不是水。
+    月亮这一途的人，最先失控的从来不是脾气。
+  group: 有人在井边站了很久，没有打水。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把第三杯放下，不再喝
+    effects: [ { dig: 3 } ]
+    text: |
+      你把杯子放下。喉咙还是干的。
+      **而你不打算再喝了** —— 你已经知道那不是水能解决的事。
+  - key: '2'
+    label: 想想它到底要什么
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你坐下来想。想到半夜。
+      **想到最后你想起了那个名字** —— 而那个名字你只在一次梦里听过。
+  - key: '3'
+    label: 回井边站一会儿
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你回到井边站着。井水很静。
+      **而你一直没打水** —— 你只是站在那儿听着。

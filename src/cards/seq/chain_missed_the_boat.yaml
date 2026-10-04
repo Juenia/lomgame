@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：没赶上那班船（设 flag `missed_the_boat`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_missed_the_boat
+name: 为什么是你
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:missed_the_boat'
+effects:
+  - { dig: 3 }
+  - { mad: 3 }
+texts:
+  priv: |
+    你开始想一件事：那天你为什么迟到了。
+    **你想不起来。**
+    你记得出门了，记得路上走了很久 —— 但想不起路上看见了什么。
+    那一段是空的。
+  group: 有人这几天一直在问自己同一个问题。
+daily_limit: 1

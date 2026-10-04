@@ -1,0 +1,35 @@
+id: lost_002
+name: 被记下的脸
+trigger:
+  type: random
+  weight: 7
+  cond:
+    - status:lost_control
+  cooldown_days: 3
+effects:
+  - { cor: 3 }
+  - { mad: 2 }
+  - { flag: marked_by_church }
+texts:
+  priv: |
+    你在大街上停了很久，久到有人开始记你的脸。
+    {{人影}}看了你一眼，然后在纸上写了什么。
+  group: "有人在街角记下了什么。"
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 走过去看他在写什么
+    effects: [ { dig: 5, cor: 2, mad: 3 } ]
+    text: |
+      你过去了。他合上了本子 —— 而你已经看见了那三个字。
+  - key: '2'
+    label: 转身走开
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你走了。走了两个路口，回头的时候他还在那儿。
+  - key: '3'
+    label: 记住他的样子
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你记住了：灰帽子，左肩比右肩高。

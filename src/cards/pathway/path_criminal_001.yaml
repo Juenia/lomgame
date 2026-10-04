@@ -1,0 +1,37 @@
+id: path_criminal_001
+name: 低处的低语
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:criminal' ]
+  min_seq: 9
+effects:
+  - { dig: 4 }
+  - { cor: 2 }
+texts:
+  priv: |
+    地下室很静，静下来之后你听见了 —— 不是说话，是**有人在等你听**。
+    它说的东西很具体，具体到你已经开始算划不划算。
+    你上去的时候把门带上了，但没有锁。
+  group: 地下室的门虚掩着，门缝里的味道不太对。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把门带上，不锁
+    effects: [ { dig: 4 } ]
+    text: |
+      你带上了门。门缝里那点味道跟了出来。
+      **你走出巷子的时候它还在** —— 而你已经开始算划不划算。
+  - key: '2'
+    label: 在门口再站一会儿
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你又在门口站了一会儿。它说得更具体了。
+      **具体到有一个日期** —— 而那个日期在三个月后。
+  - key: '3'
+    label: 把门锁上
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你锁上了门，钥匙揣进兜里。
+      **而在楼梯上你听见里面响了一声** —— 很轻，像是有人换了个坐姿。

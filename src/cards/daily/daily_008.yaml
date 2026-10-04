@@ -1,0 +1,34 @@
+id: daily_008
+name: 雾上的名字
+trigger:
+  type: hidden
+  weight: 3
+  cond:
+    - cor>=30
+effects:
+  - { dig: 2 }
+  - { cor: 1 }
+  - { flag: marked_by_entity }
+texts:
+  priv: |
+    灰雾之上有人叫了你的名字。
+    你答应了。答应之后，那声音才告诉你它并不是在叫你。
+  group: 灰雾之上，有人答应了一声。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 再答应一声
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你又答应了。这次它停了很久，然后又叫了一遍 —— 叫的是另一个名字。
+  - key: '2'
+    label: 闭口不答
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你没出声。声音叫了三遍就没了。
+  - key: '3'
+    label: 问它是在叫谁
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你问了。它没有回答，只是把那个名字又念了一遍。

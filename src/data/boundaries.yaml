@@ -1,0 +1,266 @@
+# 边界输入（M2.62）—— 让世界有外面。
+#
+# ## 为什么需要它
+#
+# 在它之前这个世界是**封闭**的：因蒂斯、南大陆、苏尼亚海是区域名，
+# 但它们与外界的往来没有任何机制；「外神」「殖民」「外来物种」
+# 只出现在地点描述与生态漂移里；58 个地点里没有一个知道自己挨着外面。
+#
+# 一个完全封闭的世界会僵化 —— 它只能在自己内部循环。
+#
+# ## 三类边界
+#
+#   port      港口：贸易与移民进来的地方，也是外来污染最容易上岸的地方
+#   frontier  边境：陆地接壤，军事威胁从这儿来
+#   rift      裂隙：灵界 / 星界的口子。不是地理边界，是**规则边界**
+#
+# ## 张力是累积的，不是掷骰的
+#
+# 每条边界每小时累积 base_pressure 的张力，攒到 1 就发生一次输入事件，然后重来。
+# 掷骰的问题是「一个高关注的边界可能连续三十天什么都没发生」，
+# 而那让「边界」变成一个没有存在感的概念。
+# 累积制保证事情**一定会发生**，只是早晚 —— 关注度越高，来得越快。
+#
+# 张力由**绝对时刻**算出（不是每次 tick 加一点），所以补跑与逐小时跑结果一致。
+
+foreign_powers:
+
+  - id: intez_navy
+    name: 因蒂斯海军
+    description: 因蒂斯的舰队。它不常来，但每次来都让鲁恩的港口紧张一阵。
+    from_region: intez
+    attention: 0.6
+    threat: 0.5
+
+  - id: intez_church
+    name: 因蒂斯国教
+    description: 永恒烈阳在因蒂斯的那一支。它一直在往鲁恩这边看。
+    from_region: intez
+    attention: 0.7
+    threat: 0.3
+
+  - id: south_colony
+    name: 南大陆殖民当局
+    description: 当年进南大陆的那批人留下的机构。它还在那儿，而且还在挖。
+    from_region: south
+    attention: 0.5
+    threat: 0.6
+
+  - id: oversea_church
+    name: 海外教会
+    description: 海那边的教会。它们的规矩和这边不一样，但同样认正神。
+    from_region: sunia
+    attention: 0.4
+    threat: 0.2
+
+  - id: outer_god
+    name: 外神
+    description: 不该被命名的东西。它不派使者、不做交易 —— 它只是渗进来。
+    from_region: ''
+    attention: 0.3
+    threat: 0.9
+
+  - id: mist_sea_thing
+    name: 迷雾海深处的东西
+    description: 迷雾海里有什么，没人说得清。偶尔有东西漂上来，然后有人失踪。
+    from_region: mist_sea
+    attention: 0.2
+    threat: 0.8
+
+  # M2.85 内容填充 P6：原作国家「弗萨克帝国」；attention 为项目派生（按来源区域的紧张度），threat = attention × 1.2
+  - id: forsak_army
+    name: 弗萨克军部
+    description: 北大陆北部的军事帝国。它的舰队与骑兵离鲁恩只有一道山脉。｜原作：弗萨克帝国（北大陆北部 · 帝国（政体细节未在可核验来源中找到））
+    from_region: forsak
+    attention: 0.5
+    threat: 0.6
+
+  # M2.85 内容填充 P6：原作国家「弗萨克帝国」；attention 为项目派生（按来源区域的紧张度），threat = attention × 1.2
+  - id: forsak_war_church
+    name: 战神教会
+    description: 弗萨克的国教。它认的是战神，不是鲁恩那几位。｜原作：弗萨克帝国（北大陆北部 · 帝国（政体细节未在可核验来源中找到））
+    from_region: forsak
+    attention: 0.4
+    threat: 0.48
+
+  # M2.85 内容填充 P6：原作国家「费内波特王国」；attention 为项目派生（按来源区域的紧张度），threat = attention × 1.2
+  - id: fennepot_church
+    name: 大地母神教会
+    description: 费内波特的国教。丰收与土地是它的招牌，它一直在往北看。｜原作：费内波特王国（北大陆南部 · 王国（政体细节未在可核验来源中找到））
+    from_region: fennepot
+    attention: 0.4
+    threat: 0.48
+
+  # M2.85 内容填充 P6：原作国家「伦堡」；attention 为项目派生（按来源区域的紧张度），threat = attention × 1.2
+  - id: luenburg_academy
+    name: 知识与智慧之神教会
+    description: 伦堡的学院与教会是一体的。它派来的不是使节，是学者。｜原作：伦堡（北大陆，鲁恩-费内波特交界处、因蒂斯-费内波特交界处 · 未在可核验来源中找到）
+    from_region: luenburg
+    attention: 0.35
+    threat: 0.42
+
+  # M2.85 内容填充 P6：原作国家「塞加尔」；attention 为项目派生（按来源区域的紧张度），threat = attention × 1.2
+  - id: segal_wanderers
+    name: 塞加尔的流浪者
+    description: 交界处的小国。它的人常年在两国之间走，谁也不知道他们替谁带话。｜原作：塞加尔（北大陆，鲁恩-费内波特交界处）
+    from_region: segal
+    attention: 0.3
+    threat: 0.36
+
+  # M2.85 内容填充 P6：原作国家「拜朗帝国」；attention 为项目派生（按来源区域的紧张度），threat = attention × 1.2
+  - id: byron_empire_remnant
+    name: 拜朗帝国余部
+    description: 南大陆旧帝国的残部。它还守着那套规矩，也还记着当年的账。｜原作：拜朗帝国（南大陆）
+    from_region: byron_empire
+    attention: 0.45
+    threat: 0.54
+
+  # M2.85 内容填充 P6：原作国家「白银之国」；attention 为项目派生（按来源区域的紧张度），threat = attention × 1.2
+  - id: silver_kingdom_exiles
+    name: 白银之国的来客
+    description: 东大陆（神弃之地）的独立城邦。它们来的人不多，但每一个都知道些不该知道的事。｜原作：白银之国（东大陆（神弃之地））
+    from_region: silver_kingdom
+    attention: 0.3
+    threat: 0.36
+
+  # M2.85 内容填充 P6：原作《旧日与外神》与海域记载；attention 为项目派生（按来源区域的紧张度），threat = attention × 1.2
+  - id: deep_sea_ones
+    name: 深海的东西
+    description: 狂暴海底下有什么，连教会都不写。偶尔有船回来，船上的人却少了一个。
+    from_region: rage_sea
+    attention: 0.25
+    threat: 0.3
+
+boundaries:
+
+  - id: pritz_harbor_gate
+    name: 普利兹港外港
+    kind: port
+    location: pritz_harbor
+    foreign_power: oversea_church
+    description: 鲁恩最大的对外港口。每天有船进来，也每天有人下船就不走了。
+    base_pressure: 0.03
+    inputs: [ trade, migrant ]
+
+  - id: old_dock_route
+    name: 老码头旧航线
+    kind: port
+    location: old_dock
+    foreign_power: intez_navy
+    description: 一条早该废弃的航线还在用。用它的船不挂旗。
+    base_pressure: 0.02
+    inputs: [ trade, threat ]
+
+  - id: fish_market_gate
+    name: 咸鱼市场后门
+    kind: port
+    location: fish_market
+    foreign_power: oversea_church
+    description: 市场后面那条巷子通向码头。什么都能从这里进来。
+    base_pressure: 0.035
+    inputs: [ trade, migrant ]
+
+  - id: foreign_quarter_gate
+    name: 异邦人街区口
+    kind: frontier
+    location: foreign_quarter
+    foreign_power: intez_church
+    description: 特里尔的异邦人街区。国教的人常在这附近转。
+    base_pressure: 0.025
+    inputs: [ migrant, threat ]
+
+  - id: trier_border
+    name: 特里尔边境
+    kind: frontier
+    location: trier
+    foreign_power: intez_church
+    description: 两国交界的那座城。它的每一件事都同时是两国的事。
+    base_pressure: 0.03
+    inputs: [ trade, threat, migrant ]
+
+  - id: byron_outpost
+    name: 拜朗前哨
+    kind: frontier
+    location: byron
+    foreign_power: south_colony
+    description: 南大陆的前哨站。往外一步就是没人管的地方。
+    base_pressure: 0.028
+    inputs: [ threat, contamination ]
+
+  - id: jungle_rift
+    name: 丛林遗迹的裂口
+    kind: rift
+    location: jungle_ruins
+    foreign_power: outer_god
+    description: 遗迹深处有一道裂缝。它不通向任何一个地方 —— 这是最麻烦的部分。
+    base_pressure: 0.02
+    inputs: [ contamination, threat ]
+
+  - id: mirage_rift
+    name: 蜃景湾的雾门
+    kind: rift
+    location: mirage_bay
+    foreign_power: mist_sea_thing
+    description: 起雾的时候，湾里会多出一条不该在那儿的航道。
+    base_pressure: 0.018
+    inputs: [ contamination, migrant ]
+
+  # M2.85 内容填充 P6：恩马特港外港（按地缘与外来势力配对；location 是新城的落脚点）
+  - id: enmat_gate
+    name: 恩马特港外港
+    kind: port
+    location: enmat_center
+    foreign_power: oversea_church
+    description: 鲁恩西北的港口。船进来、人下去，港口记账的人从来不问他们从哪儿来。
+    base_pressure: 0.025
+    inputs: [ trade, migrant ]
+
+  # M2.85 内容填充 P6：班西港码头（按地缘与外来势力配对；location 是新城的落脚点）
+  - id: banshee_port_gate
+    name: 班西港码头
+    kind: port
+    location: banshee_port_center
+    foreign_power: forsak_army
+    description: 靠北的港口。弗萨克的船偶尔靠岸，靠岸的理由每次都不一样。
+    base_pressure: 0.028
+    inputs: [ trade, threat ]
+
+  # M2.85 内容填充 P6：达米尔港外港（按地缘与外来势力配对；location 是新城的落脚点）
+  - id: damir_port_gate
+    name: 达米尔港外港
+    kind: port
+    location: damir_port_center
+    foreign_power: intez_navy
+    description: 因蒂斯的舰队在这条航线上出现过。它不常来，但每次来都让港口的账本不好看。
+    base_pressure: 0.03
+    inputs: [ trade, threat ]
+
+  # M2.85 内容填充 P6：圣密隆边境（按地缘与外来势力配对；location 是新城的落脚点）
+  - id: saint_miron_border
+    name: 圣密隆边境
+    kind: frontier
+    location: saint_miron_center
+    foreign_power: forsak_army
+    description: 弗萨克的首都边上。隔着这道边界的是另一套规矩，而且是靠武力维持的那一套。
+    base_pressure: 0.032
+    inputs: [ threat ]
+
+  # M2.85 内容填充 P6：费内波特边关（按地缘与外来势力配对；location 是新城的落脚点）
+  - id: fennepot_border
+    name: 费内波特边关
+    kind: frontier
+    location: fennepot_city_center
+    foreign_power: fennepot_church
+    description: 南边的边关。大地母神的教会在这里比官员更像管事的。
+    base_pressure: 0.026
+    inputs: [ threat, migrant ]
+
+  # M2.85 内容填充 P6：拜亚姆的雾门（按地缘与外来势力配对；location 是新城的落脚点）
+  - id: byam_rift
+    name: 拜亚姆的雾门
+    kind: rift
+    location: byam_center
+    foreign_power: silver_kingdom_exiles
+    description: 神弃之地的来客在这里定居。他们带来的不只是行李 —— 还有那地方本身的规矩。
+    base_pressure: 0.022
+    inputs: [ contamination, migrant ]

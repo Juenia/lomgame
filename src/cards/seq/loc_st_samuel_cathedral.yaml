@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「圣赛缪尔教堂」（st_samuel_cathedral，危险度 1）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_st_samuel_cathedral
+name: 钟停了
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:圣赛缪尔教堂'
+effects:
+  - { dig: 2 }
+  - { mad: 1 }
+texts:
+  priv: |
+    教堂的钟每天整点敲，几十年没差过。
+    今天下午三点，**没有响。**
+    你进去看，钟摆还在动。
+    看钟的人说：「它刚才停了一下，你没看见。」
+  group: 圣赛缪尔教堂的钟昨天漏敲了一次。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 留在教堂里等下一次敲钟
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你等到四点。钟响了。
+      **而它敲的是三下** —— 你数了两遍。
+  - key: '2'
+    label: 问看钟的人刚才停了多久
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      他说停了一下。
+      **而他说不出是一下多久** —— 他说他没看表。
+  - key: '3'
+    label: 自己上去看那座钟
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你上去了。钟摆还在动。
+      **而钟盘上多了一道刻痕** —— 正好在三点那个位置上。

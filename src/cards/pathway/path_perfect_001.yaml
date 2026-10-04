@@ -1,0 +1,37 @@
+id: path_perfect_001
+name: 拆开它
+trigger:
+  type: daily
+  weight: 9
+  cond: [ 'pathway:perfect' ]
+  min_seq: 9
+effects:
+  - { dig: 4 }
+  - { mp: -2 }
+texts:
+  priv: |
+    你把怀表拆成二十七块，摊在桌上，然后原样装回去。
+    多出来一颗螺丝。
+    通识者最早学的是**先看结构，再看用途** —— 这颗螺丝不是多出来的，是**它原来就多一颗**。你把表举到耳边，它走得比拆之前准。
+  group: 桌上传来细小的金属碰撞声，很久才停。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把那颗螺丝收起来
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你把它收进小盒。表走得很准。
+      **而盒子里那颗螺丝** —— 掂起来比表还沉。
+  - key: '2'
+    label: 再拆一次，数清楚
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      你又拆了一次，一块一块数。
+      **这次是二十六块** —— 而表还是走得很准。
+  - key: '3'
+    label: 把螺丝装回去
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你把它拧了进去。表停了。
+      **停了整整一天** —— 第二天它自己又开始走，快了三分钟。

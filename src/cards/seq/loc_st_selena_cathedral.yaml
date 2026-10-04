@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「圣赛琳娜教堂」（st_selena_cathedral，危险度 1）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_st_selena_cathedral
+name: 忏悔室里的沉默
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:圣赛琳娜教堂'
+effects:
+  - { dig: 3 }
+  - { cor: 1 }
+texts:
+  priv: |
+    隔着一层木板，那边的人坐了很久。
+    「说吧，」你说。
+    **他还是没说话。** 但你听见他在发抖。
+    最后他说了句「对不起」，站起来走了。
+  group: 圣赛琳娜教堂的忏悔室这两天一直有人排队。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 追出去看看他
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你追出去了。教堂门口没有人。
+      **而台阶上有一串湿脚印** —— 今天没有下雨。
+  - key: '2'
+    label: 在里面多坐一会儿
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你坐着。隔板那边一直没有动静。
+      **而木板上有几道抓痕** —— 抓在里侧。
+  - key: '3'
+    label: 问执事这两天排队的人为什么多
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      他说他也奇怪。
+      **他说这些人进来之前都不排队** —— 进去之后才排的。

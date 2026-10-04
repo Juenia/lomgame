@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「黑荆棘安保公司」（blackthorn_security，危险度 2）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_blackthorn_security
+name: 接了个不接的活
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:黑荆棘安保公司'
+effects:
+  - { dig: 3 }
+  - { hp: 1 }
+texts:
+  priv: |
+    柜台后面的人看了你一眼。
+    「这活我们不接，」他说。
+    你把那东西放在柜台上。
+    **他看了两秒，把单子推过来了。**
+  group: 黑荆棘安保公司昨天接了一桩本来不接的委托。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 问他要多少钱
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      他报了个数，不高。
+      **而他把单子推过来的时候** —— 手一直在看你的脸。
+  - key: '2'
+    label: 把东西留在柜台上
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你留了东西，转身走。
+      **走出门口的时候** —— 你听见柜台后面有人低声说了句什么。
+  - key: '3'
+    label: 问他为什么改主意
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      他看了你一眼，说：「这东西我见过。」
+      **而他说这话的时候** —— 他把袖子放下来了。

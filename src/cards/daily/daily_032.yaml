@@ -1,0 +1,36 @@
+# 原著依据：《日常生活.md》comm_serial —— 报纸连载小说（ch25/ch36）
+# 本项目从该素材融合为事件卡（不是原作的原文，是依据它写的事件）。
+id: daily_032
+name: 连载小说里的影子
+trigger:
+  type: daily
+  weight: 6
+  cond:
+    - mad>30
+effects:
+  - { mad: 3 }
+  - { dig: 1 }
+texts:
+  priv: |
+    报纸上的连载小说这期写到：主角在雾里听见有人叫他的旧名。
+    你翻到上一期 —— 上一期写的是他捡到一枚不属于他的铜牌。
+    你没有再往下看。
+  group: 有人把报纸翻回上一期，又翻回这一期，来回看了三遍。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把前几期都找出来
+    effects: [ { dig: 5, cor: 2, mad: 3 } ]
+    text: |
+      你找到了上上期。那一期写的是他把那枚铜牌扔进了河里。
+  - key: '2'
+    label: 把这一期剪下来
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你剪了下来，夹进本子。第二天那一页上的字淡了。
+  - key: '3'
+    label: 不再往下看了
+    effects: [ { dig: 3 } ]
+    text: |
+      你把报纸折起来，放到了桌子另一头。

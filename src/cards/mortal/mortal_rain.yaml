@@ -1,0 +1,40 @@
+# M2.7.6：普通人专属事件卡（未入途径）。
+#
+# 口径（任务书 §5.5）：**描述模糊、信息少、压迫感强**。
+# 普通人不知道雾里是什么，只知道「不该待在这里」——
+# 同一张卡在入途径之后会被另一套卡替换掉（那个版本才有名字与解释）。
+#
+# cond: pathway:mortal —— 这一条同时是「普通人看不到 daily/random 池」的另一半：
+# 两个池子靠条件与命令层的硬过滤共同分开，任何一边漏了都不会互相串味。
+id: mortal_rain
+name: 到面前就断的脚印
+trigger:
+  type: random
+  weight: 9
+  cond: [ pathway:mortal ]
+effects:
+  - { mad: 2 }
+texts:
+  priv: |
+    雨下了半天，路上全是水。
+    你低头的时候看见一串脚印，从对面走过来，到你面前就断了。
+    没有回头的脚印。
+  group: 雨地里有脚印走到了某个地方就断了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 顺着脚印走回去
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你往回走。脚印一路都很清楚 —— 而它们是从一堵墙里出来的。
+  - key: '2'
+    label: 站在断掉的地方看
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你站住了。那里是水洼最深的地方。
+  - key: '3'
+    label: 回屋，把门关好
+    effects: [ { dig: 3 } ]
+    text: |
+      你回屋了。雨下了一整夜。

@@ -1,0 +1,33 @@
+# 原著依据：《日常生活.md》energy_water ——「水费包含在房租内；房东会巡视盥洗室监听流水声」（ch2）
+# 本项目从该素材融合为事件卡（不是原作的原文，是依据它写的事件）。
+id: daily_037
+name: 门外的脚步声
+trigger:
+  type: daily
+  weight: 6
+effects:
+  - { mad: 2 }
+  - { dig: 1 }
+texts:
+  priv: |
+    盥洗室外传来脚步声，停了一下，又走了 —— 房东在听水流声，那是她算房租的依据。
+    你关掉水龙头，忽然想到：如果有人也能这样听见别的东西呢。
+  group: 走廊里的脚步停了一下，又继续往前。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把水龙头再打开
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你又开了水。脚步声过了一会儿才走。
+  - key: '2'
+    label: 开门看看走廊
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      走廊里没有人。而地上有一串湿脚印，从你门口开始。
+  - key: '3'
+    label: 坐在屋里听一整晚
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      脚步声来了四次。每次都停在同一个位置。

@@ -1,0 +1,1069 @@
+# 世界人物名册（M2.164）
+#
+# 用户拍板：「**大量 NPC**（按类型铺开：教会 / 官方 / 地下 / 学者 / 普通人…）」。
+#
+# 与 npc-tracks.yaml 的分工：
+#
+#   npc-tracks   **谁在路上**（原作记载的 41 位强者：晋升轨迹，静态）
+#   npc-cast     **谁在城里**（世界的居民：巡警、码头工、旧书商、教士、医生…）
+#
+# 在这张表之前，全世界的 NPC 只有那 41 位 —— 于是阴谋只能发生在半神与半神之间。
+#
+# ⚠️ 两条硬规矩（加载器会拦，不是提示）：
+#   ① 名册的 id **不许**与 npc-tracks 撞车 —— 否则「他死了」会写在错误的身份上
+#   ② `city` 必须是 cities.yaml 的 id，`location` 必须是**该城** locations 里的 id
+#      （城在那儿但地点不属于它 = 人在一个到不了的地方）
+#
+# 读取点：场景渲染（街上站着谁）· npc-scheme 的阴谋池 · npc-relations 的好感对象
+#        · 世界 tick 的死亡 / 复活 / 蛊惑（npc-life.ts）
+meta:
+  source: M2.164 项目设计（世界居民名册：身份 / 常驻 / 性情 / 用途标签）
+  count: 124
+  kind_note: 身份（kind）是**内容分类**，不是判定开关 —— 判定要按身份分档时走显式的 Record<NpcKind, …>（漏键 tsc 就红）。
+  tag_note: tags 是中文自由标签（这个人能做什么、知道什么），机制按标签筛选；它不是枚举，因为标签是内容，会一条一条长出来。
+  death_note: ⚠️ 这张表是**静态内容**：谁还活着是运行期状态，存在 npc_life 表里（见 src/domain/world/npc-life.ts）。
+npc_cast:
+  - id: cast_tingen_sergeant
+    name: 巡警班长·哈维·科尔
+    kind: official
+    city: tingen
+    location: mist_street
+    organization: police_system
+    temperament: neutral
+    tags: [ 知道街面上的事, 收钱办事 ]
+    note: 在迷雾街区站了十一年，哪一家换了人他都知道。
+  - id: cast_tingen_constable
+    name: 见习巡警·艾略特·弗雷
+    kind: official
+    city: tingen
+    location: tingen
+    organization: police_system
+    temperament: kind
+    tags: [ 想往上爬, 怕事 ]
+    note: 刚穿上制服三个月，遇事先看班长的脸色。
+  - id: cast_tingen_sister
+    name: 修女·玛尔塔·贝恩
+    kind: church
+    city: tingen
+    location: st_selena_cathedral
+    church: night_goddess
+    temperament: kind
+    tags: [ 守夜, 会替人祷告 ]
+    note: 夜里守在教堂侧门，给每个进来的人一杯热水。
+  - id: cast_tingen_deacon
+    name: 执事·塞缪尔·奥克
+    kind: church
+    city: tingen
+    location: river_and_sea_church
+    church: storm_lord
+    temperament: neutral
+    tags: [ 认得每一条船 ]
+    note: 他记得塔索克河上每一条船的名字与吃水。
+  - id: cast_tingen_bookseller
+    name: 书店老板·奥尔文·格雷
+    kind: merchant
+    city: tingen
+    location: candle_bookstore
+    temperament: neutral
+    tags: [ 手上有旧书, 收奇怪的东西 ]
+    note: 柜台上那几本不标价的书，只卖给看得懂的人。
+  - id: cast_tingen_student
+    name: 旁听生·奈杰尔·邦
+    kind: scholar
+    city: tingen
+    location: tingen
+    organization: education_bodies
+    temperament: kind
+    tags: [ 爱打听, 好骗 ]
+    note: 霍伊大学的旁听生，谁的课都听，什么都不精。
+  - id: cast_tingen_dockhand
+    name: 搬运工·布伦丹·肖
+    kind: laborer
+    city: tingen
+    location: old_dock
+    temperament: neutral
+    tags: [ 有力气, 欠赌债 ]
+    note: 一次能扛两袋，工资当晚就进了赌桌。
+  - id: cast_tingen_smuggler
+    name: 走私客·「短指」莫里斯
+    kind: underworld
+    city: tingen
+    location: old_dock
+    temperament: dark
+    tags: [ 走私路子, 可被收买 ]
+    note: 少了两根手指，多了三条不问来路的航线。
+  - id: cast_tingen_doctor
+    name: 诊所医生·薇拉·汉森
+    kind: healer
+    city: tingen
+    location: mist_street
+    temperament: kind
+    tags: [ 认得尸体上的伤, 嘴严 ]
+    note: 她缝合伤口之前会先看一眼伤口是怎么来的。
+  - id: cast_tingen_watchman
+    name: 守夜人·老泰德
+    kind: church
+    city: tingen
+    location: fog_chapel
+    temperament: kind
+    tags: [ 守夜, 见过不该见的东西 ]
+    note: 他说雾里有过别的东西，说完就笑，说自己老了。
+  - id: cast_tingen_barkeep
+    name: 酒馆老板·格罗弗·明斯
+    kind: merchant
+    city: tingen
+    location: hound_tavern
+    temperament: neutral
+    tags: [ 消息集散地, 卖酒也卖话 ]
+    note: 猎犬酒馆的第二杯从来比第一杯便宜。
+  - id: cast_tingen_weaver
+    name: 织坊女工·艾达·洛
+    kind: laborer
+    city: tingen
+    location: grey_loom
+    temperament: kind
+    tags: [ 手巧, 认得布料 ]
+    note: 她摸一下就知道那块布是不是本地织的。
+  - id: cast_tingen_watcher
+    name: 值夜者·柯林·维恩
+    kind: official
+    city: tingen
+    location: tingen
+    faction: nightwatch_tingen
+    pathway: sleepless
+    sequence: 8
+    temperament: neutral
+    tags: [ 值夜者, 会查非凡事件 ]
+    note: 值夜者的正式成员，只在夜里走北区那几条街。
+  - id: cast_backlund_inspector
+    name: 警督·奥斯温·拉德
+    kind: official
+    city: backlund
+    location: capital_police_hq
+    organization: police_system
+    temperament: neutral
+    tags: [ 手上案子多, 不信非凡 ]
+    note: 抽屉里压着十七宗查不下去的案子，每一宗都很安静。
+  - id: cast_backlund_beat_cop
+    name: 巡警·「铁脚」巴尼
+    kind: official
+    city: backlund
+    location: backlund_bridge
+    organization: police_system
+    temperament: kind
+    tags: [ 每天走同一条线 ]
+    note: 大桥区的人都认得他，他也装作不认得所有人。
+  - id: cast_backlund_analyst
+    name: 文书员·西尔维娅·朗
+    kind: official
+    city: backlund
+    location: mi9
+    organization: mi9
+    temperament: neutral
+    tags: [ 读过很多档案, 记性好 ]
+    note: 她记得每一份编号，也记得哪几份后来不见了。
+  - id: cast_backlund_bishop
+    name: 主教代理·阿诺德·费尔
+    kind: church
+    city: backlund
+    location: st_samuel_cathedral
+    church: god_of_steam
+    temperament: neutral
+    tags: [ 教会高层, 有资源 ]
+    note: 他说话很慢，因为每句话都要先想好能不能收回。
+  - id: cast_backlund_slum_boss
+    name: 东区头目·「铁钩」萨尔
+    kind: underworld
+    city: backlund
+    location: backlund_slum
+    temperament: dark
+    tags: [ 地下势力, 会派人 ]
+    note: 他用一只铁钩替手，也用那只铁钩替嘴说话。
+  - id: cast_backlund_fence
+    name: 旧货铺老板·莫德·塔克
+    kind: underworld
+    city: backlund
+    location: backlund_slum
+    temperament: dark
+    tags: [ 销赃, 收封印物 ]
+    note: 铺子里什么都收，只有一样东西他不问价。
+  - id: cast_backlund_actress
+    name: 女演员·塞西莉亚·凡
+    kind: artist
+    city: backlund
+    location: backlund_theatre
+    temperament: neutral
+    tags: [ 认识体面人, 爱听闲话 ]
+    note: 她演什么像什么，所以没人知道她本来是什么样。
+  - id: cast_backlund_stagehand
+    name: 后台管事·老佩里
+    kind: laborer
+    city: backlund
+    location: backlund_theatre
+    temperament: kind
+    tags: [ 知道后台的门 ]
+    note: 台上死了十七次的人，都是从他守的那道门下去的。
+  - id: cast_backlund_foreman
+    name: 工头·邓肯·麦克
+    kind: laborer
+    city: backlund
+    location: old_weavery
+    temperament: neutral
+    tags: [ 欠薪, 手底下有人 ]
+    note: 厂里欠了他四个月工钱，他还替厂里压着三十个人。
+  - id: cast_backlund_engineer
+    name: 技师·阿黛尔·芬奇
+    kind: scholar
+    city: backlund
+    location: backlund_works
+    faction: steam_guild
+    temperament: kind
+    tags: [ 懂机械, 会修东西 ]
+    note: 她修东西的时候会跟机器说话，机器有时候会应。
+  - id: cast_backlund_doctor
+    name: 私人医生·埃德加·斯隆
+    kind: healer
+    city: backlund
+    location: backlund
+    temperament: neutral
+    tags: [ 上门出诊, 见过怪病 ]
+    note: 他给体面人家看病，也见过几种不该存在的病。
+  - id: cast_backlund_lecturer
+    name: 讲师·尤斯塔斯·基恩
+    kind: scholar
+    city: backlund
+    location: backlund
+    organization: education_bodies
+    temperament: neutral
+    tags: [ 研究古文字, 有藏书 ]
+    note: 他研究一种没人再说的语言，并且越研究越沉默。
+  - id: cast_backlund_noble
+    name: 落魄贵族·维奥莱特·阿什福德
+    kind: noble
+    city: backlund
+    location: backlund
+    temperament: kind
+    tags: [ 体面身份, 缺钱 ]
+    note: 她还留着姓，卖了宅子，住在租来的两层楼里。
+  - id: cast_backlund_banker
+    name: 银行职员·霍拉斯·平
+    kind: merchant
+    city: backlund
+    location: backlund
+    temperament: neutral
+    tags: [ 管账, 认得出假币 ]
+    note: 他能从一张纸的手感里读出一个人慌不慌。
+  - id: cast_backlund_guide
+    name: 管网向导·小托比
+    kind: laborer
+    city: backlund
+    location: backlund_underground
+    temperament: kind
+    tags: [ 认得地下路, 跑得快 ]
+    note: 他在地下的记性比在地上好，因为地下没人打他。
+  - id: cast_backlund_diviner
+    name: 占卜者·蕾娜·杜兰
+    kind: scholar
+    city: backlund
+    location: backlund
+    pathway: seer
+    sequence: 9
+    temperament: neutral
+    tags: [ 会占卜, 算得不准 ]
+    note: 她每天给自己算一次，从来没有算对过。
+  - id: cast_backlund_priest
+    name: 教士·马修·贝尔
+    kind: church
+    city: backlund
+    location: harvest_church
+    church: earth_mother
+    temperament: kind
+    tags: [ 管救济粮, 认得穷人 ]
+    note: 他记得每个来领粥的人上次是什么时候来的。
+  - id: cast_pritz_dockmaster
+    name: 码头管事·奥拉夫·斯通
+    kind: official
+    city: pritz
+    location: pritz_harbor
+    faction: harbor_pilots
+    temperament: neutral
+    tags: [ 管泊位, 收好处 ]
+    note: 哪条船靠哪个泊位，他说了算，价钱另算。
+  - id: cast_pritz_pilot
+    name: 引水人·老雅各布
+    kind: official
+    city: pritz
+    location: pritz_harbor
+    faction: harbor_pilots
+    temperament: kind
+    tags: [ 熟悉暗礁, 认海 ]
+    note: 他闭着眼也能说出无风之角底下有几块礁。
+  - id: cast_pritz_fishwife
+    name: 摊主·玛吉·斯莱特
+    kind: merchant
+    city: pritz
+    location: fish_market
+    temperament: kind
+    tags: [ 嘴快, 认得每一张脸 ]
+    note: 咸鱼市场最早开张的那一盏灯永远是她的。
+  - id: cast_pritz_smuggler
+    name: 接应人·「独眼」邓恩
+    kind: underworld
+    city: pritz
+    location: smugglers_cave
+    temperament: dark
+    tags: [ 走私路子, 记仇 ]
+    note: 他丢的那只眼睛，账记在三个人头上。
+  - id: cast_pritz_keeper
+    name: 灯塔看守·伊莱亚斯·图恩
+    kind: official
+    city: pritz
+    location: lighthouse
+    temperament: kind
+    tags: [ 长年独处, 看得远 ]
+    note: 十九年没离开过断崖，他说海比人好相处。
+  - id: cast_pritz_sailor
+    name: 远洋水手·汤姆·奎恩
+    kind: laborer
+    city: pritz
+    location: warrior_and_sea_bar
+    faction: sailors_union
+    temperament: neutral
+    tags: [ 跑过远洋, 迷信 ]
+    note: 他每次上船前都要往海里丢一枚便士。
+  - id: cast_pritz_veteran
+    name: 退役军官·塞德里克·莫恩
+    kind: military
+    city: pritz
+    location: warrior_and_sea_bar
+    faction: veterans_pritz
+    temperament: neutral
+    tags: [ 打过仗, 会使刀 ]
+    note: 他的左腿是别人的，走路时从来不快。
+  - id: cast_pritz_apothecary
+    name: 药剂师·海伦娜·沃德
+    kind: healer
+    city: pritz
+    location: pritz
+    faction: faction_apothecary
+    temperament: kind
+    tags: [ 配药, 认得草药 ]
+    note: 她只配自己称过的药，别人称过的一律不用。
+  - id: cast_pritz_chaplain
+    name: 海员司铎·安布罗斯·凯
+    kind: church
+    city: pritz
+    location: pritz
+    church: storm_lord
+    temperament: kind
+    tags: [ 给出海的人送行 ]
+    note: 他记得每一个没回来的名字，也都念过。
+  - id: cast_pritz_shipwright
+    name: 船匠·老马丁
+    kind: laborer
+    city: pritz
+    location: pritz
+    temperament: neutral
+    tags: [ 会修船, 看得出船龄 ]
+    note: 他敲一敲船板，就知道这条船出过多少次海。
+  - id: cast_trier_cafe_keeper
+    name: 情报咖啡馆老板·蕾欧妮·马尔索
+    kind: merchant
+    city: trier
+    location: intel_cafe
+    faction: intel_trier
+    temperament: neutral
+    tags: [ 卖消息, 记性好 ]
+    note: 她记得每个客人上次问了什么，也记得谁付了钱。
+  - id: cast_trier_intel_officer
+    name: 情报部干事·朱尔·佩兰
+    kind: official
+    city: trier
+    location: trier
+    faction: intel_trier
+    temperament: dark
+    tags: [ 手里有人, 会审人 ]
+    note: 他从不亲自去问话，只在楼下听结果。
+  - id: cast_trier_ironmaster
+    name: 铁工厂主·埃克托·瓦兰
+    kind: merchant
+    city: trier
+    location: ironworks
+    temperament: neutral
+    tags: [ 雇着两百人, 怕停工 ]
+    note: 两百个人的饭碗压在他桌上，他每天先看账再看报。
+  - id: cast_trier_worker
+    name: 工坊工人·吕西安·莫罗
+    kind: laborer
+    city: trier
+    location: iron_loom
+    temperament: neutral
+    tags: [ 手上全是茧, 会打铁 ]
+    note: 他能听出铁线断在哪一环，却念不全自己的名字。
+  - id: cast_trier_mercenary
+    name: 雇佣兵·「疤脸」加斯帕尔
+    kind: military
+    city: trier
+    location: trier
+    faction: mercenary_trier
+    temperament: dark
+    tags: [ 收钱杀人, 好赌 ]
+    note: 脸上的那道疤是他第一单生意留下的收据。
+  - id: cast_trier_bookseller
+    name: 旧书商·阿黛尔·布沙尔
+    kind: merchant
+    city: trier
+    location: foreign_quarter
+    faction: bookmen_trier
+    temperament: kind
+    tags: [ 手上有禁书, 认得古文字 ]
+    note: 她的书按危险程度分架，最危险的那架不上锁。
+  - id: cast_trier_tailor
+    name: 裁缝·米兰·科瓦奇
+    kind: laborer
+    city: trier
+    location: foreign_quarter
+    temperament: kind
+    tags: [ 异乡人, 听得懂三种话 ]
+    note: 他替人改衣服，也替人改口音。
+  - id: cast_trier_gravekeeper
+    name: 墓窟看守·老弗朗索瓦
+    kind: official
+    city: trier
+    location: catacombs
+    temperament: kind
+    tags: [ 认得每一座墓, 不怕死人 ]
+    note: 他给每一座没有名字的墓都编了号。
+  - id: cast_trier_broker
+    name: 掮客·「白手套」雷米
+    kind: underworld
+    city: trier
+    location: trier_ossuary
+    temperament: dark
+    tags: [ 卖骨头, 有路子 ]
+    note: 他做的是骨头生意，白手套从来不摘。
+  - id: cast_trier_chaplain
+    name: 司祭·帕特里斯·多雷
+    kind: church
+    city: trier
+    location: trier_war_crypt
+    church: god_of_war
+    temperament: neutral
+    tags: [ 替阵亡者念名 ]
+    note: 他每天念一遍墙上那些名字，念完才吃饭。
+  - id: cast_byron_bone_trader
+    name: 骨市商人·卡皮·恩杜
+    kind: merchant
+    city: byron
+    location: bone_market
+    faction: death_church_byron
+    temperament: dark
+    tags: [ 卖骨, 不问来路 ]
+    note: 他称骨头用两杆秤，一杆称重，一杆称年份。
+  - id: cast_byron_shaman
+    name: 部落萨满·姆贝基
+    kind: church
+    city: byron
+    location: byron
+    faction: shaman_byron
+    temperament: neutral
+    tags: [ 会草药, 说梦话 ]
+    note: 他白天不说话，夜里说的话没人敢记。
+  - id: cast_byron_sun_priest
+    name: 太阳神殿祭司·阿玛杜
+    kind: church
+    city: byron
+    location: sun_temple
+    church: eternal_blazing_sun
+    temperament: kind
+    tags: [ 正午布道, 治晒伤 ]
+    note: 他只在正午开门，说太阳不在的时候说的话不算数。
+  - id: cast_byron_warden
+    name: 守田人·科菲
+    kind: laborer
+    city: byron
+    location: renewing_terrace
+    faction: field_wardens_byron
+    temperament: kind
+    tags: [ 守庄稼, 会看天 ]
+    note: 他能从风里闻出三天后的雨。
+  - id: cast_byron_nurse
+    name: 护士·娜拉·奥孔
+    kind: healer
+    city: byron
+    location: plague_camp
+    temperament: kind
+    tags: [ 照顾病人, 自己也病着 ]
+    note: 她左手一直在抖，右手却稳得能缝最细的伤口。
+  - id: cast_byron_guide
+    name: 丛林向导·伊萨
+    kind: laborer
+    city: byron
+    location: jungle_ruins
+    temperament: neutral
+    tags: [ 认得丛林路, 不进城 ]
+    note: 他带路只带到遗迹边上，从不往里走一步。
+  - id: cast_sunia_wrecker
+    name: 沉船拾荒者·老谭
+    kind: laborer
+    city: sunia
+    location: ghost_graveyard
+    temperament: neutral
+    tags: [ 捞沉船, 迷信 ]
+    note: 他捞上来的每一件东西都要先在岸上放一夜。
+  - id: cast_sunia_hermit
+    name: 隐修者·「静默者」
+    kind: church
+    city: sunia
+    location: nameless_isle
+    temperament: kind
+    tags: [ 不说话, 会治病 ]
+    note: 岛上的人说他治好了很多人，也说他从没说过一句话。
+  - id: cast_sunia_pirate
+    name: 海盗·「红帆」塞拉
+    kind: underworld
+    city: sunia
+    location: mirage_bay
+    temperament: dark
+    tags: [ 有快船, 抢过官船 ]
+    note: 她的帆是红的，因为原来的颜色被血染过太多次。
+  - id: cast_miron_butcher
+    name: 屠户·戈特弗里德·博姆
+    kind: merchant
+    city: saint_miron
+    location: saint_miron_center
+    temperament: neutral
+    tags: [ 有刀, 力气大 ]
+    note: 他剁肉的时候不说话，剁完才开口报价。
+  - id: cast_miron_nun
+    name: 修女·希尔德·克劳斯
+    kind: church
+    city: saint_miron
+    location: saint_miron_center
+    church: god_of_war
+    temperament: kind
+    tags: [ 管孤儿, 认得每个孩子 ]
+    note: 修道院里有十九个孩子，她记得每一个的生日。
+  - id: cast_fennepot_winemaker
+    name: 酒庄主·埃米利奥·韦加
+    kind: merchant
+    city: fennepot_city
+    location: fennepot_city_center
+    temperament: neutral
+    tags: [ 有酒窖, 认识教士 ]
+    note: 他最好的那批酒不卖，只用来换人情。
+  - id: cast_fennepot_guardsman
+    name: 城防军士·罗德里戈·萨尔
+    kind: military
+    city: fennepot_city
+    location: fennepot_city_center
+    temperament: neutral
+    tags: [ 守城门, 认脸 ]
+    note: 他在城门站了九年，进出的人他看一眼就记得。
+  - id: cast_aisara_scholar
+    name: 学者·埃尔莎·范德
+    kind: scholar
+    city: aisara
+    location: aisara_center
+    temperament: kind
+    tags: [ 研究古籍, 有藏书 ]
+    note: 她相信所有传说背后都有一条能查证的线。
+  - id: cast_aisara_spice_merchant
+    name: 香料商人·扬·德弗里斯
+    kind: merchant
+    city: aisara
+    location: aisara_center
+    temperament: neutral
+    tags: [ 跑海路, 会算账 ]
+    note: 他船上的香料下面永远压着别的东西。
+  - id: cast_byam_priest
+    name: 司祭·老约瑟夫
+    kind: church
+    city: byam
+    location: sea_wave_church
+    church: storm_lord
+    temperament: kind
+    tags: [ 给渔民祝福, 认得每条船 ]
+    note: 他给每条新船祝福，也给每个没回来的人留一盏灯。
+  - id: cast_byam_believer
+    name: 信徒·玛尔·科林
+    kind: church
+    city: byam
+    location: fool_church_byam
+    organization: fool_church
+    temperament: kind
+    tags: [ 信愚者, 爱帮人 ]
+    note: 她把自己那份口粮分给路上的陌生人，说这是规矩。
+  - id: cast_byam_dockhand
+    name: 搬运工·科林·巴斯
+    kind: laborer
+    city: byam
+    location: byam_center
+    temperament: neutral
+    tags: [ 力气大, 话少 ]
+    note: 他一天搬的货比谁都多，一天说的话比谁都少。
+  - id: cast_escosen_customs
+    name: 海关关员·佩德罗·萨尔加多
+    kind: official
+    city: escosen_port
+    location: escosen_port_center
+    temperament: neutral
+    tags: [ 查船, 收好处 ]
+    note: 他查船查得很细，除非那条船很懂事。
+  - id: cast_escosen_smuggler
+    name: 走私船主·「弯刀」伊万
+    kind: underworld
+    city: escosen_port
+    location: escosen_port_center
+    temperament: dark
+    tags: [ 有快船, 记仇 ]
+    note: 他的船比海关的快，账比海关的乱。
+  - id: cast_escosen_innkeeper
+    name: 旅店老板·罗莎·马丁
+    kind: merchant
+    city: escosen_port
+    location: escosen_port_center
+    temperament: kind
+    tags: [ 有客房, 听得多 ]
+    note: 她的旅店有三间空房，永远留着最后一间不租。
+  - id: cast_konstun_magistrate
+    name: 治安官·阿尔文·勒夫
+    kind: official
+    city: konstun
+    location: konstun_center
+    temperament: neutral
+    tags: [ 断案, 怕麻烦 ]
+    note: 他判案快，因为他从不问第二遍。
+  - id: cast_konstun_teacher
+    name: 小学教师·格蕾塔·霍尔姆
+    kind: scholar
+    city: konstun
+    location: konstun_center
+    temperament: kind
+    tags: [ 教孩子识字, 认得每个家长 ]
+    note: 她教三十个孩子写字，也替其中五个垫过学费。
+  - id: cast_enmat_fisher
+    name: 渔民·奥托·林德
+    kind: laborer
+    city: enmat
+    location: enmat_center
+    temperament: kind
+    tags: [ 出海, 会看风 ]
+    note: 他出海前看云，回港后看人。
+  - id: cast_enmat_priest
+    name: 港区教士·尼古拉斯·布兰特
+    kind: church
+    city: enmat
+    location: enmat_center
+    church: storm_lord
+    temperament: neutral
+    tags: [ 管海员名录, 记性差 ]
+    note: 他管着海员名录，却总是记错活人的名字。
+  - id: cast_storn_doctor
+    name: 医生·伊莎贝尔·科尔
+    kind: healer
+    city: storn
+    location: storn_center
+    temperament: kind
+    tags: [ 看病, 收费公道 ]
+    note: 她收诊金的时候先看对方的手，再看对方的伤。
+  - id: cast_storn_guard
+    name: 城卫·汉斯·里希特
+    kind: military
+    city: storn
+    location: storn_center
+    temperament: neutral
+    tags: [ 守夜, 打瞌睡 ]
+    note: 他守夜的时候总在同一个时辰打一会儿瞌睡。
+  - id: cast_beldan_merchant
+    name: 布商·埃德温·塔夫脱
+    kind: merchant
+    city: beldan
+    location: beldan_center
+    temperament: neutral
+    tags: [ 跑商路, 会还价 ]
+    note: 他每一趟商路都少带一个箱子，多带一句话。
+  - id: cast_beldan_widow
+    name: 寡妇·克拉拉·诺斯
+    kind: commoner
+    city: beldan
+    location: beldan_center
+    temperament: kind
+    tags: [ 替人洗衣, 消息灵 ]
+    note: 她洗全城的衣服，所以全城的话都从她手边过。
+  - id: cast_limon_ferryman
+    name: 摆渡人·老乔纳
+    kind: laborer
+    city: limon
+    location: limon_center
+    temperament: neutral
+    tags: [ 渡船, 认得河 ]
+    note: 他在这条河上摆了四十年渡，没淹过一个人。
+  - id: cast_connate_harbor_clerk
+    name: 港务文书·埃米尔·索恩
+    kind: official
+    city: connate
+    location: connate_center
+    temperament: neutral
+    tags: [ 管船籍, 认字 ]
+    note: 进出港的每一条船都要在他那本册子上留一行。
+  - id: cast_connate_shipper
+    name: 船运商人·维拉·兰姆
+    kind: merchant
+    city: connate
+    location: connate_center
+    temperament: neutral
+    tags: [ 跑货, 有仓库 ]
+    note: 她仓里的货单比人高，只有一行她自己看得懂。
+  - id: cast_connate_pilot
+    name: 引水员·萨姆·贝尔
+    kind: laborer
+    city: connate
+    location: connate_center
+    temperament: kind
+    tags: [ 认水路, 话多 ]
+    note: 他带一趟船能说一路的话，水手都躲着他站。
+  - id: cast_banshee_singer
+    name: 酒馆歌手·萝丝·卡伦
+    kind: artist
+    city: banshee_port
+    location: banshee_port_center
+    temperament: kind
+    tags: [ 唱歌, 认识水手 ]
+    note: 她唱的歌里有十一个名字，都是没回来的水手。
+  - id: cast_banshee_lampman
+    name: 灯塔助手·丹尼·奥克
+    kind: laborer
+    city: banshee_port
+    location: banshee_port_center
+    temperament: kind
+    tags: [ 守灯, 夜里不睡 ]
+    note: 他负责在天黑之前把灯点上，十一年没错过一次。
+  - id: cast_banshee_pawnbroker
+    name: 当铺老板·格雷戈里·费恩
+    kind: underworld
+    city: banshee_port
+    location: banshee_port_center
+    temperament: dark
+    tags: [ 收赃, 不问来路 ]
+    note: 他柜台底下有一格抽屉，只开给认识的客人。
+  - id: cast_damir_captain
+    name: 船长·「三桅」莫尔
+    kind: military
+    city: damir_port
+    location: damir_port_center
+    temperament: neutral
+    tags: [ 有船, 打过海盗 ]
+    note: 他那条船挨过七炮，第七炮的炮弹还嵌在桅杆里。
+  - id: cast_damir_innkeeper
+    name: 酒馆老板娘·贝蒂·沃德
+    kind: merchant
+    city: damir_port
+    location: damir_port_center
+    temperament: kind
+    tags: [ 有客房, 会看人 ]
+    note: 她给客人上酒之前，先看他的鞋。
+  - id: cast_damir_priest
+    name: 港区教士·塞缪尔·凯
+    kind: church
+    city: damir_port
+    location: damir_port_center
+    church: storm_lord
+    temperament: kind
+    tags: [ 管海员名录, 念名字 ]
+    note: 他念名字的时候会停顿一下，给没回来的人留位置。
+  - id: cast_ramd_farmer
+    name: 农场主·雅各布·斯温
+    kind: laborer
+    city: ramd_town
+    location: ramd_town_center
+    temperament: kind
+    tags: [ 有地, 收麦子 ]
+    note: 他有四十亩地，最舍不得的是地角那棵歪树。
+  - id: cast_ramd_miller
+    name: 磨坊主·汉娜·莫尔
+    kind: merchant
+    city: ramd_town
+    location: ramd_town_center
+    temperament: neutral
+    tags: [ 管磨坊, 算得精 ]
+    note: 她的秤是全乡最准的，也是全乡最不受欢迎的。
+  - id: cast_ramd_constable
+    name: 乡镇警员·汤姆·贝里
+    kind: official
+    city: ramd_town
+    location: ramd_town_center
+    temperament: kind
+    tags: [ 认得每户人, 骑一匹老马 ]
+    note: 全镇只有他一个警员，也只有他一个人有枪。
+  - id: cast_vinia_vintner
+    name: 果农·吕克·马丁
+    kind: laborer
+    city: vinia_town
+    location: vinia_town_center
+    temperament: kind
+    tags: [ 种葡萄, 手上有酒味 ]
+    note: 他每年留一桶不卖，说是给自己留的，其实年年都送人。
+  - id: cast_vinia_priest
+    name: 村教堂教士·菲利普·邓
+    kind: church
+    city: vinia_town
+    location: vinia_town_center
+    church: earth_mother
+    temperament: kind
+    tags: [ 管婚礼与葬礼, 认得每块地 ]
+    note: 他一年主持四场婚礼、九场葬礼，记得每一个名字。
+  - id: cast_vinia_smith
+    name: 铁匠·老戈登
+    kind: laborer
+    city: vinia_town
+    location: vinia_town_center
+    temperament: neutral
+    tags: [ 打铁, 力气大 ]
+    note: 他的铺子里挂着一把没打完的剑，挂了三十年。
+  - id: cast_bigorre_captain
+    name: 城卫队长·阿尔诺·佩兰
+    kind: military
+    city: bigorre
+    location: bigorre_center
+    temperament: neutral
+    tags: [ 管城门, 收税 ]
+    note: 他守城门守了二十年，认得每一张常过的脸。
+  - id: cast_bigorre_clothier
+    name: 织品商人·索菲·勒克莱尔
+    kind: merchant
+    city: bigorre
+    location: bigorre_center
+    temperament: neutral
+    tags: [ 跑因蒂斯商路, 会看货 ]
+    note: 她摸一下布边就知道这批货是哪个厂出的。
+  - id: cast_bigorre_notary
+    name: 公证人·皮埃尔·杜邦
+    kind: official
+    city: bigorre
+    location: bigorre_center
+    temperament: neutral
+    tags: [ 管契约, 认得笔迹 ]
+    note: 他记得镇上每一份遗嘱，也只记得这些。
+  - id: cast_daliege_miner
+    name: 矿工·吕西安·贝尔
+    kind: laborer
+    city: daliege
+    location: daliege_center
+    temperament: neutral
+    tags: [ 下矿, 认得矿石 ]
+    note: 他闭着眼摸一块石头，能说出它是从第几层挖出来的。
+  - id: cast_daliege_innkeeper
+    name: 旅店老板·玛尔特·鲁
+    kind: merchant
+    city: daliege
+    location: daliege_center
+    temperament: kind
+    tags: [ 有客房, 做一手好汤 ]
+    note: 矿上下工的时候，她门口的汤锅总是满的。
+  - id: cast_daliege_priest
+    name: 司铎·安托万·梅西耶
+    kind: church
+    city: daliege
+    location: daliege_center
+    church: eternal_blazing_sun
+    temperament: neutral
+    tags: [ 布道, 收什一税 ]
+    note: 他讲道讲得很长，因为矿上的人只有这时候能坐着。
+  - id: cast_aumir_scholar
+    name: 地方学者·埃德加·佩兰
+    kind: scholar
+    city: aumir
+    location: aumir_center
+    temperament: kind
+    tags: [ 研究地方志, 有旧地图 ]
+    note: 他收藏了四十七张旧地图，每一张上都有一处错了。
+  - id: cast_aumir_hunter
+    name: 猎人·雷米·加尼耶
+    kind: laborer
+    city: aumir
+    location: aumir_center
+    temperament: neutral
+    tags: [ 打猎, 认得山林 ]
+    note: 他进山从不超过三天，说第四天开始山里就不认人了。
+  - id: cast_koldur_elder
+    name: 村长·老科尔
+    kind: official
+    city: koldur
+    location: koldur_center
+    temperament: kind
+    tags: [ 管村子, 怕生人 ]
+    note: 村里来了生人，他总是先请人吃饭，再问来意。
+  - id: cast_koldur_midwife
+    name: 接生婆·玛莎·迪恩
+    kind: healer
+    city: koldur
+    location: koldur_center
+    temperament: kind
+    tags: [ 接生, 认得草药 ]
+    note: 她接生过村里一半的人，也送走过其中几个。
+  - id: cast_koldur_shepherd
+    name: 牧羊人·小汤姆
+    kind: commoner
+    city: koldur
+    location: koldur_center
+    temperament: kind
+    tags: [ 放羊, 认得每条路 ]
+    note: 他给每一只羊都取了名字，虽然它们长得一模一样。
+  - id: cast_silver_miner
+    name: 矿工·格里高利·斯通
+    kind: laborer
+    city: silver_city
+    location: silver_city_center
+    temperament: neutral
+    tags: [ 下矿, 沉默 ]
+    note: 他一天说五句话，四句是关于矿灯的。
+  - id: cast_silver_captain
+    name: 城防队长·伊戈尔·沃罗宁
+    kind: military
+    city: silver_city
+    location: silver_city_center
+    temperament: neutral
+    tags: [ 守城, 不信外人 ]
+    note: 他把每一支进城的队伍都记在本子上，记了十二年。
+  - id: cast_new_silver_smith
+    name: 铁匠·彼得·拉森
+    kind: laborer
+    city: new_silver_city
+    location: new_silver_city_center
+    temperament: kind
+    tags: [ 打铁, 会修农具 ]
+    note: 他打的每一件东西上都有一个小记号，说是给后人认的。
+  - id: cast_new_silver_scribe
+    name: 书记员·安娜·科尔
+    kind: scholar
+    city: new_silver_city
+    location: new_silver_city_center
+    temperament: kind
+    tags: [ 抄写, 识字 ]
+    note: 她抄过全城的公告，也偷偷留了一份自己的。
+  - id: cast_new_moon_guide
+    name: 向导·米哈伊尔·佐夫
+    kind: laborer
+    city: new_moon_city
+    location: new_moon_city_center
+    temperament: neutral
+    tags: [ 认得荒野, 不多话 ]
+    note: 他带路从不问去哪里，只问什么时候回来。
+  - id: cast_new_moon_priest
+    name: 教士·谢尔盖·伊万诺夫
+    kind: church
+    city: new_moon_city
+    location: new_moon_city_center
+    church: earth_mother
+    temperament: kind
+    tags: [ 布道, 分粮 ]
+    note: 他讲道的时候总有人在门口排队，等的是后面那锅粥。
+  - id: cast_moon_city_trader
+    name: 皮货商·奥尔加·彼得罗娃
+    kind: merchant
+    city: moon_city
+    location: moon_city_center
+    temperament: neutral
+    tags: [ 收皮子, 会看毛色 ]
+    note: 她收皮子只看毛色，从不问是怎么猎到的。
+  - id: cast_moon_city_watchman
+    name: 守夜人·尼古拉·库兹涅佐夫
+    kind: official
+    city: moon_city
+    location: moon_city_center
+    temperament: neutral
+    tags: [ 守夜, 认得星 ]
+    note: 他守夜的时候看星星，说星星比人可靠。
+  - id: cast_sunia_diver
+    name: 采珠人·阿旺
+    kind: laborer
+    city: sunia
+    location: coral_reef
+    temperament: neutral
+    tags: [ 潜水, 憋气久 ]
+    note: 他能在水下待三分钟，第四分钟他从不试。
+  - id: cast_byron_drummer
+    name: 鼓手·科乔
+    kind: artist
+    city: byron
+    location: byron
+    temperament: neutral
+    tags: [ 会打鼓, 传消息 ]
+    note: 他敲的鼓点能传三个村子，内容只有本地人听得懂。
+  - id: cast_trier_singer
+    name: 街头歌手·茜尔维·罗兰
+    kind: artist
+    city: trier
+    location: trier
+    temperament: kind
+    tags: [ 唱歌, 消息灵 ]
+    note: 她唱的歌每天都不一样，因为每天听到的事都不一样。
+  - id: cast_tingen_musician
+    name: 流浪琴手·奥尔本·凯尔
+    kind: artist
+    city: tingen
+    location: tingen
+    temperament: kind
+    tags: [ 会拉琴, 到处走 ]
+    note: 他一年来一次廷根，每次都在同一张长凳上过夜。
+  - id: cast_backlund_dowager
+    name: 旧贵族遗孀·康斯坦丝·韦尔
+    kind: noble
+    city: backlund
+    location: backlund
+    temperament: kind
+    tags: [ 有旧关系, 缺钱 ]
+    note: 她的客厅里还挂着丈夫的画像，画框比墙新。
+  - id: cast_backlund_charwoman
+    name: 洗衣妇·内莉·邦德
+    kind: commoner
+    city: backlund
+    location: backlund
+    temperament: kind
+    tags: [ 替人洗衣, 什么都听得到 ]
+    note: 她替三条街的人洗衣服，也替三条街的人记着事。
+  - id: cast_backlund_redglove
+    name: 红手套·伊莱·克罗夫特
+    kind: church
+    city: backlund
+    location: backlund
+    church: night_goddess
+    pathway: sleepless
+    sequence: 7
+    temperament: neutral
+    tags: [ 红手套, 追迹者, 能打 ]
+    note: 值夜者内部的精英小队，圈内管他们叫「猎狗」。
+  - id: cast_pritz_punisher
+    name: 代罚者·格里姆·索尔特
+    kind: church
+    city: pritz
+    location: pritz
+    church: storm_lord
+    pathway: sailor
+    sequence: 7
+    temperament: neutral
+    tags: [ 代罚者, 能打, 不废话 ]
+    note: 风暴之主的代罚者。他上船从来不问为什么。
+  - id: cast_trier_machinery
+    name: 机械之心·阿诺德·维斯
+    kind: church
+    city: trier
+    location: trier
+    church: god_of_steam
+    pathway: perfect
+    sequence: 7
+    temperament: neutral
+    tags: [ 机械之心, 能打, 带工具 ]
+    note: 他来的时候总提着箱子，箱子里装的东西从来不给人看。
+  - id: cast_fennepot_inquisitor
+    name: 净化者·塞拉菲娜·杜兰
+    kind: church
+    city: fennepot_city
+    location: fennepot_city_center
+    church: eternal_blazing_sun
+    pathway: sun
+    sequence: 7
+    temperament: dark
+    tags: [ 净化者, 能打, 盯异端 ]
+    note: 永恒烈阳的宗教裁判所出身 —— 她清理的东西里也包括「野生非凡者」。

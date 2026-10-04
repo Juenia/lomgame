@@ -1,0 +1,37 @@
+id: path_warrior_006
+name: 不必赢的那一场
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:warrior' ]
+  min_seq: 4
+effects:
+  - { dig: 5 }
+  - { cor: 2 }
+texts:
+  priv: |
+    对面站着的人比你快，比你稳，比你有名。
+    你打了，输了，站起来又打。
+    荣耀者不是不败的人，是**败了以后还站在原地的人**。第三次倒下的时候，对面那个人先移开了眼睛。
+  group: 街上的人围了一圈，没有人敢靠近。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 站起来，再打第四次
+    effects: [ { dig: 6, hp: 3, cor: 2, mad: 2 } ]
+    text: |
+      你站起来了。他也举起了手。
+      **而这次他先停的** —— 他的手停在半空，没有落下来。
+  - key: '2'
+    label: 不打了，站着看他
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你站着。他也站着。
+      **围观的人先散的** —— 他们大概觉得没意思了。
+  - key: '3'
+    label: 问他为什么不打了
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你问了。他看了你很久。
+      **然后他移开了眼睛** —— 那是他今天第一次不看你。

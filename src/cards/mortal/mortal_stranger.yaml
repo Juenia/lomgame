@@ -1,0 +1,40 @@
+# M2.7.6：普通人专属事件卡（未入途径）。
+#
+# 口径（任务书 §5.5）：**描述模糊、信息少、压迫感强**。
+# 普通人不知道雾里是什么，只知道「不该待在这里」——
+# 同一张卡在入途径之后会被另一套卡替换掉（那个版本才有名字与解释）。
+#
+# cond: pathway:mortal —— 这一条同时是「普通人看不到 daily/random 池」的另一半：
+# 两个池子靠条件与命令层的硬过滤共同分开，任何一边漏了都不会互相串味。
+id: mortal_stranger
+name: 也走了三条街的人
+trigger:
+  type: random
+  weight: 12
+  cond: [ pathway:mortal ]
+effects:
+  - { mad: 1 }
+texts:
+  priv: |
+    你走了三条街，那个人也走了三条街。
+    你停下来，他也停下来，低头看橱窗。
+    橱窗里没有东西值得看那么久。
+  group: 有人在街上多走了三条街。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 走过去问他
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你过去了。他抬头看你，说：「你也是三条街。」
+  - key: '2'
+    label: 再多走一条街
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你又走了一条。他也走了。
+  - key: '3'
+    label: 转身回家
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你回家了。第二天你又在同一条街上看见了他。

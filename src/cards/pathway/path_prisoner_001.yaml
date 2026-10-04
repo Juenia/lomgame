@@ -1,0 +1,37 @@
+id: path_prisoner_001
+name: 手上没有链子
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:prisoner' ]
+  min_seq: 9
+effects:
+  - { dig: 4 }
+  - { hp: -3 }
+texts:
+  priv: |
+    你手腕上有两道很深的勒痕，但你没有戴过任何东西。
+    夜里它们会疼 —— 疼的方式像是有人在外面拽。
+    被缚者这一途的人，锁在里面的那一段比外面的紧。
+  group: 有人一直搓着自己的手腕，搓了很久。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把两道痕包起来
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你缠上布条，缠得很紧。
+      **夜里它们还是疼** —— 而布条上没有任何印子。
+  - key: '2'
+    label: 顺着那道痕找另一头
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你顺着感觉往外找。走了半条街。
+      **走到街口的时候拽劲停了** —— 而那儿什么都没有。
+  - key: '3'
+    label: 试着往外拽一下
+    effects: [ { dig: 6, hp: 2, cor: 2, mad: 2 } ]
+    text: |
+      你往外拽。手腕上的皮破了。
+      **而拽的方向上传来了一下回应** —— 很轻，像是有人也拽了一下。

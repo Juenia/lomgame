@@ -1,0 +1,22 @@
+# 事件卡链（M2.87）—— **链的第二段**（三级链的中间那一环）。
+# 前置：设 flag `marked_by_witness` 的那张卡
+# 自身：要 `flag:marked_by_witness`，并**设出** `witness_spoke`（供第三段读）
+id: chain2_marked_by_witness
+name: 他开口了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:marked_by_witness'
+effects:
+  - { dig: 3 }
+  - { cor: 2 }
+  - { flag: witness_spoke }
+texts:
+  priv: |
+    那个目击者终于开口了。
+    他说了三句话，前两句都不重要。
+    **第三句是你那天站的位置** —— 精确到哪块砖。
+    他说完就走了。你站在原地没动。
+  group: 有人在街上站了很久，像在确认自己站的地方。
+daily_limit: 1

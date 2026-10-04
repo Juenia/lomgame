@@ -1,0 +1,2396 @@
+# 装备表 = 非凡物品表（M2.85 RPG 化 B，重做）
+#
+# 共 108 件：封印物（0/1/2/3 级 + 未评级）与神奇物品。
+#
+# ⚠️ 这一版是**用户的纠正**之后重做的：
+#
+#   「装备其实就是非凡物品啊，装备上去有增幅，但也有 debuff」
+#
+# 第一版做的是「制式短刀（序列 9）」那种普通武器 —— 那不是非凡物品。
+#
+# 原著的规则（见 09-物品与封印物/物品等级与规则.md）写得很清楚：
+#
+#   「神奇物品……有强大能力的同时**必然**会具备副作用」
+#
+meta:
+  source: M2.85 RPG 化 B（重做）：**装备其实就是非凡物品**
+  count: 108
+  note: ⚠️ 用户纠正：「装备其实就是非凡物品啊，装备上去有增幅，但也有 debuff」—— 第一版做的「制式短刀」是普通武器，不是非凡物品。这一版全部改用原作的**神奇物品 / 封印物**。
+  origin: 条目逐条来自 诡秘之主原作数据/09-物品与封印物/封印物.yaml 与 非凡物品.yaml；**名字、能力、副作用都是原文**。
+  debuff_note: 副作用分两部分：**negativeEffects 是原文**（如「每隔一天就必须用一个活人的灵魂和血肉满足它，否则会用持有者来代替」）；**debuffs 是项目派生的数值**（madPerUse 每次使用掉理智 / corGain 腐蚀 / hpDrain 每回合掉血 / statPenalty 属性惩罚），按封印等级给：0 级最重。
+  level_note: 封印等级沿用原作的 0/1/2/3 级 + 未评级。等级越高（0 级）增幅越大、代价也越重 —— 这正是原著的规则。
+equipment:
+  - id: 0_01
+    name: 神陨之旗，萨林格尔血旗
+    slot: relic
+    quality: mythic
+    sequence: 1
+    level: "0"
+    stats:
+      mp: 27
+      digBonus: 0.068
+      hit: -0.06
+    negativeEffects:
+      - 序列5以上的非凡者不能靠近。
+      - 负责更换兵偶的实验人员必须蒙眼、提一盏马灯；马灯若熄灭，该实验人员会直接消失，所有认识他的人会同时相信他早就死亡。
+      - 若未蒙眼，离开陵寝的将是一个和他一样的怪物。
+      - 导致地面「流放之城」摩罗拉经常遭遇极端天气：飓风、暴雨、地震、火山喷发（摩罗拉周围区域原本没有火山）。
+      - 摩罗拉居民异常好斗，每天都有多级附带死伤的决斗，抗议和暴乱每年在六次以上；居民没有离开这座城市的想法，在任何时候。
+    debuffs:
+      madPerUse: 6
+      corGain: 3
+      hpDrain: 6
+      statPenalty: 3
+    abilities:
+      - 原作未直接描述其主动能力，只给出极高危险与封印方式。
+    text: 两三米高的铁黑金属长杆，杆顶悬挂一面有大量或暗红或发黑的血点、有一片片染血痕迹的烧焦旗帜。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 0_02
+    name: 特伦索斯特黄铜书
+    slot: relic
+    quality: mythic
+    sequence: 1
+    level: "0"
+    stats:
+      mp: 27
+      digBonus: 0.068
+      hit: -0.06
+    negativeEffects:
+      - 厌恶扭曲、没有美感的规则，痛恨被寻找漏洞。
+      - 如果律法条文间出现无法修正的矛盾，或者书页已全部填满却未形成足够严密的规则体系，会在一个小时后于前后部分交界处新增一条「以下规则无效」的条款，让后半部分重归空白，然后重复之前的行为，直到形成能干涉各个方面的严密律法。
+      - 活着的特性大部分时候很低，复苏程度越高越危险，复苏到一定程度后能修改前半部分的底层规则；活着的特性会随着律法的完善而加深，一旦严密律法成形就会彻底活过来，具备真正的智慧。
+    debuffs:
+      madPerUse: 6
+      corGain: 3
+      hpDrain: 6
+      statPenalty: 3
+    abilities:
+      - 具备制定规则改写现实的能力；前半部分的底层规则不可修改，后半部分会用水银色文字呈现出可以修改、增删的规则。
+      - 若违背其书写的规则，会受到无形执法者的处罚。
+      - 会不断增加复杂的律令，从而限制周边区域生物，使其不论如何做都会受到处罚。
+      - 制定的规则必须经过公示或告知才能产生效果；当一个行为没有明确的条文规定时，是否违法遵循周围生灵的普遍认知。
+    text: 一本由薄薄黄铜组成的书册，书写着许多规则和律令。前半部分文字呈灰黑色，书写了几乎所有的底层规则，后半部分处于空白。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 0_05
+    name: 许愿神灯
+    slot: relic
+    quality: mythic
+    sequence: 1
+    level: "0"
+    stats:
+      mp: 27
+      digBonus: 0.068
+      hit: -0.06
+    negativeEffects:
+      - 愿望要么以扭曲的形式完成，要么会附带难以预知的可怕后果。
+      - 0-05 曾经的主人没一个有好下场，包括罗塞尔·古斯塔夫。
+      - 据罗塞尔所说，可以想办法用语言和准备规避前两个愿望带来的危害，但绝对不能许第三个愿望。
+      - 「灯神」会通过梦和幻觉引诱拥有者来擦灯并许愿。
+    debuffs:
+      madPerUse: 6
+      corGain: 3
+      hpDrain: 6
+      statPenalty: 3
+    abilities:
+      - 能实现持有者任意十个愿望；愿望必须措辞简单，否则「灯神」会拒绝并视作用掉一个愿望。
+      - 非常坚固，连真神都无法粉碎。
+    text: 一盏缩小的水壶，金色壶口伸出灯芯。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 0_08
+    name: 阿勒苏霍德之笔
+    slot: relic
+    quality: mythic
+    sequence: 1
+    level: "0"
+    stats:
+      mp: 27
+      digBonus: 0.068
+      hit: -0.06
+    negativeEffects:
+      - 会一直尝试「写」死持有者，这在战斗中十分致命。
+      - 它书写的故事都会变成现实；当你知道了它，它也就知道了你，知道了你接触的所有人；你对它了解越多，越可能被写入它编织的故事。
+      - 之前每一任主人、每一位研究人员，都死于奇怪的原因。
+      - 会突然开始自行书写，即使有主人的时候也一样；主人在某次睡醒之后往往会发现自己成为了某个奇怪故事的主角，且无法通过抹掉笔迹、撕毁纸张来改变。
+      - 造成过天使的死亡；尚无法确认是否会对神灵产生直接影响。
+    debuffs:
+      madPerUse: 6
+      corGain: 3
+      hpDrain: 6
+      statPenalty: 3
+    abilities:
+      - 使用者可以凭借自身的灵性书写故事，故事只要被书写就一定能成为现实。
+      - 影响对象的位格越高，消耗灵性越大，且无法影响高于自身位格的力量；涉及高位格时书写内容会被涂抹。
+      - 影响范围不会超过一座大都市（如贝克兰德）。
+    text: 一根外形普通的羽毛笔。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 0_13
+    name: 最后的盛宴
+    slot: charm
+    quality: mythic
+    sequence: 1
+    level: "0"
+    stats:
+      madResist: 0.18
+      cor: 9
+      hit: -0.06
+    negativeEffects:
+      - 原作未描述。
+    debuffs:
+      madPerUse: 6
+      corGain: 3
+      hpDrain: 6
+      statPenalty: 3
+    abilities:
+      - 原作未描述。
+    text: 原作未描述。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 中
+  - id: 0_15
+    name: 第四日
+    slot: charm
+    quality: mythic
+    sequence: 1
+    level: "0"
+    stats:
+      madResist: 0.18
+      cor: 9
+      hit: -0.06
+    negativeEffects:
+      - 原作未描述。
+    debuffs:
+      madPerUse: 6
+      corGain: 3
+      hpDrain: 6
+      statPenalty: 3
+    abilities:
+      - 能制造一轮炽烈的、金黄的、神圣的太阳，能净化邪恶的、不祥的行为与生物。
+    text: 束缚着这件封印物的最后一层东西是没任何超凡因素的普通纸张，这些纸张仿佛是从某本典籍里撕扯下来的，上面有一行行手写的古弗萨克语；这些语句与「永恒烈阳」教会的圣典似是而非，有相同又有不同，但都不含神圣超凡之力。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 0_17
+    name: 隐秘的天使
+    slot: charm
+    quality: mythic
+    sequence: 1
+    level: "0"
+    stats:
+      madResist: 0.18
+      cor: 9
+      hit: -0.06
+    negativeEffects:
+      - 影响范围会没有规律地扩大和收缩，目前已造成超过 70 位研究者消失。
+      - 被擦除的目标中目前仅有克莱恩成功离开了迷雾小镇，其他的目标大多已经死在了里面。
+      - 祂没有思考的能力，失去了所有的灵智。
+    debuffs:
+      madPerUse: 6
+      corGain: 3
+      hpDrain: 6
+      statPenalty: 3
+    abilities:
+      - 靠近的人和物品都会彻底消失，影响范围会无规律地变化；正常无法被利用。
+      - 女神通过祂进行神降后，能够施展自己「隐秘」的一部分权柄，能够擦除事物，把他们送到霍纳奇斯山脉的迷雾小镇；女神降临进入这个身体不需要仪式，可以从自家教堂里随意进出。
+    text: 外表秀美、头发和眼睛都是黑色的年轻女性。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 0_32
+    name: 永不落幕的剧场
+    slot: charm
+    quality: mythic
+    sequence: 1
+    level: "0"
+    stats:
+      madResist: 0.18
+      cor: 9
+      hit: -0.06
+    negativeEffects:
+      - 原作未描述。
+    debuffs:
+      madPerUse: 6
+      corGain: 3
+      hpDrain: 6
+      statPenalty: 3
+    abilities:
+      - 原作未描述。
+    text: 原作未描述。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 中
+  - id: 0_59
+    name: 无人的天国
+    slot: charm
+    quality: mythic
+    sequence: 1
+    level: "0"
+    stats:
+      madResist: 0.18
+      cor: 9
+      hit: -0.06
+    negativeEffects:
+      - 未展开。
+    debuffs:
+      madPerUse: 6
+      corGain: 3
+      hpDrain: 6
+      statPenalty: 3
+    abilities:
+      - 未展开。
+    text: 未展开。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 低
+  - id: 0_61
+    name: 旧日之盒
+    slot: charm
+    quality: mythic
+    sequence: 1
+    level: "0"
+    stats:
+      madResist: 0.18
+      cor: 9
+      hit: -0.06
+    negativeEffects:
+      - 持有者会随机性地消失、暴毙或者异变；如果无持有者，周围区域的生灵将按照距离远近、个体大小相继遭遇同样的情况，最大影响范围和第一层类同。
+      - 第二层的传送能力有随机性，小部分时候可以自行指定，但绝大部分时候选择的地点会发生变化，最终抵达的目的地难以预料。
+      - 序列0以下的力量无法影响它。
+      - 第三层疑似蕴藏来自星空的污染。
+    debuffs:
+      madPerUse: 6
+      corGain: 3
+      hpDrain: 6
+      statPenalty: 3
+    abilities:
+      - 第一层能将目标地点玩具化，与本身内部空间对换位置；被玩具化的生灵必须在 24 小时内释放，否则会永久转化，连灵体都得不到安眠；释放目标时只需指定一片小到近乎没有生物的区域与内部空间对换即可；能力覆盖范围有极限，最大为一个贝克兰德大小的城市。
+      - 第二层记录着不同的地点，一旦将它们放出，持有者和效果范围内的生灵就能直接前往对应的区域。
+    text: 一个三层的首饰盒，规格不小，单手托着颇为困难。本身偏银黑，表面多有镂空的精致装饰，镶嵌着一颗颗红宝石、祖母绿、蓝宝石和钻石，显得颇为华贵。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 0_62
+    name: 星之杖
+    slot: charm
+    quality: mythic
+    sequence: 1
+    level: "0"
+    stats:
+      madResist: 0.18
+      cor: 9
+      hit: -0.06
+    negativeEffects:
+      - 传送时勾勒的画面必须绝对正确，每一个细节都不能和原版存在差别，否则永远也不知道会抵达哪里。
+      - 再现能力和人物时必须足够了解要再现的对象，否则持有者会出现未知的异变（曾有人想用「星之杖」释放「闪电风暴」，结果变成了一只青蛙，直至找到解除诅咒的办法才恢复）。
+      - 持握时绝大部分时候必须放空脑袋，一旦有画面浮现就可能激发上述效果。
+      - 手杖本身会随机转移，如果不能正确封印，不知什么时候就会消失、脱离掌控；如没人持握，周围会有各种好坏难料的异常情况发生。
+    debuffs:
+      madPerUse: 6
+      corGain: 3
+      hpDrain: 6
+      statPenalty: 3
+    abilities:
+      - 持握着它时，脑海里如果浮现某个目前真实存在的场景，手杖会带着持有者直接抵达目的地。
+      - 脑海里如果浮现非凡能力或者人物，就会再现对应的能力或人；再现出来的人物能发动一次攻击。
+      - 手杖足够坚硬，可以直接用来攻击，被它抽打中的人会随机性出现异变或遭遇各种奇怪的效果。
+    text: 一根镶嵌着多种宝石的黑色手杖。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 1_42
+    name: 疯狂的盔甲 / 嗜血的盔甲
+    slot: armor
+    quality: epic
+    sequence: 3
+    level: "1"
+    stats:
+      hp: 26
+      defense: 0.096
+      hit: -0.03
+    negativeEffects:
+      - 负面效果在萌娘百科被标为「未知，需要一定时间来产生影响」；实际表现为穿戴者的皮肤将迅速变得通红，表面渐渐沁出一道道伤痕状的银纹，银纹往外扩散、融入热水后，热水会迅速变冷、表面凝结出浮冰。
+      - 刚发现时没有任何异常，只是被当成单纯的古董被贩卖、收藏；但随着时间推移，与此封印物接触过的人相继以近乎被分尸的恐怖死状死去，此后死亡以此封印物为圆心往外扩散，不再需要接触。
+      - 在第五纪初期曾经直接导致一个小城的毁灭，死亡人数超过十万。
+    debuffs:
+      madPerUse: 4
+      corGain: 2
+      hpDrain: 4
+      statPenalty: 2
+    abilities:
+      - 可以完全阻隔外部的非凡能力，让使用能力的敌方就像触摸到了一块石头，触摸到了没有穿戴者的冰冷盔甲。
+      - 可以使无数银芒像烟火一样突然从周围的目标体内迸发，使其身体被平滑地切断，形成以目标立足点为中心的溅射状血花。
+      - 可以锁定生物的位置，并使穿戴者感受到它的兴奋。
+    text: 一件银色的全身盔甲，给人的感觉异常沉重，各处细节都遵循着古老的风格。 左肩斜着往下腹的区域沾染着一大片泼洒式的无法清洗的暗红血迹，再配合其余地方的溅射式红点， 构成了一副很有妖异美感的画面，如同独特而华丽的装饰。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 1_81
+    name: 乌拉摩丝之像
+    slot: charm
+    quality: epic
+    sequence: 3
+    level: "1"
+    stats:
+      madResist: 0.128
+      cor: 6
+      hit: -0.03
+    negativeEffects:
+      - 未展开。
+    debuffs:
+      madPerUse: 4
+      corGain: 2
+      hpDrain: 4
+      statPenalty: 2
+    abilities:
+      - 未展开。
+    text: 未展开。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 低
+  - id: antigonus_family_notebook
+    name: 安提哥努斯家族的笔记
+    slot: relic
+    quality: epic
+    sequence: 3
+    level: "1"
+    stats:
+      mp: 19
+      digBonus: 0.048
+      hit: -0.03
+    negativeEffects:
+      - 会影响阅读其中内容的人，令其诡异自杀。
+      - 它在不同阶段、在不同的人面前呈现的内容并不一样。
+    debuffs:
+      madPerUse: 4
+      corGain: 2
+      hpDrain: 4
+      statPenalty: 2
+    abilities:
+      - 具体能力未知；会隐秘地驱使他人将自己送到安提哥努斯家族后裔手中，只有在此家族的后裔手中才会露出完整的模样。
+      - 内容涵盖安提哥努斯家族（安提哥努斯本人）的琐事，其中包括与图铎家族成员之间的秘密交易、夜之国的情况，以及占卜家序列的魔药配方。
+    text: 一本黑色的笔记本，封皮完全由深黑色硬纸制成，散发出古老而悠远的气息，丝毫没有变软和腐烂的迹象。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: goddess_sword_relic
+    name: 圣物「女神之剑」（塞西玛的称号，非剑本身的名字）
+    slot: weapon
+    quality: epic
+    sequence: 3
+    level: "1"
+    stats:
+      hit: 0.098
+      damage: 13
+    negativeEffects:
+      - 原作未描述。
+    debuffs:
+      madPerUse: 4
+      corGain: 2
+      hpDrain: 4
+      statPenalty: 2
+    abilities:
+      - 观察圣剑时会被吸住视线，眼眸慢慢失去光泽；让圣剑离开原位能使观察者清醒。
+      - 触碰时有冰冷不刺骨的感觉通过皮肤传入大脑，抚平杂念和情绪。
+    text: 一把纯白色骨剑，散发着纯白的、润泽的辉芒；表面看似纯净无暇，但若仔细观察，会发现深处密布着层层叠叠的符号和标识，与剑身构成了不可分割的整体。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+    pathway: sleepless
+  - id: sea_god_scepter
+    name: 海神权杖
+    slot: charm
+    quality: epic
+    sequence: 3
+    level: "1"
+    stats:
+      madResist: 0.128
+      cor: 6
+      hit: -0.03
+    negativeEffects:
+      - 让持有者变得暴躁易怒，很容易头脑过热。
+      - 周期性地让一定范围内全部生物思维凝固，并抽干他们的血液，包括持有者在内；范围是 600 米到 1 千米，周期是 20 分钟到 35 分钟。
+      - 会汇聚并呈现信徒祈祷的声音与画面，很容易让灵性不够强大的非半神级持有者直接崩溃失控。
+    debuffs:
+      madPerUse: 4
+      corGain: 2
+      hpDrain: 4
+      statPenalty: 2
+    abilities:
+      - 能制造海啸、飓风、暴雨和雷击。
+      - 能让持有者成为一片海域的主宰：可以几乎不受任何限制地飞行于天空、漫步于海底，能驱使诸多海底生物、回应信徒的祈祷，并获得海怪一样的力量。
+      - 能让持有者在无其他强力因素叠加的情况下永不迷路，并获得超乎想象的平衡能力。
+      - 近乎无法损坏，可以直接砸烂敌人的脑袋。
+      - 只有半神层次，对信仰的回应有距离限制。
+    text: 一根乳白色权杖，顶端镶嵌着一颗颗细小的青蓝「宝石」，其中有部分染着幽黑、染着晨曦。 在源堡上接收祈祷时周围有数不清的光点漂浮，每一点对应一个祈祷的信徒，让杖身辉芒流转，既迷幻又神圣。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+    pathway: sailor
+  - id: death_herald_ship
+    name: 告死号
+    slot: armor
+    quality: epic
+    sequence: 3
+    level: "1"
+    stats:
+      hp: 26
+      defense: 0.096
+      hit: -0.03
+    negativeEffects:
+      - 见上：血液晶体具备强烈污染性，会腐蚀位格不够的神奇物品。
+    debuffs:
+      madPerUse: 4
+      corGain: 2
+      hpDrain: 4
+      statPenalty: 2
+    abilities:
+      - 会在船员体内产生一种细长的血液晶体，用于控制船员；此晶体源于高等恶魔，具备强烈污染性，会腐蚀位格不够的神奇物品，被克莱恩起名为「『呓语者』的气息」。
+    text: 长度近两百米的巨大帆船，前后像弯月般高高翘起；表层是黑色涂装；船侧的火炮错落分为三排，上下有序； 甲板上凸起的部分即使除去桅杆也高耸庞大，至少相当于五层房屋。最古怪的是只有一面风帆，其上描绘着一块黑色墓碑。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: cross_of_no_darkness
+    name: 无暗十字
+    slot: charm
+    quality: epic
+    sequence: 3
+    level: "1"
+    stats:
+      madResist: 0.128
+      cor: 6
+      hit: -0.03
+    negativeEffects:
+      - 普通生物长期佩戴它会开始赞美太阳。
+      - 排斥与其他神奇物品和非凡特性接触，且同样排斥着持有者的非凡特性，只是相对不那么明显；随着时间的推移，它会让接触到的非凡者的特性一点点析出。
+      - 佩戴或持有它超过一个小时，非凡者的序列至少会降低一个层次。
+      - 超过三个小时，非半神者必然倒退为普通人。
+      - 超过六个小时，圣者也会失去超凡能力。
+      - 对天使几乎无效，因为天使能粉碎非凡特性，对自身的力量源泉有极强掌控力。
+    debuffs:
+      madPerUse: 4
+      corGain: 2
+      hpDrain: 4
+      statPenalty: 2
+    abilities:
+      - 使用方法是让上面的荆棘沾染持有者的血液。
+      - 能迅速、彻底地净化堕落、污秽、腐蚀、黑暗、邪恶、疾病等领域的力量。
+      - 能清除非凡特性内的精神污染。
+      - 具备「阳炎」等「太阳」领域的半神层次法术。
+    text: 一个染满铜绿的十字架饰品，其上凸出好几根尖刺，仿佛曾经穿透过谁；风格和特点都是第五纪北大陆诸国没有的，呈现出一种古老的韵味。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: dawn_silver_sword
+    name: 曦银之剑
+    slot: weapon
+    quality: epic
+    sequence: 3
+    level: "1"
+    stats:
+      hit: 0.098
+      damage: 13
+    negativeEffects:
+      - 有严格的使用条件：身高不满 180 厘米根本无法将其拿起，低于 2 米会难以发挥全部的威能。
+      - 剑柄顶端的人头雕像非常喜欢说话；若持有者不进行回应，也许在某个关键时刻「曦银之剑」就会突然放弃抵抗，甚至袭击主人；而如果持有者愿意和雕像对话，将会在疯狂的边缘徘徊。
+    debuffs:
+      madPerUse: 4
+      corGain: 2
+      hpDrain: 4
+      statPenalty: 2
+    abilities:
+      - 持握者能隐藏自身的恶意和某些行为，有效干扰占卜和预言，获得夸张的力量，为周围区域带来对抗邪恶与堕落的黎明。
+      - 能掀起极具破坏力的光之风暴，在持握者周围制造一片无形而坚固的防御之墙，每当它与大地相连，守护之力将难以撼动。
+      - 将对应的草药、精油、药剂喂给这个雕像，会让「曦银之剑」产生不同的效果，例如雷击、冰冻、净化、燃烧、腐烂和驱邪。
+    text: 一把直剑，剑柄的顶端是个独眼巨口、有活着的特性的人头雕像。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+    pathway: warrior
+  - id: dusk_mask
+    name: 黄昏面具
+    slot: charm
+    quality: epic
+    sequence: 3
+    level: "1"
+    stats:
+      madResist: 0.128
+      cor: 6
+      hit: -0.03
+    negativeEffects:
+      - 此封印物周围的人会无端地陆续暴毙。
+      - 佩戴者耳畔会一刻不停地回荡仿佛来自冥界深处的尖啸和嘶吼，这是一种足以让人疯狂、失去理智的精神攻击。
+      - 戴上面具超过五分钟，就会难以逆转地成为它的奴隶。
+    debuffs:
+      madPerUse: 4
+      corGain: 2
+      hpDrain: 4
+      statPenalty: 2
+    abilities:
+      - 可以掩盖恶意、想法、行为倾向，让佩戴者如同没有思绪的死者。
+      - 佩戴者会拥有真正巨人一样的力量和对亡灵的统御之权。
+      - 凡是与佩戴者双眼对视的生灵将直接死亡，哪怕拥有神性也会遭受重创；即使没有视线接触，被佩戴者纳入视野的目标也将缓慢凋零，就像在一寸寸渡过死亡的河流。
+      - 佩戴者能制造可怕的「黄昏风暴」，任何沾染上那黯淡光芒的事物都将衰败、腐烂、枯萎、死亡，失去鲜活的感觉。
+      - 净化之外的大部分攻击都对佩戴「黄昏面具」的人无效，如同没有谁能杀死一个已经死去的人。
+    text: 一张头骨制成的面具。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: staff_of_life
+    name: 生命手杖
+    slot: charm
+    quality: epic
+    sequence: 3
+    level: "1"
+    stats:
+      madResist: 0.128
+      cor: 6
+      hit: -0.03
+    negativeEffects:
+      - 携带者的身体有大概率出现异变，导致器官增减或被各种植物替代；携带时间越久概率越高。
+    debuffs:
+      madPerUse: 4
+      corGain: 2
+      hpDrain: 4
+      statPenalty: 2
+    abilities:
+      - 能驱使智慧不高的超凡生物，短时间内降低它们的疯狂程度。
+      - 能以残缺的灵和各种材料完成极致的「生命炼成」，可以创造能长久存在的普通人类，也可以制造用于战斗和各种事务的不同人偶，包括石魔像、土魔像、钢铁魔像。
+      - 被手杖抽打过的生灵，疯狂与失控的倾向都会增加，身体也有一定的概率异变，长出西瓜、蘑菇、小麦等食物；长出的食物不可食用，会造成污染。
+      - 被杖头触碰的生灵，无论有多么严重的伤势都能痊愈，已开始失控的除外。
+      - 会让周围区域充满生命力，让动植物蓬勃生长、快速繁殖；对神弃之地无效。
+    text: 一根原木色的普通手杖。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: corrupted_flute
+    name: 堕落长笛
+    slot: charm
+    quality: epic
+    sequence: 3
+    level: "1"
+    stats:
+      madResist: 0.128
+      cor: 6
+      hit: -0.03
+    negativeEffects:
+      - 此封印物所在的地方，人心将逐渐堕落，各种欲望占据主流，信念被丢弃到一旁。
+      - 持有者也会一点点变得冷酷，再也找不回正常的情感，使用次数越多、携带时间越久程度就越深，很可能与本身的途径或相应的扮演矛盾，导致失控的风险增加。
+    debuffs:
+      madPerUse: 4
+      corGain: 2
+      hpDrain: 4
+      statPenalty: 2
+    abilities:
+      - 一旦被吹响，周围的生命将不可避免地陷入迷幻，负面的情绪与欲望飞快膨胀，导致引爆心灵、摧毁理智或失控等后果。
+      - 除了持有者，附近所有生灵的思考能力都会显著降低，容易犯错。
+      - 持有者对危险将异常敏锐，有的时候甚至能提前一到两天预见可能威胁自己生命的事情。
+    text: 一根看起来很普通的银色长笛。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: pure_white_sight
+    name: 纯白之视
+    slot: charm
+    quality: epic
+    sequence: 3
+    level: "1"
+    stats:
+      madResist: 0.128
+      cor: 6
+      hit: -0.03
+    negativeEffects:
+      - 制造范围型攻击时无法分辨敌友，对己方非凡者也有效果。
+      - 即使隔着手套触碰也会让污秽、堕落、不死类生物受到灼烧，对于序列5的血族来说至少需要七天才能痊愈。
+    debuffs:
+      madPerUse: 4
+      corGain: 2
+      hpDrain: 4
+      statPenalty: 2
+    abilities:
+      - 透过「纯白之视」，能够透视物理障碍（如建筑物），看到所有污秽、堕落、不死类生物的身影，并对其发出「无暗者」的「纯白射线」和「无暗之枪」。
+      - 一旦脱离掌控，就会自发地吸收周围的光亮，散发出净化万物的辉芒。
+    text: 眼珠状的玻璃球。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: eyeless_general
+    name: 无瞳的将军
+    slot: charm
+    quality: epic
+    sequence: 3
+    level: "1"
+    stats:
+      madResist: 0.128
+      cor: 6
+      hit: -0.03
+    negativeEffects:
+      - 必须由持有者用自己的血肉喂养，否则它会逐渐长出眼睛；一旦变得完好，就会化身为疯狂追杀原本主人的恶灵，并憎恶所有人类。
+    debuffs:
+      madPerUse: 4
+      corGain: 2
+      hpDrain: 4
+      statPenalty: 2
+    abilities:
+      - 可以根据拥有者的想法，附身有灵的事物，唤醒无灵的物品。
+    text: 一个做工精致的男性人偶，只有巴掌大小，身穿暗红镶金纹的礼服，眼睛不知被谁挖掉，只剩下了两个黑洞。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: demon_painting
+    name: 恶魔油画
+    slot: charm
+    quality: epic
+    sequence: 3
+    level: "1"
+    stats:
+      madResist: 0.128
+      cor: 6
+      hit: -0.03
+    negativeEffects:
+      - 只是多看一会就能让人头晕恶心、精神虚弱。
+    debuffs:
+      madPerUse: 4
+      corGain: 2
+      hpDrain: 4
+      statPenalty: 2
+    abilities:
+      - 能关押和封印目标，并不具备主动影响目标的能力。
+    text: 上面描绘着多个相当抽象、让人无法理解的图案，只是多看一会就能让人头晕恶心、精神虚弱。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: azure_gate
+    name: 蔚蓝之门
+    slot: charm
+    quality: epic
+    sequence: 3
+    level: "1"
+    stats:
+      madResist: 0.128
+      cor: 6
+      hit: -0.03
+    negativeEffects:
+      - 门内的黑暗会往外流动、侵蚀，让周围产生染上灰白、疑似石化的效果。
+    debuffs:
+      madPerUse: 4
+      corGain: 2
+      hpDrain: 4
+      statPenalty: 2
+    abilities:
+      - 具体未知；门内是不知连通着哪个世界的深沉黑暗，会往外流动、侵蚀，让周围产生染上灰白、疑似石化的效果。
+    text: 一扇表面呈蔚蓝色的门，有许多神秘怪异的浮雕。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 2_030
+    name: 永不枯竭的毒药
+    slot: relic
+    quality: rare
+    sequence: 5
+    level: "2"
+    stats:
+      mp: 13
+      digBonus: 0.033
+    negativeEffects:
+      - 见上：持续诱惑周围生物饮用。
+    debuffs:
+      madPerUse: 3
+      corGain: 2
+      statPenalty: 2
+    abilities:
+      - 会不断诱惑周围的生物喝下它，持有者必须全神贯注地抗衡这种力量，稍有松懈就会像习惯般喝下，甚至有序列5的非凡者也抗拒不了这种诱惑，喝下后被当场毒死。
+      - 中毒者死亡后，毒液会从皮肤毛孔内一点点沁出、重新凝聚为原来的分量。
+    text: 晶莹润泽、分外诱人的毒药，盛在一个银杯中。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 2_037
+    name: 永恒之梦
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: "2"
+    stats:
+      madResist: 0.088
+      cor: 4
+    negativeEffects:
+      - 即使不接触也会广泛地影响周围，除非放置于沸水中。
+      - 被唤醒的研究员依然长时间分不清楚现实和梦境（包括向上司示爱、亲吻毒蛇的嘴巴、罹患忧郁症、脱掉衣服裸奔、试图用沸水洗澡等）；如果不将他们调离至另一座城市，结局只有疯掉和自杀两种可能。
+    debuffs:
+      madPerUse: 3
+      corGain: 2
+      statPenalty: 2
+    abilities:
+      - 只要接触过这件物品，就会永久停留于一场漫长的梦境，精神和生理状态改变，被唤醒后也依然残留极大影响。
+      - 使用者可以选择目标，让最大半径 50 米范围内的生物进入同一场梦境；超过最大范围将对使用者造成极大负担，留下强烈的精神创伤。
+      - 使用者事后会进入分不清楚现实和梦境的状态，必须离开「2-037」所在的城市，才有希望康复。
+    text: 类似一颗深黑色、触感冰冷的心脏，布满空洞，时常发出风笛般的声音。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+    pathway: sleepless
+  - id: 2_049
+    name: 安提哥努斯家族的木偶
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: "2"
+    stats:
+      madResist: 0.088
+      cor: 4
+    negativeEffects:
+      - 见上：同化、控制、把人变成木偶。
+    debuffs:
+      madPerUse: 3
+      corGain: 2
+      statPenalty: 2
+    abilities:
+      - 会让周围的一个生物行动变迟缓，逐渐被同化并控制；如果没能被及时唤醒则会逐渐成为常人体型的木偶，等同于死亡。
+      - 会优先对待周围五米内最近的人形生物。
+      - 会不断向安提哥努斯家族后裔的方向前进；只要遇见安提哥努斯家族的后裔，哪怕只有气息残留都会变得非常激动、进入狂暴化状态，能力也随之明显提升，每次影响人数上升到两人。
+    text: 一个长相怪异的木偶，有些明显的肘关节、指关节和膝关节，身上缠满了棕褐色的油渍布条；脸部被红黄色油彩涂成了常见的小丑模样，有着纯黑色的无瞳眼眸，两边嘴角高高翘着、带出异常滑稽的笑容，口腔黑而幽深。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 2_078
+    name: 死亡之门
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: "2"
+    stats:
+      madResist: 0.088
+      cor: 4
+    negativeEffects:
+      - 见上：通过即死。
+    debuffs:
+      madPerUse: 3
+      corGain: 2
+      statPenalty: 2
+    abilities:
+      - 凡是通过它的生物都会直接死亡；未有高序列强者参与测试。
+      - 会一直试图逃跑，并可以变化外形、伪装成原本就存在的门。
+    text: 未描述具体形态（可变化外形、伪装成原本就存在的门）。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 2_105
+    name: 血管小偷
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: "2"
+    stats:
+      madResist: 0.088
+      cor: 4
+    negativeEffects:
+      - 凡是触碰到它的人都会被偷走生命；若一直不脱离接触，半个小时之后会有相应的外在表现。
+      - 曾有一位序列5的邪教徒支撑了两个小时，从三十多岁的壮汉变成了身体佝偻、皮肤松皱、头发白而稀疏、牙齿全部掉光的老年人。
+    debuffs:
+      madPerUse: 3
+      corGain: 2
+      statPenalty: 2
+    abilities:
+      - 佩戴它的人有机会窃取一定范围内某个目标的一项能力，面对高序列强者也依然有效，但成功率较低。
+      - 成功后，十分钟内，被窃取者会直接失去对应的能力，佩戴者则可以熟练地使用；十分钟后该项能力消失，被窃取者要等到第二天才能恢复。
+    text: 一条粗大僵化、苍白染血的血管。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 2_111
+    name: 阿罗德斯镜（阿罗德斯，Arrodes）
+    slot: relic
+    quality: rare
+    sequence: 5
+    level: "2"
+    stats:
+      mp: 13
+      digBonus: 0.033
+    negativeEffects:
+      - 作为交换，阿罗德斯会要求使用者在有旁观者的情况下回答一个非常尴尬的问题，或接受雷击的惩罚。
+    debuffs:
+      madPerUse: 3
+      corGain: 2
+      statPenalty: 2
+    abilities:
+      - 拥有强大的占卜能力，能借助灵界获取各种各样的信息，或者窥探并展现画面；即使是涉及非常高层次的一些问题它也能知道答案，只是不敢展现。
+      - 能通过灵界定位并远程发送信息。
+      - 在一定范围内，可以通过书写一个代表隐秘和窥视的糅合符号来召唤阿罗德斯。
+      - 本体位于贝克兰德的蒸汽与机械之神教堂；在贝克兰德范围内可以通过其他镜子发送信息，还能够模仿别人的声音。
+      - 若距离较远，只能利用具有超凡功能的物品（如克莱恩持有的受灰雾气息影响的无线电收报机）作为媒介，并且无力对提问者进行惩罚。
+    text: 一面花纹古老的银镜，镜子的两侧各有一只眼睛般的装饰，以黑色的宝石为基底，看起来幽邃而迷人。
+    source: https://zh.moegirl.org.cn/非凡物品,https://zh.moegirl.org.cn/阿罗德斯
+    confidence: 高
+  - id: sun_brooch_summer
+    name: 太阳胸针 / 盛夏
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: "2"
+    stats:
+      madResist: 0.088
+      cor: 4
+    negativeEffects:
+      - 只要戴着它，就永远无法感受到凉爽，始终处于可怕的炎热里，会燥热烦乱得一点点步入失控的深渊。
+    debuffs:
+      madPerUse: 3
+      corGain: 2
+      statPenalty: 2
+    abilities:
+      - 以胸针为圆心，十米范围内将充斥纯净温暖的力量，正常人无法察觉，但死灵类怪物将不断受到伤害、如同炽热火球下的水池一般飞快「蒸发」，即使是怨魂和幽影也只会支撑得更久一点；在这种环境下，强力死灵会明显被削弱。
+      - 佩戴者很难被邪灵类怪物附体和污染，能使用「召唤圣光」、「制造圣水」、「光明之火」、「净化之斩」、「免疫恐惧」、「神圣誓约」和「太阳光环」等法术。
+    text: 一根暗金色、做成太阳鸟形状的胸针。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 2_217
+    name: 塔纳戈稻草人
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: "2"
+    stats:
+      madResist: 0.088
+      cor: 4
+    negativeEffects:
+      - 被它看到，即使有阳光保护，之后也会做很长一段时间的噩梦，出现精神虚弱等情况。
+    debuffs:
+      madPerUse: 3
+      corGain: 2
+      statPenalty: 2
+    abilities:
+      - 只要进入这个稻草人三十米范围内、被它的眼睛看到，就将失去自我意识，不受控制地靠近稻草人，并在几秒后消失不见，只留下穿戴的衣物和身上的物品。
+      - 在阳光最猛烈的时候，即使触碰到了这个稻草人，被它看见也不会失踪。
+    text: 稻草人，眼睛位置蒙着厚厚的黑色布条；脸庞、脖子、手掌、双脚、小腿皆由棕绿色的秸秆编成，但手臂、胸口、大腿却覆盖着看起来很真实的、略显苍白的皮肤；黑布下是一双仿佛来自人类的眼珠，它们镶嵌在棕绿色的秸秆内，没有任何情绪。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 2_247
+    name: 傲慢盔甲
+    slot: armor
+    quality: rare
+    sequence: 5
+    level: "2"
+    stats:
+      hp: 18
+      defense: 0.066
+    negativeEffects:
+      - 未展开。
+    debuffs:
+      madPerUse: 3
+      corGain: 2
+      statPenalty: 2
+    abilities:
+      - 未展开。
+    text: 未展开。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 低
+  - id: 3_0217
+    name: 通灵者的镜子
+    slot: relic
+    quality: fine
+    sequence: 7
+    level: "3"
+    stats:
+      mp: 9
+      digBonus: 0.022
+    negativeEffects:
+      - 见上：优先对付照镜子的人。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 会让照镜子的人遭遇不同种类的危险。
+      - 映照出的形象大部分时候都不相同，即使同一个人反复看它，也会遭遇不同的事物，危险等级各不相同，但都更多优先对付照镜子的人；其中最危险的情况是看到自己。
+      - 如果没人照这面镜子，在有光芒的前提下，它每隔三小时就会自动浮现一个形象。
+    text: 一面背部镀着水银、正面出现了三道不大裂纹的镜子。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 3_0611
+    name: 安静发丝
+    slot: charm
+    quality: fine
+    sequence: 7
+    level: "3"
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 见上：只要无保护接触，所有活着的生物都会失去全部的欲望和情绪，包括但不限于饥饿、愤怒、悲伤、痛苦、嫉妒、羡慕、憎恨、开心、满足和贪婪等。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 让接触到此物品的生物失去所有欲望和情绪，包括与 0611 脱离接触的欲望。
+      - 在两小时内通过外力使受影响者脱离接触，则可以恢复正常；超过两小时的情况下，受影响者会永远安静下去。
+    text: 一丛凌乱缠绕的漆黑头发（由许多根深黑色长发缠绕成的简单饰品）。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+    pathway: sleepless
+  - id: 3_0625
+    name: 厄运布偶
+    slot: charm
+    quality: fine
+    sequence: 7
+    level: "3"
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 会让身边的人逐渐倒霉，陷入危机，最终一一死去；受试者只用了两周，就濒临破产的边缘。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 会给周围的人带来厄运。
+      - 只要每天进入它十米范围内累计不超过半个小时，就不会沾染厄运；如果已经厄运缠身，只要将它转移给另外的主人，状况就会好转。
+    text: 大概普通成年男子小臂高的布偶，穿着黑色的、典雅的、微缩的宫廷长裙，裙摆有着明显污痕。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 3_0782
+    name: 变异的太阳圣徽
+    slot: charm
+    quality: fine
+    sequence: 7
+    level: "3"
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 同时净化正常人的灵魂：正常人如果在十五米范围内待上 1 个小时，就会变成只知道「赞美太阳」的白痴，非凡者的极限是 6 个小时。
+      - 只会净化具备较高智慧的生物。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 不断净化周围十五米内的死尸和鬼魂。
+      - 可被用来窃取「永恒烈阳」神血的力量，制作阳炎符咒与阳炎子弹（见非凡武器与符咒）。
+    text: 呈现暗金色泽，其上绘刻着太阳的象征符号，有一节又一节的线条延伸向边缘。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: 3_1328
+    name: 水晶之眼
+    slot: relic
+    quality: fine
+    sequence: 7
+    level: "3"
+    stats:
+      mp: 9
+      digBonus: 0.022
+    negativeEffects:
+      - 容易吸引怨魂幽影等怪物。
+      - 长期佩戴会使视力不可逆转地降低。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能直接看见灵体、鬼魂、幽影。
+    text: 一片单片眼镜。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: crawling_hunger
+    name: 蠕动的饥饿
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 每隔一天就必须用一个活人的灵魂和血肉满足它，否则会用持有者来代替。
+      - 被阿兹克封印后，平时不会饥饿，但每使用一次就需要投喂。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 最多可「放牧」五个灵魂，并在初次「放牧」时随机固定下一到三个非凡能力。
+    text: 非常轻薄的手套，仿佛由人皮制成，似乎只要填满血肉就能变回一只手；可以通过变透明来伪装自己。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: azik_copper_whistle
+    name: 阿兹克铜哨
+    slot: relic
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      mp: 9
+      digBonus: 0.022
+    negativeEffects:
+      - 对死灵类生物有强大的吸引力，同时会导致周围的尸体活尸化（经过安魂的尸体除外）。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 吹动以后能召唤属于阿兹克的白骨信使。
+    text: 一个精致古旧的铜哨，有许多充满神秘韵味的奇特花纹。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: nightmare_candle
+    name: 心魇蜡烛
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 使用超过五分钟后，会让使用者彻底迷失、精神再也无法回到身体内，成为它的祭品，变成植物人。
+      - 由于场景的实质化，如果使用者在心灵最深处被杀死，也会出现类似的后遗症，等同于死亡。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能让持有者清醒地进入目标心灵的最深处（梦境最底层），并将相应的场景实质化。
+      - 能对目标种下心理暗示，让对方发自内心地遵从指示。
+    text: 一小截奇异的蜡烛，外层像是裹着一圈人皮，但又凸显出了好几个疙瘩；烛蕊只得一个指节高，通体漆黑，分出了细微而密布的鳞片状花纹。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: crimson_moon_crown
+    name: 深红月冕
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 会让佩戴者的血液逐渐变冷、一点点结冰；如果不能及时停止或吸食活人的鲜血，将最终因血液全部成霜而死亡。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能在一定范围内营造出类似满月的效果。
+      - 让佩戴者免疫满月效果，并获得极强的速度和恢复能力以及不少较强的黑暗类法术。
+    text: 一件不断散发着宁静光辉的圆月形暗红色饰品，四周镶嵌着许多绯色宝石，中间是象征月亮的符号和诸多神秘标识。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: ring_of_light
+    name: 光之环
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 如果频繁使用，会逐渐变成「永恒烈阳」的信徒，渐渐发自内心地遵守教义、赞美太阳。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 让佩戴者成为光的使者、太阳的侍从，免疫诸多疾病、掌握神圣之力，能召唤耀眼光束、使用不少太阳领域的法术，克制并净化五十米范围内的死灵。
+      - 佩戴者认可的事物将获得提升，不赞成的将受到削弱。
+    text: 一枚戒指。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: biotoxin_bottle
+    name: 生物毒素瓶
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 持有者即使不打开盖子，身体也会渐渐变差、染上疾病，最后甚至病死；此效果无法依靠灵性枷锁消除。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能随机制造不同的毒素，打开盖子后就会逐渐弥漫往四周；会在一分钟内起效，效果随机、因人而异，之后症状越来越严重，四分钟后还未脱离布满毒素的环境将无法抵抗其后果，乃至死亡。
+      - 将瓶子泡在水里，水会逐渐变成琥珀色；提前喝下这种琥珀色液体可以预防中毒。
+    text: 一个棕色的半透明小瓶。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: ghost_picture_frame
+    name: 幽灵画框
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 见上：灵体被永久封印。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 只要走进它的范围、被映照入内，灵体就会瞬间脱离血肉，成为一张肖像画，被永远地封印其中。
+      - 在没解决封印的情况下，即使画像更替也无法得到解救；如果被封印的时间太久、身体已经死亡，哪怕掌握了正确的解除封印的办法，灵也会很快消散。
+    text: 一个色泽棕黄，木头纹理明显的画框。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: book_of_calamity
+    name: 天灾之书
+    slot: relic
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      mp: 9
+      digBonus: 0.022
+    negativeEffects:
+      - 萌娘百科未展开。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 萌娘百科未展开能力描述。
+    text: 一卷黄褐色的羊皮书籍，表面用精灵语写着一行单词：天灾之书。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 中
+    pathway: sailor
+  - id: grosell_travelogue
+    name: 格罗塞尔游记
+    slot: relic
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      mp: 9
+      digBonus: 0.022
+    negativeEffects:
+      - 外界生灵无法在书中孕育子嗣。
+      - 书中世界和现实世界的时间流速相等，在书中没有寿命限制，可以永远活下去；但如果进入游记的时间过长、超出自身寿命，离开游记后会迅速老化、死去。
+      - 在书中获得的事物都是虚假的，无法带到外界；即使在书中获得非凡特性、提升序列，到外界也会依然是普通人。
+      - 进入书中的生灵死去后，其潜意识会被复制下来，制造出另一个没有生前记忆的自己，真正成为书中人。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 记载着巨人格罗塞尔和来自不同纪元的同伴们讨伐冰霜巨龙「北方之王」的故事，但故事戛然而止，后续的书页无法翻开。
+      - 内部有一个「空想」出来的世界；自身的血液被滴在封皮上，或者长期与游记接触，就会被强制进入书中世界；只有加入主角的队伍、杀死冰霜巨龙、达成故事的结局才能离开。
+      - 外界的生灵在书中生活时，心灵层面上会受到维持故事进度的力量影响，在新成员加入推进剧情进度、让游记翻页之前，会停留于上一个故事节点，遗忘自己的目的、过着漫长的普通生活，时常陷入沉睡。
+      - 异常坚固、难以破坏，至少能挡下圣者级别的攻击。
+    text: 一本黄褐色羊皮纸订成的书册，深棕色的封皮上有一行古弗萨克语：格罗塞尔游记。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: moon_envoy
+    name: 月亮使者
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 效果未知。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 只有「原始月亮」的信徒用正确的办法才能开启；效果未知。
+    text: 细长如木桩的木头人偶，眼睛和嘴巴弯成月亮，表面镶嵌着不少枯草和干花。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: lucky_balance
+    name: 幸运天平
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 使用者运气守恒，幸运之后立刻就会遭遇厄运，之前有多走运接下来就有多倒霉，需要非常认真规避，否则很容易以搞笑的方式死去，甚至连累周围的人。
+      - 日常生活里获得的幸运往往在一个月后发生反转，使用者无论有没有佩戴都会变得倒霉，不过这种厄运是以舒缓的方式释放，危险程度不高。
+      - 战斗中获得的运气，十分钟后就会以同样激烈的方式反噬回来。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能被动地让佩戴者变得幸运：在日常生活里时不时会遇到好事，做什么都容易成功；遭遇极端情况时则会被戏剧化地拯救，后一种效果仅能维持十分钟。
+      - 能主动给予目标厄运，让对方无论在生活还是战斗中都容易因小事失败。
+    text: 一根纯银项链，有一个形似古老钱币的同色坠子，正反面都布满神秘的花纹和象征符号，并铭刻有一段古赫密斯语铭文：「你现在有多么的幸运，之后就有多么的倒霉。」
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: kaldi_ring
+    name: 卡尔迪的戒指
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 佩戴者会不知不觉产生另一个「自我」，必须定期接受「心理医生」治疗，如果有错过一到两次都会变得极为严重，很难再治愈；两个自我的争斗最终必然导致失控。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能帮助佩戴者震慑目标，让对方出现一定的停滞。
+      - 能使正常人类短暂失去理智，或唤醒疯狂怪物潜藏的温情、记忆，在很短的时间内陷入迷茫状态，不再发动攻击。
+    text: 一枚外表古朴、通体铁黑色的戒指，铭刻着晦暗繁复的花纹。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: roar_of_thunder_god
+    name: 雷神的怒吼
+    slot: weapon
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      hit: 0.06
+      damage: 6
+    negativeEffects:
+      - 会让使用者一点点累积暴躁的情绪，需要定期发泄。
+      - 在神弃之地的无光环境下，持有者必定会被黑暗深处的恐怖怪物袭击。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能在战斗里发出让敌人惊恐混乱的声音，就像雷神降临到地面、正不间断地怒吼；每一击都带有强烈的毁灭性和可怕的闪电。
+    text: 一把相当沉重的巨锤，表面幽蓝深邃、缠绕着银白的电光，握柄疑似生灵的腿骨。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+    pathway: sailor
+  - id: lilith_ring
+    name: 莉莉丝的指环
+    slot: armor
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      hp: 12
+      defense: 0.045
+    negativeEffects:
+      - 戴上戒指就会立刻患上渴血症，至少要喝一个采血瓶的人类血液才能平息一小时，否则自身血液会沸腾和蒸发，不超一刻钟就会造成一位序列6死亡。
+      - 如果中途取下又戴上，渴血症将被重新激活，不管之前是否到了一小时都需要再次喝血。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能让佩戴者变得更有魅力，并始终处于满月时的良好状态下。
+      - 能让周围处于满月效果、灵性滋生，使相应的非凡能力得到极大提升。
+      - 可以投影出一扇通往灵界深处的「召唤之门」。
+      - 一定时间内有一次机会将灵界深处的生物召唤到现实世界，通过这扇门就等于和佩戴者签订协议，能在约五分钟内为佩戴者效劳；如果需要维持更久，佩戴者必须亲自和那个灵界生物沟通，重新签订契约。
+      - 召唤出的灵界生物实力一般等同或稍强于佩戴者，也有小概率更弱或更强（曾经有一位血族子爵召唤出一个半神级的灵界生物）。
+      - 灵界生物的实力越强越能对抗「召唤之门」的协议、危害到佩戴者；如果遇到这种情况需要果断解除投影、中止召唤。
+    text: 一枚通体半透明、仿佛由淡红琥珀制成的指环；顶端镶嵌着一颗半个指甲盖大小的血色宝石，散发出幽幽的光芒。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: words_of_the_sea
+    name: 海之言
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 每隔六小时必定会唱歌，根据歌曲风格，会不分敌我地造成负面影响，如让人失神、震撼心灵、烦躁降智等。
+      - 喜欢趁持有者不注意绊倒、抽打对方、拉人滚下楼梯，且容易导致持有者被雷劈。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能对目标释放闪电，挥舞击打时制造风刃，能制造大型水球、腐蚀性雨水。
+      - 让使用者不害怕深海的压力、自由从水中汲取氧气，且能带人飞行。
+    text: 一根深黑色镶嵌银白金属的手杖。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+    pathway: sailor
+  - id: chilling_blade
+    name: 阴冷之刃
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 让携带者身体一点点失去温度、转变为死灵，超过时限将无法逆转。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 一旦被命中，哪怕只是被碰到，都会陷入冰冻般的僵硬、思绪不受自身控制，仿佛怨灵附体。
+      - 战斗持续下去时，敌人即使未直接接触三棱刺，也会逐渐出现思考和动作变缓慢、滞涩的情况。
+    text: 一把透明到近乎无形的三棱刺。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: concerto_of_light_and_shadow
+    name: 光与影的协奏曲
+    slot: relic
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      mp: 9
+      digBonus: 0.022
+    negativeEffects:
+      - 一旦携带者进入战斗状态，一定范围内呈现出来的非凡效果都会间歇性地随机异变，不分敌我，难以控制、无法预测（比如「雷击」可能依旧是制造一道闪电，也可能泼目标一脸冷水，也可能召唤来不知名的灵界生物）。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能「禁止」一定范围内的某种行为，也可以「剥夺」目标的某种非凡能力，但两者加起来所能造成的限制不超过两种。
+      - 能将某种负面状态直接「赠予」目标，让他或消极怠工，或贪婪急切，或丧失斗志，或只能将注意力放在金钱上。
+      - 持有者能「扭曲」目标的语言、行动、意图和攻击的效果，让致命创伤变成重伤，让打击变成推开，让前进变成后退，让逃跑变成冲锋。
+    text: 一块「铁皮」怀表，表盘上一半整齐排列着各种象征符号、按照时间顺序布置，一半混乱间杂、甚至侵入了对面区域，而两者仿佛在无法直接看见的幕后机械核心处连成了一体，有着更加复杂更让人头晕的结构。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: rotting_meteor
+    name: 腐烂的流星
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 持有者有概率被星空中投下的目光注视，不知不觉遭遇污染，最终奇异死去或者产生突变。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能发射一枚枚墨绿色的奇特弹丸，被命中的人将瞬间中毒、开始腐烂，连灵体都无法幸免；对半神同样有效。
+    text: 一个冰蓝色的金属圆筒。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: velvet_curtain
+    name: 天鹅绒「幕布」
+    slot: charm
+    quality: rare
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 萌娘百科未展开。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 萌娘百科未展开能力描述。
+    text: 未描述。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 中
+  - id: notarized_document
+    name: 公证书
+    slot: relic
+    quality: fine
+    sequence: 6
+    level: unrated
+    stats:
+      mp: 9
+      digBonus: 0.022
+    negativeEffects:
+      - 萌娘百科未列出负面效果。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能增强或减弱非凡能力效果：公证有效，非凡能力短暂提升；公证无效，非凡能力被强行驱散。
+      - 通过让立誓者将手掌按在纸上的空白区域，能对誓言进行「公证」，让立誓者与自身产生联系，确保对方不会违约。
+    text: 外观为一张橘黄色的纸，上面用太阳对应的象征符号和魔法标识圈出了一个空白的长方形；握在手中会让人感觉很温暖很安稳。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: lie_mask
+    name: 谎言
+    slot: charm
+    quality: fine
+    sequence: 6
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 佩戴者的情绪会被放大。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能让佩戴者微调自己的容貌。
+      - 能让佩戴者掌握操纵火焰、伤害转移和危险直觉三种非凡能力，提升平衡和敏捷。
+    text: 外观为一张银色的上半脸面具，可以通过灵性给予它一定的想法，让它改变形态，变为帽子、耳饰、项链等等。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: shadow_cloak
+    name: 阴影斗篷
+    slot: armor
+    quality: fine
+    sequence: 7
+    level: unrated
+    stats:
+      hp: 12
+      defense: 0.045
+    negativeEffects:
+      - 萌娘百科未列出负面效果。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能让使用者藏入阴影。
+    text: 外观为一件黑色斗篷。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: flying_carpet
+    name: 飞毯
+    slot: charm
+    quality: fine
+    sequence: 6
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 萌娘百科未列出负面效果。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 使用者能通过精灵语咒文消耗灵性、驾驭飞毯，载着乘客飞行、悬停。
+    text: 外观为一张很大的孔雀蓝地毯，有诸多神秘奇异的图案，带着些不属于人类般的风味。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+    pathway: sailor
+  - id: whip_of_spirit
+    name: 精神之鞭
+    slot: charm
+    quality: fine
+    sequence: 7
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 佩戴者会时刻承受让人恨不得撞墙的头痛。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能对敌人造成难以遏制的极大精神伤害。
+      - 能加强佩戴者对各类武器的掌握。
+    text: 外观为一枚黑铁色戒指，顶端有一个沾染陈旧血迹的尖刺般的凸起，既古老又邪异。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: fire_seed
+    name: 火种
+    slot: charm
+    quality: fine
+    sequence: 6
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 佩戴者有不小概率丢失身上的物品。
+      - 使用之后，自身的某项非凡能力会丢失至少 12 小时，不过在这段时间内多次使用也不会继续丢失能力。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能让使用者魅力提高、话语具备极强的说服力。
+      - 能在 50 米范围内窃取目标的一项非凡能力，让目标在至少 12 小时内失去该能力，而使用者则可以在十分钟左右之内熟练使用。
+      - 对目标越了解，越容易窃取到想要的能力，越无知则越随机。
+      - 目标序列高于 6 时有可能失败，目标序列越高失败概率越大。
+    text: 外观为可以变成不同颜色、伪装自己的手套。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: lehmano_travel_notes
+    name: 莱曼诺的旅行笔记
+    slot: relic
+    quality: fine
+    sequence: 6
+    level: unrated
+    stats:
+      mp: 9
+      digBonus: 0.022
+    negativeEffects:
+      - 使用后会让使用者迷路，且容易遇到危险；需要将自己的血液均匀涂抹在封皮上才能消除影响。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能让使用者见识到某种非凡能力的同时将其记录下来、固定于笔记中的一页并长期保存，在使用一次后对应的纸页就会重新变空白，等待再次记录。
+      - 记录高于序列6的非凡能力时有概率失败，目标序列越高失败率越大，而且效果只有原本的一半；面对序列5的非凡能力成功率不低，但到了序列4半神层次时记录十次未必能成功一次。
+      - 焦黄色纸张专用于记录有神性影响的非凡能力，也即最多记录三个半神级非凡能力。
+    text: 外观为一本巴掌大小的笔记，铜绿色的硬质外壳显得颇为古老；共有 38 页，由三种纸张构成： 三张焦黄色纸张、大约十张像是羊皮纸的黄褐色纸张，剩下的是普通的白纸。 封皮上有一行古弗萨克语：「我来到，我看见，我记录。」
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: death_knell
+    name: 丧钟
+    slot: weapon
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      hit: 0.06
+      damage: 6
+    negativeEffects:
+      - 每次使用后会获得一个原本不存在的弱点（比如怕猫、怕火、怕黑、怕女人），或者将已经存在的弱点加强得更加极端，效果维持 6 个小时。
+      - 携带时会容易口渴。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 弱点攻击：无需开启条件，直接灌注灵性、扣动扳机就能使用；让使用者从神秘学角度发现目标的弱点并精准攻击，造成超越正常程度的可怕伤害。
+      - 致命攻击：需要在射击前扳动一下击锤才能使用；让使用者不管打在目标哪个位置都等同于弱点攻击，如果命中真正的弱点可以让防御不强的敌人一枪致命，面对擅长防御的目标（包括「守护者」）则能够在三枪内解决，三次命中的间隔最好不超过五秒。
+      - 「屠杀」：在弱点攻击的基础上额外提供超过一倍的灵性，让正常的子弹产生霰弹效果，对枪口瞄准方向的大量敌人造成范围杀伤；可以额外提供超过两倍的灵性，在致命攻击的基础上增加伤害，不过会造成不小负担。
+      - 能与不同特性的子弹配合，针对不同类型的敌人。
+    text: 外观为一把枪管比正常左轮略长的铁黑色手枪。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: flower_of_blood
+    name: 血之花
+    slot: charm
+    quality: fine
+    sequence: 6
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 随机地让佩戴者放弃思考、丢失理智。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能让佩戴者更深层次地掌握住自身血肉，只要不直接死亡、不被彻底净化，就能蠕动复原。
+      - 也能使用相应的一些血肉魔法。
+    text: 外观为一枚镶嵌红宝石的金戒指。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: horn_of_slumber
+    name: 安眠号角
+    slot: charm
+    quality: fine
+    sequence: 4
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 萌娘百科未列出独立负面效果。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 拥有类似黑夜女神教会查尼斯门后封印力量的侵蚀能力，能通过吹动号角侵蚀目标，随着时间推移、侵蚀加深，能让目标逐渐陷入永眠；生效距离为 50 米，彻底侵蚀最长需要两个月。
+    text: 外观为一个洁白如同玉石的人类头骨，眼窝深邃幽暗、难见底部，其余地方有多个形状不一的孔洞，附近布满裂痕。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+    pathway: sleepless
+  - id: hand_of_fear
+    name: 恐惧之手
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 会让携带者心理逐渐阴暗，总是希望走捷径、采用不光彩的手段。
+      - 佩戴超过 3 分钟后，使用者自身也会陷入混乱的状态。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 提升威严和体质，让周围的生灵不自觉放低身段，想要服从。
+      - 能够「扭曲」目标的语言、行动和意图，构建出一定的有利于自身的规则。
+      - 通过象征意义上的「贿赂」，让目标产生强烈的好感，难以涌现敌对的意图，甚至不愿意与佩戴者战斗；若条件合适，受贿者还有极小概率反向攻击同伴。
+      - 使锁定的目标或周围一定区域出现「混乱」，让攻击难以落到自己身上，让敌人容易「选择」错误。
+    text: 外观为一只及至肘部的黑色薄纱长手套，有种尊贵典雅的气质，有皇室风格。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: gargoyle_glasses
+    name: 石像鬼眼镜
+    slot: relic
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      mp: 9
+      digBonus: 0.022
+    negativeEffects:
+      - 佩戴者照镜子会让自己也麻痹。
+      - 佩戴者身体会变得沉重，行动不够敏捷。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 只要出现目光的交触就能让目标浑身麻痹、如同被石化。
+    text: 外观为一副灰白框眼镜。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: lucky_clover
+    name: 幸运草
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 会放大佩戴者的人性缺陷。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 让佩戴者在每一次失败后都为下一次成功积累一定的概率。
+    text: 外观为做成了护符的四叶草。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: master_key
+    name: 万能钥匙
+    slot: relic
+    quality: fine
+    sequence: 9
+    level: unrated
+    stats:
+      mp: 9
+      digBonus: 0.022
+    negativeEffects:
+      - 会让使用者随机地迷路。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能打开所有不含神秘力量的锁和小部分附加了超凡效果的锁。
+      - 在没有锁或者没有门的地方，若没有非凡力量的限制、障碍也不算厚，就能打开一条不属于现实的通道。
+    text: 外观为一把形制古朴的黄铜色泽钥匙。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: murloc_cufflink
+    name: 鱼人袖钉
+    slot: charm
+    quality: fine
+    sequence: 9
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 让使用者在炎热或干燥的地方，比正常更容易疲惫。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能提供隐藏于皮肤下的幻鳞，让使用者像鱼一样难以被抓住，并帮助承受一定的伤害。
+      - 能让使用者无保护下潜至少 15 米，在水下自由活动 10 分钟。
+    text: 外观为一枚蔚蓝色的袖钉。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+    pathway: sailor
+  - id: severed_finger
+    name: 断指
+    slot: charm
+    quality: fine
+    sequence: 9
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 携带时会出现「偷窃癖」。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能提升使用者手腕和指头的稳定性和灵活度，可以轻松窃取走目标口袋内的物品而不被发现。
+    text: 外观为一把灰白色镊子，仿佛由两根指骨打磨镶嵌而成。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: green_luster
+    name: 绿华
+    slot: charm
+    quality: fine
+    sequence: 8
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 会招惹蚊虫。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 开启后能轻松治好各种不算太严重的疾病和伤势。
+    text: 外观为一枚镶嵌绿宝石的铂金戒指。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: blood_collector
+    name: 采血器
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 抽出血液后将虚弱约十二个小时，这段时间内回输不产生任何效果；具体时限根据个人的体质和状态而定。
+      - 一周最好不要使用超过一次，否则回输的鲜血同时也会让人短暂失去理智。
+      - 携带超过半个小时会变得有些神经质。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 用它抽出一管自己的血液，回输进去时会获得强化：祛除疲惫、减轻疾病和伤势，短暂大幅提升力量、速度、平衡等各方面素质。
+    text: 外观为一个类似针头、软管、容器相结合的物品，针头与软管上有神秘花纹。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: harris_rapier
+    name: 哈里斯刺剑
+    slot: weapon
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      hit: 0.06
+      damage: 6
+    negativeEffects:
+      - 萌娘百科未列出负面效果。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 为刺中的事物带来绝对的毁灭。
+    text: 外观为一把细细的黑沉的刺剑；来源于南大陆古代一位王子，并不直接对应特定序列，更接近于相似特性无规律聚合的产物。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: poison_blade
+    name: 剧毒之刃
+    slot: weapon
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      hit: 0.06
+      damage: 6
+    negativeEffects:
+      - 会导致医疗失效，累积醉酒的感觉。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能为每一次伤害附加效果随机的剧毒。
+    text: 外观为一把短刀。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: rose_oath
+    name: 玫瑰之誓
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 会时不时让一方的想法出现在另一方的脑海中。
+      - 如果连续佩戴一周未曾取下，双方很有可能无关性别和种族地相爱。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 在一座普通城市的范围内，可以让两个佩戴者分享感官、传递想法，无视距离。
+    text: 外观为一对镶嵌幽蓝色宝石的银戒指。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: alcohol_bane
+    name: 酒类克星
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 会持续性对肝脏和大脑产生损伤，如果佩戴时间过长则很可能丧失一定的思考和逻辑能力，每佩戴半小时就必须取下一刻钟。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能帮助佩戴者保持精力充沛、思绪清醒，提高对心智体领域法术的抵御能力。
+    text: 外观为一枚钻石领针。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: moonlit_ribbon
+    name: 月光缎带
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 佩戴时各种感官会变得更加敏锐，容易看到不该看到的事物、听见不该听见的声音，同时将间歇性浑身瘙痒。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 可以有效降低「太阳」和「闪电」领域的伤害。
+    text: 外观为一根皮带。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: rewells_desperate_scream
+    name: 里维尔的绝望嘶喊
+    slot: weapon
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      hit: 0.06
+      damage: 6
+    negativeEffects:
+      - 持有者同样会听到那绝望的嘶吼，只是不那么频繁。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 无需子弹也能一直不停地快速射击，每一枪都有很大的威力，如同一把缩小的机枪；有两种攻击模式：正常的射击（威力比空气炮小一些）、机枪扫射（能在一两秒钟内发射大量子弹）。
+      - 被命中的目标会承受里维尔死前绝望的嘶吼，分别出现痛苦、眩晕、迷糊等不同状态；对圣者层次也有一定影响，但不是太大。
+    text: 外观为一把奇特的手枪。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: death_fang
+    name: 死亡短牙
+    slot: weapon
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      hit: 0.06
+      damage: 6
+    negativeEffects:
+      - 未知。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 属于攻击型神奇物品（具体能力萌娘百科未展开）。
+    text: 外观为一柄漆黑短剑。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 中
+  - id: dragon_hunting_bow
+    name: 猎龙弓
+    slot: weapon
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      hit: 0.06
+      damage: 6
+    negativeEffects:
+      - 具体效果未知，不过不是很严重。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 凝聚出一支刺目而煊赫的电光长箭，造成可以射杀半神层次巨龙的伤害。
+    text: 外观为一把庞大的巨弓；在白银城的历史书上有记载，因射杀半神层次的巨龙而得名。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: unnamed_2_44
+    name: 未命名神奇物品（形状可变帽子）
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 佩戴者会渴望水，一旦行走于大地之上，会越来越虚弱。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 佩戴者可以自由地在水下活动至少半个小时，并运用一些水和风领域的类法术。
+    text: 可以变化形状的帽子
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: unnamed_2_107
+    name: 未命名封印物（彩色积木）
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 身处建筑中的人和物没有外在帮助几乎无法离开。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 可以变形，拼成现实中的建筑后能和对应建筑建立联系，一旦有人闯入立刻就会缩小；不能距离太远，且需要积木数量足够。
+    text: 一堆色彩斑斓的积木
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: unnamed_2_202
+    name: 未命名封印物（金色微缩电报机）
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 一经启用，影响范围的声音会全部传入使用者的耳朵，持续很久。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能让使用者的声音同时在周围五公里范围内响起。
+    text: 一个巴掌大小的金色微缩电报机，有一个喇叭
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: unnamed_2_134
+    name: 未命名神奇物品（青铜虚幻大门）
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 未知。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 打开一扇青铜色的虚幻大门，门中能伸出一双双或苍白或透明、或长满牙齿或血淋淋没有皮肤的手臂，凸显出一张张婴儿脸孔的青黑色藤蔓，缠绕捆绑敌人，将其拉入门后（冥界）。
+    text: 具体外形未知，发动表现为摘下手套后右手掌心爆发出无穷无尽的虚幻光芒
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: unnamed_2_236
+    name: 未命名神奇物品（黄金面具）
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 随着使用次数的增加，佩戴者会越来越不像人类、越来越冷酷，最终将自己当成神灵。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 佩戴者会变得极为冷静、没有情绪起伏，获得极强的恢复能力、速度和力量，并掌握一定的黑魔法与原始诅咒术。
+    text: 一张勾勒有粗略的五官的黄金面具，很有古老丛林里原始人的特点
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: unnamed_3_176
+    name: 未命名神奇物品（银白面具）
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 未知。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 让「收尸人」途径的佩戴者体内的冥界生物绝大部分时候都处于比较平静的状态。
+    text: 一张银白色面具
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: unnamed_3_218
+    name: 未命名神奇物品（黄铜镜子）
+    slot: relic
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      mp: 9
+      digBonus: 0.022
+    negativeEffects:
+      - 未知。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 将敌人的部分躯体映照入内，并通过攻击镜面内的影像对现实中的躯体造成相同的伤害。
+    text: 一面巴掌大小的黄铜镜子
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: unnamed_4_161
+    name: 未命名神奇物品（铁黑拳套）
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 让佩戴者行动变得鲁莽，总是先行动再思考问题。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 未知。
+    text: 一个铁黑色拳套
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: unnamed_4_162
+    name: 未命名神奇物品（黑色手套）
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 未知。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 目前已表现的有窃取别人的语言能力使拥有者暂时掌握这门语言；其余未知。
+    text: 一只黑色手套
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: unnamed_4_176
+    name: 未命名神奇物品（黄金日冕）
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 未知。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 凝聚出一轮太阳，净化死灵、污秽类生物。
+    text: 黄金日冕
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: unnamed_7_71
+    name: 未命名封印物（黑色长袍）
+    slot: armor
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      hp: 12
+      defense: 0.045
+    negativeEffects:
+      - 会时常收紧、勒住穿戴者，使用时会加剧，让使用者接近窒息，甚至肋骨断裂。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 拉一拉上面的一处由三枚红宝石、三枚绿宝石和三枚钻石组成的「门」型图案装饰，能传送到指定地点。
+    text: 一件很有古典韵味的黑色长袍，表面绣有金丝银线，镶嵌着多种米粒大小的宝石
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: abraham_family_bracelet
+    name: 亚伯拉罕家族的手链
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 使用后，「学徒」途径的非凡者会开始听见「门」先生的满月呓语。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 扯下一颗石头，用古赫密斯语念出「门」，就可以借助灵界穿行至想去的地点。
+    text: 一条银色的手链，上面有五颗暗青色的粗糙石头，石头的表面充满烧灼的痕迹，凹凸不平
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: rune_steel_sword
+    name: 符文钢剑
+    slot: weapon
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      hit: 0.06
+      damage: 6
+    negativeEffects:
+      - 萌娘百科未列出负面效果。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 有净化和驱邪效果，是水鬼、怨魂、活尸等不死生物的克星。
+    text: 永恒烈阳教会制造的锋利钢剑
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: saw_cleaver
+    name: 锯肉刀
+    slot: weapon
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      hit: 0.06
+      damage: 6
+    negativeEffects:
+      - 无（无非凡效果）。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 在「智慧之眼」先生的非凡者聚会上出售，不过并没有非凡效果。
+    text: 拥有精巧机械结构，可变形、容易携带的实战利器
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 中
+  - id: slowing_whip
+    name: 缓慢之鞭
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 萌娘百科未列出负面效果。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 仿制于某件神奇物品，能不断制造无形的束缚，一点点影响目标，让对方动作逐渐变得迟缓，战斗持续得越久效果越明显。
+    text: 原作未描述外观。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: holy_sunbird_whip
+    name: 神圣太阳鸟鞭
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 浸泡制水会让灵性维持时间减少，一次减少一个月。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能覆盖纯正神圣的光明之火，重创死灵类怪物，让其中较弱的目标直接泯灭。
+      - 浸泡在液体中可以制造「太阳圣水」，但会让灵性维持时间减少，一次减少一个月。
+    text: 由神圣太阳鸟羽毛编织成的鞭子，平时可以伪装成皮带
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: hurricane_axe
+    name: 飓风之斧
+    slot: weapon
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      hit: 0.06
+      damage: 6
+    negativeEffects:
+      - 萌娘百科未列出主动负面效果。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 提高使用者的动作频率和奔跑速度。
+      - 有 15% 几率对敌人产生一定的麻痹效果，有 5% 几率制造出一道闪电；如果在雷暴雨中使用，闪电出现的概率最高可提升至 50%。
+    text: 一把能别在背后、夹于皮带内的斧头，通体呈铁黑色，厚实坚固、刃口锋利；表层有诸多嵌入了内部的象征符号和魔法标识，变成了闪电和飓风般的花纹，触碰时会隐约有刺痛感
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: vampire_anesthetic_gas
+    name: 血族麻醉气体
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 最好在无风环境下使用；虽然能让强壮的普通人、序列9以身体见长的非凡者、更高序列但体质不够好的目标昏迷，但目标有危险预感或者体格强大时难以达到预期效果。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能有效蔓延，无刺激性气味，直接嗅到就会沉睡超过三小时，此后效果不断降低。
+    text: 装在密封金属罐中的气体，扭动机械开关能抽出了一根管子，释放气体
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: moon_paper_figure
+    name: 月亮纸人
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 由于是一次性物品，几乎没有负面影响，仅会让人身体微微发冷。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能代替使用者承受一次致命伤害或者直接针对精神体的攻击。
+    text: 原作未描述外观。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: travelers_knapsack
+    name: 旅者的行囊
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 由于口袋的「门」位于现实，内部神奇物品的负面效果同样可以影响携带者。
+      - 原理上利用了灵界，在没法连通灵界的地方就无法使用。
+      - 必须每隔一段时间加固一次口袋的力量，否则会逐渐失效。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 口袋本质上是一个出入口，内部有莫雷蒂家在廷根市最早租住的两居室房间大小，可以装不少东西。
+    text: 表面上只能插入成年男子一只手掌的黑色口袋
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: ghost_ships
+    name: 幽灵船（幽蓝复仇者号 / 黑王座号 / 黑皇帝号 / 幽灵帝国）
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 部分幽灵船如果无人看管，可能会故意制造问题或驶向危险海域。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 可以自行工作，不需要水手。
+      - 有一定的非凡能力，比如在神秘学意义上保护船长，或者给予船长额外视野，能观察船只周围。
+      - 高级的幽灵船（如「黑皇帝」号）甚至能进行灵界穿梭。
+    text: 指可以自己航行、不会沉没，更接近于一种奇异生物的船只，可能属于有活着的特性的封印物； 制作方法未知，克莱恩怀疑制作过程中有献祭非凡者。 目前已知的幽灵船：图铎时代的「幽蓝复仇者号」（船长为阿尔杰）、 所罗门帝国的「黑王座号」（船长为罗塞尔大帝）和「黑皇帝号」（船长为「五海之王」纳斯特）、 特伦索斯特帝国的「幽灵帝国」。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: kleins_gold_coin
+    name: 克莱恩的金币
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 无（效果会随时间减退）。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 能提高占卜的准确性，增强使用者对抗干扰的能力。
+      - 在克莱恩临近沉睡时交给了能够信任的对象，能帮助非神灵层次的非凡者进入自己的梦境，作为对抗天尊的后手。
+    text: 克莱恩经常用来占卜的五枚金币之一，最早是他作为侦探接下委托、探查图铎王朝遗迹后收下的报酬； 在沾染了「源堡」气息后产生一定变异，某种程度上算是神奇物品，但效果会随时间减退。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高
+  - id: kleins_cigarette_case
+    name: 克莱恩的卷烟盒
+    slot: charm
+    quality: fine
+    sequence: 5
+    level: unrated
+    stats:
+      madResist: 0.06
+      cor: 3
+    negativeEffects:
+      - 未描述。
+    debuffs:
+      madPerUse: 2
+      corGain: 1
+      statPenalty: 1
+    abilities:
+      - 被克莱恩用来装过各种非凡物品，经常放在灰雾之上，和金币一样融入了「源堡」气息。
+    text: 一个表面有腐蚀痕迹的铁制卷烟盒。
+    source: https://zh.moegirl.org.cn/非凡物品
+    confidence: 高

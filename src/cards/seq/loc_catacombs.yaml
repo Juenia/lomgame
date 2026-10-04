@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「地下墓穴」（catacombs，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_catacombs
+name: 墙里在数数
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:地下墓穴'
+effects:
+  - { mad: 3 }
+  - { cor: 2 }
+texts:
+  priv: |
+    你举着灯往下走，听见有人在数。
+    数得很慢，一个一个地数。
+    数到你在这里的第三天时，你停下来了。
+    **它还在数。** 而它数的是名字，你已经听出来三个了。
+  group: 那条墓道里的灯，昨晚自己灭了一次。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 跟着听下去
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你又听了一刻钟。听出来了第四个名字。
+      **而第四个名字是你认识的** —— 他上个月还好好的。
+  - key: '2'
+    label: 把灯举高照墙
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你把灯举高。墙上有刻痕。
+      **刻痕是名字** —— 一排一排，刻得很密。
+  - key: '3'
+    label: 对着墙报一个名字
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你报了自己的名字。数数停了。
+      **停了很久** —— 然后从你的名字开始，重新数。

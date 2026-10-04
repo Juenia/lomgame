@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「铁线工坊」（iron_loom，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_iron_loom
+name: 线是活的
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:铁线工坊'
+effects:
+  - { hp: 2 }
+  - { cor: 2 }
+texts:
+  priv: |
+    这里织的不是布，是铁线。
+    你伸手碰了一下，它**缩了**。
+    像碰到什么活的东西那样缩，缩回缠在机器上。
+    你把手收回来，手上多了一道很细的口子。
+  group: 那间工坊里的铁线会动，看见的人都这么说。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把手指含一下
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你把手指含了一下。血止住了。
+      **而口子是斜的** —— 不像被划的，像被咬的。
+  - key: '2'
+    label: 再碰一次，这次慢一点
+    effects: [ { dig: 7, hp: 2, cor: 3, mad: 3 } ]
+    text: |
+      你慢慢把手伸过去。它又缩了。
+      **而这次它缩之前先动了一下** —— 朝你的方向动。
+  - key: '3'
+    label: 问坊里的人这线是哪来的
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      他们说是上面发的。
+      **而他们说每次领回来都会少一点** —— 少的那部分没人知道去哪了。

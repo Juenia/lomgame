@@ -1,0 +1,34 @@
+id: daily_022
+name: 以后有事找你
+trigger:
+  type: daily
+  weight: 6
+  cond: []
+  location:
+    - 老码头
+effects:
+  - { dig: 1 }
+  - { item: 便士, n: 3 } # M2.5：货币单位改为便士，值不变
+  - { flag: owes_favor }
+texts:
+  priv: |
+    老码头的搬运工把一小袋钱塞给你，只说了一句以后有事找你。
+  group: 老码头今晚卸了一批没有清单的货。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把钱收下
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你收下了。他说这话的时候没有看你。
+  - key: '2'
+    label: 问他卸的是什么
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      他说不知道。而他说那批货没有一样是方的。
+  - key: '3'
+    label: 把钱还回去
+    effects: [ { dig: 3 } ]
+    text: |
+      你把钱推了回去。他愣了一下，没有再让。

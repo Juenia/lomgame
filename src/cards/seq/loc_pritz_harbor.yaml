@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「潮汐码头」（pritz_harbor，危险度 3）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_pritz_harbor
+name: 退潮之后的绳子
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:潮汐码头'
+effects:
+  - { dig: 2 }
+  - { cor: 1 }
+texts:
+  priv: |
+    退潮之后，桩子上露出很多缠着的旧绳。
+    你顺手扯了一根。
+    **底下连着东西** —— 很沉，扯不动。
+    你把绳子放回去，拍了拍手上的沙。
+  group: 潮汐码头的桩子底下都缠着绳，没人敢扯。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 再扯一次，用力些
+    effects: [ { dig: 7, hp: 2, cor: 3, mad: 3 } ]
+    text: |
+      你使了全力。绳子动了一点。
+      **而水面上冒起来一串泡** —— 从桩子底下。
+  - key: '2'
+    label: 潜下去看看
+    effects: [ { dig: 7, hp: 3, cor: 3, mad: 4 } ]
+    text: |
+      你潜下去了。水下很浑。
+      **而桩子底下的绳子不是缠着的** —— 是长在里面的。
+  - key: '3'
+    label: 问码头的人这绳子的事
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      他们不说。
+      **而有一个说漏了一句** —— 「上一根是七年前断的」。

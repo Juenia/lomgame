@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `found_the_room` → 后续卡 `chain_found_the_room`
+id: start_found_the_room
+name: 找到那间屋子
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { dig: 4 }
+  - { mad: 2 }
+  - { flag: found_the_room }
+texts:
+  priv: |
+    那扇门在一条你走过很多次的街上。
+    **以前这里没有门。**
+    你推开了。里面很小，什么都没有，只有一把椅子。
+    你退出来，把门带上。第二天再走那条街，门没有了。
+  group: 有人说在熟悉的街上看见了一扇没见过的门。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 第二天再去那条街找
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你去了。门没有了。
+      **而墙上有一块砖是松的** —— 你摸了摸，它比旁边那块凉。
+  - key: '2'
+    label: 把那把椅子记住
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你记住了那把椅子的样子：三条腿着地，一条悬着。
+      **而半个月后你在另一条街上看见了同一把** —— 也是三条腿着地。
+  - key: '3'
+    label: 在门上做个记号
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你在门框上划了一道。第二天门没了。
+      **而那道划痕在墙上** —— 一模一样的高度。

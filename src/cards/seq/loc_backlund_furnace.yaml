@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「熄火炉膛」（backlund_furnace，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_backlund_furnace
+name: 手靠近却烫
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:熄火炉膛'
+effects:
+  - { hp: -2 }
+  - { cor: 2 }
+texts:
+  priv: |
+    炉膛里的灰是白的，彻底烧透了。
+    你把手伸进去 —— 灰是凉的。
+    但手背靠近炉口的那个位置，**烫**。
+    你把手抽回来，手背上有一块红。
+  group: 那口熄了几十年的炉子，昨天烫了一个人。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 再把手伸进去一次
+    effects: [ { dig: 6, hp: 2, cor: 2, mad: 2 } ]
+    text: |
+      你又伸手进去了。灰还是凉的。
+      **而这次手背没烫** —— 烫的是手腕，靠外的那一侧。
+  - key: '2'
+    label: 低头看手背那块红
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你看了一眼。红是一小片，形状很圆。
+      **而它不疼** —— 按下去也不疼。
+  - key: '3'
+    label: 把炉膛里的灰掏出来
+    effects: [ { dig: 7, hp: 3, cor: 3, mad: 3 } ]
+    text: |
+      你掏了。灰下面是硬的。
+      **而硬的那一层是热的** —— 热得隔着手套都能感觉到。

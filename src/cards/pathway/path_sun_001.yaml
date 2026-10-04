@@ -1,0 +1,37 @@
+id: path_sun_001
+name: 照见灰的那道光
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:sun' ]
+  min_seq: 9
+effects:
+  - { dig: 4 }
+  - { cor: 1 }
+texts:
+  priv: |
+    正午的光斜进屋，照出空气里一层细灰。
+    你顺着光看过去 —— 灰在动，逆着风。
+    太阳照见每一处阴影，包括那些还没成形的。
+  group: 屋里的光忽然亮了一瞬，随即恢复。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 顺着光看那层灰
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你看着灰。它们逆着风往上飘。
+      **而飘到光柱顶上就没了** —— 不是散了，是没了。
+  - key: '2'
+    label: 把光引到墙角去
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你把光引过去了。墙角亮起来。
+      **而那里什么都没有** —— 只是比别处凉。
+  - key: '3'
+    label: 把光收住
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你收了。屋里暗下来。
+      **而那层灰还在** —— 看不见了而已。

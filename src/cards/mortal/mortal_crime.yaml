@@ -1,0 +1,42 @@
+# M2.7.6：普通人专属事件卡（未入途径）。
+#
+# 口径（任务书 §5.5）：**描述模糊、信息少、压迫感强**。
+# 普通人不知道雾里是什么，只知道「不该待在这里」——
+# 同一张卡在入途径之后会被另一套卡替换掉（那个版本才有名字与解释）。
+#
+# cond: pathway:mortal —— 这一条同时是「普通人看不到 daily/random 池」的另一半：
+# 两个池子靠条件与命令层的硬过滤共同分开，任何一边漏了都不会互相串味。
+id: mortal_crime
+name: 巷子里的人
+trigger:
+  type: random
+  weight: 8
+  cond: [ pathway:mortal ]
+effects:
+  - { mad: 2 }
+  - { cor: 1 }
+texts:
+  priv: |
+    巷子里有个人倒着，姿势不太对。
+    旁边站着的人转过身，看了你一眼，然后慢慢走了。
+    他没有跑。他甚至没有走快。
+  group: 巷子里出了一件事，没人愿意细说。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 过去看一眼
+    effects: [ { dig: 5, cor: 2, mad: 3 } ]
+    text: |
+      你走过去了。倒着的那个人不动。
+      而地上没有血 —— 一点都没有。
+  - key: '2'
+    label: 记住那个人的样子
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你记住了：灰大衣，走路时右手不摆。
+  - key: '3'
+    label: 走开，不报官
+    effects: [ { dig: 3, mad: 1 } ]
+    text: |
+      你走了。走了两条街你才发现自己一直在屏着气。

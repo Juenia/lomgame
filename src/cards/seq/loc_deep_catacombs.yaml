@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「墓窟深处」（deep_catacombs，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_deep_catacombs
+name: 呼吸声
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:墓窟深处'
+effects:
+  - { mad: 3 }
+  - { hp: -2 }
+texts:
+  priv: |
+    越往下走，呼吸声越多。
+    一开始是两个，然后是五个，然后是十几个。
+    **它们不在动。** 就是呼吸，一起一伏。
+    你站在最底下那一层，听了一会儿。有一个的节奏跟你一样。
+  group: 那条墓道最底下，昨晚有呼吸声。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 站着不动，听下去
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你站着听。呼吸声一直没停。
+      **而它们越听越不像呼吸** —— 像有什么在数着你站在这里的时间。
+  - key: '2'
+    label: 沿着墙往里走
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你贴着墙往前走。走了很深。
+      **而呼吸声一直跟着** —— 你停它也停，你走它也走。
+  - key: '3'
+    label: 屏住呼吸，听那个跟你一样的
+    effects: [ { dig: 6, hp: 2, cor: 3, mad: 3 } ]
+    text: |
+      你屏住气。那个节奏也跟着停了。
+      **停了大概十秒** —— 然后它先撑不住，喘了一大口。

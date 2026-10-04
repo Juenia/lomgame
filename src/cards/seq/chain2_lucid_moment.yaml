@@ -1,0 +1,22 @@
+# 事件卡链（M2.87）—— **链的第二段**（三级链的中间那一环）。
+# 前置：设 flag `lucid_moment` 的那张卡
+# 自身：要 `flag:lucid_moment`，并**设出** `lucid_sought`（供第三段读）
+id: chain2_lucid_moment
+name: 代价
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:lucid_moment'
+effects:
+  - { cor: 3 }
+  - { mad: 2 }
+  - { flag: lucid_sought }
+texts:
+  priv: |
+    你找到了再来一次的办法。
+    代价是**之后三天你什么都感觉不到** —— 不饿，不疼，也不困。
+    第三天晚上你坐在桌边，看着自己的手，很久。
+    然后那种感觉慢慢回来了。你松了口气。
+  group: 有人三天没吃东西，人看着没事。
+daily_limit: 1

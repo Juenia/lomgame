@@ -1,0 +1,35 @@
+id: lost_003
+name: 一瞬间的清醒
+trigger:
+  type: random
+  weight: 6
+  cond:
+    - status:lost_control
+  cooldown_days: 1
+effects:
+  - { mad: -12 }
+  - { dig: 1 }
+  - { flag: lucid_moment }
+texts:
+  priv: |
+    有一瞬间，所有声音同时退开。
+    你清楚地知道自己在哪、做了什么、接下来该做什么 —— 然后那扇门又关上了。
+  group: "有人忽然安静了下来。"
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 趁那一瞬间把该做的做完
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你做了。做完之后那扇门就关上了 —— 而事情确实办成了。
+  - key: '2'
+    label: 记住那一瞬间看见了什么
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你想了一会儿。想起来的是「接下来该做什么」那一句。
+  - key: '3'
+    label: 等它再来一次
+    effects: [ { dig: 4, mad: 1 } ]
+    text: |
+      你等了一整夜。它没有再来。

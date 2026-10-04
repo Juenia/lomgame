@@ -1,0 +1,37 @@
+id: path_sleepless_003
+name: 替他念完
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:sleepless' ]
+  min_seq: 6
+effects:
+  - { dig: 6 }
+  - { cor: 2 }
+texts:
+  priv: |
+    死者手上还捏着半张纸，上面是一段没念完的祷词。
+    你蹲下去，把剩下的一半念完了。
+    安魂师做的不是超度，是**把话说完** —— 没说完的话会在原地待很久，久到下一个路过的人替它说。
+  group: 教堂里有一阵风，把烛火压低了一寸。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把剩下的半段念完
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你念完了。教堂里那阵风停了。
+      **而烛火比刚才高了一寸** —— 全部九根，一样高。
+  - key: '2'
+    label: 把那张纸收起来
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      你把它从他手里取出来，折好。
+      **而取出来之后他的手张开了** —— 掌心有一个很深的印子。
+  - key: '3'
+    label: 问一句这话是念给谁的
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你问了。没有回答。
+      **而烛火全都偏了** —— 偏向同一个方向，那个方向是门。

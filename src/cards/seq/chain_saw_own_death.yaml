@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：看见了自己的结局（设 flag `saw_own_death`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_saw_own_death
+name: 日子到了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:saw_own_death'
+effects:
+  - { hp: -3 }
+  - { mad: 4 }
+texts:
+  priv: |
+    那天你哪儿都没去。
+    **你在家里坐了一整天，门闩着。**
+    天黑了，什么都没发生。
+    你笑了一下，然后开始哭。
+  group: 有人昨天一整天没出门，晚上屋里有声音。
+daily_limit: 1

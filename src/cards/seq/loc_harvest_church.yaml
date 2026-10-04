@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「丰收教堂」（harvest_church，危险度 1）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_harvest_church
+name: 麦子放在门口
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:丰收教堂'
+effects:
+  - { hp: 2 }
+  - { dig: 1 }
+texts:
+  priv: |
+    丰收教堂门口每天都有人放东西。
+    今天是**一小捆麦子**，扎得很整齐。
+    没有人知道是谁放的 —— 也没人拿走。
+    第二天那捆麦子还在，只是干了。
+  group: 丰收教堂门口那捆麦子放了三天，没人动。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把它拿进去交给教堂
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你拿进去交给了执事。他愣了一下。
+      **然后他把麦子放在了祭坛下面** —— 那里已经堆了很多捆。
+  - key: '2'
+    label: 守着等看谁来放
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你守到后半夜。有个人来了。
+      **而他看见你之后** —— 把麦子放在地上就走了，一句话没说。
+  - key: '3'
+    label: 看看那捆麦子有什么特别
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      你拆开看。扎得很整齐，用的是一种黑绳子。
+      **而麦穗全是空的** —— 一粒都没有。

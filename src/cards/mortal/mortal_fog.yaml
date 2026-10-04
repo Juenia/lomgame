@@ -1,0 +1,41 @@
+# M2.7.6：普通人专属事件卡（未入途径）。
+#
+# 口径（任务书 §5.5）：**描述模糊、信息少、压迫感强**。
+# 普通人不知道雾里是什么，只知道「不该待在这里」——
+# 同一张卡在入途径之后会被另一套卡替换掉（那个版本才有名字与解释）。
+#
+# cond: pathway:mortal —— 这一条同时是「普通人看不到 daily/random 池」的另一半：
+# 两个池子靠条件与命令层的硬过滤共同分开，任何一边漏了都不会互相串味。
+id: mortal_fog
+name: 贴着水面的雾
+trigger:
+  type: random
+  weight: 14
+  cond: [ pathway:mortal ]
+effects:
+  - { mad: 1 }
+  - { flag: touched_fog }
+texts:
+  priv: |
+    灰雾贴着水面走。
+    你听见有人在低声说话，但听不清内容。
+    你只知道不该待在这里。
+  group: 雾里有东西挪动了一下。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 走开
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你退开了。那几句话还在后面，一直没断。
+  - key: '2'
+    label: 站住，把话听清
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你站住了。听清了三个字 —— 而那三个字是一个名字。
+  - key: '3'
+    label: 朝雾里看
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你看进去。雾里有人站着，背对着你。

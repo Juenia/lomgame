@@ -1,0 +1,37 @@
+id: path_mystery_pryer_002
+name: 不能读的那一页
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:mystery_pryer' ]
+  min_seq: 5
+effects:
+  - { dig: 6 }
+  - { mad: 2 }
+texts:
+  priv: |
+    册子摊在桌上，翻到某一页就不肯再翻。
+    你把那一页读了 —— 读完之后你合上书，压上一块石头。
+    隐秘之所以是隐秘，不是因为它藏得深，是因为**知道的人不会说**。
+  group: 有人把一本书合上，合得很轻。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 压上一块石头，不再翻
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你把石头压上去，走开了。
+      **而那一页你已经读过了** —— 读过就再也没法当作没读。
+  - key: '2'
+    label: 再读一遍那一页
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你又读了一遍。这次读出的是别的意思。
+      **而两遍的意思都对** —— 这才是不能读的原因。
+  - key: '3'
+    label: 把那页撕下来
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你撕了下来，折好收进内袋。
+      **第二天你翻开看** —— 上面的字少了一半。

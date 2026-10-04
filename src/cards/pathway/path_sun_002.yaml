@@ -1,0 +1,37 @@
+id: path_sun_002
+name: 不该有的影子
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:sun' ]
+  min_seq: 5
+effects:
+  - { dig: 6 }
+  - { hp: -4 }
+texts:
+  priv: |
+    你站在光里，影子比该有的短。
+    你挪了一步，它没跟上 —— 它比你先知道自己该在哪。
+    太阳教会收人，是因为只有站在光里，你才看得见自己少了什么。
+  group: 街上有人站着不动，站着的地方亮得不自然。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 低头看自己的影子
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你低头看。它比该有的短一截。
+      **而它没有连在你脚上** —— 中间空了一指。
+  - key: '2'
+    label: 再挪一步，看它跟不跟
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你挪了一步。它也挪了。
+      **而它挪的方向和你相反** —— 你往左，它往右。
+  - key: '3'
+    label: 走开，站到阴影里去
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你走到屋檐下面。影子长回来了。
+      **而它长得比正常的还长** —— 长到伸进了隔壁的门里。

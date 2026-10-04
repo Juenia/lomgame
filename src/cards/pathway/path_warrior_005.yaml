@@ -1,0 +1,38 @@
+id: path_warrior_005
+name: 银色的那一层
+trigger:
+  type: daily
+  weight: 6
+  cond: [ 'pathway:warrior' ]
+  min_seq: 3
+  cooldown_days: 5
+effects:
+  - { dig: 7 }
+  - { mad: 2 }
+texts:
+  priv: |
+    你把手伸进火里，拿出来的时候手背上镀了一层银。
+    那不是烧伤 —— 是**你身体里的某样东西开始浮到表面**。
+    银骑士的甲不是穿上去的。你看着自己的手，第一次分不清哪些部分还是你**原来的**。
+  group: 屋里有一瞬间亮得不像烛光。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把袖子放下来
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你把袖子放下来，把手插进口袋。
+      **而那层银一直没退** —— 到晚上还在。
+  - key: '2'
+    label: 再把手伸进火里
+    effects: [ { dig: 7, hp: 3, cor: 3, mad: 3 } ]
+    text: |
+      你又伸进去了。这次镀到了手腕。
+      **而你没有觉得烫** —— 一点都没有。
+  - key: '3'
+    label: 看看那层银能盖住多少
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你卷起袖子看。银只到肘部。
+      **而肘部以上有一道很细的线** —— 像是有东西正在往上走。

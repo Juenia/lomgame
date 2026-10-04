@@ -1,0 +1,37 @@
+id: path_monster_002
+name: 第三次遇见同一只猫
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:monster' ]
+  min_seq: 4
+effects:
+  - { dig: 6 }
+  - { mp: -3 }
+texts:
+  priv: |
+    同一条街，同一只猫，今天第三次。
+    第三次它离你更近，而且**这次它先看你**。
+    你数了数自己今天做过的事，发现它们也开始重复了。
+  group: 街角的猫今天一直在同一个地方。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 蹲下来跟它对视
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你蹲下来。它先眨眼。
+      **而它眨眼的方式像人** —— 上下眼皮同时合。
+  - key: '2'
+    label: 换一条路走
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你换了条路。走出去两百米，你看见它在前面的墙头。
+      **而它刚才没动过** —— 你确定。
+  - key: '3'
+    label: 数一数今天重复了几件事
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你数了。三件。
+      **第三件是这句问话** —— 你昨天也数过一次，也是三件。

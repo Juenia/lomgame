@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「大桥区」（backlund_bridge，危险度 2）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_backlund_bridge
+name: 桥上的人
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:大桥区'
+effects:
+  - { dig: 2 }
+  - { mad: 1 }
+texts:
+  priv: |
+    桥很长，走过去要一刻钟。
+    走到一半你发现前面那个人一直在旁边 —— 不快不慢。
+    **你停下来。他也停了。**
+    你转过身往回走。他没有跟。
+  group: 大桥上有人走到一半忽然回头走了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 转身，正面看他
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你转过身，正对着他。他也转了过来。
+      **而他的脸是模糊的** —— 不是看不清，是那上面没有能记住的东西。
+  - key: '2'
+    label: 继续走到桥那头
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你接着走。他一直跟着。
+      **到桥头你回头** —— 他停在了桥中间的第二个灯柱旁边。
+  - key: '3'
+    label: 转身问他要不要一起走
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你问了。他没有答，但他走在了你旁边。
+      **走到桥头的时候他不见了** —— 而你手里多了一样东西。

@@ -1,0 +1,33 @@
+# 原著依据：《日常生活.md》fun_shooting_club ——「佐特兰射击俱乐部（佐特兰街 3 号），开到晚上九点，方便会员下班练习」（ch26/ch39/ch42）
+# 本项目从该素材融合为事件卡（不是原作的原文，是依据它写的事件）。
+id: daily_042
+name: 佐特兰街三号
+trigger:
+  type: daily
+  weight: 5
+effects:
+  - { dig: 1 }
+  - { hp: 2 }
+texts:
+  priv: |
+    射击俱乐部开到晚上九点，正好够你下班来打一轮。
+    枪声在封闭的屋子里很闷。你打完最后一发，手比来的时候稳。
+  group: 佐特兰街三号那栋斑驳的楼里，今晚也有枪声。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 再打一轮
+    effects: [ { dig: 4, hp: 1 } ]
+    text: |
+      你又打了一轮。这次手比刚才更稳。
+  - key: '2'
+    label: 问俱乐部的人这楼以前是什么
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      他说以前是仓库。而他说这楼里的墙比外面厚一倍。
+  - key: '3'
+    label: 低头看看自己的手
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你摊开手。掌心的茧是新的。

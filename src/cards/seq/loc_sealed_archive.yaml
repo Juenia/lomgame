@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「封存档案室」（sealed_archive，危险度 2）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_sealed_archive
+name: 第七排第三格
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:封存档案室'
+effects:
+  - { dig: 4 }
+  - { mad: 1 }
+texts:
+  priv: |
+    你要找的东西在第七排第三格。
+    拉出来的时候，**里面已经有一份了**。
+    一样的封皮，一样的编号 —— 但字迹不是你的。
+    你把两份都放回去，把抽屉关上。
+  group: 档案室的人说那一格昨天有人动过，登记簿上没有记录。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把那一份抽出来看
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你抽出来看了。内容和你那份一样。
+      **而最后一页多了一行** —— 是批注，写的是「照此办理」。
+  - key: '2'
+    label: 去查登记簿那一天的记录
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你翻了那一天。那一页是空的。
+      **而前后两天的字迹都比它新** —— 那一页像是很早就写好了。
+  - key: '3'
+    label: 把两份调换位置
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你把两份对调了。关抽屉的时候手很稳。
+      **第二天再打开** —— 两份又换回来了。

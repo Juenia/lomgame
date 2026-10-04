@@ -1,0 +1,38 @@
+id: path_sleepless_005
+name: 灯要一直亮着
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:sleepless' ]
+  min_seq: 4
+effects:
+  - { dig: 6 }
+  - { hp: -4 }
+  - { flag: night_watch_duty }
+texts:
+  priv: |
+    你守的这一班是天亮前最黑的两个钟头。
+    守夜人不是不怕，是**知道怕的时候该站在哪**。
+    第三个小时，走廊尽头有什么东西走过 —— 你没有转头。灯要一直亮着，这是唯一的规矩，也是全部的规矩。
+  group: 走廊里的脚步声停在了门外，很久没有再响。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 不转头，把灯芯挑亮
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你伸手挑灯芯，眼睛一直看着前面。
+      **门外那点动静退开了** —— 退得很慢。
+  - key: '2'
+    label: 回头看走廊那头
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你回头。走廊是空的。
+      **而灯灭了一盏** —— 你没有听见风。
+  - key: '3'
+    label: 走出去，站到门外
+    effects: [ { dig: 6, hp: 2, cor: 2, mad: 2 } ]
+    text: |
+      你走出去了。走廊很冷。
+      **而你站的地方正好是它停下的地方** —— 一步不差。

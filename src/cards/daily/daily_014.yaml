@@ -1,0 +1,32 @@
+id: daily_014
+name: 新徽记
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - flag:joined_church
+effects:
+  - { dig: 2 }
+  - { item: 教会徽记, n: 1 }
+texts:
+  priv: |
+    教会给了你一枚新的徽记。你把它别在内侧，别的位置只有自己知道。
+  group: 教堂门口多了一枚新的徽记。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 别在内侧，不跟人说
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你把它别好了。走路的时候它会碰到肋骨。
+  - key: '2'
+    label: 去问教会为什么给你
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      他们说名单上有你的名字。
+  - key: '3'
+    label: 看清楚徽记上的纹样
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      纹样是两条线交在一起，中间留着一个空。

@@ -1,0 +1,37 @@
+id: path_monster_001
+name: 硬币没有落地
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:monster' ]
+  min_seq: 9
+effects:
+  - { dig: 4 }
+  - { mad: 1 }
+texts:
+  priv: |
+    你把硬币抛起来，它没有落回你手里。
+    你找了一圈，它在桌角立着。
+    命运之轮这一途的人最先学会的不是赌，是**在结果出来之前先看一眼**。
+  group: 酒馆里有人抛了枚硬币，没接住。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把硬币从桌角拿下来
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你伸手去拿。它倒了。
+      **而倒下去的时候它没有响** —— 桌上一点声音都没有。
+  - key: '2'
+    label: 再抛一次，这次先看一眼
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你抛之前先看了一眼。这一次它落回了你手里。
+      **而你已经知道会是正面** —— 你抛之前就知道了。
+  - key: '3'
+    label: 把硬币留在那儿
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你没动它，结账走了。
+      **第二天你路过那家酒馆** —— 那枚硬币还在桌角上立着。

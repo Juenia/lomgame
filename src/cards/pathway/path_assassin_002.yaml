@@ -1,0 +1,37 @@
+id: path_assassin_002
+name: 不疼
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:assassin' ]
+  min_seq: 5
+effects:
+  - { dig: 6 }
+  - { hp: -5 }
+texts:
+  priv: |
+    刀刃划开的时候，你先感到的是凉。
+    你低头看了看，才想起该疼 —— 然后疼才来。
+    魔女这一途的人与疼痛的关系，从这一刀开始变得不太一样。
+  group: 店里有人割破了手，却没有作声。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 看看那道口子
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你低头看。血出得很慢。
+      **而口子比刀口宽一点** —— 像是自己张开的。
+  - key: '2'
+    label: 再割一刀，看疼什么时候来
+    effects: [ { dig: 5, hp: 2, cor: 2, mad: 2 } ]
+    text: |
+      你又割了一刀。凉、然后疼。
+      **而中间那段空白比上次长了** —— 你数到了三秒。
+  - key: '3'
+    label: 把手包起来，装作没事
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你包好了，接着做手里的事。
+      **店里的人一个都没发觉** —— 而血一直在渗。

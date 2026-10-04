@@ -1,0 +1,39 @@
+id: path_sailor_005
+name: 水下的名字
+trigger:
+  type: daily
+  weight: 6
+  cond: [ 'pathway:sailor' ]
+  min_seq: 3
+  cooldown_days: 5
+effects:
+  - { dig: 7 }
+  - { cor: 3 }
+  - { item: 海盐结晶, n: 1 }
+texts:
+  priv: |
+    你潜下去，看见海底有一块碑，上面的字被水磨得只剩一半。
+    剩下的一半是一个名字。你念出来的时候，周围的水温变了。
+    海王的名号不是抢来的，是**水底下那些东西替你记住的**。你浮上来的时候，手里多了一块盐。
+  group: 水面毫无预兆地翻了一下。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把那块盐收好
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你把它包好收进怀里。它是凉的。
+      **而它在慢慢变小** —— 第二天再看，小了一圈。
+  - key: '2'
+    label: 再念一遍那个名字
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你又念了一遍。水温又变了。
+      **而这次变了之后没有变回来** —— 那一小片海一直是温的。
+  - key: '3'
+    label: 把碑上剩下的字拓下来
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      你拓了。拓下来的纸上只有半个字。
+      **而另外半个** —— 被水磨掉的那一半，拓下来还是空的。

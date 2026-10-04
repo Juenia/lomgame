@@ -1,0 +1,37 @@
+id: path_assassin_001
+name: 贴着墙走过去
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:assassin' ]
+  min_seq: 9
+effects:
+  - { dig: 4 }
+  - { dp: 2 }
+texts:
+  priv: |
+    你贴着墙走完了整条巷子。
+    没有一个人回头 —— 不是没人看见，是**看见了也没记住**。
+    刺客这一途的第一课不是杀，是让人记不住你。
+  group: 巷子里安静得有点过分。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 再走一遍，这次走得慢
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你慢着走了一遍。这次有人看了你一眼。
+      **而看完之后他就忘了** —— 他的眼睛在你身上停了大概半秒。
+  - key: '2'
+    label: 回头看那条巷子
+    effects: [ { dig: 3 } ]
+    text: |
+      你回头。巷子里什么都没有。
+      **而地上有两行脚印** —— 只有两行。
+  - key: '3'
+    label: 试着让人记住你
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你站到人前，跟一个摊主说了三句话。
+      **第二天你再去** —— 他说他不认识你。

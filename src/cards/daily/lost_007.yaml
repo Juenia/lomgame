@@ -1,0 +1,39 @@
+# M2.1（方案 D）：lost_005 的队伍版。lost_005 改成独狼版之后，
+# 「被队友从街上捡回来」挪到这里，保住原本的设计（队伍 ≥2 才抽得到）。
+id: lost_007
+name: 顺着声音走回去
+trigger:
+  type: random
+  weight: 5
+  cond:
+    - status:lost_control
+    - party:size>=2
+  cooldown_days: 2
+effects:
+  - { mad: -8 }
+  - { dig: 2 }
+  - { flag: rescued_by_party }
+texts:
+  priv: |
+    有人在叫你，一遍一遍，用的是你的名字。
+    你终于听懂了，顺着那个声音走回去，一路上摔了两次。
+    扶住你的人没说别的，只是把你往亮处带。
+  group: "有人把谁从街上拖了回来。"
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 跟着他往亮处走
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你跟他走。走到灯下他才松手。
+  - key: '2'
+    label: 问他那声音是什么
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      他说他什么也没听见。而他刚才一直在往那个方向看。
+  - key: '3'
+    label: 回头看那两次摔的地方
+    effects: [ { dig: 4, hp: 1, mad: 1 } ]
+    text: |
+      你回头。地上有两处痕 —— 而它们隔得很远。

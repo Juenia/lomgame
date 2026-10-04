@@ -1,0 +1,38 @@
+id: path_seer_003
+name: 借来的脸
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:seer' ]
+  min_seq: 6
+  cooldown_days: 3
+effects:
+  - { dig: 6 }
+  - { cor: 2 }
+texts:
+  priv: |
+    你在水洼里看见一张脸，看了三秒才想起那不是你的。
+    无面人不是「变成别人」，是**让别人想起你的时候想起的是别人**。
+    你直起身，水洼里的那张脸还在 —— 它冲你眨了眨眼，然后才慢慢变回你的样子。
+  group: 水面上浮起一层油膜，很快又散了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 直起身，把脸还回去
+    effects: [ { dig: 3 } ]
+    text: |
+      你站起来的时候水面晃了一下，那张脸散了。
+      走开之前你又看了一眼 —— 水洼里只剩你自己的轮廓。
+  - key: '2'
+    label: 蹲下来，问它一句
+    effects: [ { dig: 5, cor: 1 } ]
+    text: |
+      你问：你是谁。
+      水面上那张嘴动了一下。**没有声音，但你读出来了** —— 那是你的名字。
+  - key: '3'
+    label: 让它上来
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你把手指伸进水里。
+      那张脸顺着你的手腕往上爬了一半，停住，又退了回去。**它认得路，也认得界限。**

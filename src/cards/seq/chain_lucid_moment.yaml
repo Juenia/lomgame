@@ -1,0 +1,24 @@
+# 事件卡链（M2.87）—— **后续卡**：只有触发过前置卡的人才抽得到。
+# 前置：lost_003 一瞬间的清醒（设 flag `lucid_moment`）
+# 判据：`cond: flag:lucid_moment`。
+#
+# ⚠️ 这一类此前**一条都没有**：全库 29 张卡设了 flag，而要求 flag 的卡是 **0 张** ——
+#    flag 设了就再没有人读，等于写了一半的链。这张是它的后半段。
+id: chain_lucid_moment
+name: 想再来一次
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:lucid_moment'
+effects:
+  - { mad: 3 }
+  - { dig: 2 }
+texts:
+  priv: |
+    那一瞬间的清醒你记得很清楚 —— 什么都对上了。
+    你想再来一次。
+    **这次你等了很久，什么都没有。**
+    你把手放下来，看着自己的手掌。
+  group: 有人这两天一直坐着不动，像在等什么。
+daily_limit: 1

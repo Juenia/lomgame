@@ -1,0 +1,35 @@
+id: seq7_003
+name: 门后面的等待
+trigger:
+  type: daily
+  weight: 10
+  cond: []
+  min_seq: 7
+effects:
+  - { dig: 2 }
+  - { mad: 1 }
+texts:
+  priv: |
+    你还没推开那扇门，就知道里面有东西在等 —— 不是听见的，是**被看**的那种感觉。
+    这种感知不告诉你它是什么，只告诉你「它一直在等有人进来」。
+    你把手按在门框上，它在里面动了动，但没有过来。
+  group: 锈蚀的回廊里传来指甲刮擦的声音。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 推门进去
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你推门进去了。里面是空的。
+      而它没有再动 —— 它只是在你进来之后才安静下来。
+  - key: '2'
+    label: 把手收回来，走开
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你走了。身后那扇门一直没开。
+  - key: '3'
+    label: 隔着门问它一句
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你问了。里面停了很久 —— 然后回了三个字，而那不是任何一种语言。

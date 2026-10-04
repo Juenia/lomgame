@@ -1,0 +1,1896 @@
+# 人物（M2.85 内容填充 P1）
+#
+# 数据来源：诡秘之主原作数据/10-人物/ —— 主要角色.yaml / 神明与天使.yaml / 配角与NPC.yaml
+# 共 70 条（按 id 与 pantheon.yaml 去重：神明本体不重复收录）。
+#
+# 读取点：`.图鉴 人物`（按分类列出）与 `.图鉴 人物 <名字>`（详查）。
+meta:
+  source: 诡秘之主原作数据/10-人物/（主要角色.yaml + 神明与天使.yaml + 配角与NPC.yaml）
+  count: 70
+  breakdown: 主要角色 12 / 廷根配角 8 / 莫雷蒂家 2 / 贝克兰德配角 6 / 中序列非凡者 9 / 特殊角色 1 / 古神 8 / 古代帝王 4 / 天使之王 2 / 天使 10 / 圣徒 5 / 其他神明 3
+  transform_note: 跨三份文件、十余个数组按 category 合并；aliases/organization/notes 等由嵌套结构拍平成「一段一行」；**未映射的原作键统一收进 note（保留键名）**；pathway 用序列 0/9 称号反查项目途径 id，未映射的原样留在 pathwayNames。
+  dedupe_note: 与 pantheon.yaml 同 id 的神明本体（七正神 / 外神 / 旧日）已跳过（4 条）—— 神明看 .图鉴 神明，人物看 .图鉴 人物。
+  fill_note: M2.85 内容填充 P1：全部来自原作数据，未做推测性补全。
+figures:
+  - id: klein_moretti
+    organizationIds: [ tarot_club ]
+    name: 克莱恩·莫雷蒂
+    aliases:
+      - 周明瑞（穿越前本名）
+      - “愚者”
+      - 夏洛克·莫里亚蒂
+      - 格尔曼·斯帕罗
+      - 道恩·唐泰斯
+      - 梅林·赫尔墨斯
+    category: 主要角色
+    gender: 男
+    nation: 中国偏西南地区（周明瑞）；鲁恩王国阿霍瓦郡廷根市（克莱恩身份）
+    pathways:
+      - seer
+      - door
+      - error
+    pathwayNames:
+      - 占卜家
+      - 门
+      - 错误
+    sequence: 9-占卜家 → 0-愚者（半个旧日“诡秘之主”）
+    sequenceTitle: 占卜家 / 愚者
+    ascent: 9占卜家 → 8小丑 → 7魔术师 → 6无面人 → 5秘偶大师 → 4诡法师 → 3古代学者 → 2奇迹师 → 1诡秘侍者 → 0愚者
+    organization:
+      - 塔罗会（创立者）
+      - 黑夜女神教会（前廷根市值夜者小队）
+    occupation: null
+    origin: null
+    identity: 塔罗会首领“愚者”先生；源堡第三位苏醒者兼源堡主人； 廷根市值夜者小队队员（已判定为烈士）；贝克兰德私家侦探；海上冒险家；迪西海湾富翁；流浪魔术师。
+    relation: 本人（本作主角）
+    ending: |
+      晋升序列0“愚者”。为对抗福生玄黄天尊意志的侵蚀而进入沉眠， 在梦中与其对抗；结局释放困在茧中的旧日遗民、最后一次召开塔罗会发布委托， 携魔镜阿罗德斯进入源堡光门沉眠。目前已初步苏醒。
+    note:
+      - height：172cm → 180cm（晋升天使后）
+      - age：22岁 → 25岁
+      - birthday：1327年3月4日（克莱恩身份）
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/克莱恩·莫雷蒂
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: audrey_hall
+    organizationIds: [ tarot_club, hall, psychology_alchemists ]
+    name: 奥黛丽·霍尔
+    aliases:
+      - “正义”
+      - 贝克兰德最耀眼的宝石
+    category: 主要角色
+    gender: 女
+    nation: 鲁恩王国贝克兰德
+    pathways:
+      - spectator
+    pathwayNames:
+      - 观众
+    sequence: 9-观众 → 3-织梦人
+    sequenceTitle: 观众 / 织梦人
+    ascent: null
+    organization:
+      - 塔罗会
+      - 霍尔家族
+      - 心理炼金会
+    occupation: null
+    origin: null
+    identity: 贝克兰德贵族霍尔家族的大小姐；心理医生；心理炼金会卧底成员
+    relation: |
+      被克莱恩首次拉上灰雾的两人之一，塔罗会“正义”； 长期为克莱恩提供心理治疗，是少数了解真实克莱恩的人之一。
+    ending: 存活且清醒
+    note:
+      - 在“愚者”指引下暗中推动鲁恩王国行政制度改革，建立政府雇员考试制度，间接为克莱恩的哥哥班森提供了就职机会。
+      - height：168cm
+      - age：17岁 → 20岁
+      - birthday：1332年6月6日
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/奥黛丽·霍尔
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: alger_wilson
+    organizationIds: [ fool_church, sea_god_church, tarot_club ]
+    name: 阿尔杰·威尔逊
+    aliases:
+      - “倒吊人”
+    category: 主要角色
+    gender: 男
+    nation: 某不知名岛屿（出身地区）
+    pathways:
+      - sailor
+    pathwayNames:
+      - 水手
+    sequence: 8-暴怒之民 → 4-灾难主祭
+    sequenceTitle: 水手 / 灾难主祭
+    ascent: null
+    organization:
+      - 风暴教会（已退出）
+      - 愚者教会
+      - 海神教会
+      - 塔罗会
+    occupation: null
+    origin: null
+    identity: 风暴教会主教级巡游者；“幽蓝复仇者”号船长；后为愚者神使兼海神神使
+    relation: |
+      被克莱恩拉上灰雾的两人之一，塔罗会元老“倒吊人”； 长期担任戴里克·伯格的智囊与导师。
+    ending: 存活；被愚者赐予对应水手途径序列3非凡特性的海神权杖，遵愚者神谕前往西大陆探索
+    note:
+      - 为追求力量瞒着教会暗中晋升，序列六之后不得不服用双份魔药，晋升速度大大减缓，后借“无暗十字”解决。
+      - height：175cm
+      - age：35岁
+      - birthday：1317年3月20日
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/阿尔杰·威尔逊
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: derrick_berg
+    organizationIds: [ tarot_club, fool_church ]
+    name: 戴里克·伯格
+    aliases:
+      - “太阳”
+      - 伯格长老
+    category: 主要角色
+    gender: 男
+    nation: 神弃之地白银城
+    pathways:
+      - sun
+    pathwayNames:
+      - 歌颂者
+    sequence: 9-歌颂者 → 4-无暗者
+    sequenceTitle: 歌颂者 / 无暗者
+    ascent: null
+    organization:
+      - 白银城（探索小队→六人议事团）
+      - 塔罗会
+      - 愚者教会
+    occupation: null
+    origin: null
+    identity: 白银城少年；白银城六人议事团长老；愚者教会大主教
+    relation: |
+      被克莱恩从神弃之地拉上灰雾，塔罗会“太阳”； 克莱恩一方的白银城代言人，科林·伊利亚特的继任者。
+    ending: 作为新白银城的长老之一、愚者教会的大主教守护民众
+    note:
+      - 白银城居民以“巨人”（战士）途径为主，非凡特性改变的基因逐代积累，故其身材远高于北大陆常人。
+      - 萌娘百科条目的「途径」栏写作“歌颂者”，对应“太阳”途径。
+      - height：接近180cm → 超过2米
+      - age：14岁 → 17岁
+      - birthday：1335年4月19日
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/戴里克·伯格
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: fors_wall
+    organizationIds: [ tarot_club, mi9, abraham ]
+    name: 佛尔思·沃尔
+    aliases:
+      - “魔术师”
+    category: 主要角色
+    gender: 女
+    nation: 鲁恩王国贝克兰德
+    pathways:
+      - door
+    pathwayNames:
+      - 学徒
+    sequence: 9-学徒 → 4-秘法师（《诡秘之主》完结时）
+    sequenceTitle: 学徒 / 秘法师
+    ascent: null
+    organization:
+      - 塔罗会
+      - 军情九处
+      - 亚伯拉罕家族（多里安·格雷·亚伯拉罕之徒）
+    occupation: null
+    origin: null
+    identity: 小说作家；曾任贝克兰德尤瑟夫诊所医生
+    relation: |
+      因满月呓语折磨被迫念出“愚者”尊名而被克莱恩拉入灰雾，塔罗会“魔术师”； 因长期被“世界”格尔曼·斯帕罗拉着记录能力而对其有应激反应。
+    ending: 存活；接受愚者沉睡前的委托：保护亚伯拉罕家族、搜集第四纪资料、传播愚者信仰
+    note:
+      - height：165cm
+      - age：23岁 → 26岁
+      - birthday：1326年11月
+      - doubt：萌娘百科条目的「设定信息」栏写作“9-学徒→2-旅法师”，但同页简介明确写 “完结前是‘学徒’途径的序列4‘秘法师’”。判断：栏内写法包含了续作《宿命之环》 时期的晋升（序列3漫游者→序列2旅法师），本表以正传完结状态为准。序列3“漫游者” 是亚伯拉罕家族许诺给她的。此条标为存疑。
+    confidence: 中
+    sources:
+      - https://zh.moegirl.org.cn/佛尔思·沃尔
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: xio_derecha
+    organizationIds: [ tarot_club, mi9 ]
+    name: 休·迪尔查
+    aliases:
+      - “审判”
+      - 休·迪尔（原名）
+    category: 主要角色
+    gender: 女
+    nation: 鲁恩王国东塔克郡
+    pathways:
+      - arbiter
+    pathwayNames:
+      - 仲裁人
+    sequence: 9-仲裁人 → 4-律令法师
+    sequenceTitle: 仲裁人 / 律令法师
+    ascent: null
+    organization:
+      - 塔罗会
+      - 军情九处
+    occupation: null
+    origin: null
+    identity: 赏金猎人；乔治三世事件后被军情九处吸纳，任内部法官
+    relation: |
+      在德莱尔古堡被地底污染后由佛尔思引导向愚者求救， 经克莱恩净化后加入塔罗会，代号“审判”。
+    ending: 存活，位居军情九处高层
+    note:
+      - 原名休·迪尔，宫廷贵族迪尔家族大小姐；父亲梅森·迪尔被诬告谋反处绞刑，家族爵位封地被夺，遂改姓迪尔查躲藏。
+      - 有弟弟洛·迪尔查。
+      - height：152cm（原作设定）／149cm（阅文起点设定）
+      - age：21岁 → 24岁
+      - birthday：1328年3月18日
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/休·迪尔查
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: cattleya
+    organizationIds: [ tarot_club, moses_ascetic_order, element_dawn ]
+    name: 嘉德丽雅
+    aliases:
+      - “隐者”
+      - 星之上将
+      - 星之女王
+    category: 主要角色
+    gender: 女
+    nation: 未在条目中明确（活动范围：五海之上）
+    pathways:
+      - mystery_pryer
+    pathwayNames:
+      - 窥秘人
+    sequence: 5-星象师 → 3-预言大师
+    sequenceTitle: 窥秘人 / 星象师 / 预言大师
+    ascent: null
+    organization:
+      - 塔罗会
+      - 星星海盗团
+      - 摩斯苦修会
+      - 要素黎明
+    occupation: null
+    origin: null
+    identity: 七大海盗将军之一“星之上将”；星星海盗团首领，旗舰“未来号”；摩斯苦修会十支柱之一；后来的“星之女王”
+    relation: |
+      在被“隐匿贤者”的呓语折磨到接近失控时被克莱恩拉上灰雾， 接纳为塔罗会成员，代号“隐者”。
+    ending: 存活，未失控；在愚者沉睡后公开晋升为真正的海盗女王
+    note:
+      - 老师兼养母为贝尔纳黛·古斯塔夫（要素黎明首领）。
+      - 赏金 37000 镑 → 允许格尔曼·斯帕罗登上“未来号”后增至 45000 镑。
+      - 序列5时“窥秘之眼”无法关闭，依靠一副眼镜外形的神奇物品封印。
+      - height：166cm
+      - age：27岁 → 29岁
+      - birthday：1323年2月3日
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/嘉德丽雅
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: emlyn_white
+    organizationIds: [ tarot_club ]
+    name: 埃姆林·怀特
+    aliases:
+      - “月亮”
+    category: 主要角色
+    gender: 男
+    nation: 鲁恩王国
+    pathways:
+      - apothecary
+    pathwayNames:
+      - 药师
+    sequence: 7-吸血鬼 → 4-巫王
+    sequenceTitle: 药师 / 吸血鬼 / 巫王
+    ascent: null
+    organization:
+      - 血族
+      - 塔罗会
+      - 丰收教堂（大地母神教会）
+    occupation: null
+    origin: null
+    identity: 贝克兰德血族；大地母神教会神父 / 高级执事
+    relation: |
+      在血族授意下诵念愚者尊名，被克莱恩拉入塔罗会，代号“月亮”； 与克莱恩的化名夏洛克·莫里亚蒂是朋友。
+    ending: 存活，成为大地母神教会圣职者、高级执事
+    note:
+      - 父母皆为医生；热爱收集人偶，不爱出门交际。
+      - 曾被大地母神教会乌特拉夫斯基神父囚禁在丰收教堂地下室，被种下心理暗示，不知不觉开始信仰大地母神。
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/埃姆林·怀特
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: leonard_mitchell
+    organizationIds: [ tarot_club ]
+    name: 伦纳德·米切尔
+    aliases:
+      - “星星”
+    category: 主要角色
+    gender: 男
+    nation: 鲁恩王国阿霍瓦郡廷根市
+    pathways:
+      - sleepless
+    pathwayNames:
+      - 不眠者
+    sequence: 8-午夜诗人 → 4-守夜人
+    sequenceTitle: 不眠者 / 午夜诗人 / 守夜人
+    ascent: null
+    organization:
+      - 塔罗会
+      - 廷根市值夜者小队（前）
+      - 黑夜女神教会“红手套”小队
+    occupation: null
+    origin: null
+    identity: 黑夜女神教会值夜者；“红手套”小队成员；后为黑夜女神教会高级执事
+    relation: 克莱恩在廷根市值夜者小队的前同事与朋友；后被克莱恩拉入塔罗会，代号“星星”
+    ending: 成为黑夜女神教会的高级执事
+    note:
+      - 被第四纪天使帕列斯·索罗亚斯德寄生。
+      - 塔罗会注释称他“在官方为高层讲解案情时也是塔罗会的一员”，是“二五仔聚会”梗的来源之一。
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/伦纳德·米切尔
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: gehrman_sparrow
+    organizationIds: [ tarot_club ]
+    name: 格尔曼·斯帕罗
+    aliases:
+      - “世界”
+    category: 主要角色
+    gender: 男
+    nation: 鲁恩王国（克莱恩以“北大陆人种特点”魔改的周明瑞长相）
+    pathways:
+      - seer
+    pathwayNames:
+      - 占卜家
+    sequence: 随本体克莱恩·莫雷蒂的序列推进
+    sequenceTitle: 随本体
+    ascent: null
+    organization:
+      - 塔罗会（“愚者”的小号）
+    occupation: null
+    origin: null
+    identity: 外表斯文礼貌、内心疯狂的海盗王者级冒险家；苏尼亚海盗的噩梦
+    relation: 克莱恩·莫雷蒂的假身份之一，也是塔罗会中的“世界”
+    ending: 与本体共用同一结局
+    note:
+      - 名字出典：格尔曼来自游戏《血源诅咒》，斯帕罗来自电影《加勒比海盗》中杰克船长的姓。
+      - 为避风头并向莎伦求助制造；靠猎杀海盗挣赏金，后被悬赏通缉，赏金 5 万镑。
+      - 塔罗会界面规定：大阿卡那牌 10 人（不计“愚者”）均为半神，各自身兼其它组织的重要成员。
+      - 后为躲避阿蒙追踪，更改了格尔曼·斯帕罗尊名的第四句。
+      - ⚠️ 萌娘百科《诡秘之主》主条目原文：「其中，“世界”对外是“愚者”的眷者共用的身份， 使用者有：克莱恩·莫雷蒂，夏洛克·莫里亚蒂，道恩·唐泰斯，梅林·赫尔墨斯。都是同一人。」 —— 也就是说“世界”并不专指格尔曼·斯帕罗这一个马甲，而是愚者眷者这一对外共用的身份。
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/克莱恩·莫雷蒂
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: rosell_gustav
+    organizationIds: [ twilight_hermit_order ]
+    name: 罗塞尔·古斯塔夫
+    aliases:
+      - 黄涛（穿越前本名）
+      - 罗塞尔大帝
+    category: 主要角色
+    gender: 男
+    nation: 北大陆因蒂斯共和国（穿越者，旧日遗民）
+    pathways: []
+    pathwayNames:
+      - 通识者 → 窥秘人 → 律师
+    sequence: 9-通识者 → 1-知识皇帝 → 0-黑皇帝
+    sequenceTitle: 知识皇帝 / 黑皇帝
+    ascent: null
+    organization:
+      - 黄昏隐士会
+      - 蒸汽教会（前）
+    occupation: null
+    origin: null
+    identity: 因蒂斯共和国的皇帝；推动蒸汽技术与工业革命的发明家、政治家、革命者
+    relation: |
+      同为旧日遗民（穿越者）的“老乡”；其日记用简体中文书写， 克莱恩是少数能解读“罗塞尔日记”的人，长期靠日记获取知识并转授给塔罗会。
+    ending: 被封印（贝尔纳黛·古斯塔夫成功封印了他，后回归沉眠）
+    note:
+      - 配偶玛蒂尔达·阿贝尔；子女：贝尔纳黛·古斯塔夫、夏尔·古斯塔夫、博诺瓦·古斯塔夫。
+      - 原为“通识者”途径非凡者，后强行转移至不相邻的“黑皇帝”途径，成为该途径序列0。
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/罗塞尔·古斯塔夫
+      - https://zh.moegirl.org.cn/诡秘之主/神灵
+  - id: lumian_lee
+    name: 卢米安·李
+    aliases:
+      - 灾祸主宰
+    category: 主要角色
+    gender: 男
+    nation: 未在本次采集的条目中明确
+    pathways: []
+    pathwayNames:
+      - 红祭司、魔女、永劫者
+    sequence: 0（真神；“灾祸主宰”）
+    sequenceTitle: 灾祸主宰
+    ascent: null
+    organization:
+      - 灾祸主宰教会
+    occupation: null
+    origin: null
+    identity: 续作《宿命之环》的主角；源质“灾祸之城”的持有者
+    relation: 与克莱恩·莫雷蒂同处一个世界观，属《宿命之环》时期的地球旧日
+    ending: 未在《诡秘之主》正传中登场
+    note: []
+    confidence: 中
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/旧日
+  - id: dunn_smith
+    name: 邓恩·史密斯
+    aliases:
+      - 队长
+    category: 廷根配角
+    gender: 男
+    nation: null
+    pathways:
+      - sleepless
+    pathwayNames:
+      - 不眠者
+    sequence: 7-梦魇
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 黑夜女神教会
+      - 廷根市值夜者小队
+      - 黑荆棘安保公司
+    occupation: 黑夜女神教会廷根市值夜者小队队长
+    origin: 鲁恩王国廷根市
+    identity: 值夜者小队队长；真实造物主子嗣降临事件中为阻止子嗣降生而殉职
+    relation: 克莱恩·莫雷蒂在廷根时期的队长与最重要的引导者之一
+    ending: 殉职，回归女神的国度
+    note:
+      - 容纳了复数的、来源于牺牲队友的非凡特性，因此魔药消化缓慢、极度健忘。
+      - 常用队员的非凡特性，认为这是同伴陪在自己身边的一种方式。
+      - 对戴莉·西蒙妮怀有感情，因自卑直到死亡也没有表达。
+      - 队员：弗莱、戴莉·西蒙妮、克莱恩·莫雷蒂、伦纳德·米切尔、洛耀·莱汀、科恩黎·怀特、西迦·特昂； 文职人员：罗珊、老尼尔、奥利安娜夫人。
+      - profile：176cm；35岁；1314年8月16日
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/邓恩·史密斯
+  - id: daly_simone
+    name: 戴莉·西蒙妮
+    aliases: []
+    category: 廷根配角
+    gender: 女
+    nation: null
+    pathways:
+      - corpse_collector
+    pathwayNames:
+      - 收尸人
+    sequence: 7-通灵者 → 5-看门人
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 黑夜女神教会值夜者
+      - 廷根市值夜者小队（前）
+    occupation: 黑夜女神教会值夜者
+    origin: 鲁恩王国阿霍瓦郡廷根市
+    identity: 值夜者；克莱恩在廷根时期的前辈同事
+    relation: 与邓恩·史密斯互相暗恋；克莱恩与伦纳德的同事
+    ending: 回归女神的国度，与邓恩重聚
+    note:
+      - 在故事开始前已从廷根调离，活动轨迹为“廷根 → 恩马特港 → 贝克兰德”。
+      - 与邓恩一同发现了“非凡特性不灭定律”，开始吸收正常死亡队员的非凡特性。
+      - 后期与克莱恩、伦纳德联手重创因斯·赞格威尔。
+      - profile：24岁 → 25岁；1325年10月（日期未知）
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/戴莉·西蒙妮
+  - id: frye
+    name: 弗莱
+    aliases: []
+    category: 廷根配角
+    gender: 男
+    nation: null
+    pathways:
+      - corpse_collector
+    pathwayNames:
+      - 收尸人
+    sequence: 9-收尸人 → 7-通灵者
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 黑夜女神教会
+      - 廷根市值夜者小队
+    occupation: 值夜者，小队中负责尸检工作
+    origin: 鲁恩王国阿霍瓦郡廷根市
+    identity: 值夜者；真实造物主子嗣事件后的廷根市值夜者小队队长
+    relation: 克莱恩在廷根时期的同事
+    ending: 成为小队的队长，守护廷根（决心不再晋升）
+    note:
+      - 曾在黑夜女神教会的济贫院担任过牧师；出于私人理由选择了“收尸人”途径。
+      - 性格冷淡沉默但处处细心体贴，被老尼尔评价为值夜者小队中最有良心的人。
+      - 擅长素描，成为值夜者之前的梦想是做画家。
+      - 新年表：1349年秋晋升序列8“掘墓人”；1350年8月晋升序列7“通灵者”并接任队长。
+      - profile：三十多岁；1322年9月6日
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/弗莱
+  - id: old_neil
+    name: 老尼尔
+    aliases: []
+    category: 廷根配角
+    gender: 男
+    nation: null
+    pathways: []
+    pathwayNames:
+      - 未获取（萌娘百科无独立条目）
+    sequence: 低序列非凡者（萌娘百科导航模板将其列入“低序列非凡者”）
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 黑夜女神教会
+      - 廷根市值夜者小队
+    occupation: 廷根市值夜者小队的文职人员
+    origin: null
+    identity: 值夜者小队的文职老人；克莱恩的非凡事务“入门导师”
+    relation: 教克莱恩向教会申请报销非凡事务开销；因被“隐秘贤者”影响而失控
+    ending: 失控，被克莱恩与值夜者小队终结生命（1349年8月29日失控死亡，次日举办葬礼）
+    note:
+      - doubt：萌娘百科没有《老尼尔》条目（404）。本条的“文职人员”“失控死亡”“教诲克莱恩报销”三条 分别出自《弗莱》《克莱恩·莫雷蒂》条目正文，可信；但**他的途径与序列本次采集未取到任何来源**， 只知道导航模板把他归入“低序列非凡者”。“被隐秘贤者影响而失控”出自《克莱恩·莫雷蒂》条目正文， 而隐秘贤者是“隐者”途径唯一性活化，因此坊间常推定老尼尔属“隐者”（窥秘人）途径 —— 此推定标为存疑。
+    confidence: 低
+    sources:
+      - https://zh.moegirl.org.cn/克莱恩·莫雷蒂
+      - https://zh.moegirl.org.cn/弗莱
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: roshan
+    name: 罗珊
+    aliases: []
+    category: 廷根配角
+    gender: 女
+    nation: null
+    pathways: []
+    pathwayNames:
+      - 无（普通人）
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 黑夜女神教会
+      - 廷根市值夜者小队
+    occupation: 廷根市值夜者小队的文职人员
+    origin: null
+    identity: null
+    relation: 克莱恩在廷根时期的同事
+    ending: null
+    note:
+      - doubt：萌娘百科没有《罗珊》条目（404）。仅有两条零散记载： 《邓恩·史密斯》与《弗莱》条目把罗珊列入值夜者小队的文职人员名单； 《伦纳德·米切尔》条目记载“罗珊向克莱恩透露：伦纳德成为不眠者的第一天…… 冲刺跑摔下了楼梯，变成了车轮”。除此之外的年龄、外貌、经历均无来源。
+    confidence: 低
+    sources:
+      - https://zh.moegirl.org.cn/弗莱
+      - https://zh.moegirl.org.cn/邓恩·史密斯
+      - https://zh.moegirl.org.cn/伦纳德·米切尔
+  - id: oriana
+    name: 奥利安娜夫人
+    aliases: []
+    category: 廷根配角
+    gender: 女
+    nation: null
+    pathways: []
+    pathwayNames:
+      - 无（普通人）
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 黑夜女神教会
+      - 黑荆棘安保公司
+    occupation: 黑荆棘安保公司的会计
+    origin: null
+    identity: null
+    relation: 克莱恩的同事；一看到他就笑问“这次要报销什么”
+    ending: null
+    note: []
+    confidence: 中
+    sources:
+      - https://zh.moegirl.org.cn/克莱恩·莫雷蒂
+      - https://zh.moegirl.org.cn/弗莱
+  - id: leonard_mitchell_tingen
+    name: （同主要角色）伦纳德·米切尔
+    aliases: []
+    category: 廷根配角
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: null
+    note:
+      - 廷根时期的身份见 主要角色.yaml；此处只登记其为廷根小队成员。
+      - see：主要角色.yaml#leonard_mitchell
+    confidence: null
+    sources: []
+  - id: klein_moretti_tingen
+    name: （同主要角色）克莱恩·莫雷蒂
+    aliases: []
+    category: 廷根配角
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: null
+    note:
+      - 廷根时期为值夜者小队文职人员 → 序列9占卜家 → 正式队员。
+      - see：主要角色.yaml#klein_moretti
+    confidence: null
+    sources: []
+  - id: melissa_moretti
+    name: 梅丽莎·莫雷蒂
+    aliases: []
+    category: 莫雷蒂家
+    gender: 女
+    nation: null
+    pathways: []
+    pathwayNames:
+      - 无（普通人）
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 莫雷蒂家
+    occupation: 学生（普通人）
+    origin: 鲁恩王国阿霍瓦郡廷根市
+    identity: 克莱恩·莫雷蒂（原主）的妹妹
+    relation: 克莱恩把原主的记忆当作真实，将班森和梅丽莎当作真正的家人看待
+    ending: 存活；结局若干年后已结婚生子（克莱恩初步苏醒时“应梅丽莎的召唤伸出触手和小侄女击了个掌”）
+    note:
+      - doubt：萌娘百科没有《梅丽莎·莫雷蒂》条目（404）。可确证的只有：她是克莱恩的妹妹、 与哥哥班森和克莱恩同住公寓两居室、母亲在克莱恩通过霍伊大学入学考试那年过世； 结局处出现过“小侄女”的描写。具体年龄、性格、职业走向均无来源。
+    confidence: 低
+    sources:
+      - https://zh.moegirl.org.cn/克莱恩·莫雷蒂
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: benson_moretti
+    name: 班森·莫雷蒂
+    aliases: []
+    category: 莫雷蒂家
+    gender: 男
+    nation: null
+    pathways: []
+    pathwayNames:
+      - 无（普通人）
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 莫雷蒂家
+    occupation: 进出口公司文员
+    origin: 鲁恩王国阿霍瓦郡廷根市
+    identity: 克莱恩·莫雷蒂（原主）的哥哥；家中经济支柱
+    relation: 克莱恩把班森当作真正的家人，远远地守护他的生活
+    ending: 存活；克莱恩在第八卷“目睹了班森的婚礼”
+    note:
+      - doubt：萌娘百科没有《班森·莫雷蒂》条目（404）。可确证的事实均取自《克莱恩·莫雷蒂》条目正文： 哥哥、进出口公司文员、家庭并不富裕“全靠在进出口公司当文员的哥哥维持”、结局处婚礼。 《奥黛丽·霍尔》条目另称奥黛丽推动鲁恩行政制度改革、间接为班森提供了就职机会。
+    confidence: 低
+    sources:
+      - https://zh.moegirl.org.cn/克莱恩·莫雷蒂
+      - https://zh.moegirl.org.cn/奥黛丽·霍尔
+  - id: ian_wright
+    name: 伊恩·赖特
+    aliases: []
+    category: 贝克兰德配角
+    gender: 男
+    nation: null
+    pathways: []
+    pathwayNames:
+      - 无（普通人）
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 勇敢者酒吧（地下交易）
+    occupation: 情报贩子／黑市经营者
+    origin: 鲁恩王国贝克兰德
+    identity: 贝克兰德的情报贩子；在卡斯帕斯死后接管勇敢者酒吧的黑市事务
+    relation: |
+      克莱恩（夏洛克·莫雷蒂）在贝克兰德的委托人与线人； 克莱恩因他的委托卷入因蒂斯大使贝克朗在鲁恩的间谍活动； 与莎伦、马里奇、埃姆林·怀特是盟友／合作关系。
+    ending: 存活
+    note:
+      - doubt：萌娘百科没有《伊恩·赖特》条目（404，其他条目里指向他的链接是红链）。 可确证的三条：①“在卡斯帕斯死后接管了勇敢者酒吧的黑市事务，与莎伦、马里奇达成合作” （《马里奇》《莎伦》条目人物关系栏）；②克莱恩“因为伊恩的委托卷入了因蒂斯大使贝克朗在 鲁恩王国的间谍活动中”（《克莱恩·莫雷蒂》条目）；③“莎伦向克莱恩寻求合作，碰面时伊恩·赖特 提及有人在打听信仰‘愚者’的组织……还原了打听者的肖像”（《阿蒙》条目）。 他的途径、序列、外貌均无来源。
+    confidence: 中
+    sources:
+      - https://zh.moegirl.org.cn/莎伦
+      - https://zh.moegirl.org.cn/马里奇
+      - https://zh.moegirl.org.cn/克莱恩·莫雷蒂
+      - https://zh.moegirl.org.cn/阿蒙(诡秘之主)
+  - id: jurgen_cooper
+    name: 于尔根·库珀
+    aliases: []
+    category: 贝克兰德配角
+    gender: 男
+    nation: null
+    pathways: []
+    pathwayNames:
+      - 无（普通人）
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: 高级事务律师
+    origin: 鲁恩王国贝克兰德（明斯克街 58 号）
+    identity: 夏洛克·莫里亚蒂（克莱恩）的邻居与朋友
+    relation: 常邀请独居的夏洛克做客，并在对方卷入事件时提供法律援助
+    ending: 与祖母多丽丝太太一起在鲁恩王国南方度假
+    note:
+      - 认真考究、严肃正经，一板一眼、缺乏幽默感；很不擅长做饭且没有自知之明。
+      - 自从祖父和父母去世后，一直与祖母多丽丝太太相依为命；家中养了一只叫布罗迪的黑猫。
+      - profile：二十多岁
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/于尔根·库珀
+  - id: old_kohler
+    name: 老科勒
+    aliases: []
+    category: 贝克兰德配角
+    gender: 男
+    nation: null
+    pathways: []
+    pathwayNames:
+      - 无（普通人）
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: 贝克兰德的底层贫民
+    origin: 鲁恩王国贝克兰德
+    identity: null
+    relation: 克莱恩（夏洛克）曾经帮助过的人
+    ending: 死于贝克兰德大雾霾
+    note:
+      - doubt：萌娘百科没有《老科勒》条目（404）。唯一的直接记载是《克莱恩·莫雷蒂》条目正文： “见证了贝克兰德大雾霾的发生，曾经帮助过的老科勒以及浆洗女工母女皆在这次灾难中死亡。” 另有书友讨论提到“拿着预付的钱好不容易买了半根火腿的老科勒”，属二手材料，未采信为设定。
+    confidence: 低
+    sources:
+      - https://zh.moegirl.org.cn/克莱恩·莫雷蒂
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: audrey_hall_backlund
+    name: （同主要角色）奥黛丽·霍尔
+    aliases: []
+    category: 贝克兰德配角
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: null
+    note:
+      - 贝克兰德霍尔家族大小姐，见 主要角色.yaml。
+      - see：主要角色.yaml#audrey_hall
+    confidence: null
+    sources: []
+  - id: emlyn_white_backlund
+    name: （同主要角色）埃姆林·怀特
+    aliases: []
+    category: 贝克兰德配角
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: null
+    note:
+      - 贝克兰德血族，见 主要角色.yaml。
+      - see：主要角色.yaml#emlyn_white
+    confidence: null
+    sources: []
+  - id: mr_a
+    organizationIds: [ aurora_order ]
+    name: A先生
+    aliases: []
+    category: 贝克兰德配角
+    gender: 男
+    nation: null
+    pathways: []
+    pathwayNames:
+      - 秘祈人（“倒吊人”途径的序列9名称）
+    sequence: 5-牧羊人
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 极光会
+    occupation: 极光会 22 神使之一；极光会在贝克兰德的非凡者聚会组织者
+    origin: null
+    identity: 极光会神使；信仰真实造物主
+    relation: 为佛尔思与休所雇刺杀贝克朗大使；奥黛丽·霍尔早年在贝克兰德参加过他组织的非凡者聚会
+    ending: 死亡
+    note:
+      - 名字与形象均为代号，本人真名不明。
+      - 不允许他组织的聚会里出现欺诈情况。
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/A先生
+  - id: rosago
+    name: 罗萨戈
+    aliases: []
+    category: 中序列非凡者
+    gender: null
+    nation: null
+    pathways:
+      - seer
+    pathwayNames:
+      - 占卜家
+    sequence: 5-秘偶大师
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 因蒂斯共和国某情报组织
+    occupation: null
+    origin: 因蒂斯
+    identity: 因蒂斯驻贝克兰德大使贝克朗·让·马丹的保镖
+    relation: 敌对：夏洛克·莫里亚蒂（克莱恩）、莎伦。曾试图强杀夏洛克，被反杀。
+    ending: 死亡（被克莱恩用左轮爆头）
+    note: []
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/罗萨戈
+  - id: maric
+    organizationIds: [ rose_school ]
+    name: 马里奇
+    aliases: []
+    category: 中序列非凡者
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames:
+      - 囚犯（“被缚者”途径的序列9名称）
+    sequence: 6-活尸 → 5-怨魂
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 玫瑰学派节制派
+    occupation: null
+    origin: 南大陆
+    identity: null
+    relation: 莎伦的同伴；克莱恩（夏洛克）、埃姆林·怀特、伊恩·赖特的盟友
+    ending: 存活
+    note: []
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/马里奇
+  - id: susie
+    name: 苏茜
+    aliases: []
+    category: 中序列非凡者
+    gender: 雌性（狗）
+    nation: null
+    pathways:
+      - spectator
+    pathwayNames:
+      - 观众
+    sequence: 9-观众 → 5-梦境行者
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: 奥黛丽·霍尔的宠物与助手
+    origin: 鲁恩王国贝克兰德
+    identity: null
+    relation: 奥黛丽·霍尔的助手与朋友；塔罗会编外效力者
+    ending: 存活
+    note:
+      - 是一条血统不那么纯正的金毛大狗；被书粉称为“空想之狗”“非凡之狗”。
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/苏茜(诡秘之主)
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: danitz
+    organizationIds: [ sea_god_church ]
+    name: 达尼兹·迪布瓦
+    aliases: []
+    category: 中序列非凡者
+    gender: null
+    nation: null
+    pathways:
+      - hunter
+    pathwayNames:
+      - 猎人
+    sequence: 7-纵火家 → 6-阴谋家
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 海神教会
+      - 黄金梦想号
+    occupation: null
+    origin: 因蒂斯南部诺西埃小镇
+    identity: 前“黄金梦想号”第四水手长；后被格尔曼·斯帕罗招募为愚者神使兼海神神使
+    relation: 格尔曼·斯帕罗（克莱恩）的好友与随从
+    ending: 海神神使
+    note: []
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/达尼兹·迪布瓦
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: anderson_hood
+    organizationIds: [ iron_blood_cross ]
+    name: 安德森·胡德
+    aliases:
+      - 半神以下最强猎人
+    category: 中序列非凡者
+    gender: null
+    nation: null
+    pathways:
+      - hunter
+    pathwayNames:
+      - 猎人
+    sequence: 5-收割者
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 铁血十字会
+    occupation: null
+    origin: 塞加尔，伦堡
+    identity: null
+    relation: 克莱恩（格尔曼·斯帕罗）在迷雾海一带结识的同伴
+    ending: 存活
+    note:
+      - profile：180.48cm；28 → 31；1321年2月5日
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/安德森·胡德
+  - id: edwina_edwards
+    name: 艾德雯娜·爱德华兹
+    aliases:
+      - 冰山中将
+    category: 中序列非凡者
+    gender: null
+    nation: null
+    pathways:
+      - reader
+    pathwayNames:
+      - 阅读者
+    sequence: 5-秘术导师
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 黄金梦想号
+      - 知识与智慧之神教会
+    occupation: null
+    origin: 伦堡
+    identity: 七大海盗将军之一“冰山中将”，船只为“黄金梦想号”；鲁恩赏金 26000 镑
+    relation: 格尔曼·斯帕罗的朋友；达尼兹·迪布瓦的上司
+    ending: 正常
+    note: []
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/艾德雯娜·爱德华兹
+  - id: frank_lee
+    name: 弗兰克·李
+    aliases:
+      - 蘑菇大王
+      - 毒素专家
+    category: 中序列非凡者
+    gender: null
+    nation: null
+    pathways:
+      - mother
+    pathwayNames:
+      - 耕种者
+    sequence: 6-生物学家 → 5-德鲁伊
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 大地母神教会 → 星星海盗团
+    occupation: null
+    origin: null
+    identity: 星星海盗团旗舰“未来号”的大副，赏金 7000 镑
+    relation: 嘉德丽雅的下属；格尔曼·斯帕罗的好友
+    ending: 向半神努力中
+    note:
+      - 热爱研究生物杂交技术；缺乏道德与伦理意识，被视为极危险的人物。
+      - 克莱恩都曾怀疑他可能受到了“堕落母神”的污染。
+      - profile：30 左右
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/弗兰克·李
+      - https://zh.moegirl.org.cn/嘉德丽雅
+  - id: ince_zangwill_npc
+    name: （同神明与天使.yaml 的圣者）因斯·赞格威尔
+    aliases: []
+    category: 中序列非凡者
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: null
+    note:
+      - see：神明与天使.yaml#ince_zangwill
+    confidence: null
+    sources: []
+  - id: lovia_tiffany_npc
+    name: （同神明与天使.yaml 的圣者）洛薇雅·蒂芙尼
+    aliases: []
+    category: 中序列非凡者
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: null
+    note:
+      - see：神明与天使.yaml#lovia_tiffany
+    confidence: null
+    sources: []
+  - id: arrodes
+    name: 阿罗德斯
+    aliases:
+      - 小镜子
+      - 舔狗镜
+    category: 特殊角色
+    gender: 无（活着的封印物，有相当高的灵智）
+    nation: null
+    pathways: []
+    pathwayNames:
+      - 无
+    sequence: 无序列；位格为圣者层次
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 蒸汽与机械之神教会（原持有者）→ 克莱恩·莫雷蒂（愚者教会）
+    occupation: 封印物
+    origin: null
+    identity: 一件非常特殊的封印物，外观是一面花纹古老的银镜，两侧各有一只黑色宝石为基底的眼睛状装饰。 编号 2-111 → 1 级（编号未知）。
+    relation: 克莱恩的忠仆与随身“搜索引擎”；陪同克莱恩进入源堡光门沉眠
+    ending: 随克莱恩进入源堡光门后一同沉眠
+    note:
+      - 来自地底，疑似诞生自混沌海；有活着的特性。
+      - 因为源堡与地底类似的“支柱、支配”概念会让它感到温暖，因此自愿服从克莱恩。
+      - 最终被克莱恩从蒸汽教会带走（经与博诺瓦·古斯塔夫交流）。
+      - abilities：借助灵界搜寻或传递信息，拥有强大的占卜能力。；本体位于贝克兰德的蒸汽与机械之神教堂；在贝克兰德范围内可通过其他镜子发送信息、模仿别人的声音。
+      - negative_effect：提问者必须在旁观者面前回答一个羞耻的问题，或者接受雷击的惩罚。
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/阿罗德斯
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: giant_king_ormir
+    name: 巨人王奥尔米尔
+    aliases: []
+    category: 古神
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: null
+    note:
+      - uniqueness：“黄昏”唯一性；“红祭司”唯一性
+      - characteristics：“神明之手”3 份、“时之虫”1 份
+      - divine_kingdom：巨人王庭
+      - race_note：巨人族特征为有独竖眼，皮肤青黑，体型巨大而畸形。
+      - fate：第三纪末被远古太阳神收回权柄，陨落
+      - retainers：“丰收女神”欧弥贝拉；巨人王的王后，受白银城信奉；第三纪加入救赎蔷薇，后来成为大地母神。实际上早已在第二纪末被莉莉丝顶替身份。；“晨曦之神”巴德海尔；巨人王的长子，后来成为战神。；“荣誉之神”布拉德尔；巨人王的幼子，因公然咒骂远古太阳神，永远徘徊于神弃之地的荒原。；丰收之子
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/神灵
+  - id: elf_king_suniasolem
+    name: 精灵王苏尼亚索列姆
+    aliases: []
+    category: 古神
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: null
+    note:
+      - uniqueness：“暴君”唯一性；“审判”唯一性
+      - characteristics：“雷神”3 份
+      - race_note：第一个精灵，带领族群离开西大陆来到北大陆；精灵族特征为尖耳朵，体型类人。
+      - fate：第三纪末被远古太阳神收回权柄，陨落
+      - retainers：“律法之神”；“天灾女王”高希纳姆；精灵王的妻子。其遗留在精灵遗迹中的部分非凡特性后来造就了“海神”卡维图瓦。；“幸运之神”；“幻想之神”
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/神灵
+  - id: lilith
+    name: 吸血鬼始祖莉莉丝
+    aliases: []
+    category: 古神
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: null
+    note:
+      - uniqueness：“月亮”唯一性；“魔女”唯一性
+      - characteristics：“美神”1 份、“自然行者”1 份、“末日魔女”1 份
+      - fate：传闻因巨人王的背叛而陨落，与异种王克瓦希图恩、“毁灭魔狼”弗雷格拉同归于尽； 但偶尔还会回应血族的祈祷，似乎并未完全逝去。实际顶替“丰收女神”欧弥贝拉身份复活，即后来的大地母神。
+      - retainers：“美神”奥尔尼娅；莉莉丝陨落后投靠精灵，第四纪成为血月女王，与夜皇特伦索斯特缔结政治婚姻。；“生命女神”；被杀死，名字已无人记得。；“圆月之神”奥尔默；“异界女王”
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/神灵
+  - id: dragon_of_imagination_angelweed
+    name: “空想之龙”安格尔威德
+    aliases: []
+    category: 古神
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: null
+    note:
+      - 传说祂所想象的物品必将具现而出，所幻想的国度必将降临于物质世界，所宣称的未来必将上演、成为现实。
+      - uniqueness：“空想家”唯一性；“白塔”唯一性
+      - characteristics：“作家”3 份（其中 1 份为空想出来的虚假特性）、“全知之眼”1 份
+      - divine_kingdom：“奇迹之城”利维希德
+      - fate：第三纪末被远古太阳神收回权柄，陨落
+      - retainers：“噩梦之龙”阿勒苏霍德；空想之龙之子，能支配生物心灵，在现实里编织噩梦。；“智慧之龙”赫拉伯根；第三纪成为“智天使”，第四纪成为知识与智慧之神。；“心灵之神”艾瑞霍格；“虚无之神”厄德法纳
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/神灵
+  - id: phoenix_ancestor_grecia
+    name: 不死鸟始祖格蕾嘉莉
+    aliases: []
+    category: 古神
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: null
+    note:
+      - uniqueness：“死神”唯一性；“门”唯一性
+      - characteristics：“苍白皇帝”3 份、“星之匙”1 份
+      - divine_kingdom：“死者之城”卡尔德隆（后转移至灵界冥界）
+      - fate：被远古太阳神重创前，将卡尔德隆丢到了灵界深处
+      - retainers：“灵魂之神”；“死亡阴影”；“轮回之神”；“毁灭之神”
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/神灵
+  - id: mutant_king_kvasir
+    name: 异种王克瓦希图恩
+    aliases: []
+    category: 古神
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: null
+    note:
+      - uniqueness：“被缚者”唯一性；“黑皇帝”唯一性
+      - characteristics：“神孽”2 份、“弑序亲王”1 份
+      - appearance：据阿蒙所说，外形是一位丑陋扭曲的男性，却喜欢往自己身上缠荆棘、缠带刺的玫瑰
+      - fate：与莉莉丝同归于尽
+      - retainers：“灵物之神”托尔兹纳；异种王陨落后失踪，第三纪加入救赎蔷薇。；“战争之神”；被杀死，已无人记得名字。；“诅咒之神”；“欲望之神”
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/神灵
+  - id: demon_king_farbauti
+    name: 恶魔君王法布提
+    aliases: []
+    category: 古神
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: null
+    note:
+      - uniqueness：“深渊”唯一性；“命运”唯一性
+      - characteristics：“污秽君王”3 份、“神孽”1 份
+      - fate：成为后来的“宇宙暗面”；是第二纪古神中唯一未被远古太阳神收回权柄的一位
+      - retainers：“魅魔之神”；“末日魔女”1 份 + 恶魔途径序列2；“隐秘之魔”；“虚空大魔”；“阴影魔王”；“杀戮之魔”
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/神灵
+  - id: destroyer_wolf_fregra
+    name: “毁灭魔狼”弗雷格拉
+    aliases: []
+    category: 古神
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: null
+    note:
+      - titles：魔狼之王；黑夜魔狼
+      - uniqueness：“黑暗”唯一性；“愚者”唯一性
+      - characteristics：“厄难骑士”1 份、“诡秘侍者”1 份
+      - fate：在古神的神战中与莉莉丝同归于尽
+      - retainers：“亡灵之神”萨林格尔；弗雷格拉陨落后投靠不死鸟始祖；第三纪加入救赎蔷薇；第四纪成为冥皇、死神，建立拜朗帝国。；“厄运女神”阿曼妮西斯；弗雷格拉陨落后失踪，成为后来的黑夜女神。；“愿望之神”科塔尔；即“乌黯魔狼”科塔尔。；天之母亲；安提哥努斯的姐姐。；“奇迹掌管者”安提哥努斯
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/神灵
+      - https://zh.moegirl.org.cn/安提哥努斯
+  - id: solomon
+    name: “黑皇帝”所罗门
+    aliases: []
+    category: 古代帝王
+    gender: null
+    nation: null
+    pathways:
+      - lawyer
+    pathwayNames:
+      - 黑皇帝
+    sequence: 0（真神）
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: 陨落
+    note:
+      - titles：黑皇帝；所罗门大帝
+      - deeds：掌握“黑皇帝”途径，统治所罗门帝国。；曾一度陨落，由于“黑皇帝”的特殊性而复活归来。；最终在“四皇之战”中陨落。
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/神灵
+  - id: alistair_tudor
+    name: “血皇帝”亚利斯塔·图铎
+    aliases: []
+    category: 古代帝王
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames:
+      - 黑皇帝 → 红祭司
+    sequence: 0（真神）
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: 陨落
+    note:
+      - titles：血皇帝
+      - deeds：原为所罗门帝国执政官、“黑皇帝”途径的天使；在六神支持下推翻所罗门，与特伦索斯特建立图铎-特伦索斯特联合帝国。；因所罗门复活面临失去序列1特性的危险，以半疯为代价转为不相邻途径“红祭司”的序列0真神，建立图铎帝国。；最终在“四皇之战”中陨落。
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/神灵
+  - id: trenthorst
+    name: “夜皇”特伦索斯特
+    aliases: []
+    category: 古代帝王
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames:
+      - 黑皇帝 → 审判者
+    sequence: 0（真神）
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: 陨落
+    note:
+      - titles：夜皇
+      - deeds：原为所罗门帝国执政官、“黑皇帝”途径的天使；与图铎一同推翻所罗门。；因所罗门复活面临失去序列1特性的危险，在六神支持下转为相邻途径“审判者”的序列0真神，建立特伦索斯特帝国。；在“四皇之战”中与妻子“血月女王”奥尔尼娅一同陨落。
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/神灵
+  - id: salinger
+    name: “冥皇”萨林格尔
+    aliases: []
+    category: 古代帝王
+    gender: null
+    nation: null
+    pathways:
+      - corpse_collector
+    pathwayNames:
+      - 死神
+    sequence: 0（真神）
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: 陨落
+    note:
+      - 阿兹克·艾格斯之父。
+      - titles：死神；亡灵之神（第二纪）
+      - deeds：第二纪为“毁灭魔狼”弗雷格拉的从神；第三纪加入救赎蔷薇参与刺杀远古太阳神。；第四纪成为冥皇、死神，建立拜朗帝国。；在“四皇之战”中攫取了最大的好处，获取了“红祭司”途径的唯一性。；第四纪末与原初魔女联手掀起“苍白之灾”，被七神联合围攻而陨落；祂的陨落制造了隔断南北大陆的狂暴海。
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/神灵
+      - https://zh.moegirl.org.cn/阿兹克·艾格斯
+  - id: bethel_abraham
+    name: 伯特利·亚伯拉罕
+    aliases: []
+    category: 天使之王
+    gender: null
+    nation: null
+    pathways:
+      - door
+    pathwayNames:
+      - 学徒
+    sequence: 1-星之匙
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 所罗门帝国 → 图铎王朝
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: 死亡；死前自愿让阿蒙接受自己的非凡特性与唯一性。
+    note:
+      - honorifics：伟大的万门之门；无尽星空的领路者；所有神秘世界的钥匙。
+      - deeds：第四纪亚伯拉罕家族的先祖，拥有三份“星之匙”序列一非凡特性和相应的唯一性，被视作最有可能成神的天使。；看过完整的第二块亵渎石板。；四皇之战中被黑夜女神和风暴之主放逐出现实世界，迷失于黑暗深处，困在风暴之中。
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/伯特利·亚伯拉罕
+  - id: antigonus
+    name: 安提哥努斯
+    aliases: []
+    category: 天使之王
+    gender: null
+    nation: null
+    pathways:
+      - seer
+    pathwayNames:
+      - 愚者
+    sequence: 2-奇迹师（曾容纳“愚者”唯一性，为天使之王）
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 夜之国
+      - 所罗门第一帝国
+      - 图铎帝国
+      - 黑夜女神教会
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: 存活，为黑夜女神教会工作（以换取姐姐天之母亲的自由）。
+    note:
+      - deeds：毁灭魔狼弗雷格拉的幼子，天生神话生物。；父亲陨落后与姐姐逃离魔狼国度，前往北大陆建立隐秘国度“夜之国”。；第四纪在亚当和阿蒙的帮助下容纳愚者途径唯一性，成为被称为“半个愚者”的天使之王。；后因失控被黑夜女神封印；克莱恩取走其唯一性和序列1特性后，才以序列2奇迹师的位格苏醒。
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/安提哥努斯
+      - https://zh.moegirl.org.cn/诡秘之主/神灵
+  - id: pales_zoroaster
+    organizationIds: [ fool_church ]
+    name: 帕列斯·索罗亚斯德
+    aliases: []
+    category: 天使
+    gender: null
+    nation: null
+    pathways:
+      - error
+    pathwayNames:
+      - 偷盗者
+    sequence: 1-时之虫 → 2-命运木马
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 愚者教会
+    occupation: null
+    origin: null
+    identity: null
+    relation: 寄生在伦纳德·米切尔身上；阿蒙的死敌。
+    ending: null
+    note: []
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/帕列斯·索罗亚斯德
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: azik_eggs
+    organizationIds: [ agues ]
+    name: 阿兹克·艾格斯
+    aliases: []
+    category: 天使
+    gender: null
+    nation: null
+    pathways:
+      - corpse_collector
+    pathwayNames:
+      - 收尸人
+    sequence: 2-死亡执政官
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 廷根大学
+      - 艾格斯家族
+    occupation: null
+    origin: 拜朗帝国
+    identity: null
+    relation: 克莱恩·莫雷蒂的老师；塔罗会编外效力者之一。
+    ending: 从沉睡中苏醒。
+    note:
+      - 父亲是“死神”萨林格尔；不老不死、多次转世、长期失忆。
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/阿兹克·艾格斯
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: bernadette_gustav
+    organizationIds: [ element_dawn ]
+    name: 贝尔纳黛·古斯塔夫
+    aliases: []
+    category: 天使
+    gender: null
+    nation: null
+    pathways:
+      - mystery_pryer
+    pathwayNames:
+      - 窥秘人
+    sequence: 3-预言大师 → 2-贤者
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 要素黎明
+    occupation: null
+    origin: null
+    identity: null
+    relation: 罗塞尔·古斯塔夫的长女；嘉德丽雅的老师兼养母；塔罗会编外效力者。
+    ending: 存活；成功封印了父亲罗塞尔·古斯塔夫。
+    note: []
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/贝尔纳黛·古斯塔夫
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: will_auceptin
+    organizationIds: [ life_school, fool_church ]
+    name: 威尔·昂赛汀
+    aliases:
+      - 水银之蛇
+    category: 天使
+    gender: null
+    nation: null
+    pathways:
+      - monster
+    pathwayNames:
+      - 怪物
+    sequence: 1-巨蛇
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 生命学派（命运议会议长）
+      - 愚者教会
+    occupation: null
+    origin: null
+    identity: null
+    relation: 克莱恩的朋友；塔罗会编外效力者。
+    ending: 存活
+    note: []
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/威尔·昂赛汀
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: reinette_tinicole
+    organizationIds: [ rose_school ]
+    name: 蕾妮特·缇尼科尔
+    aliases:
+      - 信使小姐
+    category: 天使
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames:
+      - 囚犯（“被缚者”途径的序列9名称）
+    sequence: 2-古代邪物
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 玫瑰学派节制派
+    occupation: null
+    origin: 南大陆高地王国
+    identity: null
+    relation: 克莱恩（格尔曼·斯帕罗）的契约信使；莎伦的老师；塔罗会编外效力者。
+    ending: 存活
+    note:
+      - 信仰“被缚之神”；敌人是玫瑰学派纵欲派。
+      - 年龄 1288 岁 → 1290 岁；身高 172cm；生日 61 年 12 月 16 日。
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/蕾妮特·缇尼科尔
+      - https://zh.moegirl.org.cn/塔罗会
+      - https://zh.moegirl.org.cn/莎伦
+  - id: arianna
+    name: 阿里安娜
+    aliases: []
+    category: 天使
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 黑夜女神教会
+    occupation: null
+    origin: null
+    identity: null
+    relation: 协助克莱恩击杀赫温·兰比斯；与克莱恩联手将失控的 0-02“特伦索斯特黄铜书”放逐到霍纳奇斯山顶。
+    ending: null
+    note:
+      - doubt：“黑夜教会大主教，天使”出自《塔罗会》条目的注释（指代对象需按注释序号回查原文）， 本次采集无法百分百确认该注释指向阿里安娜，标为存疑。
+    confidence: 低
+    sources:
+      - https://zh.moegirl.org.cn/克莱恩·莫雷蒂
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: bonova_gustav
+    name: 博诺瓦·古斯塔夫
+    aliases: []
+    category: 天使
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 蒸汽与机械之神教会
+    occupation: null
+    origin: null
+    identity: null
+    relation: 罗塞尔·古斯塔夫之子；克莱恩经与他交流后从蒸汽教会带走了魔镜阿罗德斯。
+    ending: null
+    note:
+      - doubt：条目仅在天使名录中列出其名，未给出途径与序列。
+    confidence: 低
+    sources:
+      - https://zh.moegirl.org.cn/阿罗德斯
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: chatou
+    name: 查拉图
+    aliases: []
+    category: 天使
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: 克莱恩的敌人；入侵克莱恩建立的秘偶城镇“乌托邦”，最终被克莱恩击杀，其“诡秘侍者”特性被夺取。
+    ending: null
+    note:
+      - doubt：萌娘百科《克莱恩·莫雷蒂》条目记载“夺取第二份‘诡秘侍者’特性，成为天使之王”， 可推出查拉图持有序列1“诡秘侍者”特性；但其序列号未在条目中直接标注。
+    confidence: 中
+    sources:
+      - https://zh.moegirl.org.cn/克莱恩·莫雷蒂
+  - id: hermes
+    name: 赫密斯
+    aliases: []
+    category: 天使
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: null
+    note:
+      - doubt：仅出现在萌娘百科的天使名录导航中，本次采集未取得其途径、序列与事迹。
+    confidence: 低
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/旧日
+  - id: sier
+    name: 斯厄阿
+    aliases: []
+    category: 天使
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: null
+    note:
+      - doubt：仅出现在萌娘百科的天使名录导航中，本次采集未取得其途径、序列与事迹。
+    confidence: 低
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/旧日
+  - id: colin_iliad
+    name: 科林·伊利亚特
+    aliases: []
+    category: 圣徒
+    gender: null
+    nation: null
+    pathways:
+      - warrior
+    pathwayNames:
+      - 战士
+    sequence: 4-猎魔者 → 3-银骑士
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 白银城六人议事团（首席）
+    occupation: null
+    origin: 白银城
+    identity: null
+    relation: 愚者代言人、戴里克·伯格的继任对象。
+    ending: 死亡（在巨人王庭与“暗天使”恶灵的战斗后留下遗言牺牲）
+    note: []
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/科林·伊利亚特
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: lovia_tiffany
+    name: 洛薇雅·蒂芙尼
+    aliases: []
+    category: 圣徒
+    gender: null
+    nation: null
+    pathways:
+      - secrets_supplicant
+    pathwayNames:
+      - 秘祈人
+    sequence: 5-牧羊人 → 4-黑骑士
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 白银城六人议事团
+    occupation: null
+    origin: 神弃之地白银城
+    identity: null
+    relation: 与戴里克·伯格明争暗斗；信仰真实造物主。
+    ending: 牺牲（参与白银城小队探索巨人王庭时，在与“暗天使”恶灵的战斗中牺牲）
+    note: []
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/洛薇雅·蒂芙尼
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: sharon
+    organizationIds: [ rose_school ]
+    name: 莎伦
+    aliases: []
+    category: 圣徒
+    gender: null
+    nation: null
+    pathways:
+      - prisoner
+    pathwayNames:
+      - 囚犯
+    sequence: 5-怨魂 → 4-木偶
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 玫瑰学派节制派
+    occupation: null
+    origin: 南大陆
+    identity: null
+    relation: 克莱恩（夏洛克·莫里亚蒂）的盟友；马里奇的同伴；蕾妮特·缇尼科尔的学生。
+    ending: 存活
+    note: []
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/莎伦
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: trissy
+    organizationIds: [ theosophy_order, demoness_sect ]
+    name: 特莉丝
+    aliases: []
+    category: 圣徒
+    gender: null
+    nation: null
+    pathways:
+      - assassin
+    pathwayNames:
+      - 刺客
+    sequence: 8-教唆者 → 4-绝望魔女
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 灵知会
+      - 魔女教派
+    occupation: null
+    origin: null
+    identity: null
+    relation: 与克莱恩（格尔曼·斯帕罗）临时同盟；爱人埃德萨克·奥古斯都。
+    ending: 死亡
+    note: []
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/特莉丝(诡秘之主)
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: ince_zangwill
+    name: 因斯·赞格威尔
+    aliases: []
+    category: 圣徒
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames:
+      - 收尸人 → 不眠者
+    sequence: 5-看门人 → 4-守夜人
+    sequenceTitle: null
+    ascent: null
+    organization:
+      - 黑夜女神教会（已脱离）
+    occupation: null
+    origin: null
+    identity: null
+    relation: 克莱恩、伦纳德、戴莉的仇人；第一卷的核心反派。
+    ending: 被克莱恩击杀（复仇完成）
+    note: []
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/因斯·赞格威尔
+      - https://zh.moegirl.org.cn/塔罗会
+  - id: bound_god
+    name: 被缚之神
+    aliases: []
+    category: 其他神明
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: 被“欲望母树”侵蚀。
+    ending: null
+    note:
+      - nature：“被缚者”途径的天使之王，受到玫瑰学派信奉。
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/神灵
+  - id: dark_side_of_universe
+    name: 宇宙暗面
+    aliases: []
+    category: 其他神明
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: null
+    note:
+      - 存在感非常低，疑似被“欲望母树”侵蚀，已很久没再对现实世界施加影响。
+      - nature：“深渊”途径的真神，被广泛认为是“深渊”的化身，受到拜血教信奉。 其真实身份是从第二纪存活至今的恶魔君王法布提。
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/神灵
+  - id: kavitua
+    name: “海神”卡维图瓦
+    aliases: []
+    category: 其他神明
+    gender: null
+    nation: null
+    pathways: []
+    pathwayNames: []
+    sequence: null
+    sequenceTitle: null
+    ascent: null
+    organization: []
+    occupation: null
+    origin: null
+    identity: null
+    relation: null
+    ending: null
+    note:
+      - nature：巨大海蛇形象的神灵，受到罗思德群岛的土著广泛信仰。 实际只是序列3的半神：它吞食了“天灾女王”高希纳姆遗留在精灵遗迹中的一部分非凡特性， 幸运地保住了性命和神智，由此获得半神位格，开始以“海神”自居。
+      - fate：一百多年前被风暴教会重创；后因考古学家拉蒂西亚带走了精灵遗迹中的“天灾之书”， 状况恶化难以维持自身存在，最终消灭。其非凡特性与蛇牙融合，成为封印物海神权杖。
+    confidence: 高
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/神灵

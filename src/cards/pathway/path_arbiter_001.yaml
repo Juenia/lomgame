@@ -1,0 +1,37 @@
+id: path_arbiter_001
+name: 他插了队
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:arbiter' ]
+  min_seq: 9
+effects:
+  - { dig: 4 }
+  - { cor: 1 }
+texts:
+  priv: |
+    队伍里有人插到前面，没有人作声。
+    你看着他，忽然在心里给他定了罪 —— 定得很快，很具体，连刑期都有。
+    你回过神的时候，那个人已经退了回去，而且不知道自己为什么退。
+  group: 排队的人忽然安静了一下。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把那个罪名收回来
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你把那个念头收了。他站直了身子。
+      **而他一直在看自己的脚** —— 像是刚想起来自己站在哪儿。
+  - key: '2'
+    label: 再定一次，这次定得轻一点
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你换了个轻的。他退了半步就停了。
+      **而排在后面的人** —— 全都往前看，谁也没说话。
+  - key: '3'
+    label: 问他为什么插队
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你问了。他答不上来。
+      **他说他赶时间** —— 而他手里什么都没有。

@@ -1,0 +1,36 @@
+# 原著依据：《日常生活.md》fun_gambling ——「猎犬酒馆的实际玩法是押哪条狗抓的老鼠更多」（ch16）
+# 本项目从该素材融合为事件卡（不是原作的原文，是依据它写的事件）。
+id: daily_035
+name: 押哪条狗抓的老鼠多
+trigger:
+  type: random
+  weight: 5
+  cond:
+    - mad>15
+effects:
+  - { item: 便士, n: 4 }
+  - { dig: 1 }
+texts:
+  priv: |
+    猎犬酒馆的地窖里放出了老鼠，两条狗隔着栅栏叫。
+    你押了那条瘸腿的 —— 它抓得最慢，但每一只都咬死了才松口。
+    庄家把钱推过来的时候，看了你一眼。
+  group: 猎犬酒馆的地窖里，有人押中了那条没人要的狗。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把钱收起来
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你收下了。那条瘸腿狗还在栅栏边上坐着。
+  - key: '2'
+    label: 再押一次
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      又放了一次老鼠。这次你押了另一条 —— 你输了。
+  - key: '3'
+    label: 问庄家那条瘸腿狗是谁的
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      他说不知道。他说那条狗是自己来的。

@@ -1,0 +1,37 @@
+id: path_mystery_pryer_001
+name: 看得太久的那颗星
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:mystery_pryer' ]
+  min_seq: 9
+effects:
+  - { dig: 4 }
+  - { cor: 1 }
+texts:
+  priv: |
+    你对着天看了一刻钟，认出那颗星比昨夜亮。
+    星星不会变亮 —— 除非有人在看它，而且看的人比它更远。
+    你收回视线的时候，脖子有点凉。
+  group: 夜里天上多了一颗不太对劲的星。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 再抬头看一眼
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你又看了一眼。它比刚才更亮了。
+      **而你脖子后面那点凉** —— 已经变成了一天都没退的那种。
+  - key: '2'
+    label: 把它的位置记下来
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你在本子上画了它和旁边两颗的位置。
+      **第二天再看** —— 它挪了半度，而旁边那两颗没动。
+  - key: '3'
+    label: 试着让它更亮一点
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你盯着它看，一直看。
+      **它亮了** —— 亮到你能看见它上面有一个很暗的点。

@@ -1,0 +1,37 @@
+id: path_door_001
+name: 门后多出来的走廊
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:door' ]
+  min_seq: 9
+effects:
+  - { dig: 4 }
+  - { cor: 1 }
+texts:
+  priv: |
+    你推开门，走廊比昨天长了一截。
+    你退回去又推了一次 —— 这次是对的。
+    不是房子变了，是门记错了自己通向哪里。
+  group: 有人在楼道里走了很久，一直没有下楼。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 退回去，再推一次
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你又推了一次。这次走廊是对的。
+      **而墙上多了一道划痕** —— 就在你手边的高度。
+  - key: '2'
+    label: 顺着这条走廊走下去
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你走下去了。走廊一直在往前。
+      **而走了十几分钟之后** —— 你发现自己站在同一段楼梯上。
+  - key: '3'
+    label: 在门口做个记号
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你在门框上划了一道。第二天再来看。
+      **记号在上面，而门换了方向** —— 它现在是朝里开的。

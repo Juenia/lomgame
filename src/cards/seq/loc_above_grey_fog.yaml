@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「灰雾之上」（above_grey_fog，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_above_grey_fog
+name: 在屋顶上面走
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:灰雾之上'
+effects:
+  - { dig: 4 }
+  - { cor: 2 }
+texts:
+  priv: |
+    你踩上去的时候以为会掉下去。
+    **没有。** 脚下是实的，像踩在结了冰的湖面上。
+    你低头看 —— 雾下面是城的屋顶，一片一片的，很整齐。
+    你走了很远。走到某个地方，你看见下面有一扇窗还亮着灯。
+  group: 那晚有人在雾上面走，而雾一直没散。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 朝那扇亮着灯的窗走
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你朝那扇窗走过去。走了很久。
+      **而那扇窗一直没有变近** —— 你低头看，雾下面的屋顶换了三片。
+  - key: '2'
+    label: 蹲下来摸摸脚下的雾
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你蹲下来摸。是硬的，但不凉。
+      **而手掌按下去的地方** —— 雾薄了一层。
+  - key: '3'
+    label: 原路走回去
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你照着来路走回去。走了十几步落地了。
+      **而落地的位置** —— 不是你踩上去的地方。

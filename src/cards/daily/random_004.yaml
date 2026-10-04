@@ -1,0 +1,35 @@
+id: random_004
+name: 自己的笔迹
+trigger:
+  type: random
+  weight: 5
+  cond:
+    - flag:keeps_diary
+  location:
+    - 封存档案室
+effects:
+  - { dig: 2 }
+  - { item: 旧日记残页, n: 1 }
+texts:
+  priv: |
+    {{气味}}里混着纸的味道。
+    你在{{地点}}找到一页和自己笔迹一样的纸，{{收获}}。
+  group: "档案室的灯亮了一盏。"
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把那一页收起来
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你折好收进内袋。纸是热的。
+  - key: '2'
+    label: 把那页读完
+    effects: [ { dig: 5, cor: 2, mad: 3 } ]
+    text: |
+      你读完了。写的是你今天做过的事 —— 而最后一句还没发生。
+  - key: '3'
+    label: 去找这页是从哪本里撕的
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      你找遍了这一层。没有一本缺页。

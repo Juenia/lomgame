@@ -1,0 +1,417 @@
+# 物价锚点与派生定价规则
+#
+# 这个文件回答一个问题：**一件东西该卖多少钱？**
+#
+# 它是**两层**的，而且必须分开看（AGENTS 三条禁令的第 2、3 条）：
+#
+#   ① `anchors` —— **原作直述的价格**，逐条带章节号。这些数字一个字都不许改。
+#   ② `rules`   —— **项目派生的定价规则**，用来给原作没给价的东西定价。
+#
+# ⚠️ **派生值不是原作数据。** 原作的 `anchors` 里没有「序列 8 的材料值多少」这一条，
+#    那是本项目按锚点推出的。所以 `rules` 的每一项都要写清「从哪条锚点推的、怎么推的」，
+#    并且**不许**在任何面向玩家的文案里说它是原作设定。
+#
+# 采集来源：`诡秘之主原作数据/11-文化与生活/货币与经济.md`（腾讯书城第 1–130 章精读）
+#          `诡秘之主原作数据/09-物品与封印物/货币.yaml`（萌娘百科交叉验证）
+#
+# 换算（原作 ch4、ch26 逐字，可信度最高）：
+#   1 金镑 = 20 苏勒 = 240 便士
+#   1 苏勒 = 12 便士
+#
+# ⚠️ 注意「三层十进制」这个说法是**错的**（本仓库 numeric.ts 里曾有这个词）：
+#    12 便士 = 1 苏勒 是**十二进制**。240 这个总数对，但「十进制」描述错了。
+meta:
+  source: 诡秘之主原作数据/11-文化与生活/货币与经济.md
+  verified: 腾讯书城《诡秘之主》第 1–130 章逐字；换算关系经萌娘百科交叉验证
+  unit: 便士（最小单位，整数存储）
+  note: 世界已进入纸币与硬币并行的蒸汽时代；金镑金币在市面已很少流通
+
+# ============================================================
+# 一、原作直述的价格锚点（一个字都不许改）
+# ============================================================
+anchors:
+  # ---- 1 便士档：最基础的一档，理解物价的起点 ----
+  - id: newspaper
+    item: 报纸
+    penny: 1
+    chapter: ch25
+    note: 工业化造纸印刷后降到 1 便士
+  - id: beer_rye
+    item: 黑麦啤酒一杯
+    penny: 1
+    chapter: ch16
+  - id: ginger_beer
+    item: 姜啤一杯
+    penny: 1
+    chapter: ch24
+  - id: edu_sunday
+    item: 教会周日学校（每周）
+    penny: 1
+    chapter: ch3
+
+  # ---- 6~12 便士档：一顿饭 ----
+  - id: beef_1lb
+    item: 牛肉一磅
+    penny: 6
+    chapter: ch27
+  - id: lamb_poor
+    item: 羔羊肉一磅（品质一般）
+    penny: 7
+    chapter: ch5
+  - id: lunch_cheap
+    item: 外送午餐（7 便士档）
+    penny: 7
+    chapter: ch41
+  - id: bread_retail
+    item: 单条面包（零售）
+    penny: 9
+    chapter: ch4
+    note: 价格波动剧烈：此前 11 便士，上上个月 15 便士
+  - id: beer_nanwell
+    item: 南威尔啤酒一杯
+    penny: 4
+    chapter: ch16
+  - id: beer_enmat
+    item: 恩马特啤酒一杯
+    penny: 2
+    chapter: ch16
+
+  # ---- 1~2 苏勒档（12~24 便士）：日用与享受 ----
+  - id: icecream
+    item: 冰淇淋一份（餐厅）
+    penny: 12
+    chapter: ch97
+  - id: steak_blackpepper
+    item: 黑胡椒汁牛排一份
+    penny: 14
+    chapter: ch97
+    note: 1 苏勒 2 便士
+  - id: cream_1lb
+    item: 奶油一磅
+    penny: 15
+    chapter: ch24
+    note: 1 苏勒 3 便士
+  - id: cab_hour
+    item: 出租马车一小时
+    penny: 24
+    chapter: ch43
+    note: 2 苏勒；不足一小时按一小时算
+
+  # ---- 3~12 苏勒档（36~144 便士）：服饰与配件 ----
+  - id: shirt
+    item: 衬衫
+    penny: 36
+    chapter: ch20
+  - id: bowtie
+    item: 领结
+    penny: 36
+    chapter: ch20
+  - id: hat_silk
+    item: 丝绸礼帽
+    penny: 60
+    chapter: ch20
+    note: 5~6 苏勒，取下限
+  - id: cane_waterwood
+    item: 手杖（水沉木镶银）
+    penny: 90
+    chapter: ch23
+    note: 7 苏勒 6 便士
+  - id: cane_walnut
+    item: 手杖（胡桃木，廷根名匠制作）
+    penny: 123
+    chapter: ch23
+    note: 10 苏勒 3 便士
+  - id: cane_ironwood
+    item: 手杖（铁心木镶金）
+    penny: 139
+    chapter: ch23
+    note: 11 苏勒 7 便士
+  - id: boots
+    item: 皮靴
+    penny: 114
+    chapter: ch20
+    note: 9~10 苏勒，取中间
+  - id: dress_custom
+    item: 订做新裙子
+    penny: 113
+    chapter: ch70
+    note: 9 苏勒 5 便士；同款在哈罗德百货要 1 镑半
+
+  # ---- 金镑档（240 便士起）：大件 ----
+  - id: ritual_materials
+    item: 制作符咒的材料（半成品银片、草药粉末、天然矿石）
+    penny: 420
+    chapter: ch128
+    note: 1 镑 15 苏勒 —— **这是本项目「材料定价」的主锚点**
+  - id: shotgun_double
+    item: 双筒猎枪
+    penny: 480
+    chapter: ch42
+  - id: rev_standard
+    item: 制式左轮手枪 + 6 发子弹
+    penny: 840
+    chapter: ch42
+    note: 3 镑 10 苏勒
+  - id: suit_full
+    item: 绅士全套行头（正装+礼帽+衬衫+领结+手杖+皮靴）
+    penny: 2004
+    chapter: ch20
+    note: 8 镑 7 苏勒以上
+  - id: lunch_banquet
+    item: 五人宴会（5 瓶香槟+红酒+牛排+布丁+冰淇淋）
+    penny: 1314
+    chapter: ch97
+    note: 5 镑 9 苏勒 6 便士；克莱恩注「差不多吃了我一周的薪水」
+
+  # ---- 住房（周租）----
+  - id: rent_floor
+    item: 地铺（整周）
+    penny: 12
+    chapter: ch119
+  - id: rent_room
+    item: 单间出租（每周）
+    penny: 46
+    chapter: ch119
+    note: 3 苏勒 10 便士
+  - id: rent_3bed
+    item: 两居室（每周，议价后）
+    penny: 147
+    chapter: ch30
+    note: 12 苏勒 + 3 便士家具使用费
+  - id: rent_house
+    item: 独栋房屋（每周）
+    penny: 312
+    chapter: ch29
+    note: 1 镑 6 苏勒；ch4 给的区间是 19 苏勒 ~ 1 镑 18 苏勒
+
+  # ---- 工资（周薪）—— 用来判断「一件东西相当于打几天工」----
+  - id: w_dock
+    item: 码头零工周薪（不景气时）
+    penny: 43
+    chapter: ch90
+    note: 3 苏勒 7 便士 —— **凡人能挣到的最低一档**
+  - id: w_maid
+    item: 杂活女仆周薪（包吃住）
+    penny: 42
+    chapter: ch52
+    note: 3 苏勒 6 便士 ~ 6 苏勒，取下限
+  - id: w_factory
+    item: 工厂普通工人周薪
+    penny: 240
+    chapter: ch4
+    note: 不到 1 镑或刚出头，按 1 镑计
+  - id: w_clerk
+    item: 进出口公司文员周薪
+    penny: 360
+    chapter: ch4
+    note: 1 镑 10 苏勒
+  - id: w_uni_intern
+    item: 廷根大学实习期讲师周薪
+    penny: 480
+    chapter: ch4
+  - id: w_nightwatch
+    item: 值夜者新入文职人员周薪
+    penny: 720
+    chapter: ch15
+    note: 2 镑 10 苏勒 + 10 苏勒补贴 = 3 镑
+  - id: artifact_high
+    item: 残缺的高位非凡物品
+    penny: 2400000
+    chapter: ch293
+    note: 「至少能换取 1 万金镑，而且绝大部分时候，捧着溢价的翻倍的钱也买不到」
+    confidence: 中高（转引，未精读原文）
+
+# ============================================================
+# 二、派生定价规则（**项目定的，不是原作**）
+# ============================================================
+#
+# ⚠️ 有**两类**物品刻意不在这里定价：
+#   · `currency`（货币本身）—— 它的「价」就是面值。`priceOf` 返回 0，
+#     调用方（`.买` / `.卖`）必须显式拒绝买卖货币，而不是靠这里给个数字。
+#   · 不在任何规则里的新 kind —— `priceOf` 返回 0 且 `basis` 写明「没有规则」。
+#     **这是有意不猜**：给一个「看着合理」的兜底价会安静地污染整套经济。
+#
+# 每一档都写明「从哪条锚点推、怎么推」，方便以后有人质疑时能倒推回去。
+rules:
+  - kind: consumable
+    label: 消耗品（食物、饮品）
+    penny: 6
+    basis: 锚点 beef_1lb(6) / lunch_cheap(7) / bread_retail(9) 的中位数附近
+    note: 一顿饭的钱。玩家一天吃三顿也就 18 便士 —— 对照码头零工日薪约 6 便士，这是「糊口」的尺度
+  - kind: trinket
+    label: 杂物（报纸、小物件、纪念品）
+    penny: 3
+    basis: 锚点 newspaper(1) 与 beer_rye(1) 之上取一档
+    note: 比一杯酒略贵，仍然是最便宜的一档
+  - kind: clothing
+    label: 服饰与配件
+    penny: 120
+    basis: 锚点 shirt(36) / hat_silk(60) / cane_waterwood(90) / cane_ironwood(139) / boots(114) 的中位数
+  - kind: tool
+    label: 工具与器材
+    penny: 180
+    basis: 服饰档(120)与武器档(480)之间；原作未给单件工具价
+  - kind: weapon
+    label: 普通武器（凡人可合法持有的）
+    penny: 480
+    basis: 锚点 shotgun_double(480) 直接取用 —— 火器是半管制商品（鲁恩热武器半管制政策）
+    note: 左轮(840) 更贵是因为含 6 发子弹；本档按猎枪的下限定
+  - kind: material
+    label: 非凡材料（按序列分档）
+    penny: 420
+    basis: 锚点 ritual_materials(420) = 1 镑 15 苏勒，这是**序列 9 那一档**
+    note: 序列每提升一级（9→8→…→1），价格 ×3 —— 见 sequenceMultiplier
+  - kind: potion
+    label: 魔药（成品）
+    penny: 630
+    basis: 派生规则。一份魔药要「主材料 + 辅助材料」各一份（`recipes` 表）， 而序列 9 的材料档是 420 便士 → 两份成本约 840 便士； 成品按成本的 75% 定价（调制有失败风险，steam 玩家要为此获得折扣）。 420 × 1.5 ≈ 630 —— 取整到 630。
+    note: 成品比材料便宜是**有意的**：它奖励「自己调」，而不是「买现成」。 序列倍率同样适用（见 sequenceMultiplier）。
+  - kind: artifact
+    label: 封印物 / 非凡物品
+    penny: 2400
+    basis: 序列 9 材料(420) 的约 6 倍；**高位**物品另有 artifact_high 锚点(2,400,000)
+    note: 低序列封印物与高位物品之间差了三个数量级，这不是笔误 —— 原作里非凡物品的价值就是断崖式的
+
+# ============================================================
+# 二·二、**具体物品的锚点**（覆盖 kind 规则）
+# ============================================================
+#
+# `priceOf` 的第一个参数**本来就是「查锚点的键」**，所以这里可以直接写物品 id。
+# 需要它的场合：某个物品**不能按 kind 一刀切** ——
+#   · 「无名者骨牌」是 trinket，但它不是杂物，按 3 便士卖等于白送；
+#   · 「海盐结晶」是 material，但它是矿盐不是非凡材料，按 420 卖凡人买不起。
+#
+# ⚠️ 这些都是**项目派生值**（原作没给这些具体物品的价），依据写在每条 basis 里。
+itemAnchors:
+  - id: 旧日记残页
+    item: 旧日记残页（旧纸）
+    penny: 3
+    chapter: 派生
+    basis: 参照 ch25 报纸 1 便士 —— 真正的杂物，比报纸略贵一点点
+  - id: 潮湿的火柴
+    item: 潮湿的火柴（点不着）
+    penny: 2
+    chapter: 派生
+    basis: 参照 ch25 报纸 1 便士 —— 劣质日用品
+  - id: 夜香草
+    item: 夜香草（草药）
+    penny: 12
+    chapter: 派生
+    basis: 参照 ch24 奶油一磅 1 苏勒 3 便士 —— 普通草药与食品同量级
+  - id: 苦艾酒
+    item: 苦艾酒（一杯）
+    penny: 4
+    chapter: 派生
+    basis: 参照 ch16 啤酒 1~4 便士
+  - id: 海盐结晶
+    item: 海盐结晶（含盐的矿石）
+    penny: 24
+    chapter: 派生
+    basis: 参照 ch5 蔬菜+面包合计 25 便士 —— **它是矿盐不是非凡材料**，原来按材料档 420 卖，凡人（周薪 43 便士）根本买不起
+  - id: 无名者骨牌
+    item: 无名者骨牌（占卜用具）
+    penny: 90
+    chapter: 派生
+    basis: 参照 ch23 手杖 7 苏勒 6 便士 —— 手艺人的家伙
+  - id: 铜哨
+    item: 铜哨（联络用具）
+    penny: 36
+    chapter: 派生
+    basis: 参照 ch20 领结 3 苏勒 —— 金属小件
+  - id: 淬火匕首
+    item: 淬火匕首（工具）
+    penny: 180
+    chapter: 派生
+    basis: 参照 ch20 皮靴 9~10 苏勒 —— 匕首是工人随身工具，不是武器（武器档 480）
+  - id: 黑纱手套
+    item: 黑纱手套（服饰）
+    penny: 120
+    chapter: 派生
+    basis: 参照 ch20 的服饰档
+  - id: 因蒂斯密信
+    item: 因蒂斯密信（情报）
+    penny: 240
+    chapter: 派生
+    basis: 参照 ch42 猎枪 480 / ch128 制符材料 420 —— **情报比实物贵**，这是黑市的定价逻辑
+  - id: 安神药剂
+    item: 安神药剂
+    penny: 60
+    chapter: 派生
+    basis: 参照 ch128 制符材料 420 —— 成药比原料贵，加工费在这里
+  - id: 镇静香薰
+    item: 镇静香薰
+    penny: 48
+    chapter: 派生
+    basis: 同上
+  - id: 符咒·净除
+    item: 符咒·净除
+    penny: 240
+    chapter: 派生
+    basis: 参照 ch128 制符材料整套 420 —— 成品略低于材料整套价
+  - id: 符咒·灼烧
+    item: 符咒·灼烧
+    penny: 240
+    chapter: 派生
+    basis: 同上
+  - id: 符咒·定身
+    item: 符咒·定身
+    penny: 300
+    chapter: 派生
+    basis: 同上；**定身比杀伤贵** —— 控制类符咒在原作里更难得
+  - id: 辅助材料·圣盐
+    item: 辅助材料·圣盐（教会圣物）
+    penny: 60
+    chapter: 派生
+    basis: 参照 ch128 制符材料一套 420，圣盐是其中一样 —— 原作里圣盐是最普通的圣物
+
+# ---- 按序列的倍率（材料 / 魔药 / 封印物共用）----
+#
+# ⚠️ 这一节在**顶层**，与 anchors / rules / exchange 平级（不是 rules 数组里的一项）。
+#    第一版缩进了两格，YAML 当场报「All mapping items must start at the same column」。
+sequenceMultiplier:
+  basis: 派生规则。原作只给了两个点（序列 9 的制符材料 420 便士、高位物品 2,400,000 便士）， 取 9 档到 1 档共 8 级、总倍率约 5700，按 ×3 递推得 3^8 = 6561 —— 与两个锚点的比值同量级。
+  note: 3 是一个「手感」值：太低则序列差距在价格上看不出来，太高则序列 1 的材料贵到没有意义。
+  factor: 3
+  from: 9
+
+# ============================================================
+# 二·五、封印物按封印等级定价（从代码里搬出来的）
+# ============================================================
+#
+# 这组数字原来硬编码在 `router/commands/equipment.ts` 里：
+#
+#     const PRICES = { '0': null, '1': 500, '2': 200, '3': 60, unrated: 30 };
+#
+# 搬到这里有两个理由：
+#   ① AGENTS §3.3 —— 调价是运营动作，不该需要改代码；
+#   ② 它和上面那些价格**必须放在一起看**，否则「一件等级 1 封印物 500 便士」
+#      这个数字跟「双筒猎枪 480 便士」的对照关系就没人看得见。
+#
+# ⚠️ 数值**原样搬过来，一个没改**（改动价格的依据不充分时就不改）。
+#    它们是项目值，不是原作数据 —— 原作没给封印物的市场价格。
+#
+# 校正参照（用来判断这组数字合不合理）：
+#   等级 3（60 便士 = 5 苏勒）—— 比一根胡桃木手杖(123)便宜，比一顿饭(7)贵得多
+#   等级 2（200 便士）—— 略高于一件皮靴(114)，低于猎枪(480)
+#   等级 1（500 便士）—— 与双筒猎枪(480)同档
+#   等级 0（null）—— **买不到**。这是有意的：顶级封印物不该出现在货架上
+sealLevelPrice:
+  basis: 项目值（从 equipment.ts 搬来）。原作未给封印物的市场价格， 但给了一把左轮 840 便士、一支猎枪 480 便士 —— 这组数字相对它们是合理的。
+  prices:
+    '0': null
+    '1': 500
+    '2': 200
+    '3': 60
+    unrated: 30
+
+# ============================================================
+# 三、汇率（原作直述）
+# ============================================================
+exchange:
+  penny: 1
+  shilling: 12
+  pound: 240
+  labels:
+    penny: 便士
+    shilling: 苏勒
+    pound: 金镑

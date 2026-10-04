@@ -1,0 +1,11 @@
+import { officialAvatarUrl } from '../src/card/avatar.ts';
+import { createCardService } from '../src/card/service.ts';
+import { lossOfControlThresholdFor } from '../src/domain/character/rules.ts';
+import { CharacterRepo } from '../src/infra/db/characters.ts';
+import { openDatabase } from '../src/infra/db/sqlite.ts';
+const db = openDatabase('data/game.db');
+const character = new CharacterRepo(db).findByUserId('7A347424BB7C5F38142714E1A0E3E2CA');
+if (!character) throw new Error('no character');
+const service = createCardService({ outDir: 'C:/ocrtmp/demo', publicBaseUrl: 'https://bot.example.com' });
+const out = await service.generate({ character, avatarUrl: officialAvatarUrl('1905686871', '7A347424BB7C5F38142714E1A0E3E2CA', 640), facts: { cityName: '特里尔', lossGate: lossOfControlThresholdFor(character.sequence) } });
+console.log(out.usedAvatar, out.path);

@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `heard_prayer` → 后续卡 `chain_heard_prayer`
+id: start_heard_prayer
+name: 听见有人在祈祷
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { dig: 4 }
+  - { mad: 2 }
+  - { flag: heard_prayer }
+texts:
+  priv: |
+    那个声音很轻，说的是别人的事。
+    **但它叫的是你的名字。**
+    你站在原地听了很久。
+    念到最后，那个人开始哭。你一直听着，直到声音停了。
+  group: 有人在教堂外面站了很久，什么也没做。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 走进教堂看看
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你进去了。教堂里没有人。
+      **而第一排的长椅上有一小块湿** —— 像是有人坐了很久。
+  - key: '2'
+    label: 站着把那句话听完
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你站着听完了。声音停得很干净。
+      **而停之后你还站了一会儿** —— 你在等它再响起来。
+  - key: '3'
+    label: 答应一声
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你答应了一声。教堂里安静下来。
+      **而第二天你又路过那里** —— 有人在你后面叫了同一个名字。

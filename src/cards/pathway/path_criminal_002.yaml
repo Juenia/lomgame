@@ -1,0 +1,37 @@
+id: path_criminal_002
+name: 你想要的东西变具体了
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:criminal' ]
+  min_seq: 4
+effects:
+  - { dig: 6 }
+  - { mad: 2 }
+texts:
+  priv: |
+    昨天你只想要钱。
+    今天你想要某个人的那把椅子，而且知道它摆在哪个屋子的哪个角。
+    深渊不给人欲望，它只是**帮你把欲望说清楚**。
+  group: 有人在街上走，目光落得很准。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把那个念头压下去
+    effects: [ { dig: 4, mad: -1 } ]
+    text: |
+      你把它压下去了。它没有反抗。
+      **而它也没走** —— 它只是退到后面，等着。
+  - key: '2'
+    label: 去那个屋子外面看看
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你去了。那把椅子就在你说的那个角上。
+      **而椅子是空的** —— 屋里一个人都没有。
+  - key: '3'
+    label: 问问自己为什么是那把椅子
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你想了很久。**因为你小时候坐过一把一样的。**
+      **而那一把被烧了** —— 烧的时候你就在旁边看着。

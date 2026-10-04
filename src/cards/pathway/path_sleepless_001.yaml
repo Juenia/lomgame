@@ -1,0 +1,37 @@
+id: path_sleepless_001
+name: 第七个晚上
+trigger:
+  type: daily
+  weight: 9
+  cond: [ 'pathway:sleepless' ]
+  min_seq: 9
+effects:
+  - { dig: 4 }
+  - { mad: 1 }
+texts:
+  priv: |
+    你已经七天没合眼了。
+    不眠者不是「睡不着」，是**睡着之后要面对的东西比醒着更贵**。
+    第七天夜里，你听见有人在数数，从一数到七，然后重新开始 —— 你跟着数了一遍，发现自己数的是同一个七。
+  group: 守夜的灯忽然暗了一下。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 跟着数一遍
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你跟着数。一、二……七。
+      **然后重新开始** —— 而你数的还是那个七。
+  - key: '2'
+    label: 不数了，去做点别的
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你站起来，去擦桌子。擦了三遍。
+      **而那个数数声一直在** —— 它不需要你跟着。
+  - key: '3'
+    label: 数到八
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      数到七的时候你没有重来，你数了八。
+      **声音停了** —— 停了大概三秒，然后开始从八往下数。

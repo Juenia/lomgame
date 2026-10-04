@@ -1,0 +1,22 @@
+# 事件卡链（M2.87）—— **链的第二段**（三级链的中间那一环）。
+# 前置：设 flag `keeps_diary` 的那张卡
+# 自身：要 `flag:keeps_diary`，并**设出** `diary_replies`（供第三段读）
+id: chain2_keeps_diary
+name: 你回了一行
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:keeps_diary'
+effects:
+  - { mad: 3 }
+  - { dig: 3 }
+  - { flag: diary_replies }
+texts:
+  priv: |
+    你在那一页下面写了一句：「你是谁？」
+    第二天翻开，**下面已经有人答了。**
+    答的话很短，写的是你昨天做过的一件事。
+    你没有再写。你把本子放回了抽屉最里面。
+  group: 有人昨天半夜起来翻过一次抽屉。
+daily_limit: 1

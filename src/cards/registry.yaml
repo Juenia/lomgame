@@ -1,0 +1,78 @@
+# 内容注册表（卡片 lint 用）
+# 物品与地点的权威定义在 src/data/items.yaml 与 src/data/locations.yaml，
+# 这里不再重复维护，避免两份清单漂移；flags 目前没有别的落点，留在这里。
+flags:
+  - joined_church
+  - met_mentor
+  - first_potion_taken
+  - dream_touched
+  - watched_by_unknown
+  - read_forbidden_book
+  - night_watch_duty
+  - made_a_deal
+  - lost_ally
+  - marked_by_entity
+  - keeps_diary
+  - sleepless_week
+  - touched_fog
+  - owes_favor
+  - marked_by_party
+  - marked_by_church
+  - lucid_moment
+  - rescued_by_party
+  # M2.1（方案 D）：lost_001 / lost_005 改独狼版后新用的标记
+  - marked_by_witness
+  - found_way_back
+
+  # ── M2.87：事件卡链用到的 flag ──
+  #
+  # 这些 flag 由**前置卡的 effect** 设出，由**后续卡的 cond** 读取。
+  # 登记在这里是为了让 lint 能拦住拼错的 flag（未登记 = 报错）。
+  # 判据：`cond: flag:xxx` 里的每一个 xxx 都要在这里，且**至少有一张卡真的设它** ——
+  # 否则就是「登记了但两头都没有」的死 flag（本版还剩 made_a_deal / lost_ally 两个）。
+  #
+  # 链的第二段设出的 flag（三级链的第三环读它们；本版暂未接第三段）（18 个）
+  - blood_debt
+  - book_remembered
+  - church_task_done
+  - church_watching
+  - diary_replies
+  - dream_shared
+  - favor_repaid
+  - fog_learned
+  - lucid_sought
+  - mark_spreading
+  - mentor_gone
+  - party_trust_broken
+  - potion_side_effect
+  - road_again
+  - sleep_debt
+  - watch_partner
+  - watcher_seen
+  - witness_spoke
+  #
+  # 新链：第一次某件事（前置卡设，后续卡读）（21 个）
+  - broke_a_promise
+  - first_deal
+  - first_kill
+  - found_a_body
+  - found_artifact
+  - found_the_room
+  - heard_prayer
+  - helped_a_stray
+  - in_paper
+  - lost_control_once
+  - missed_the_boat
+  - saved_a_stranger
+  - saw_own_death
+  - saw_the_list
+  - saw_true_form
+  - shared_a_secret
+  - spoke_to_the_dead
+  - told_a_lie
+  - took_a_shortcut
+  - visited_the_grave
+  - won_the_bet
+  #
+  # 其它（1 个）
+  - lost_something

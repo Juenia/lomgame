@@ -1,0 +1,34 @@
+id: daily_019
+name: 第三排架子后面
+trigger:
+  type: daily
+  weight: 6
+  cond:
+    - flag:read_forbidden_book
+  location:
+    - 烛火书店
+effects:
+  - { dig: 1 }
+  - { mad: 3 }
+texts:
+  priv: |
+    烛火书店的第三排架子后面，那本书还在。你又读了两页，然后合上它，手在抖。
+  group: 书店的烛火晃了一下。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把书合上放回去
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你把它放回了原位。手一直没停过抖。
+  - key: '2'
+    label: 再读两页
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你又读了两页。第三页的字你不认识了。
+  - key: '3'
+    label: 把它买下来
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你去付了钱。老板收钱的时候没有看那本书。

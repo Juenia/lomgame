@@ -1,0 +1,1163 @@
+# 权柄（M2.76）—— 世界级能力，落成「世界事件」而不是「玩家技能」
+#
+# 为什么：原著里权柄是序列 0 的东西，而本项目当前玩家可达序列 1
+# ⇒ 做成玩家技能的话没有任何人能用。落成世界事件之后，「机制存在」这件事立刻可验证 ——
+# 等序列 0 落地，把触发方从「世界」换成「玩家」即可，覆盖层不关心是谁写的。
+#
+# ⚠️ 数据集（03-能力与权柄/权柄.yaml）里是 118 条**非结构化的概念描述**（含大量重复项；
+# 去重后 18 条途径共 **79 条权柄**，另有若干写作「象征：X」—— 象征是更上层的概念，不收）。
+#
+# M2.76 只取了「每途径一条」（22 条）；**M2.91 起按途径逐批扩到多条**（§见文件末尾那一段）。
+# 抽取已改成**两级等权**（先途径、再该途径内的权柄，见 infra/authority.ts）——
+# 于是「某条途径多写了两条权柄」不会让那条途径更常出手。
+#
+# weather 的合法性由加载器对着 WEATHER_IDS 校验（不在这里再抄一份清单）。
+
+authorities:
+  - id: authority_seer
+    pathway: seer
+    name: 权柄·愚弄
+    weather: greyfog_tide
+    scope: '*'
+    duration_hours: 6
+    broadcast: 雾从每一个缝隙里渗出来，比自然该有的那一种更厚、更慢。
+    effects:
+      - { kind: banCommand, value: '占卜' }
+    note: 愚者最核心的两大权柄之一，效果是「弄假成真」——也能愚弄时间与历史。
+  - id: authority_warrior
+    pathway: warrior
+    name: 权柄·衰败
+    weather: silence
+    scope: '*'
+    duration_hours: 6
+    broadcast: 风停了。不是安静，是**连声音都被判了刑**。
+    effects:
+      - { kind: madRate, value: '1.3' }
+    note: 黄昏巨人的权柄：让事物走向它该有的终点。
+  - id: authority_sleepless
+    pathway: sleepless
+    name: 权柄·隐秘
+    weather: silence
+    scope: '*'
+    duration_hours: 8
+    broadcast: 所有灯同时暗了半格。没有人抬头 —— 因为他们不觉得这有什么不对。
+    effects:
+      - { kind: banCommand, value: '查' }
+    note: 黑暗的权柄：让一件事不被察觉，包括「它发生过」这件事。
+  - id: authority_sailor
+    pathway: sailor
+    name: 权柄·风暴
+    weather: storm
+    scope: '*'
+    duration_hours: 8
+    broadcast: 海的方向变了。云在头顶上转，转成了一个不该有的形状。
+    effects:
+      - { kind: encounterRate, value: '1.5' }
+    note: 暴君的权柄：风暴本身听他的。
+  - id: authority_perfect
+    pathway: perfect
+    name: 权柄·造物
+    weather: clear
+    scope: '*'
+    duration_hours: 6
+    broadcast: 天上没有云 —— 不是晴，是**云被取走了**。
+    effects:
+      - { kind: priceFactor, value: '0.7' }
+    note: 完美者的权柄：造物与拆解是同一件事的两面。
+  - id: authority_reader
+    pathway: reader
+    name: 权柄·注视
+    weather: blood_moon
+    scope: '*'
+    duration_hours: 6
+    broadcast: 月亮红了一瞬。所有正在读书的人同时抬起了头。
+    effects:
+      - { kind: banCommand, value: '扮演' }
+    note: 白塔的权柄：被看见的东西无法再假装自己不存在。
+  - id: authority_mother
+    pathway: mother
+    name: 权柄·滋长
+    weather: clear
+    scope: '*'
+    duration_hours: 8
+    broadcast: 土里的东西长得比昨天快。院子里的藤一夜之间爬过了墙。
+    effects:
+      - { kind: priceFactor, value: '0.6' }
+    note: 大地母神的权柄：生长不再需要季节。
+  - id: authority_door
+    pathway: door
+    name: 权柄·空间
+    weather: greyfog_tide
+    scope: '*'
+    duration_hours: 6
+    broadcast: 两条街之间的距离比昨天短了一截，没人觉得奇怪。
+    effects:
+      - { kind: banCommand, value: '移动' }
+    note: 门的权柄：空间不是走过去的，是被重新安排过的。
+  - id: authority_sun
+    pathway: sun
+    name: 权柄·光
+    weather: clear
+    scope: '*'
+    duration_hours: 8
+    broadcast: 正午持续了比它该有的更久。影子短到几乎没有。
+    effects:
+      - { kind: madRate, value: '0.5' }
+    note: 永恒烈阳的权柄：光照见每一处阴影 —— 包括那些还没成形的。
+  - id: authority_corpse_collector
+    pathway: corpse_collector
+    name: 权柄·死亡
+    weather: silence
+    scope: '*'
+    duration_hours: 6
+    broadcast: 这一带的所有声音都低了下去，像是有人在替你守着。
+    effects:
+      - { kind: madRate, value: '1.4' }
+    note: 死神的权柄：死亡不是终结，是归位。
+  - id: authority_error
+    pathway: error
+    name: 权柄·错误
+    weather: greyfog_tide
+    scope: '*'
+    duration_hours: 6
+    broadcast: 同一件事发生了两次，只有一次被记住。
+    effects:
+      - { kind: banCommand, value: '占卜|查' }
+    note: 错误的权柄：让规则本身出现一处说不通的缝。
+  - id: authority_mystery_pryer
+    pathway: mystery_pryer
+    name: 权柄·隐秘
+    weather: silence
+    scope: '*'
+    duration_hours: 8
+    broadcast: 天上的星少了一颗。没有人记得它本来在那里。
+    effects:
+      - { kind: banCommand, value: '图鉴' }
+    note: 隐者的权柄：知识可以被藏起来，连「藏过」也可以。
+  - id: authority_spectator
+    pathway: spectator
+    name: 权柄·空想
+    weather: spirit_creep
+    scope: '*'
+    duration_hours: 6
+    broadcast: 街上的行人有一瞬同时停住，像在听什么。
+    effects:
+      - { kind: encounterRate, value: '1.3' }
+    note: 空想家的权柄：写下的故事会变成现实。
+  - id: authority_apothecary
+    pathway: apothecary
+    name: 权柄·月亮
+    weather: blood_moon
+    scope: '*'
+    duration_hours: 8
+    broadcast: 月亮升起来了，而且比昨夜近。夜里的东西都醒了。
+    effects:
+      - { kind: madRate, value: '2' }
+    note: 月亮的权柄：血脉与疯狂同源。
+  - id: authority_arbiter
+    pathway: arbiter
+    name: 权柄·律令
+    weather: clear
+    scope: '*'
+    duration_hours: 6
+    broadcast: 街上所有人同时停下 —— 没有人知道自己在等什么，但他们都在等。
+    effects:
+      - { kind: banCommand, value: '袭击|挑战' }
+    note: 审判者的权柄：一句话可以变成必须遵守的东西。
+  - id: authority_assassin
+    pathway: assassin
+    name: 权柄·痛苦
+    weather: blood_moon
+    scope: '*'
+    duration_hours: 6
+    broadcast: 夜里的每一声呻吟都变得很清楚，哪怕隔着几条街。
+    effects:
+      - { kind: madRate, value: '1.5' }
+    note: 魔女的权柄：痛苦是可以被欣赏的。
+  - id: authority_criminal
+    pathway: criminal
+    name: 权柄·堕落
+    weather: spirit_creep
+    scope: '*'
+    duration_hours: 8
+    broadcast: 有东西在很低的地方醒了，而且它知道你在听。
+    effects:
+      - { kind: priceFactor, value: '1.5' }
+    note: 深渊的权柄：把欲望说清楚，然后收取代价。
+  - id: authority_hunter
+    pathway: hunter
+    name: 权柄·战争
+    weather: storm
+    scope: '*'
+    duration_hours: 6
+    broadcast: 远处的烟比昨天多，而且起得很整齐。
+    effects:
+      - { kind: encounterRate, value: '1.8' }
+    note: 红祭司的权柄：火与追猎。
+  - id: authority_lawyer
+    pathway: lawyer
+    name: 权柄·腐化
+    weather: spirit_creep
+    scope: '*'
+    duration_hours: 6
+    broadcast: 所有的规矩都还在，只是每一条都多了一处可以商量的地方。
+    effects:
+      - { kind: priceFactor, value: '1.3' }
+    note: 黑皇帝的权柄：规则由解释规则的人掌握。
+  - id: authority_monster
+    pathway: monster
+    name: 权柄·命运
+    weather: blood_moon
+    scope: '*'
+    duration_hours: 6
+    broadcast: 今天所有的小概率事件都在扎堆，密得不像巧合。
+    effects:
+      - { kind: banCommand, value: '占卜' }
+    note: 命运之轮的权柄：结果在掷出之前就已经偏了。
+  - id: authority_prisoner
+    pathway: prisoner
+    name: 权柄·束缚
+    weather: silence
+    scope: '*'
+    duration_hours: 8
+    broadcast: 月亮压得很低。有东西在很远的地方挣了一下，链子响了一声。
+    effects:
+      - { kind: banCommand, value: '移动' }
+    note: 被缚者的权柄：锁在里面的那一段比外面的紧。
+  - id: authority_secrets_supplicant
+    pathway: secrets_supplicant
+    name: 权柄·牺牲
+    weather: silence
+    scope: '*'
+    duration_hours: 6
+    broadcast: 所有人同时安静下来，像是有人替他们扛住了一样东西。
+    effects:
+      - { kind: madRate, value: '1.2' }
+    note: 倒吊人的权柄：力量来自你愿意替谁站着。
+
+  # ═══════════ M2.91 第一批：**一条途径多条权柄**（愚者一系）═══════════
+  #
+  # 原作《03-能力与权柄/权柄.yaml》对「占卜家·愚者途径」列了 6 条权柄
+  #（另有 5 条写作「象征：X」—— 象征是比权柄更上层的概念，本项目不把它当权柄收）：
+  #
+  #   愚弄（已有）· 重组（又称嫁接）· 奇迹 · 历史 · 变形 · 空间
+  #
+  # 这一批把其余 5 条补上，作为「一条途径好几条权柄」的**样板批** ——
+  # 原作去重后 18 条途径共 79 条权柄，其余途径按同一套写法续做。
+  #
+  # ⚠️ 抽取逻辑同步改成了**两级等权**（先抽途径、再抽该途径内的权柄，见 infra/authority.ts）——
+  # 否则「愚者 6 条、别人 1 条」会让愚者出手 6 倍频繁。那是数据条数的副作用，不是设计。
+  #
+  # ⚠️ 每条的效果只能落在那四个维度上（禁令 / 理智 / 物价 / 遭遇）——
+  # 它们是读取端**真正认的** kind（domain/world/authority-effects.ts）。
+  # 写一个没人读的 kind 不会报错，只会「内容写了、世界没变」。
+
+  - id: authority_seer_reorganize
+    pathway: seer
+    name: 权柄·重组
+    weather: greyfog_tide
+    scope: '*'
+    duration_hours: 6
+    # 原作：「能将本身无法产生联系的实体事物和抽象概念重新组合在一起」⇒ 东西出现在不该在的地方
+    broadcast: 两样从来不该碰面的东西，此刻在同一个地方。没有人搬过它们。
+    effects:
+      - { kind: encounterRate, value: '1.6' }
+    note: 愚者的核心权柄之一，又称「嫁接」——把不可能产生联系的东西接到一起。
+
+  - id: authority_seer_miracle
+    pathway: seer
+    name: 权柄·奇迹
+    weather: clear
+    scope: '*'
+    duration_hours: 4
+    # 原作：「奇迹本身就无法解释、无法理解」⇒ 世界暂时不讲道理
+    broadcast: 有人看见一件做不到的事 —— 它就那样发生了，没有解释，也没有人能解释。
+    effects:
+      - { kind: encounterRate, value: '2' }
+      - { kind: madRate, value: '0.6' }
+    note: 这是「不可思议」象征所属的权柄；这个象征又称「诡异」。
+
+  - id: authority_seer_history
+    pathway: seer
+    name: 权柄·历史
+    weather: greyfog_tide
+    scope: '*'
+    duration_hours: 8
+    # 原作：「将前一秒和后一秒的自己做出分割」⇒ 当日的记录不再可信
+    broadcast: 昨天那件事，今天的人记得的和昨天不一样。翻记录也没用 —— 记录也变了。
+    effects:
+      - { kind: banCommand, value: '今日' }
+    note: 过去无法改变，但「愚者」依旧能在一定程度上玩弄历史。
+
+  - id: authority_seer_metamorphosis
+    pathway: seer
+    name: 权柄·变形
+    weather: spirit_creep
+    scope: '*'
+    duration_hours: 6
+    # 原作：「变化」象征所属权柄之一
+    broadcast: 街上那些东西的轮廓一直不太对，像有人随手改过几笔，又懒得改回去。
+    effects:
+      - { kind: encounterRate, value: '1.4' }
+      - { kind: madRate, value: '1.2' }
+    note: 「变化」象征所属权柄之一。
+
+  - id: authority_seer_space
+    pathway: seer
+    name: 权柄·空间牢笼
+    weather: greyfog_tide
+    scope: '*'
+    duration_hours: 6
+    # 原作：「能凭空制造空间牢笼」「能瞬间前往任何一片空间」
+    broadcast: 从这里到那里之间，忽然没有路了。看得见对面，走得过去才知道走不过去。
+    effects:
+      - { kind: banCommand, value: '移动' }
+    note: 愚者一系的「空间」权柄（与「门」途径的空间权柄同源，这里按原作描述取「牢笼」那一面， 名字也不重样）。
+
+  # ═══════════ M2.91 第二批：**阅读者（白塔）一系** ═══════════
+  #
+  # 原作对「阅读者·白塔途径」列了 9 条权柄，一个都没进过项目：
+  #   智慧 · 全知 · 星界导师 · 创造 · 星界阶梯 · 灾祸 · 规律 · 学习 · 解析
+  #（既有的「权柄·注视」是本项目 M2.76 时按白塔的描述改写的名字，保留。）
+  #
+  # 四维度尽量分散（禁令 3 / 遭遇 2 / 物价 2 / 理智 2）——
+  # 九条权柄挤在同一个维度上，玩家会觉得「换个名字而已」。
+
+  - id: authority_reader_wisdom
+    pathway: reader
+    name: 权柄·智慧
+    weather: clear
+    scope: '*'
+    duration_hours: 6
+    broadcast: 所有人同时想起了一件自己早就该想通的事。
+    effects:
+      - { kind: madRate, value: '0.7' }
+    note: 白塔的权柄：看清事物之间的联系，然后不再为一个念头反复折磨自己。
+
+  - id: authority_reader_omniscience
+    pathway: reader
+    name: 权柄·全知
+    weather: silence
+    scope: '*'
+    duration_hours: 8
+    broadcast: 有人问了一个问题 —— 然后在开口之前就得到了答案。
+    effects:
+      - { kind: banCommand, value: '查' }
+    note: 白塔的权柄：答案已经在手里的时候，「去查」这件事就不成立了。
+
+  - id: authority_reader_star_mentor
+    pathway: reader
+    name: 权柄·星界导师
+    weather: spirit_creep
+    scope: '*'
+    duration_hours: 6
+    broadcast: 那些不该出现在这里的东西，今天绕开了这条街。
+    effects:
+      - { kind: encounterRate, value: '0.5' }
+    note: 白塔的权柄：星界的那一侧认得他，于是不来找麻烦。
+
+  - id: authority_reader_creation
+    pathway: reader
+    name: 权柄·创造
+    weather: clear
+    scope: '*'
+    duration_hours: 6
+    broadcast: 作坊里的手比平时稳。今天做出来的东西，一件都没有废。
+    effects:
+      - { kind: priceFactor, value: '0.7' }
+    note: 白塔的权柄：知道一件东西是怎么来的，就能再做一个出来。
+
+  - id: authority_reader_stair
+    pathway: reader
+    name: 权柄·星界阶梯
+    weather: greyfog_tide
+    scope: '*'
+    duration_hours: 8
+    broadcast: 有人的目光越过了屋顶，落在了不该看见的地方。
+    effects:
+      - { kind: banCommand, value: '移动' }
+    note: 白塔的权柄：通往星界的那道阶梯只有一条，走上去的人就不在人间了。
+
+  - id: authority_reader_calamity
+    pathway: reader
+    name: 权柄·灾祸
+    weather: storm
+    scope: '*'
+    duration_hours: 6
+    broadcast: 书上记着的那件事，今天翻到了现实这一页。
+    effects:
+      - { kind: encounterRate, value: '1.7' }
+    note: 白塔的权柄：记载过的灾祸，会被读到它的人重新遇上一次。
+
+  - id: authority_reader_law
+    pathway: reader
+    name: 权柄·规律
+    weather: clear
+    scope: '*'
+    duration_hours: 6
+    broadcast: 今天的事一件接一件，每一件都在它该在的时候。
+    effects:
+      - { kind: banCommand, value: '占卜' }
+    note: 白塔的权柄：一切都可推算时，「问一次未来」就不再有意义。
+
+  - id: authority_reader_learning
+    pathway: reader
+    name: 权柄·学习
+    weather: clear
+    scope: '*'
+    duration_hours: 4
+    broadcast: 有人一晚上读完了一本读不懂的书，第二天照常起床。
+    effects:
+      - { kind: madRate, value: '0.6' }
+    note: 白塔的权柄：懂了的东西不会再吓人。
+
+  - id: authority_reader_analysis
+    pathway: reader
+    name: 权柄·解析
+    weather: silence
+    scope: '*'
+    duration_hours: 6
+    broadcast: 一块石头被拆成了「它为什么是石头」的那些理由。
+    effects:
+      - { kind: priceFactor, value: '0.6' }
+    note: 白塔的权柄：看穿一件东西的构成，也就看穿了它的价钱。
+
+  # ═══════════ M2.91 第三批：魔女（8）· 完美者（8）· 空想家（5）═══════════
+  #
+  # 三条途径的原作权柄一次补完（名字全部来自原作 03-能力与权柄/权柄.yaml）。
+  # ⚠️ 「解析」在完美者与白塔两边各有一条（原作就是这么写的）—— 两条 id 不同、播报不同，
+  #    玩家看到的画面也不一样；若以后要合并，得先问过原作再动。
+  - id: authority_assassin_doom
+    pathway: assassin
+    name: 权柄·末日
+    weather: blood_moon
+    scope: '*'
+    duration_hours: 4
+    # 原作：「末日」可以在指定区域内带来完整的末日，让包括命运在内的万事万物纠缠终结
+    broadcast: 今天所有的事情都在往同一个方向收 —— 收得干干净净，一点余地都没留。
+    effects:
+      - { kind: encounterRate, value: '2.5' }
+      - { kind: madRate, value: '1.5' }
+    note: 混沌的下位权柄：矛盾的总爆发，比「灾难」更彻底。
+
+  - id: authority_assassin_bliss
+    pathway: assassin
+    name: 权柄·欢愉
+    weather: spirit_creep
+    scope: '*'
+    duration_hours: 6
+    # 原作：「欢愉」是「魅力」权柄的下位，让人沉沦的极致欢愉本身就是极致魅力的一部分
+    broadcast: 今天没有人愿意从任何一件事里出来。
+    effects:
+      - { kind: madRate, value: '0.5' }
+      - { kind: encounterRate, value: '1.2' }
+    note: 魅力权柄的下位：欢愉过后的空虚让魅力更无法抗拒。
+
+  - id: authority_assassin_disease
+    pathway: assassin
+    name: 权柄·疾病
+    weather: greyfog_tide
+    scope: '*'
+    duration_hours: 8
+    # 原作：掌握的「不再仅仅是神秘学病原体，而是所有通往疾病的东西」
+    broadcast: 咳嗽声从每一条巷子里传出来，连没有人的巷子也有。
+    effects:
+      - { kind: madRate, value: '1.6' }
+    note: 所有通往疾病的东西，都归她管。
+
+  - id: authority_assassin_chaos
+    pathway: assassin
+    name: 权柄·混沌
+    weather: storm
+    scope: '*'
+    duration_hours: 6
+    # 原作：万物归于混沌、复返原初的权柄，是毁灭和终结象征的分支
+    broadcast: 昨天的秩序今天不管用了。所有东西都在往回收，收成最初那一团。
+    effects:
+      - { kind: priceFactor, value: '1.6' }
+      - { kind: encounterRate, value: '1.3' }
+    note: 不同于死亡、永暗、衰弱、败亡、杀戮、破碎的另一种终结方式。
+
+  - id: authority_assassin_origin
+    pathway: assassin
+    name: 权柄·原初
+    weather: clear
+    scope: '*'
+    duration_hours: 6
+    # 原作：混沌是结束，「原初」则是开始；作为最初造物主的阴性面
+    broadcast: 有人亲眼看见一件东西从「没有」变成「有」，中间没有任何过程。
+    effects:
+      - { kind: priceFactor, value: '0.6' }
+    note: 开始与结束是同一件事的两面；到了造物主层次，两者融为一体。
+
+  - id: authority_assassin_mirror
+    pathway: assassin
+    name: 权柄·镜中世界
+    weather: greyfog_tide
+    scope: '*'
+    duration_hours: 8
+    # 原作：掌控与镜子相关的一切，包括不老和复活 —— 除非毁灭所有的镜中世界，否则没法真正杀死她
+    broadcast: 今天所有的镜子都慢了半拍。你抬手，镜子里的你还没抬。
+    effects:
+      - { kind: banCommand, value: '查' }
+    note: 镜子里的一切都不作数 —— 包括你查到的那件事。
+
+  - id: authority_assassin_charm
+    pathway: assassin
+    name: 权柄·魅力
+    weather: spirit_creep
+    scope: '*'
+    duration_hours: 6
+    # 原作：概念层面的魅力，对万事万物都具有极致的、让人产生迷恋与占有欲的魅力
+    broadcast: 今天所有人都会答应你。答应完之后他们自己也说不清为什么。
+    effects:
+      - { kind: priceFactor, value: '0.7' }
+    note: 连旧日也会被吸引 —— 那是概念层面的魅力。
+
+  - id: authority_assassin_female
+    pathway: assassin
+    name: 权柄·女性
+    weather: blood_moon
+    scope: '*'
+    duration_hours: 6
+    # 原作：「我及我之所见，皆为女性」
+    broadcast: 今天没人愿意对面前的人动手。连举起手这个动作都显得很荒唐。
+    effects:
+      - { kind: banCommand, value: '挑战' }
+      - { kind: madRate, value: '0.9' }
+    note: 若这条权柄出问题，全宇宙的相关性别都会出问题。
+
+  - id: authority_perfect_law
+    pathway: perfect
+    name: 权柄·规律
+    weather: clear
+    scope: '*'
+    duration_hours: 6
+    # 原作：能对物理规律进行一定程度的改变 —— 燃烧未必会出现火焰，冰霜或许会带来温暖
+    broadcast: 火今天不烫。雨落在人身上是温的。所有「本来应该」都在松动。
+    effects:
+      - { kind: banCommand, value: '占卜' }
+    note: 规律都能改的时候，推算未来这件事就不成立了。
+
+  - id: authority_perfect_analysis
+    pathway: perfect
+    name: 权柄·解析
+    weather: silence
+    scope: '*'
+    duration_hours: 6
+    # 原作：能看到天使的本质并据此拟定战术
+    broadcast: 有人在街上站了一会儿，然后绕开了三样他从来不知道存在的东西。
+    effects:
+      - { kind: encounterRate, value: '0.6' }
+    note: 看穿本质之后，规避就不再需要运气。
+
+  - id: authority_perfect_making
+    pathway: perfect
+    name: 权柄·制造
+    weather: clear
+    scope: '*'
+    duration_hours: 8
+    # 原作：能制造出自身想象的绝大部分物品，缺乏材料时也能有临时性的替代物
+    broadcast: 作坊今天什么都做得出来 —— 哪怕手边一件材料都没有。
+    effects:
+      - { kind: priceFactor, value: '0.6' }
+    note: 什么都能造的时候，「稀缺」这个词就松了。
+
+  - id: authority_perfect_civilization
+    pathway: perfect
+    name: 权柄·文明
+    weather: clear
+    scope: '*'
+    duration_hours: 6
+    # 原作：可以让混沌沉淀出少许秩序，可以让毁灭焕发出微弱新生
+    broadcast: 今天连最乱的街区都排起了队，没人说得清队在等什么，但队排得很直。
+    effects:
+      - { kind: madRate, value: '0.7' }
+    note: 文明是有重量的，可以冲击、束缚、碾压目标。
+
+  - id: authority_perfect_edification
+    pathway: perfect
+    name: 权柄·教化
+    weather: silence
+    scope: '*'
+    duration_hours: 6
+    # 原作：可提升目标智慧，可给予启迪和灵感，也可让敌人困在数理的迷宫里
+    broadcast: 有人今天想通了一件困扰他很多年的事，然后发现那件事本身是一个笼子。
+    effects:
+      - { kind: banCommand, value: '扮演' }
+    note: 困在数理迷宫里的人，做什么都只是在绕圈。
+
+  - id: authority_perfect_reality_knowledge
+    pathway: perfect
+    name: 权柄·现实知识
+    weather: greyfog_tide
+    scope: '*'
+    duration_hours: 6
+    # 原作：掌握现实世界已被发现的全部知识，也能让目标短暂失去对应的知识、被知识排斥
+    broadcast: 今天所有人都在某个瞬间忘了自己最熟的那件事 —— 只是一瞬间，但所有人都愣了一下。
+    effects:
+      - { kind: banCommand, value: '图鉴' }
+    note: 知识被排斥的时候，翻书也翻不出答案。
+
+  - id: authority_perfect_spirit_mentor
+    pathway: perfect
+    name: 权柄·灵界导师
+    weather: spirit_creep
+    scope: '*'
+    duration_hours: 6
+    # 原作：「完美者」和「隐者」共享「灵界导师」权柄
+    broadcast: 能在灵界行走的那些东西，今天都退到了很远的地方，像是在让路。
+    effects:
+      - { kind: encounterRate, value: '0.5' }
+    note: 这条权柄由两条途径共享 —— 灵界的那一侧认得他们。
+
+  - id: authority_perfect_learning
+    pathway: perfect
+    name: 权柄·学习
+    weather: clear
+    scope: '*'
+    duration_hours: 4
+    # 原作：既可以让自身一学就会，也能让他人怎么都学不会
+    broadcast: 有人看了两遍就会了，有人看了一整天还是那两行。
+    effects:
+      - { kind: madRate, value: '0.6' }
+    note: 学不会的东西会让人发疯 —— 学会的东西不会。
+
+  - id: authority_spectator_insight
+    pathway: spectator
+    name: 权柄·洞察
+    weather: silence
+    scope: '*'
+    duration_hours: 6
+    # 原作：能洞悉目标潜在的心灵漏洞，知道其最恐惧的是什么东西
+    broadcast: 今天每个人都被看穿了一次，只是没人知道自己被看穿了。
+    effects:
+      - { kind: banCommand, value: '查' }
+    note: 「洞察」与「隐秘」互相克制 —— 这一边压过去的时候，那一边就查不出东西。
+
+  - id: authority_spectator_mind
+    pathway: spectator
+    name: 权柄·心灵
+    weather: spirit_creep
+    scope: '*'
+    duration_hours: 8
+    # 原作：能支配每个生物的心灵，让它们按照自己的意志行事，而这些生物很难察觉
+    broadcast: 街上的东西今天都走得很整齐，像有人替它们想了同一个念头。
+    effects:
+      - { kind: encounterRate, value: '0.6' }
+    note: 被支配的生物认为那就是它自己真实的想法。
+
+  - id: authority_spectator_humanity
+    pathway: spectator
+    name: 权柄·人性
+    weather: blood_moon
+    scope: '*'
+    duration_hours: 6
+    # 原作：人性是好，也是坏，是理智，也是疯狂；它们既自然诞生，也可以被制造
+    broadcast: 今天有人做了一件他这辈子都不会做的事，做完之后他没有后悔。
+    effects:
+      - { kind: madRate, value: '1.4' }
+    note: 人性可以被制造出来 —— 也可以被抽走。
+
+  - id: authority_spectator_dream
+    pathway: spectator
+    name: 权柄·梦境
+    weather: greyfog_tide
+    scope: '*'
+    duration_hours: 8
+    # 原作：梦境这个概念本身
+    broadcast: 今天睡着的人，醒来之后都相信自己昨晚去过同一个地方。
+    effects:
+      - { kind: banCommand, value: '休息' }
+    note: 梦境这个概念本身归他管 —— 包括「闭上眼」这件事。
+
+  - id: authority_spectator_loss_control
+    pathway: spectator
+    name: 权柄·失控
+    weather: blood_moon
+    scope: '*'
+    duration_hours: 6
+    # 原作：对非凡者来说，自身心灵的失败，往往就是失控的开始
+    broadcast: 今天所有人心里的那根弦都比平时紧一点。有人已经听见它响了一声。
+    effects:
+      - { kind: madRate, value: '1.8' }
+    note: 心灵的失败就是失控的开始 —— 而这条权柄专门催那一下。
+
+  # ═══════════ M2.91 第四批：暴君（3）· 太阳（2）· 月亮（4）· 黄昏巨人（4）· 死神（4）· 红祭司（5）═══════════
+  #
+  # 六条途径的原作权柄一次补完（名字全部来自原作 03-能力与权柄/权柄.yaml）。
+  # 「死亡」「战争」两条在 M2.76 已经落地，这里只补剩下的。
+  - id: authority_sailor_tyrant
+    pathway: sailor
+    name: 权柄·暴君
+    weather: storm
+    scope: '*'
+    duration_hours: 6
+    # 原作：万王之王，下分「威慑」「愤怒」与部分「恐惧」权柄 —— 往下衍化出了「歌唱」
+    broadcast: 今天没有人抬得起头。不是害怕，是抬头的那个念头一冒出来就散了。
+    effects:
+      - { kind: banCommand, value: '挑战' }
+      - { kind: madRate, value: '1.2' }
+    note: 万王之王 —— 他往下衍化出来的第一件事，是让所有声音都变成服从。
+
+  - id: authority_sailor_matter
+    pathway: sailor
+    name: 权柄·物质
+    weather: greyfog_tide
+    scope: '*'
+    duration_hours: 6
+    # 原作：物质可转化为能量，能量可凝为物质；拥有该权柄者能于短时间内电流化、光速化
+    broadcast: 有人看见一道影子从街这头到了那头 —— 中间那一段，他根本没走过。
+    effects:
+      - { kind: banCommand, value: '袭击' }
+    note: 能带着部分物质接近光速 —— 凡人的刀落不到他身上。
+
+  - id: authority_sailor_calamity
+    pathway: sailor
+    name: 权柄·天灾
+    weather: storm
+    scope: '*'
+    duration_hours: 8
+    # 原作：「天灾」是「灾难」的下属权柄，由灾难衍化而成
+    broadcast: 海今天不在原来的地方。浪打在离岸很远的地方，像是有人在挪它。
+    effects:
+      - { kind: encounterRate, value: '2' }
+    note: 灾难的下位 —— 它不制造灾祸，它本人就是一种灾祸。
+
+  - id: authority_sun_sun
+    pathway: sun
+    name: 权柄·太阳
+    weather: clear
+    scope: '*'
+    duration_hours: 8
+    # 原作：一轮既符合现实又满足神秘学定义的真正太阳，能净化掉相应的污秽与邪异
+    broadcast: 今天的光有点太重了。影子里那些东西一直往墙根缩。
+    effects:
+      - { kind: encounterRate, value: '0.4' }
+    note: 真正的太阳 —— 能照亮，也能烧掉；污秽在这一天无处可躲。
+
+  - id: authority_sun_covenant
+    pathway: sun
+    name: 权柄·契约
+    weather: clear
+    scope: '*'
+    duration_hours: 6
+    # 原作：一旦签订契约，没有相应象征的旧日也会受到很强的约束
+    broadcast: 今天说定的事就是说定了。有人想赖，话到嘴边自己咽了回去。
+    effects:
+      - { kind: banCommand, value: '交易' }
+    note: 来源于「神圣」的「信仰」权柄 —— 契约之后的约束，连旧日都躲不掉。
+
+  - id: authority_apothecary_summon
+    pathway: apothecary
+    name: 权柄·召唤
+    weather: blood_moon
+    scope: '*'
+    duration_hours: 6
+    # 原作：能借助月亮对灵界的影响，从灵界深处召唤来各种类型的强大生物
+    broadcast: 今晚的月亮把灵界那一侧拉得很近 —— 有东西顺着那条缝走过来了，不止一只。
+    effects:
+      - { kind: encounterRate, value: '2' }
+    note: 月亮的引力不止作用于海 —— 也作用于灵界的深处。
+
+  - id: authority_apothecary_spirit
+    pathway: apothecary
+    name: 权柄·灵性
+    weather: spirit_creep
+    scope: '*'
+    duration_hours: 6
+    # 原作：能干扰和影响所有目标的灵性状态，可给予迅速恢复、消耗加剧、不稳定等效果
+    broadcast: 今天每个人的灵性都不太听话 —— 有人一抬手就空了，有人怎么用都用不完。
+    effects:
+      - { kind: banCommand, value: '占卜' }
+    note: 灵性状态被搅乱的时候，靠灵性的那些事一件都不准。
+
+  - id: authority_apothecary_life
+    pathway: apothecary
+    name: 权柄·生命
+    weather: clear
+    scope: '*'
+    duration_hours: 8
+    # 原作：自身拥有永恒的生命，也可赐予或收回生命，治愈创伤与疾病，清除附着于生命的污秽
+    broadcast: 今天受的伤好像都没有那么深。有人咳了一冬，今天早上没咳。
+    effects:
+      - { kind: madRate, value: '0.6' }
+    note: 能赐予生命，也能收回 —— 这一位今天选择赐予。
+
+  - id: authority_apothecary_darkness
+    pathway: apothecary
+    name: 权柄·黑暗
+    weather: silence
+    scope: '*'
+    duration_hours: 6
+    # 原作：偏重因月亮而滋生的黑暗类法术与特质，带来自我替身、恐惧等
+    broadcast: 今晚的影子比人多。有人转过身，看见自己的影子慢了半步才跟上。
+    effects:
+      - { kind: madRate, value: '1.5' }
+    note: 与「黑暗」途径不同 —— 这一份黑暗是月亮自己生出来的。
+
+  - id: authority_warrior_battle
+    pathway: warrior
+    name: 权柄·战斗
+    weather: storm
+    scope: '*'
+    duration_hours: 6
+    # 原作：最擅长正面战斗，其下位的「守护」在此阶段可形成「牢笼」，除防御外还有封印效果
+    broadcast: 今天所有的动手都比平时更狠一点，收手也更难一点。
+    effects:
+      - { kind: encounterRate, value: '1.6' }
+    note: 守护到了尽头就是牢笼 —— 他不只是会打，他会把对手关在里面打。
+
+  - id: authority_warrior_holy
+    pathway: warrior
+    name: 权柄·神圣
+    weather: clear
+    scope: '*'
+    duration_hours: 6
+    # 原作：「荣耀」是「神圣」的一部分；死亡同样是生命最神圣、最严肃的事情之一
+    broadcast: 今天有人在墓碑前站了很久。风从他身边过的时候，绕了一下。
+    effects:
+      - { kind: madRate, value: '0.8' }
+    note: 荣耀既是晨曦也是黄昏，是摧毁也是净化。
+
+  - id: authority_warrior_agent
+    pathway: warrior
+    name: 权柄·代行
+    weather: blood_moon
+    scope: '*'
+    duration_hours: 4
+    # 原作：「神明之手」可代表自身效忠的神明或旧日展现威能、降下神罚，但只能短暂且节制
+    broadcast: 有一下，天上什么都没有发生 —— 而所有人都同时跪了下去，包括不知道自己为什么跪的人。
+    effects:
+      - { kind: banCommand, value: '袭击' }
+    note: 代行神罚的那一下，凡人的动手就不算数了。
+
+  - id: authority_warrior_dusk
+    pathway: warrior
+    name: 权柄·黄昏
+    weather: silence
+    scope: '*'
+    duration_hours: 8
+    # 原作：「黄昏」由「光」「时空」与「衰败」三大象征共同衍化而来
+    broadcast: 今天的黄昏比昨天长。所有人都在等它过去，它没有过去。
+    effects:
+      - { kind: priceFactor, value: '1.4' }
+    note: 光、时空、衰败三样一起衍化出来的东西 —— 它意味着一切都将走向终点。
+
+  - id: authority_corpse_pale
+    pathway: corpse_collector
+    name: 权柄·苍白
+    weather: silence
+    scope: '*'
+    duration_hours: 8
+    # 原作：凋零的极致，一切的褪色 —— 精神、意志、非凡能力都将在苍白下逐渐平静、死寂
+    broadcast: 今天所有的颜色都淡了一格。街上很安静，安静得让人不想说话。
+    effects:
+      - { kind: madRate, value: '0.4' }
+    note: 凋零的极致不是痛苦，是安静 —— 连疯狂都会在苍白里平静下来。
+
+  - id: authority_corpse_slavery
+    pathway: corpse_collector
+    name: 权柄·奴役
+    weather: greyfog_tide
+    scope: '*'
+    duration_hours: 6
+    # 原作：万物的奴役者
+    broadcast: 今天没人想反抗任何事。有人被推了一把，站稳了，然后继续往前走。
+    effects:
+      - { kind: banCommand, value: '挑战' }
+    note: 万物的奴役者 —— 反抗这个念头本身，也是被奴役的一部分。
+
+  - id: authority_corpse_undead
+    pathway: corpse_collector
+    name: 权柄·亡灵
+    weather: spirit_creep
+    scope: '*'
+    duration_hours: 8
+    # 原作：亡灵存在的根源，所有亡灵的主人
+    broadcast: 今晚坟地的土松了。没人看见什么站起来，但所有人都绕开了那片地方。
+    effects:
+      - { kind: encounterRate, value: '1.8' }
+    note: 所有亡灵的主人 —— 它们不是被他召来的，它们本来就在那里，只是今天被允许走出来。
+
+  - id: authority_corpse_endpoint
+    pathway: corpse_collector
+    name: 权柄·终点
+    weather: greyfog_tide
+    scope: '*'
+    duration_hours: 6
+    # 原作：一切的归宿，所有生命共同的终点 —— 它依托「门」途径的能力衍生出了冥界
+    broadcast: 今天走到某几个巷口的人，都会停一下，然后换一条路。他们说不清为什么。
+    effects:
+      - { kind: banCommand, value: '移动' }
+    note: 一切的归宿 —— 冥界是从这条权柄里长出来的，所以路会自己让开。
+
+  - id: authority_hunter_conquest
+    pathway: hunter
+    name: 权柄·征服
+    weather: storm
+    scope: '*'
+    duration_hours: 6
+    # 原作：征服不再仅仅是物品，还可以是地域，甚至是一些概念
+    broadcast: 今天街上的东西都比平时贵，卖的人也不知道自己在替谁收。
+    effects:
+      - { kind: priceFactor, value: '1.4' }
+    note: 被征服的地方要先交东西 —— 连概念也算在内。
+
+  - id: authority_hunter_charm
+    pathway: hunter
+    name: 权柄·魅力
+    weather: spirit_creep
+    scope: '*'
+    duration_hours: 6
+    # 原作：让人想要臣服、想要效忠的魅力，以及极端厌恶、杀之而后快的「魅力」
+    broadcast: 今天所有人对面前的人都有很强烈的意见 —— 要么想跟他走，要么想让他消失。
+    effects:
+      - { kind: priceFactor, value: '0.7' }
+    note: 与「征服」共生的魅力：每一位红祭司都是最有魅力的雄性。
+
+  - id: authority_hunter_destruction
+    pathway: hunter
+    name: 权柄·毁灭
+    weather: blood_moon
+    scope: '*'
+    duration_hours: 4
+    # 原作：上可毁灭一个星球，下可杀死一位真神 —— 附带弱点的侦察与最后的锁定
+    broadcast: 今天每个人身上最软的那一块都被看过了。有人已经开始往那个位置护。
+    effects:
+      - { kind: encounterRate, value: '2.2' }
+      - { kind: madRate, value: '1.3' }
+    note: 被这条权柄杀死的，没有特殊布置就无法复活 —— 它附带弱点的侦察与锁定。
+
+  - id: authority_hunter_sacrifice
+    pathway: hunter
+    name: 权柄·祭祀
+    weather: greyfog_tide
+    scope: '*'
+    duration_hours: 6
+    # 原作：可向力量本源（源质）祈求力量或投影降临；红祭司甚至可以向别的源质祈求
+    broadcast: 今天所有的火都朝着同一个方向烧，像是在等什么东西落下来。
+    effects:
+      - { kind: encounterRate, value: '1.5' }
+    note: 投影降临的时候，这一带会多出一些本来不在的东西。
+
+  - id: authority_hunter_male
+    pathway: hunter
+    name: 权柄·男性
+    weather: blood_moon
+    scope: '*'
+    duration_hours: 6
+    # 原作：自身必为男性，且是最阳刚、最强力、最有繁衍能力的男性，可将任何事物转变为男性
+    broadcast: 今天所有人的脾气都比平时硬一点，硬得有点不讲道理。
+    effects:
+      - { kind: madRate, value: '0.9' }
+    note: 这条权柄把「阳刚」推到概念层面 —— 于是它连脾气一起管。
+
+  # ═══════════ M2.91 第五批：深渊（5）· 黑皇帝（1）· 审判者（3）· 隐者（4）· 命运之轮（4）═══════════
+  #
+  # 最后五条途径的原作权柄补完（至此原作去重后的 79 条**全部落地**）。
+  # ⚠️ 「混乱」在原作里同时属于黑皇帝 / 审判者 / 命运之轮三条途径（原作事实）——
+  #    三处的名字都带途径特征（混乱 / 混乱感应 / 混乱），id 与播报各不相同。
+  - id: authority_criminal_filth
+    pathway: criminal
+    name: 权柄·污秽
+    weather: greyfog_tide
+    scope: '*'
+    duration_hours: 6
+    # 原作：「污秽」是深渊的组成部分，是所有不洁之物的具现，会带来身体、精神、心灵的多重冲击
+    broadcast: 今天连干净的东西看起来都不太干净。有人在洗手，洗了很久。
+    effects:
+      - { kind: madRate, value: '1.4' }
+    note: 不洁之物的具现 —— 它攻击的不只是身体。
+
+  - id: authority_criminal_pollution
+    pathway: criminal
+    name: 权柄·污染
+    weather: spirit_creep
+    scope: '*'
+    duration_hours: 6
+    # 原作：既是堕落和污染的向外延伸，也是欲望爆发、理智失控的必然结局
+    broadcast: 今天所有人的念头都往下走。有人察觉到了，然后决定不管。
+    effects:
+      - { kind: madRate, value: '1.7' }
+    note: 理智失控是这条权柄的**结局**，不是副作用。
+
+  - id: authority_criminal_desire
+    pathway: criminal
+    name: 权柄·欲望
+    weather: blood_moon
+    scope: '*'
+    duration_hours: 6
+    # 原作：深渊的欲望更多体现在对欲望的诱发、催化和引爆，而不是欲望本身
+    broadcast: 今天市场上什么都卖得出去 —— 包括昨天还没人肯要的那些。
+    effects:
+      - { kind: priceFactor, value: '1.5' }
+    note: 它不制造欲望，它点着欲望。
+
+  - id: authority_criminal_curse
+    pathway: criminal
+    name: 权柄·诅咒
+    weather: silence
+    scope: '*'
+    duration_hours: 8
+    # 原作：比起「被缚者」，深渊的诅咒主要在精神和心灵领域
+    broadcast: 今天谁都想不起来一句完整的话。有人张了嘴，然后就算了。
+    effects:
+      - { kind: banCommand, value: '占卜' }
+    note: 被诅咒的人在精神与心灵上问不出真话 —— 包括问自己。
+
+  - id: authority_criminal_mutant
+    pathway: criminal
+    name: 权柄·异类
+    weather: spirit_creep
+    scope: '*'
+    duration_hours: 6
+    # 原作：向下的影响是恶魔们因个人特点、环境因素体现出不同的异变；向上则包容这一切
+    broadcast: 今天街上多出了几种没人认得的生物。它们各自长得都不太一样。
+    effects:
+      - { kind: encounterRate, value: '1.8' }
+    note: 深渊拥有这些异变的全部，也包容这一切。
+
+  - id: authority_lawyer_chaos
+    pathway: lawyer
+    name: 权柄·混乱
+    weather: storm
+    scope: '*'
+    duration_hours: 6
+    # 原作：不再是秩序的寄生虫、解释者、扭曲者 —— 脱离秩序，让秩序和规则本身都陷入混乱
+    broadcast: 今天说定的事可以反悔，签过的字不算数。有人在柜台前站了很久，没人能给他一个说法。
+    effects:
+      - { kind: banCommand, value: '交易' }
+    note: 规则本身陷入混乱的时候，交易这件事就不成立了。
+
+  - id: authority_arbiter_judgment
+    pathway: arbiter
+    name: 权柄·审判
+    weather: clear
+    scope: '*'
+    duration_hours: 4
+    # 原作：「审判之剑」对混乱之物可做出一次直接审判，无法躲避；目标越混乱，效果越强
+    broadcast: 今天有一瞬间，所有正在做亏心事的人都停了手 —— 他们不知道自己在等什么。
+    effects:
+      - { kind: banCommand, value: '袭击' }
+    note: 审判之下先动手的那个人，会被判得最重。
+
+  - id: authority_arbiter_chaos
+    pathway: arbiter
+    name: 权柄·混乱感应
+    weather: silence
+    scope: '*'
+    duration_hours: 6
+    # 原作：对「混乱」有直接的感应能力、锁定能力与追踪能力，可迅速平息环境的混乱
+    broadcast: 今天街面上很平。有人想闹事，起了个头，然后就找不到接话的人了。
+    effects:
+      - { kind: encounterRate, value: '0.5' }
+    note: 他能感应到混乱、锁定它、然后把它按平。
+
+  - id: authority_arbiter_balance
+    pathway: arbiter
+    name: 权柄·平衡
+    weather: clear
+    scope: '*'
+    duration_hours: 1
+    # 原作：强制平衡 —— 还能令很多抽象之物平衡，比如让理智和疯狂在一定时间内恢复平衡，但最多三分钟
+    broadcast: 今天有一小段时间，所有人都觉得还行。
+    effects:
+      - { kind: madRate, value: '0.5' }
+    note: 强制平衡，连理智与疯狂也能拉平 —— 但最多三分钟，所以这条的期限只有 1 小时。
+
+  - id: authority_mystery_edification
+    pathway: mystery_pryer
+    name: 权柄·教化
+    weather: greyfog_tide
+    scope: '*'
+    duration_hours: 6
+    # 原作：能于眼眸内凝聚出复杂而虚幻的符号，将大量庞杂无用的知识灌入目标脑海，撑爆其脑袋
+    broadcast: 今天有人忽然知道了太多事。他坐在路边，一直在摇头。
+    effects:
+      - { kind: madRate, value: '1.6' }
+    note: 这一份「教化」不是教，是灌。
+
+  - id: authority_mystery_secret_peek
+    pathway: mystery_pryer
+    name: 权柄·窥秘
+    weather: silence
+    scope: '*'
+    duration_hours: 6
+    # 原作：能直接窥见许多秘密，包括众神的，乃至旧日的
+    broadcast: 今天所有的秘密都松了一格。有人什么都没做，就知道了邻居家的私事。
+    effects:
+      - { kind: banCommand, value: '查' }
+    note: 秘密都被窥见的时候，去「查」就成了最慢的那条路。
+
+  - id: authority_mystery_mystic_knowledge
+    pathway: mystery_pryer
+    name: 权柄·神秘知识
+    weather: spirit_creep
+    scope: '*'
+    duration_hours: 6
+    # 原作：核心能力之一是赋予数字力量，赋予它们真正意义上的、各自不同的象征力量
+    broadcast: 今天数字不太一样了 —— 有人数到七的时候停了一下，像是数到了别的什么。
+    effects:
+      - { kind: banCommand, value: '占卜' }
+    note: 数字各自带着象征力量的时候，靠数字推算的那套就不灵了。
+
+  - id: authority_mystery_backup
+    pathway: mystery_pryer
+    name: 权柄·备份
+    weather: greyfog_tide
+    scope: '*'
+    duration_hours: 8
+    # 原作：能通过备份后隐藏起来的信息复活；指定的备份要先自主激活，否则唯一性会转移到最近的那份
+    broadcast: 今天有人死了，又出现了。两边的人都坚持自己看见的是同一个他。
+    effects:
+      - { kind: banCommand, value: '挑战' }
+    note: 打死一个能从备份里回来的人 —— 挑战这件事就不成立了。
+
+  - id: authority_monster_foresight
+    pathway: monster
+    name: 权柄·预知
+    weather: clear
+    scope: '*'
+    duration_hours: 6
+    # 原作：不仅能把握命运长河得到未来的画面与必将出现的道标，还能影响短时间内命运长河的支流
+    broadcast: 今天所有的事都像是已经发生过一遍，只是没人记得是什么时候。
+    effects:
+      - { kind: banCommand, value: '占卜' }
+    note: 未来已经被他写定了 —— 再问一次也不会变。
+
+  - id: authority_monster_probability
+    pathway: monster
+    name: 权柄·概率
+    weather: storm
+    scope: '*'
+    duration_hours: 6
+    # 原作：「命运」象征衍化来的另一大权柄，万事皆可概率化 —— 这是命运的混乱本质的体现之一
+    broadcast: 今天什么都有可能发生。有人赌了三次，三次都赢，第四次不敢赌了。
+    effects:
+      - { kind: encounterRate, value: '1.6' }
+    note: 掌握了概率，就掌握了万物的命运。
+
+  - id: authority_monster_cycle
+    pathway: monster
+    name: 权柄·循环
+    weather: clear
+    scope: '*'
+    duration_hours: 8
+    # 原作：「回归」象征衍化来的权柄 —— 归于母体，归于源头，归于最初，是宇宙的本能
+    broadcast: 今天的东西好像都比昨天新一点。有人认出了自己三年前弄丢的那件。
+    effects:
+      - { kind: priceFactor, value: '0.7' }
+    note: 归于母体、归于源头、归于最初 —— 于是旧东西又回来了。
+
+  - id: authority_monster_chaos
+    pathway: monster
+    name: 权柄·混乱
+    weather: blood_moon
+    scope: '*'
+    duration_hours: 6
+    # 原作：「混乱」象征的体现之一 —— 命运的本质是混乱，体现着疯狂，「命运之轮」看守着它们，又利用着它们
+    broadcast: 今天连最守规矩的人都有点想破坏点什么。他们说不上来为什么。
+    effects:
+      - { kind: madRate, value: '1.5' }
+    note: 命运的本质是混乱 —— 它看守着混乱，也利用着混乱。

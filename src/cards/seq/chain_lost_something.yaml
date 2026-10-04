@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：丢了一件东西（设 flag `lost_something`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_lost_something
+name: 找到了，但不对
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:lost_something'
+effects:
+  - { mad: 3 }
+  - { cor: 2 }
+texts:
+  priv: |
+    三天之后它回来了。
+    就在桌上放着，跟你丢之前一模一样。
+    **但上面没有那道划痕了。**
+    你把它收起来，没有再拿出来过。
+  group: 有人丢的东西自己回来了，他反而不高兴。
+daily_limit: 1

@@ -1,0 +1,35 @@
+id: seq7_005
+name: 慢半拍的影子
+trigger:
+  type: daily
+  weight: 9
+  cond: []
+  min_seq: 7
+  cooldown_days: 3
+effects:
+  - { dig: 2 }
+  - { cor: 1 }
+texts:
+  priv: |
+    墓窟的墙上有两道影子，一道是你的，另一道比你的慢半拍。
+    你没有回头 —— 回头的规矩是给序列 9 的人定的，你已经不在那一条上了。
+    你往前走，那半拍一直跟着，直到拐角处它自己拐进了另一条路。
+  group: 石壁后面有人翻了一页纸。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 停在拐角看它拐向哪
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你停在拐角。那半拍拐进了另一条路，没有回头。
+  - key: '2'
+    label: 继续往前走
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你接着走。身后那半拍一直在，一直没上来。
+  - key: '3'
+    label: 回头看那一眼
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你回头了。墙上只有一道影子 —— 而它比你的慢半拍。

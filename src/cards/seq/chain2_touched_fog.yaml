@@ -1,0 +1,22 @@
+# 事件卡链（M2.87）—— **链的第二段**（三级链的中间那一环）。
+# 前置：设 flag `touched_fog` 的那张卡
+# 自身：要 `flag:touched_fog`，并**设出** `fog_learned`（供第三段读）
+id: chain2_touched_fog
+name: 雾开始跟着你
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:touched_fog'
+effects:
+  - { dig: 3 }
+  - { cor: 2 }
+  - { flag: fog_learned }
+texts:
+  priv: |
+    你走到哪儿，雾就跟到哪儿。
+    不浓，就是薄薄一层，一直在脚边。
+    **今天有人问你：「你身上怎么这么凉？」**
+    你说没事。他看了你一眼，往旁边让了让。
+  group: 有人说那个人走过的地方总是潮的。
+daily_limit: 1

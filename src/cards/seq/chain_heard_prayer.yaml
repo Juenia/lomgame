@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：听见有人在祈祷（设 flag `heard_prayer`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_heard_prayer
+name: 你应了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:heard_prayer'
+effects:
+  - { dig: 4 }
+  - { cor: 3 }
+texts:
+  priv: |
+    你应了一声 —— 在心里应的，没有出声。
+    **对面安静了。**
+    过了一会儿，那个声音又起来了，比刚才轻。
+    这次说的是谢谢。
+  group: 那间教堂里的人说昨天祷告完心里特别静。
+daily_limit: 1

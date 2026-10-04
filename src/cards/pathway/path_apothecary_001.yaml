@@ -1,0 +1,37 @@
+id: path_apothecary_001
+name: 闻出来的那味药
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:apothecary' ]
+  min_seq: 9
+effects:
+  - { dig: 4 }
+  - { hp: 3 }
+texts:
+  priv: |
+    你把三味药摆在桌上，闭着眼分。
+    分完睁开，全对 —— 除了第三味，它不是你说的那味，但**是对的**。
+    药师靠的不是记性，是舌头先于脑子的那半秒。
+  group: 药铺里飘出一股说不上来的甜腥味。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把那第三味收起来
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你把它单独包好，写上「对」。
+      **写完你自己愣了一下** —— 你不认识它，凭什么写「对」。
+  - key: '2'
+    label: 再尝一口，尝准一点
+    effects: [ { dig: 5, cor: 1, mad: 1 } ]
+    text: |
+      你又尝了一口。先麻后清。
+      **而清完之后舌根留着一点苦** —— 那一点苦才是它真正的味道。
+  - key: '3'
+    label: 问药铺的人这味药哪来的
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      他说是上个月收的，一包里的。
+      **而那包药他一直没敢用** —— 他说他闻不出来这是什么。

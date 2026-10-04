@@ -1,0 +1,33 @@
+id: daily_007
+name: 自己翻过来的骨牌
+trigger:
+  type: random
+  weight: 4
+  cond:
+    - mad>50
+effects:
+  - { dig: 1 }
+  - { mad: 2 }
+  - { dp: 1 }
+texts:
+  priv: |
+    一张无名的骨牌自己翻了过来。你盯着它看了很久，忽然明白了一个不该明白的道理。
+  group: 有什么东西翻了个面。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把它翻回去
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你把它翻回正面。过了一会儿，它又自己翻了回来。
+  - key: '2'
+    label: 再看一眼那张牌
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你看了很久。牌面上是空的 —— 而你刚才明明看见了什么。
+  - key: '3'
+    label: 收起来，不再碰
+    effects: [ { dig: 3 } ]
+    text: |
+      你把它收进了抽屉最底下。

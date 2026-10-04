@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「战殁者墓室」（trier_war_crypt，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_trier_war_crypt
+name: 几个认识的名字
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:战殁者墓室'
+effects:
+  - { mad: 3 }
+  - { dig: 2 }
+texts:
+  priv: |
+    墙上刻满了名字，一排一排。
+    你举着灯从头看过去。
+    **有几个是你认识的。** 有三个 —— 你上周还见过其中一个。
+    你把手放在那个名字上。石头是冷的。
+  group: 那座墓室的墙上多了几个名字。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 去找那三个人的名字
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你去找了。三个都在同一排。
+      **而三个名字刻在同一天** —— 刻痕是新的。
+  - key: '2'
+    label: 把刻痕的位置记下来
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你记下了排数和位置。
+      **第二天再来** —— 那一排多了一个名字，是你的。
+  - key: '3'
+    label: 举着灯看完整面墙
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你从头看到尾。看了很久。
+      **而最后一个名字的位置是空的** —— 石头上留着凿过的痕。

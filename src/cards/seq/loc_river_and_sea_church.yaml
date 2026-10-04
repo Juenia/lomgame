@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「河与海教堂」（river_and_sea_church，危险度 1）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_river_and_sea_church
+name: 两条水
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:河与海教堂'
+effects:
+  - { dig: 2 }
+  - { cor: 1 }
+texts:
+  priv: |
+    祭坛前面的池子里有两条水，一条从河来，一条从海来。
+    中间隔着一道石台。
+    今天你看见**石台上有水痕** —— 从海那边，一直伸到河这边。
+    执事说是打扫时溅的。他没有抬头。
+  group: 河与海教堂的执事这两天一直在擦那块石台。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 伸手蘸一下那道水痕
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你蘸了一下。是咸的。
+      **而它从海那边一路过来** —— 中间隔着石台和两丈远的地砖。
+  - key: '2'
+    label: 问执事这石台多久擦一次
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      他说每天都擦。
+      **而他说这话的时候** —— 手里那块布一直是干的。
+  - key: '3'
+    label: 把两条水搅到一起
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你用手把两边拨通了。两条水碰在一起。
+      **而池子里没有起任何变化** —— 它们像是早就认识。

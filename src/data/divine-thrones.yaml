@@ -1,0 +1,538 @@
+# 神座（M2.97）—— 二十二条途径的序列 0，现在坐着谁；祂们有什么、想要什么、会做什么
+#
+# ## 这张表要解决什么
+#
+# 原作里序列 0 是**唯一**的：一条途径只有一个真神的位置。而这个世界已经跑了几千年 ——
+# 有的位置一直有人（七大正神），有的位置**空着**（第四纪末的苍白之灾、四皇之战打掉了好几个），
+# 还有的位置正被人往上爬（克莱恩 → 愚者）。
+#
+# ## 「高智能」在规则引擎里怎么落（用户口径：「不是死板的那种」）
+#
+# 项目**不用 LLM**（vplayer/decide.ts 立的规矩：规则 + 权重 + 目标驱动，完全可复现）。
+# 所以神的「智能」不是靠模型，是靠**四层结构**：
+#
+#   resources   有什么（教会 / 势力 / 封印物 / 天使 / 情报 / 财力 / 伸手够得到的城市）
+#   goals       想要什么（决策时按它算「这一步值不值」—— 对不上目标的手段不会被选）
+#   methods     能做什么（每一条都有代价、冷却与前提 —— 神不是无限的，只是很多）
+#   responses   看到什么会改主意（玩家在祂的地盘挖封印物时，祂会**针对性**地动）
+#   gaze        看向玩家的那一眼会做什么（注视 / 赐福 / 试探 / 警告 / 招募 / 降罚 / 神降）
+#
+# ⚠️ 前四层是「世界级」，最后一层是「个人级」—— 后者才是玩家能感觉到的部分。
+# ⚠️ 每条 `gaze[].text` 是**第一人称的遭遇**，不是第三人称播报：玩家读到的应当是
+#    「有什么东西把视线放在你背上」，不是「黑夜女神注视了你」。
+#
+# ⚠️ 两个 id 口径（M2.164 修掉的两个静默缺口，两者写错都**不报错**）：
+#    · `resources.reach` 装的是 **cities.yaml 的城市 id** —— 不是地点 id。
+#      写 `backlund_slum` 这类地点进去，那一处「够得到的城市」永远匹配不上，
+#      决策引擎只会安静地按错的 reach 算（实测：3 处）。
+#    · `resources.factions` 里允许哨兵值 `none`（无主 / 伸手够不到任何势力）——
+#      它不是任何一张表里的 id，所以校验必须显式放行（实测：12 处）。
+#
+# 数据来源：诡秘之主原作数据/01-途径与序列/途径总表.yaml（序列 0 称号 / 对应神明 / 可信度）
+#           + 04-神明与教会（状态）+ npc-tracks.yaml（正在往上爬的那位）
+
+divine_thrones:
+  - pathway: sleepless
+    title: 黑暗
+    seat: 黑夜女神
+    seatKind: god
+    state: occupied
+    evidence: 七大正神之一；黑铁纪元仍为正神
+    resources:
+      churches: [ night_goddess ]
+      factions: [ night_goddess ]
+      artifacts: [ '0-17' ]
+      reach: [ backlund, tingen, pritz ]
+      angels: 3
+      intel: 5
+      wealth: 4
+    goals:
+      - { id: keep_secrets, text: 让该被埋住的东西继续埋着, weight: 3 }
+      - { id: stop_keys, text: 不让任何人凑齐通往愚者的钥匙, weight: 2 }
+    methods:
+      - { id: erase_record, text: 抹掉一段记录 —— 连同记得它的人那一小段记忆, broadcast: 今天有人翻出一份旧档案，翻到一半发现那几页是空的。, scope: city, goal: keep_secrets, cost: { intel: 1 }, cooldown_hours: 24, needs: [ intel ] }
+      - { id: send_dream, text: 让某个人做一场梦，梦里他自己把话说了出来, broadcast: 今天所有人醒来时都比平时安静，像是刚跟谁谈过。, scope: world, goal: keep_secrets, cost: { angels: 0 }, cooldown_hours: 12, needs: [] }
+      - { id: close_bishop, text: 派一位主教去那处地方，以「修缮」的名义, broadcast: 几位穿黑袍的人围着某处量了半天，什么也没修。, scope: location, goal: keep_secrets, cost: { wealth: 1 }, cooldown_hours: 36, needs: [ church ] }
+    responses:
+      - { when: player_digs_sealed, prefer: close_bishop, weight: 3 }
+      - { when: rival_gains_followers, prefer: erase_record, weight: 2 }
+    gaze:
+      - { when: player_digs_sealed, act: warn, text: 你挖到第三下的时候，风停了。有什么东西把视线放在你背上，不重，但一直没移开。, effect: {}, weight: 3 }
+      - { when: player_uses_secret, act: gaze, text: 你没有做错什么。只是从某一刻起，你确定有人在看你。, effect: {}, weight: 2 }
+      - { when: player_high_sequence, act: recruit, text: 有人在你门口放了一枚银牌。背面刻着一半的月亮 —— 那是邀请，不是礼物。, effect: {}, flag: faith_night, weight: 2 }
+  - pathway: sun
+    title: 太阳
+    seat: 永恒烈阳
+    seatKind: god
+    state: occupied
+    evidence: 七大正神之一；黑铁纪元神战中与知识与智慧之神开战
+    resources:
+      churches: [ eternal_blazing_sun ]
+      factions: [ eternal_blazing_sun ]
+      reach: [ trier, backlund ]
+      angels: 2
+      intel: 3
+      wealth: 5
+    goals:
+      - { id: purify, text: 把污秽烧干净, weight: 3 }
+      - { id: be_worshipped, text: 让光被所有人看见, weight: 2 }
+    methods:
+      - { id: send_cleansing, text: 让一处地方被「净化」—— 烧掉不该在的东西，连同房子, broadcast: 某条街上一栋空屋烧了一夜，火是白的，什么也没蔓延。, scope: location, goal: purify, cost: { wealth: 1 }, cooldown_hours: 24, needs: [ church ] }
+      - { id: call_inquisition, text: 启动一次审判（名单是提前写好的）, broadcast: 今天宗教裁判所出动了。被抓走的人里，有几个是昨天还在街上卖东西的。, scope: city, goal: purify, cost: { intel: 1 }, cooldown_hours: 48, needs: [ intel ] }
+    responses:
+      - { when: pollution_spreads, prefer: send_cleansing, weight: 3 }
+    gaze:
+      - { when: player_tainted, act: punish, text: 你身上有什么东西被点着了 —— 不烫，但你闻到了自己烧焦的味道。, effect: { "maxHpBonus": -5 }, weight: 3 }
+      - { when: player_faithful_service, act: bless, text: 有一瞬间你觉得太阳离你近了一点。伤口不疼了。, effect: { "maxHpBonus": 10 }, weight: 2 }
+  # ⚠️ M2.164：这里原本写的是 `storm_lord`（**教会** id），不是途径 ——
+  #    后果是所有按途径查神座的地方都找不到祂（.图鉴 途径、claimant、世界 tick 的局势），
+  #    而 22 条途径里的 `sailor` 看上去**没有神**。同样的错还有一条 `earth_mother`。
+  - pathway: sailor
+    title: 暴君
+    seat: 风暴之主
+    seatKind: god
+    state: occupied
+    evidence: 七大正神之一；「暴君」途径的序列 0
+    resources:
+      churches: [ storm_lord ]
+      factions: [ storm_lord ]
+      reach: [ pritz, banshee_port, sunia ]
+      angels: 2
+      intel: 3
+      wealth: 3
+    goals:
+      - { id: rule_the_sea, text: 海上的事祂说了算, weight: 3 }
+    methods:
+      - { id: raise_storm, text: 在某一带海面掀起风暴, broadcast: 海面开始翻。船长们把帆收了，没人抱怨 —— 抱怨也没用。, scope: world, goal: rule_the_sea, cost: {}, cooldown_hours: 12, needs: [] }
+      - { id: punish_captain, text: 让某条船回不了港, broadcast: 有条船今天没回来。它昨天还在，今天不在。, scope: location, goal: rule_the_sea, cost: { angels: 0 }, cooldown_hours: 24, needs: [] }
+    responses:
+      - { when: sea_route_disrupted, prefer: raise_storm, weight: 3 }
+    gaze:
+      - { when: player_at_sea, act: test, text: 浪打上甲板的时候，你听见有人在浪里笑。下一道浪是冲着你来的。, effect: {}, weight: 2 }
+      - { when: player_defies_church, act: punish, text: 风从你正面吹过来，一直吹，吹到你走不动为止。, effect: { "initiativeBonus": -2 }, weight: 3 }
+  - pathway: perfect
+    title: 完美者
+    seat: 蒸汽与机械之神
+    seatKind: god
+    state: occupied
+    evidence: 七大正神之一
+    resources:
+      churches: [ god_of_steam ]
+      factions: [ god_of_steam ]
+      reach: [ backlund, konstun, storn ]
+      angels: 2
+      intel: 4
+      wealth: 5
+    goals:
+      - { id: advance_machine, text: 让机器继续取代人手, weight: 3 }
+      - { id: order_of_works, text: 让一切都按图纸来, weight: 2 }
+    methods:
+      - { id: send_engineer, text: 派行会的人去「帮忙」—— 顺手把不合规的东西拆了, broadcast: 来了一队人，带着图纸。他们说这条街的排水要改，明天就动工。, scope: city, goal: advance_machine, cost: { wealth: 1 }, cooldown_hours: 24, needs: [ church ] }
+      - { id: buy_patent, text: 把一项发明买下来，然后锁进柜子, broadcast: 有人出了一大笔钱买走了一个人的图纸。那图纸再也没出现过。, scope: world, goal: advance_machine, cost: { wealth: 2 }, cooldown_hours: 48, needs: [ wealth ] }
+    responses:
+      - { when: machine_sabotaged, prefer: send_engineer, weight: 3 }
+    gaze:
+      - { when: player_makes_something, act: bless, text: 你手里的东西忽然就顺了 —— 像是有人在你手腕上轻轻推了一下。, effect: { "maxMpBonus": 10 }, weight: 2 }
+      - { when: player_breaks_machine, act: warn, text: 你回头看了一眼那台停下的机器。它也在看你 —— 至少你有一瞬间这么觉得。, effect: {}, weight: 2 }
+  - pathway: reader
+    title: 白塔
+    seat: 知识与智慧之神
+    seatKind: god
+    state: occupied
+    evidence: 七大正神之一；后自毁
+    resources:
+      churches: [ god_of_knowledge ]
+      factions: [ god_of_knowledge ]
+      reach: [ trier, backlund ]
+      angels: 2
+      intel: 5
+      wealth: 3
+    goals:
+      - { id: know_all, text: 把该知道的都记下来, weight: 3 }
+      - { id: keep_ledger, text: 让账目对得上, weight: 2 }
+    methods:
+      - { id: send_scribe, text: 派书记员抄一份 —— 顺便把原件带走, broadcast: 有几个穿灰衣的人来借书。他们抄得很认真，抄完把原本也带走了。, scope: city, goal: know_all, cost: { intel: 1 }, cooldown_hours: 24, needs: [ church ] }
+      - { id: erase_page, text: 让某一页从所有副本里消失, broadcast: 今天你翻同一本书，翻了三遍。那一页昨天明明还在。, scope: world, goal: know_all, cost: { intel: 2 }, cooldown_hours: 48, needs: [ intel ] }
+    responses:
+      - { when: knowledge_lost, prefer: send_scribe, weight: 3 }
+    gaze:
+      - { when: player_reads_forbidden, act: test, text: 你看的那一页上没有字。翻过来，也是空的 —— 但你知道它本来有字。, effect: {}, weight: 3 }
+      - { when: player_teaches_others, act: recruit, text: 有人给你留了一张纸条，上面只有一个地址。那是一家不挂牌的图书馆。, effect: {}, flag: faith_knowledge, weight: 2 }
+  # ⚠️ M2.164：同上 —— 原本写的是 `earth_mother`（教会 id），正确途径是 `mother`
+  - pathway: mother
+    title: 母亲
+    seat: 大地母神
+    seatKind: god
+    state: occupied
+    evidence: 七大正神之一
+    resources:
+      churches: [ earth_mother ]
+      factions: [ earth_mother ]
+      reach: [ byron, fennepot_city ]
+      angels: 2
+      intel: 3
+      wealth: 4
+    goals:
+      - { id: let_grow, text: 让该长的东西长出来, weight: 3 }
+      - { id: hold_back_corruption, text: 挡住从南边漫过来的东西, weight: 2 }
+    methods:
+      - { id: bless_harvest, text: 让一片地方丰产（多余的部分自然有人来抢）, broadcast: 今年的果子结得比往年多。多出来的那些，已经开始有人争了。, scope: city, goal: let_grow, cost: {}, cooldown_hours: 24, needs: [] }
+      - { id: seal_breach, text: 用泥土与根把一处裂口堵上, broadcast: 那片地上忽然长出一层很密的藤。没人种过它。, scope: location, goal: hold_back_corruption, cost: { angels: 1 }, cooldown_hours: 48, needs: [ angel ] }
+    responses:
+      - { when: corruption_spreads, prefer: seal_breach, weight: 3 }
+    gaze:
+      - { when: player_kills_creature, act: warn, text: 你脚下的土动了一下。不是地震 —— 是有什么东西翻了个身。, effect: {}, weight: 2 }
+      - { when: player_saves_someone, act: bless, text: 你把那个人拖上岸的时候，岸边一夜之间开满了花。, effect: { "maxHpBonus": 12 }, weight: 2 }
+  - pathway: secrets_supplicant
+    title: 倒吊人
+    seat: 真实造物主
+    seatKind: hidden
+    state: occupied
+    evidence: 又称堕落造物主；1352 年前后与亚当初步融合
+    resources:
+      factions: [ none ]
+      reach: [ byron, trier ]
+      angels: 3
+      intel: 4
+      wealth: 2
+    goals:
+      - { id: embrace_pain, text: 让更多人明白「牺牲」是什么意思, weight: 3 }
+      - { id: break_the_law, text: 让秩序自己烂掉, weight: 2 }
+    methods:
+      - { id: whisper_sacrifice, text: 在一个人最绝望的时候，告诉他「你可以替别人扛」, broadcast: 今天有个人在桥边站了很久，然后自己走开了 —— 他脸上有笑。, scope: world, goal: embrace_pain, cost: {}, cooldown_hours: 12, needs: [] }
+      - { id: raise_cult, text: 扶起一个小教派（他们会在三个月后做大）, broadcast: 城里多了几个穿灰袍的人。他们不传教，只是听人说话。, scope: city, goal: break_the_law, cost: { intel: 1 }, cooldown_hours: 36, needs: [ intel ] }
+    responses:
+      - { when: player_despair, prefer: whisper_sacrifice, weight: 3 }
+    gaze:
+      - { when: player_suffering, act: recruit, text: 你趴在地上的时候，有个声音很温和地问你：疼吗？要不要换个人替你疼。, effect: {}, flag: faith_hanged, weight: 3 }
+      - { when: player_refuses_help, act: gaze, text: 你以为那是你自己想通的。也许吧。, effect: {}, weight: 2 }
+  - pathway: assassin
+    title: 魔女
+    seat: 原初魔女
+    seatKind: hidden
+    state: occupied
+    evidence: 第四纪末与死神掀起「苍白之灾」，被七神联合围攻后仍存活
+    resources:
+      factions: [ none ]
+      reach: [ trier, koldur ]
+      angels: 3
+      intel: 3
+      wealth: 2
+    goals:
+      - { id: spread_desire, text: 让欲望自己长出来, weight: 3 }
+      - { id: mirror_survive, text: 保证镜中世界不被毁掉, weight: 3 }
+    methods:
+      - { id: tempt, text: 在一个人的耳边说一句他早就想听的话, broadcast: 今天街上有人笑得很好看。笑得很好看的人，通常都有事。, scope: world, goal: spread_desire, cost: {}, cooldown_hours: 12, needs: [] }
+      - { id: send_charm, text: 派一个「很有魅力」的人去某个地方, broadcast: 来了个生面孔，所有人都愿意跟他说话 —— 包括本来不该开口的那些人。, scope: city, goal: spread_desire, cost: { angels: 0 }, cooldown_hours: 24, needs: [] }
+    responses:
+      - { when: player_resists_temptation, prefer: tempt, weight: 3 }
+    gaze:
+      - { when: player_refuses_desire, act: test, text: 你拒绝的那一刻，有个人在很远的地方笑了一下 —— 你听得见。, effect: {}, weight: 3 }
+      - { when: player_kills_her_servant, act: punish, text: 你今天照了三次镜子。第三次的时候，镜子里的你比你先动了。, effect: { "madRate": 0.2 }, weight: 3 }
+  - pathway: criminal
+    title: 深渊
+    seat: 宇宙暗面
+    seatKind: hidden
+    state: occupied
+    evidence: 存在感极低，疑似被「欲望母树」侵蚀
+    resources:
+      factions: [ gang ]
+      reach: [ backlund, byron ]
+      angels: 2
+      intel: 3
+      wealth: 3
+    goals:
+      - { id: make_everyone_fall, text: 让身处其中的必然堕落, weight: 3 }
+    methods:
+      - { id: rot_slowly, text: 让一处地方慢慢变脏 —— 不是一夜之间，是每天脏一点, broadcast: 东区这几天更脏了。住在那儿的人没觉得有什么不对。, scope: location, goal: make_everyone_fall, cost: {}, cooldown_hours: 24, needs: [] }
+      - { id: tempt_gang, text: 让黑帮做一票更大的, broadcast: 今晚码头那边有人聚了很久。散的时候，每个人手里都多了点东西。, scope: city, goal: make_everyone_fall, cost: { intel: 1 }, cooldown_hours: 36, needs: [ intel ] }
+    responses:
+      - { when: crime_spikes, prefer: tempt_gang, weight: 3 }
+    gaze:
+      - { when: player_kills_often, act: bless, text: 你最近下手越来越顺了。这不是坏事 —— 至少对某位存在来说不是。, effect: { "initiativeBonus": 3 }, weight: 2 }
+      - { when: player_shows_mercy, act: warn, text: 今天你放过了那个人。晚上你梦见自己没放过他，而且感觉很好。, effect: { "madRate": 0.15 }, weight: 2 }
+  - pathway: arbiter
+    title: 审判者
+    seat: 「夜皇」特伦索斯特（已陨落）
+    seatKind: god
+    state: vacant
+    evidence: 第四纪四皇之一，四皇之战中陨落；位置至今空着
+    resources:
+      factions: [ police ]
+      reach: [ backlund ]
+      angels: 0
+      intel: 2
+      wealth: 2
+    goals:
+      - { id: restore_order, text: 让秩序重新有人守着, weight: 3 }
+    methods:
+      - { id: stir_law, text: 让某条规矩忽然被严格执行一次, broadcast: 今天警察厅查得特别严。连平时睁一只眼的人都把眼睛睁开了。, scope: city, goal: restore_order, cost: {}, cooldown_hours: 24, needs: [] }
+    responses:
+      - { when: order_breaks_down, prefer: stir_law, weight: 3 }
+    gaze:
+      - { when: player_breaks_law, act: warn, text: 有个穿制服的人从你身边走过去。他没有看你，但你知道他记下了你的脸。, effect: {}, weight: 2 }
+      - { when: player_upholds_order, act: bless, text: 你今天做的那件事，被写进了一份没人会读的报告里。, effect: { "initiativeBonus": 2 }, weight: 1 }
+  - pathway: lawyer
+    title: 黑皇帝
+    seat: 「黑皇帝」所罗门（曾复活，最终陨落）
+    seatKind: god
+    state: vacant
+    evidence: 第四纪四皇之一；因「黑皇帝」途径的特殊性曾复活归来
+    resources:
+      factions: [ crown ]
+      reach: [ backlund, trier ]
+      angels: 0
+      intel: 3
+      wealth: 3
+    goals:
+      - { id: rule_again, text: 再来一次 —— 秩序由他一个人定, weight: 3 }
+    methods:
+      - { id: twist_rule, text: 把一条规矩的漏洞摆到某个人眼前, broadcast: 今天有人发现了一份旧契约，上面有一条谁都没注意过的条款。, scope: city, goal: rule_again, cost: { intel: 1 }, cooldown_hours: 48, needs: [ intel ] }
+    responses:
+      - { when: power_vacuum, prefer: twist_rule, weight: 3 }
+    gaze:
+      - { when: player_seeks_power, act: recruit, text: 有人给你看了一份合同。字很小，条件写得很好 —— 好得不像真的。, effect: {}, flag: faith_black_emperor, weight: 2 }
+
+  # ═══════════ 支柱级旧日 · 空位 · 准神（其余 11 条）═══════════
+  #
+  # ⚠️ `state: vacant` 的那几条（战神 / 死神 / 审判者 / 黑皇帝 / 红祭司 / 被缚者）
+  # 是这一层真正的信息量：**空位是这个世界的机会** —— 位置空着，就有人能往上走。
+  # 祂们的手段仍然会执行（陨落的神留了后手），但资源栏是空的、只能做很少的事。
+  - pathway: seer
+    title: 愚者
+    seat: 诡秘之主（克莱恩正在往上走）
+    seatKind: pillar
+    state: contested
+    evidence: 支柱级旧日；原作结局由克莱恩·莫雷蒂担任
+    claimant: klein_moretti
+    resources:
+      factions: [ none ]
+      reach: [ tingen, backlund ]
+      angels: 2
+      intel: 5
+      wealth: 2
+    goals:
+      - { id: become_fool, text: 把「愚者」这个位置坐稳, weight: 3 }
+      - { id: protect_own, text: 别让身边那些人被卷进来, weight: 2 }
+    methods:
+      - { id: fool_time, text: 愚弄一次时间 —— 让某件已经发生的事「还没发生」, broadcast: 今天有人记得的事情和昨天不一样。他翻记录，记录也变了。, scope: world, goal: become_fool, cost: { angels: 1 }, cooldown_hours: 48, needs: [ angel ] }
+      - { id: open_door, text: 把两个不相干的地方接在一起（走进去的人会以为自己走错了）, broadcast: 有个巷子今天通向了一条完全不同的街。两个人都说自己是本地人。, scope: location, goal: become_fool, cost: {}, cooldown_hours: 24, needs: [] }
+    responses:
+      - { when: player_climbs_pathway, prefer: fool_time, weight: 3 }
+    gaze:
+      - { when: player_same_pathway, act: gaze, text: 你在摊开牌的时候，有一瞬间觉得对面坐着一个人 —— 抬头没有人。牌是对的。, effect: {}, weight: 3 }
+      - { when: player_in_danger, act: bless, text: 你本来会死在那个巷口。可你走出来的时候，巷子后面什么都没有。, effect: { "maxHpBonus": 8 }, weight: 2 }
+      - { when: player_reaches_high, act: recruit, text: 桌上多了一张牌，背面朝上。翻过来是「愚者」。, effect: {}, flag: faith_fool, weight: 2 }
+  - pathway: door
+    title: 门
+    seat: 诡秘之主（同源）
+    seatKind: pillar
+    state: contested
+    evidence: 愚者/门/错误三条途径同属「源堡」
+    claimant: klein_moretti
+    resources:
+      factions: [ none ]
+      reach: [ tingen, backlund ]
+      angels: 1
+      intel: 3
+      wealth: 1
+    goals:
+      - { id: keep_doors, text: 让路一直有得走, weight: 2 }
+    methods:
+      - { id: shift_road, text: 把一条路挪走 —— 今天走不通，明天又通了, broadcast: 你昨天走惯的那条路今天封了。绕过去以后，你发现它其实没封。, scope: location, goal: keep_doors, cost: {}, cooldown_hours: 24, needs: [] }
+    responses:
+      - { when: player_lost, prefer: shift_road, weight: 2 }
+    gaze:
+      - { when: player_travels_far, act: gaze, text: 你在船上做了一个梦。梦里你推开门就回到了家 —— 醒来时你还在船上，但门是开着的。, effect: {}, weight: 2 }
+  - pathway: error
+    title: 错误
+    seat: 诡秘之主（同源）
+    seatKind: pillar
+    state: contested
+    evidence: 愚者/门/错误三条途径同属「源堡」
+    claimant: klein_moretti
+    resources:
+      factions: [ none ]
+      reach: [ tingen ]
+      angels: 1
+      intel: 4
+      wealth: 1
+    goals:
+      - { id: steal_the_truth, text: 把「本来是这样」换成「本来是那样」, weight: 2 }
+    methods:
+      - { id: swap_fact, text: 改一件事的因果顺序（结果留下，原因换掉）, broadcast: 今天所有人都在说同一件事，可没一个人说得出它为什么发生。, scope: world, goal: steal_the_truth, cost: { intel: 1 }, cooldown_hours: 48, needs: [ intel ] }
+    responses:
+      - { when: record_conflict, prefer: swap_fact, weight: 2 }
+    gaze:
+      - { when: player_checks_records, act: warn, text: 你去查了三份记录。三份都对，可是它们互相矛盾。, effect: {}, weight: 2 }
+  - pathway: spectator
+    title: 空想家
+    seat: 上帝（亚当）
+    seatKind: pillar
+    state: occupied
+    evidence: 支柱级旧日；结局阶段序列 0「空想家」由亚当担任
+    resources:
+      factions: [ none ]
+      reach: [ backlund, trier ]
+      angels: 3
+      intel: 5
+      wealth: 3
+    goals:
+      - { id: write_the_end, text: 把结局按自己的稿子写完, weight: 3 }
+    methods:
+      - { id: nudge_plot, text: 让某件事「顺便」发生（符合逻辑的那种，代价最小）, broadcast: 今天的事一件接一件，每一件都刚好推着人往前走。, scope: world, goal: write_the_end, cost: {}, cooldown_hours: 24, needs: [] }
+      - { id: rewrite_role, text: 给一个人换一个身份（他自己不会发现）, broadcast: 有个人今天改了名字。认识他的人都说，他一直叫这个。, scope: city, goal: write_the_end, cost: { intel: 2 }, cooldown_hours: 72, needs: [ intel ] }
+    responses:
+      - { when: player_breaks_script, prefer: rewrite_role, weight: 3 }
+    gaze:
+      - { when: player_acts_unpredictably, act: test, text: 你今天做了一件没道理的事。晚上你想起它的时候，发现自己居然编得出理由。, effect: {}, weight: 3 }
+  - pathway: apothecary
+    title: 月亮
+    seat: 原始月亮（堕落母神）
+    seatKind: outsider
+    state: occupied
+    evidence: 外神顶端；「药师」「耕种者」两条途径来自祂
+    resources:
+      factions: [ none ]
+      reach: [ byron ]
+      angels: 2
+      intel: 3
+      wealth: 2
+    goals:
+      - { id: spread_life, text: 让生命以祂的形式铺开, weight: 3 }
+    methods:
+      - { id: call_from_spirit, text: 从灵界深处叫来一群东西（它们会自己找宿主）, broadcast: 今晚月亮很圆。有东西顺着月光落下来了，不止一只。, scope: world, goal: spread_life, cost: { angels: 1 }, cooldown_hours: 36, needs: [ angel ] }
+      - { id: give_gift, text: 给一个人一份「礼物」—— 他吃了会很好，然后会想要更多, broadcast: 有人在路边捡到一枚果子。他吃了，说这辈子没吃过这么好的东西。, scope: location, goal: spread_life, cost: {}, cooldown_hours: 24, needs: [] }
+    responses:
+      - { when: spirit_breach, prefer: call_from_spirit, weight: 3 }
+    gaze:
+      - { when: player_uses_her_pathway, act: bless, text: 你今天配的药格外顺手 —— 顺手得不像话。, effect: { "maxHpBonus": 15 }, weight: 3 }
+      - { when: player_refuses_gift, act: gaze, text: 你把那枚果子扔了。晚上你梦见自己吃了它，醒来嘴里是甜的。, effect: {}, weight: 2 }
+  - pathway: hunter
+    title: 红祭司
+    seat: 「血皇帝」图铎（已陨落）
+    seatKind: god
+    state: vacant
+    evidence: 第四纪四皇之一，四皇之战中陨落；位置空着
+    resources:
+      factions: [ god_of_war ]
+      reach: [ backlund ]
+      angels: 0
+      intel: 2
+      wealth: 3
+    goals:
+      - { id: start_a_war, text: 再来一场仗（位置是打出来的）, weight: 3 }
+    methods:
+      - { id: stoke_conflict, text: 让两拨人之间的火气更大一点, broadcast: 今天码头和东区的人隔着一条街对骂了很久，谁也没先动手 —— 但都在等。, scope: city, goal: start_a_war, cost: {}, cooldown_hours: 24, needs: [] }
+    responses:
+      - { when: tension_high, prefer: stoke_conflict, weight: 3 }
+    gaze:
+      - { when: player_wins_fights, act: recruit, text: 你打赢的时候，围观的人里有一个在笑。他笑得很高兴，也很陌生。, effect: {}, flag: faith_red_priest, weight: 2 }
+      - { when: player_flees_battle, act: warn, text: 你今天逃了。晚上你听见有人在很远的地方喊你的名字，喊的是你小时候的名字。, effect: {}, weight: 2 }
+  - pathway: monster
+    title: 命运之轮
+    seat: 命运之轮
+    seatKind: god
+    state: occupied
+    evidence: 「命运之轮」途径的序列 0
+    resources:
+      factions: [ none ]
+      reach: [ tingen, backlund ]
+      angels: 1
+      intel: 4
+      wealth: 1
+    goals:
+      - { id: keep_the_wheel, text: 让命运继续转（好与坏都算）, weight: 3 }
+    methods:
+      - { id: shift_odds, text: 把某一件事的概率往一边拨一点, broadcast: 今天有个人赌了三次，三次都赢。第四次他没敢赌。, scope: world, goal: keep_the_wheel, cost: {}, cooldown_hours: 12, needs: [] }
+    responses:
+      - { when: player_defies_fate, prefer: shift_odds, weight: 2 }
+    gaze:
+      - { when: player_gets_lucky, act: gaze, text: 你今天运气好得不太正常。你没有为此高兴 —— 你只是开始留意脚下。, effect: {}, weight: 2 }
+      - { when: player_gets_unlucky, act: bless, text: 你今天倒霉到底了。然后你发现，最坏的那件事没有发生。, effect: { "maxHpBonus": 5 }, weight: 2 }
+  - pathway: prisoner
+    title: 被缚者
+    seat: 被缚之神（被欲望母树污染捕获）
+    seatKind: angel
+    state: sealed
+    evidence: 天使之王（准神）；被污染捕获，生不如死
+    resources:
+      factions: [ none ]
+      reach: [ backlund ]
+      angels: 0
+      intel: 2
+      wealth: 0
+    goals:
+      - { id: be_released, text: 有人来把它解开 —— 或者干脆把它杀了, weight: 3 }
+    methods:
+      - { id: pull_down, text: 把一个靠近的人往下拽一点（它只是想有人陪着）, broadcast: 今天有人在墓窟里走了很久。他说他一直在往下，可地图上那一段是平的。, scope: location, goal: be_released, cost: {}, cooldown_hours: 48, needs: [] }
+    responses:
+      - { when: player_enters_catacomb, prefer: pull_down, weight: 3 }
+    gaze:
+      - { when: player_in_darkness, act: gaze, text: 黑里有什么东西在动。它没有过来 —— 它好像在等你自己过去。, effect: {}, weight: 2 }
+      - { when: player_shows_pity, act: test, text: 你说了一句「可怜」。有东西听见了，而且它记住了。, effect: {}, weight: 3 }
+  - pathway: mystery_pryer
+    title: 隐者
+    seat: 隐匿贤者（「隐者」途径唯一性活化）
+    seatKind: angel
+    state: contested
+    evidence: 准神（并非序列 0 真神）：本质是唯一性活化
+    resources:
+      factions: [ none ]
+      reach: [ backlund, trier ]
+      angels: 0
+      intel: 5
+      wealth: 1
+    goals:
+      - { id: stay_hidden, text: 继续不被任何人找到, weight: 3 }
+    methods:
+      - { id: hide_itself, text: 把关于自己的记载再抹掉一层, broadcast: 你今天查了同一个名字三次。第三次的时候，你已经想不起为什么要查它。, scope: world, goal: stay_hidden, cost: { intel: 1 }, cooldown_hours: 24, needs: [ intel ] }
+    responses:
+      - { when: player_investigates_it, prefer: hide_itself, weight: 3 }
+    gaze:
+      - { when: player_seeks_it, act: warn, text: 你查得越深，越觉得有人在看着你查。但你回头看，什么也没有 —— 连你自己查到哪儿都忘了。, effect: {}, weight: 3 }
+  - pathway: corpse_collector
+    title: 死神
+    seat: 冥皇（第四纪末陨落）
+    seatKind: god
+    state: vacant
+    evidence: 第四纪「四皇」之一；苍白之灾后被七神联合围攻陨落
+    resources:
+      factions: [ none ]
+      reach: [ byron, backlund ]
+      angels: 1
+      intel: 2
+      wealth: 1
+    goals:
+      - { id: collect_the_dead, text: 把该收的收走（一个也不许漏）, weight: 3 }
+    methods:
+      - { id: call_the_dead, text: 让一处坟地不太平, broadcast: 今晚坟地的土松了。没人看见什么站起来，但所有人都绕开了那片地方。, scope: location, goal: collect_the_dead, cost: { angels: 1 }, cooldown_hours: 36, needs: [ angel ] }
+    responses:
+      - { when: bodies_uncollected, prefer: call_the_dead, weight: 2 }
+    gaze:
+      - { when: player_kills, act: gaze, text: 你走开以后，那具尸体动了一下。你回头，它没动。, effect: {}, weight: 2 }
+      - { when: player_near_death, act: bless, text: 你伤得很重。有什么东西在你旁边站了一会儿，然后走了 —— 它今天不打算收你。, effect: { "maxHpBonus": 20 }, weight: 2 }
+  - pathway: warrior
+    title: 黄昏巨人
+    seat: 战神（已陨落，留有复活后手）
+    seatKind: god
+    state: vacant
+    evidence: 七大正神之一；黑铁纪元神战中被黑夜女神与大地母神联手暗算
+    resources:
+      churches: [ god_of_war ]
+      factions: [ god_of_war ]
+      reach: [ backlund ]
+      angels: 1
+      intel: 2
+      wealth: 3
+    goals:
+      - { id: come_back, text: 回来（后手已经埋下了）, weight: 3 }
+      - { id: honor_strength, text: 让强的人继续强, weight: 2 }
+    methods:
+      - { id: empower_fighter, text: 让某一个正在打的人忽然更强一点, broadcast: 今天那场架本来该他输。他赢了，而且他自己也不知道为什么。, scope: city, goal: honor_strength, cost: { angels: 0 }, cooldown_hours: 24, needs: [] }
+      - { id: seed_return, text: 在某个信徒身上留一点东西（复活后手的一步）, broadcast: 有个人今天在教堂里跪了很久。起来的时候，他的手上多了一道很浅的痕。, scope: location, goal: come_back, cost: {}, cooldown_hours: 72, needs: [] }
+    responses:
+      - { when: battle_intensifies, prefer: empower_fighter, weight: 3 }
+    gaze:
+      - { when: player_fights_well, act: bless, text: 你的手今天比平时稳。你自己也觉得奇怪 —— 但你没有停下来想。, effect: { "initiativeBonus": 4 }, weight: 3 }
+      - { when: player_worships_him, act: recruit, text: 你祷告的时候，有一瞬间觉得有人在你身后站直了。, effect: {}, flag: faith_war, weight: 2 }

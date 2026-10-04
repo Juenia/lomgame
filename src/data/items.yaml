@@ -1,0 +1,1192 @@
+# 物品元数据：背包展示 / 可否使用 / 绑定规则
+# kind: material 材料 | consumable 消耗品 | currency 货币 | potion 魔药 | trinket 杂物
+items:
+  # M2.5 追加：货币内部按**便士**（最小单位）存，三层（金镑/苏勒/便士）只在显示层换算。
+  # 旧存档里的「金镑」会在 0012 迁移里被改写成「便士」，值不变。
+  - { id: 便士, name: 便士, kind: currency, bindable: false, tradeable: true, note: 通用货币，永不绑定但可交易（240 便士 = 1 金镑） }
+  - { id: 主材料·灰雾结晶, name: 主材料·灰雾结晶, kind: material, bindable: true }
+  - { id: 主材料·战火余烬, name: 主材料·战火余烬, kind: material, bindable: true }
+  - { id: 主材料·夜之瞳, name: 主材料·夜之瞳, kind: material, bindable: true }
+  - id: 夜香草
+    name: 夜香草
+    kind: consumable
+    bindable: true
+    effect: { mad: -3, mp: 2 }
+    note: 嚼一片能压住耳鸣，但压不久
+  - { id: 辅助材料·圣盐, name: 辅助材料·圣盐, kind: material, bindable: true }
+  - { id: 辅助材料·银粉, name: 辅助材料·银粉, kind: material, bindable: true }
+  - { id: 辅助材料·月长石粉, name: 辅助材料·月长石粉, kind: material, bindable: true }
+  - { id: 旧日记残页, name: 旧日记残页, kind: trinket, bindable: true }
+  - { id: 无名者骨牌, name: 无名者骨牌, kind: trinket, bindable: true }
+  - { id: 教会徽记, name: 教会徽记, kind: trinket, bindable: false, tradeable: false, note: 组织身份物，既不能绑定也不能交易 }
+  # M2.7 追加：三件「地域物产」，各自只在新城市/海域掉落（见 locations.yaml 的对应掉落表）。
+  # 它们目前没有配方用途 —— 是 M2.8 区域专属材料的落点，先让地理有味道。
+  - { id: 海盐结晶, name: 海盐结晶, kind: material, bindable: true, note: 从风浪里捞上来的，握久了手心发麻 }
+  # M2.19：水手（sailor）序列 9 的主材料 —— 与上面那件「地域物产」是两件东西：
+  # 海盐结晶是 M2.7 的风味掉落（没有配方用它），主材料·海盐结晶是配方里那一味，
+  # 命名沿用「主材料·X」的老口径，产出点见 locations.yaml 的潮汐码头。
+  - { id: 主材料·海盐结晶, name: 主材料·海盐结晶, kind: material, bindable: true, note: 风暴过去之后才浮上水面的一层盐，比普通海盐沉得多 }
+  - { id: 因蒂斯密信, name: 因蒂斯密信, kind: trinket, bindable: true, note: 火漆上压着一只眼睛，拆开之前最好先想清楚 }
+  - { id: 骨粉, name: 骨粉, kind: material, bindable: true, note: 南大陆的通货，也是仪式材料 }
+  # M2.31（P16 落地）：**第一个真实的物品变体** —— 「改装」行动（perfect 序列 5）的产物。
+  # 它不是新物品，是淬火匕首的**另一个状态**；加载时展开成 `淬火匕首#retrofit`。
+  # ⚠️ 这一条落地时**故意让物品总数断言红一次**（验收要求「新增变体时断言变红」）。
+  - id: 淬火匕首
+    name: 淬火匕首
+    kind: trinket
+    bindable: true
+    note: 刃口淬过火，比看上去重
+    variants:
+      - id: retrofit
+        name: 改装过的淬火匕首
+        note: 刀柄被拆过一次，重新装上去的时候角度变了 —— 现在它更适合撬，而不是割
+
+  - { id: 潮湿的火柴, name: 潮湿的火柴, kind: trinket, bindable: true }
+  # M2.65：两条**合装件**（完美者序列 4「总装」的产物）。
+  # 与「改装」同一套变体机制（P16），只是多写一个 from —— 它说的就是总装要装上去的那一件。
+  - id: 铜哨
+    name: 铜哨
+    kind: trinket
+    bindable: true
+    variants:
+      - id: assembled
+        name: 镇魂哨
+        from: 符咒·定身
+        note: 哨腔里卷着一张符纸。吹出来的声音会让听见的东西慢半拍 —— 半拍已经够你走掉了
+  - id: 黑纱手套
+    name: 黑纱手套
+    kind: trinket
+    bindable: true
+    variants:
+      - id: assembled
+        name: 镶镜手套
+        from: 镜面碎片
+        note: 碎镜片缝在掌心。抓着什么的时候，掌心里的东西会照出另一个样子
+  - id: 苦艾酒
+    name: 苦艾酒
+    kind: consumable
+    bindable: true
+    effect: { mp: 3, hp: -1 }
+    note: 提神，但伤身
+  - id: 安神药剂
+    name: 安神药剂
+    kind: consumable
+    bindable: true
+    effect: { mad: -5, mp: 5 }
+    note: 把耳朵里的声音按回原处
+  - id: 镇静香薰
+    name: 镇静香薰
+    kind: consumable
+    bindable: true
+    effect: { mad: -6 }
+    note: 睡前点上一小截
+  # M2.8 追加：四种「生物材料」—— 观察本质（强 3 级及以上）时从生物身上采集。
+  # 与 M2.7 的三件地域物产同一手法：先让世界有味道，配方用途等后续任务书。
+  # 只给「值得独特材料」的四个物种（低语者 / 深海凝视者 / 镜中客 / 时序蠕虫），
+  # 其余四个物种复用既有材料 —— 一次做 8 种新物品会让背包变成收藏册。
+  - { id: 低语结晶, name: 低语结晶, kind: material, bindable: true, note: 按住它，能听见一段不属于自己的呼吸 }
+  - { id: 凝视之泪, name: 凝视之泪, kind: material, bindable: true, note: 凉的，一直不干 }
+  - { id: 镜面碎片, name: 镜面碎片, kind: material, bindable: true, note: 照出来的东西和你差一点点 }
+  - { id: 时序鳞片, name: 时序鳞片, kind: material, bindable: true, note: 摸上去是旧的，看着是新的 }
+  # M2.9 追加：三件「符咒」—— **只在打起来的时候有意义**的物品。
+  # 它们是战斗里「使用物品」这个动作的实际内容：没有符咒，那个动作就只剩魔药与夜香草。
+  # 来源：战斗胜利时按 numeric.battle.victoryDrops 掷（打怪 → 得到打架用的东西，闭环）。
+  # 与消耗品的分工见 src/domain/item/item.ts：effect 改自己的数值，battle 改对面的处境。
+  - { id: 符咒·灼烧, name: 符咒·灼烧, kind: consumable, bindable: true, battle: { damage: 25 }, note: 纸角先烧起来，火才落到对面 }
+  - { id: 符咒·净除, name: 符咒·净除, kind: consumable, bindable: true, battle: { cleanse: true }, note: 撕开的时候，身上那些不该留的东西跟着掉下去 }
+  - { id: 符咒·定身, name: 符咒·定身, kind: consumable, bindable: true, battle: { applyToCreature: [ banish ], damage: 8 }, note: 它停在原地 —— 停得比它自己想停的久 }
+  - { id: potion_seer_9, name: 魔药·愚者·序列9, kind: potion, bindable: true, pathway: seer, seq: 9 }
+  - { id: potion_warrior_9, name: 魔药·战士·序列9, kind: potion, bindable: true, pathway: warrior, seq: 9 }
+  - { id: potion_sleepless_9, name: 魔药·不眠者·序列9, kind: potion, bindable: true, pathway: sleepless, seq: 9 }
+  # M2.19：水手（sailor）序列 9 的魔药成品。id 由 potionProductId() 约定成 potion_<途径>_<序列>，
+  # loader 会检查「每条配方都有对应的成品物品」—— 少了这一行，sailor_9 这份配方会当场报 error。
+  - { id: potion_sailor_9, name: 魔药·水手·序列9, kind: potion, bindable: true, pathway: sailor, seq: 9 }
+  # M2.12 追加：序列 8→7 的主材料与辅助材料（三条途径各一份）。
+  # 口径与 M2.7/M2.8 的追加一致：**命名沿用「主材料·X / 辅助材料·Y」**，
+  # 而且一个物品可以同时是某个序列的主材料与另一个序列的辅助材料（战火余烬就是如此）。
+  # 来源是新加的五个序列 7 门槛地点（每座城市一个），
+  # 每一座城市的两条途径都能在本城凑齐自己的主材料 —— 见 locations.yaml 的掉落表。
+  - { id: 主材料·命运之线, name: 主材料·命运之线, kind: material, bindable: true, note: 一根细得几乎看不见的线，两头都在动 }
+  - { id: 主材料·破晓碎片, name: 主材料·破晓碎片, kind: material, bindable: true, note: 天亮之前它一直是热的 }
+  - { id: 主材料·梦境之核, name: 主材料·梦境之核, kind: material, bindable: true, note: 捏碎它的人会忘了自己刚才在想什么 }
+  # M2.26 第一批：完美者（蒸汽与机械之神）的两个主材料。
+  # 「一条配方一个主材料」—— 校准之芯给序列 9，齿轮之心给序列 8。
+  - { id: 主材料·校准之芯, name: 主材料·校准之芯, kind: material, bindable: true, note: 一枚还在自己转的机芯，没有人知道它靠什么上弦 }
+  - { id: 主材料·齿轮之心, name: 主材料·齿轮之心, kind: material, bindable: true, note: 从一台停了很多年的机器里取出的主齿轮，边缘没有一丝磨痕 }
+  # M2.26 第二批：阅读者（知识与智慧之神）的两个主材料。
+  - { id: 主材料·褪色书页, name: 主材料·褪色书页, kind: material, bindable: true, note: 一张被反复读过又反复擦过的纸页，墨色比纸还淡 }
+  - { id: 主材料·无名手稿, name: 主材料·无名手稿, kind: material, bindable: true, note: 没有署名的稿子，每一页的字迹都不太一样 }
+  # M2.26 第三批：母亲（mother）的两个主材料。产出点见 locations.yaml（都在拜朗）。
+  - { id: 主材料·新生之芽, name: 主材料·新生之芽, kind: material, bindable: true, note: 从一节枯枝上冒出来的芽，掐下来还是温的 }
+  - { id: 主材料·沃土之核, name: 主材料·沃土之核, kind: material, bindable: true, note: 攥在手里会慢慢发热的一团土，混着别的东西烧剩下的灰 }
+  # M2.29：水手序列 8 的主材料 —— 补 M2.19 留下的缺口（序列 8 的水手原本两条晋升路径都走不通）。
+  - { id: 主材料·潮汐之骨, name: 主材料·潮汐之骨, kind: material, bindable: true, note: 一截被海水泡白了的东西，对着光看能看见里面的纹路在动 }
+  # M2.29 批次 A1：序列 6 的各途径主材料（每途径一份）
+  - { id: 主材料·无面之皮, name: 主材料·无面之皮, kind: material, bindable: true, note: 一张没有五官的皮，摸上去是温的 }
+  - { id: 主材料·不折之钢, name: 主材料·不折之钢, kind: material, bindable: true, note: 一截断过又接上的钢，接缝比钢本身还硬 }
+  - { id: 主材料·无梦之眠, name: 主材料·无梦之眠, kind: material, bindable: true, note: 一小瓶不会流动的黑色液体，凑近了听不见任何声音 }
+  - { id: 主材料·深海的回声, name: 主材料·深海的回声, kind: material, bindable: true, note: 一块会自己震动的石头，手放上去能感到很远的地方在动 }
+  - { id: 主材料·拆解之匙, name: 主材料·拆解之匙, kind: material, bindable: true, note: 一把没有齿的钥匙，插进任何孔里都能转 }
+  - { id: 主材料·边注残卷, name: 主材料·边注残卷, kind: material, bindable: true, note: 一页写满旁注的纸，正文被人刮掉了 }
+  - { id: 主材料·常青之根, name: 主材料·常青之根, kind: material, bindable: true, note: 一段埋了很久也没烂的根，断口还是湿的 }
+  # M2.29 批次 A2：序列 5 的各途径主材料
+  - { id: 主材料·牵线之心, name: 主材料·牵线之心, kind: material, bindable: true, note: 一团看不出材质的线，两头都系着东西 }
+  - { id: 主材料·断刃残片, name: 主材料·断刃残片, kind: material, bindable: true, note: 一截断掉的刃，磨过很多次，比原来短了一指 }
+  - { id: 主材料·彼岸之尘, name: 主材料·彼岸之尘, kind: material, bindable: true, note: 一把抓不住的灰，松开手还在往下掉 }
+  - { id: 主材料·祭海之贝, name: 主材料·祭海之贝, kind: material, bindable: true, note: 一只永远合不上的贝壳，里面是干的 }
+  - { id: 主材料·万机之心, name: 主材料·万机之心, kind: material, bindable: true, note: 一颗还在转的球，没有发条也没有轴 }
+  - { id: 主材料·百科之钥, name: 主材料·百科之钥, kind: material, bindable: true, note: 一把刻满字的钥匙，字小到要用指腹去认 }
+  - { id: 主材料·地脉之心, name: 主材料·地脉之心, kind: material, bindable: true, note: 一块按下去会回弹的石头，像还在呼吸 }
+  - { id: 辅助材料·星尘粉, name: 辅助材料·星尘粉, kind: material, bindable: true, note: 撒出去的时候像谁把一小片夜空抖散了 }
+  - { id: potion_seer_8, name: 魔药·愚者·序列8, kind: potion, bindable: true, pathway: seer, seq: 8 }
+  - { id: potion_warrior_8, name: 魔药·战士·序列8, kind: potion, bindable: true, pathway: warrior, seq: 8 }
+  - { id: potion_sleepless_8, name: 魔药·不眠者·序列8, kind: potion, bindable: true, pathway: sleepless, seq: 8 }
+  # M2.26 第一批：完美者的两瓶（序列 9 是入途径那一瓶，序列 8 是 8→7 那一瓶）。
+  - { id: potion_perfect_9, name: 魔药·完美者·序列9, kind: potion, bindable: true, pathway: perfect, seq: 9 }
+  - { id: potion_perfect_8, name: 魔药·完美者·序列8, kind: potion, bindable: true, pathway: perfect, seq: 8 }
+  # M2.26 第二批：阅读者的两瓶。
+  - { id: potion_reader_9, name: 魔药·阅读者·序列9, kind: potion, bindable: true, pathway: reader, seq: 9 }
+  - { id: potion_reader_8, name: 魔药·阅读者·序列8, kind: potion, bindable: true, pathway: reader, seq: 8 }
+  - { id: potion_mother_9, name: 魔药·母亲·序列9, kind: potion, bindable: true, pathway: mother, seq: 9 }
+  - { id: potion_mother_8, name: 魔药·母亲·序列8, kind: potion, bindable: true, pathway: mother, seq: 8 }
+  - { id: potion_sailor_8, name: 魔药·水手·序列8, kind: potion, bindable: true, pathway: sailor, seq: 8 }
+  - { id: potion_seer_6, name: 魔药·愚者·序列6, kind: potion, bindable: true, pathway: seer, seq: 6 }
+  - { id: potion_warrior_6, name: 魔药·战士·序列6, kind: potion, bindable: true, pathway: warrior, seq: 6 }
+  - { id: potion_sleepless_6, name: 魔药·不眠者·序列6, kind: potion, bindable: true, pathway: sleepless, seq: 6 }
+  - { id: potion_sailor_6, name: 魔药·水手·序列6, kind: potion, bindable: true, pathway: sailor, seq: 6 }
+  - { id: potion_perfect_6, name: 魔药·完美者·序列6, kind: potion, bindable: true, pathway: perfect, seq: 6 }
+  - { id: potion_reader_6, name: 魔药·阅读者·序列6, kind: potion, bindable: true, pathway: reader, seq: 6 }
+  - { id: potion_mother_6, name: 魔药·母亲·序列6, kind: potion, bindable: true, pathway: mother, seq: 6 }
+  - { id: potion_seer_5, name: 魔药·愚者·序列5, kind: potion, bindable: true, pathway: seer, seq: 5 }
+  - { id: potion_warrior_5, name: 魔药·战士·序列5, kind: potion, bindable: true, pathway: warrior, seq: 5 }
+  - { id: potion_sleepless_5, name: 魔药·不眠者·序列5, kind: potion, bindable: true, pathway: sleepless, seq: 5 }
+  - { id: potion_sailor_5, name: 魔药·水手·序列5, kind: potion, bindable: true, pathway: sailor, seq: 5 }
+  - { id: potion_perfect_5, name: 魔药·完美者·序列5, kind: potion, bindable: true, pathway: perfect, seq: 5 }
+  - { id: potion_reader_5, name: 魔药·阅读者·序列5, kind: potion, bindable: true, pathway: reader, seq: 5 }
+  - { id: potion_mother_5, name: 魔药·母亲·序列5, kind: potion, bindable: true, pathway: mother, seq: 5 }
+
+  # ---------------- M2.39 批次 B：序列 4、3 的主材料与成品（7 途径）----------------
+  # 命名口径沿本途径的主线轴「线／命运」（命运之线(8) → 牵线之心(5) → 定数之结(4) → 命途之梭(3)）：
+  # 前两级走的是「脸／替身」，从序列 4 起换回这条轴。
+  # ⚠️ 成品魔药不是可选项：loader 的 §0 会检查「每条配方都有 potion_<途径>_<序列>」，少一行就是一条 error。
+  # ---------------- M2.43 批次 C：序列 2 的主材料与成品（7 途径）----------------
+  # 位置：各途径块的 `potion_<途径>_3` 之后（紧跟序列 3 那一档，保持「一途径一块」的读法）。
+  # 命名轴延续同一根：seer 是「线／命运」，warrior 是「阵」，每条材料都写它**自己这一档**看到的东西。
+  - { id: 主材料·定数之结, name: 主材料·定数之结, kind: material, bindable: true, note: 一根线打出来的结，解不开 —— 只能重新打 }
+  - { id: 主材料·命途之梭, name: 主材料·命途之梭, kind: material, bindable: true, note: 一枚旧梭子，线上还留着别人织过的痕迹 }
+  - { id: potion_seer_4, name: 魔药·愚者·序列4, kind: potion, bindable: true, pathway: seer, seq: 4 }
+  - { id: potion_seer_3, name: 魔药·愚者·序列3, kind: potion, bindable: true, pathway: seer, seq: 3 }
+  - { id: 主材料·既视之环, name: 主材料·既视之环, kind: material, bindable: true, note: 一枚闭合的环，内侧刻着一段你还没经历过的记忆 }
+  - { id: potion_seer_2, name: 魔药·愚者·序列2, kind: potion, bindable: true, pathway: seer, seq: 2 }
+  - { id: 主材料·不坠之旗, name: 主材料·不坠之旗, kind: material, bindable: true, note: 旗面破得只剩骨架，可它从来没有倒过 }
+  - { id: 主材料·常胜之印, name: 主材料·常胜之印, kind: material, bindable: true, note: 一枚盖在任何东西上都留下同一道痕的印 }
+  - { id: potion_warrior_4, name: 魔药·战士·序列4, kind: potion, bindable: true, pathway: warrior, seq: 4 }
+  - { id: potion_warrior_3, name: 魔药·战士·序列3, kind: potion, bindable: true, pathway: warrior, seq: 3 }
+  - { id: 主材料·陷阵之甲, name: 主材料·陷阵之甲, kind: material, bindable: true, note: 甲面上没有一道划痕，可它比你见过的任何东西都旧 }
+  - { id: potion_warrior_2, name: 魔药·战士·序列2, kind: potion, bindable: true, pathway: warrior, seq: 2 }
+  - { id: 主材料·织梦之丝, name: 主材料·织梦之丝, kind: material, bindable: true, note: 从梦里抽出来的一根丝，天亮之前它是干的 }
+  - { id: 主材料·不熄之灯, name: 主材料·不熄之灯, kind: material, bindable: true, note: 灯芯烧了很久，可它连一寸都没有短 }
+  - { id: potion_sleepless_4, name: 魔药·不眠者·序列4, kind: potion, bindable: true, pathway: sleepless, seq: 4 }
+  - { id: potion_sleepless_3, name: 魔药·不眠者·序列3, kind: potion, bindable: true, pathway: sleepless, seq: 3 }
+  - { id: 主材料·永夜之幕, name: 主材料·永夜之幕, kind: material, bindable: true, note: 一块吸光的布，盖上去的地方连影子也留不下 }
+  - { id: potion_sleepless_2, name: 魔药·不眠者·序列2, kind: potion, bindable: true, pathway: sleepless, seq: 2 }
+  - { id: 主材料·压舱之石, name: 主材料·压舱之石, kind: material, bindable: true, note: 一块从沉船底舱捞上来的石头，比同体积的铁还沉 }
+  - { id: 主材料·怒潮之角, name: 主材料·怒潮之角, kind: material, bindable: true, note: 在风暴来前一小时自己响起来的角，吹它的人听不见自己的声音 }
+  - { id: potion_sailor_4, name: 魔药·水手·序列4, kind: potion, bindable: true, pathway: sailor, seq: 4 }
+  - { id: potion_sailor_3, name: 魔药·水手·序列3, kind: potion, bindable: true, pathway: sailor, seq: 3 }
+  - { id: 主材料·操舵之盘, name: 主材料·操舵之盘, kind: material, bindable: true, note: 舵盘自己会转，转向的永远是风浪最小的那一侧 }
+  - { id: potion_sailor_2, name: 魔药·水手·序列2, kind: potion, bindable: true, pathway: sailor, seq: 2 }
+  - { id: 主材料·自合之匣, name: 主材料·自合之匣, kind: material, bindable: true, note: 盖子总是自己合上，你从来没有听见它响过一声 }
+  - { id: 主材料·不歇之摆, name: 主材料·不歇之摆, kind: material, bindable: true, note: 没有人碰它，可它一直在摆，而且幅度分毫不差 }
+  - { id: potion_perfect_4, name: 魔药·完美者·序列4, kind: potion, bindable: true, pathway: perfect, seq: 4 }
+  - { id: potion_perfect_3, name: 魔药·完美者·序列3, kind: potion, bindable: true, pathway: perfect, seq: 3 }
+  - { id: 主材料·永动之轮, name: 主材料·永动之轮, kind: material, bindable: true, note: 轮子转了很久，你听不见它和空气摩擦的声音 }
+  - { id: potion_perfect_2, name: 魔药·完美者·序列2, kind: potion, bindable: true, pathway: perfect, seq: 2 }
+  - { id: 主材料·总目之册, name: 主材料·总目之册, kind: material, bindable: true, note: 一本还没有字的册子，你翻到哪一页，哪一页就自己浮出标题 }
+  - { id: 主材料·通晓之印, name: 主材料·通晓之印, kind: material, bindable: true, note: 一枚盖上去就作数的印，盖过的纸你都像读过 }
+  - { id: potion_reader_4, name: 魔药·阅读者·序列4, kind: potion, bindable: true, pathway: reader, seq: 4 }
+  - { id: potion_reader_3, name: 魔药·阅读者·序列3, kind: potion, bindable: true, pathway: reader, seq: 3 }
+  - { id: 主材料·全知之页, name: 主材料·全知之页, kind: material, bindable: true, note: 一张写满了字的纸，可你读到的每一句都不一样 }
+  - { id: potion_reader_2, name: 魔药·阅读者·序列2, kind: potion, bindable: true, pathway: reader, seq: 2 }
+  - { id: 主材料·留种之荚, name: 主材料·留种之荚, kind: material, bindable: true, note: 摇一摇里面有响声，但谁也数不清到底有几粒 }
+  - { id: 主材料·生养之泉, name: 主材料·生养之泉, kind: material, bindable: true, note: 从石头缝里渗出来的一小汪，舀空了第二天又是那么多 }
+  - { id: potion_mother_4, name: 魔药·母亲·序列4, kind: potion, bindable: true, pathway: mother, seq: 4 }
+  - { id: potion_mother_3, name: 魔药·母亲·序列3, kind: potion, bindable: true, pathway: mother, seq: 3 }
+  - { id: 主材料·轮回之种, name: 主材料·轮回之种, kind: material, bindable: true, note: 一颗种子，剥开里面还是一颗种子 }
+  - { id: potion_mother_2, name: 魔药·母亲·序列2, kind: potion, bindable: true, pathway: mother, seq: 2 }
+  # ================= M2.33：序列 7 的主材料与成品（补 seq 7 那条断链） =================
+  # 背景：M2.32 查出 recipes.yaml 里**一条 seq: 7 都没有** ——
+  # 而晋升取配方是 `c.seq === character.sequence`（promote.ts:25-27 ≡ ritual.ts:77-79）
+  # ⇒ 序列 7 的玩家两条路都取不到配方 ⇒ **M2.29 交付的序列 6/5 内容没有任何玩家能碰到**。
+  #
+  # 命名口径：**贴「目标序列的能力」**（与 seq 8/9 那两批一致，也是 docs/M2.24-序列7→6设计.md §四 的口径）：
+  #   seer_7 → 序列 6 是「无面人」⇒ 无面之镜；sleepless_7 → 「守夜人」⇒ 长夜之露；
+  #   sailor_7 → 「海洋歌者」⇒ 深潮之珠；perfect_7 → 「机械师」⇒ 机械之枢；
+  #   reader_7 → 「解读者」⇒ 解读之墨；mother_7 → 「牧者」⇒ 牧者之铃；
+  #   warrior_7 → 「守护者」⇒ 断刃之心（设计稿原名）。
+  #
+  # ⚠️ seq 6/5 那两批（M2.29）用的是**「自己这一档」**口径（seer_6 的主材料贴着「无面人」= 它自己那一档），
+  # 两套口径**并存**（M2.33 调研核对了全部 28 条）。这一批跟 seq 8 那一套，理由是它与 seq 7 相邻。
+  # ⚠️ 名字刻意避开已有物品的词根（无面之皮 / 拆解之匙 / 无名手稿 / 沃土之核 / 镜面碎片），
+  # 免得「两个差不多的东西」以后被当成同一件 —— 同 items.yaml:25-27「海盐结晶 vs 主材料·海盐结晶」那段先例。
+  #
+  # 产出点见 locations.yaml（19 处）：每味主材料都要覆盖该途径的**每一座传承城市**（loader 的 K17，error 级）。
+  - { id: 主材料·无面之镜, name: 主材料·无面之镜, kind: material, bindable: true, note: 镜面是钝的，照久了会在里面看见一张没有五官的脸 }
+  - { id: 主材料·断刃之心, name: 主材料·断刃之心, kind: material, bindable: true, note: 断口是新的，可是它已经断了很多年 }
+  - { id: 主材料·长夜之露, name: 主材料·长夜之露, kind: material, bindable: true, note: 天快亮的时候才凝出来的一滴，太阳一出来就没了 }
+  - { id: 主材料·深潮之珠, name: 主材料·深潮之珠, kind: material, bindable: true, note: 从很深的地方带上来的，握久了手会跟着它一起晃 }
+  - { id: 主材料·机械之枢, name: 主材料·机械之枢, kind: material, bindable: true, note: 一根还在自己找平衡的轴，你怎么摆它都回到同一个角度 }
+  - { id: 主材料·解读之墨, name: 主材料·解读之墨, kind: material, bindable: true, note: 写在纸上会自己往两边散，散到你读得懂为止 }
+  - { id: 主材料·牧者之铃, name: 主材料·牧者之铃, kind: material, bindable: true, note: 摇一下，很远的地方有东西会抬头 }
+  # 7 瓶成品：id 由 potionProductId() 约定成 potion_<途径>_<序列>，
+  # loader.ts:759-762 会检查「每条配方都有对应成品」—— 少一行就是一条 error。
+  - { id: potion_seer_7, name: 魔药·愚者·序列7, kind: potion, bindable: true, pathway: seer, seq: 7 }
+  - { id: potion_warrior_7, name: 魔药·战士·序列7, kind: potion, bindable: true, pathway: warrior, seq: 7 }
+  - { id: potion_sleepless_7, name: 魔药·不眠者·序列7, kind: potion, bindable: true, pathway: sleepless, seq: 7 }
+  - { id: potion_sailor_7, name: 魔药·水手·序列7, kind: potion, bindable: true, pathway: sailor, seq: 7 }
+  - { id: potion_perfect_7, name: 魔药·完美者·序列7, kind: potion, bindable: true, pathway: perfect, seq: 7 }
+  - { id: potion_reader_7, name: 魔药·阅读者·序列7, kind: potion, bindable: true, pathway: reader, seq: 7 }
+  - { id: potion_mother_7, name: 魔药·母亲·序列7, kind: potion, bindable: true, pathway: mother, seq: 7 }
+  # ================= M2.13：封印物（12 件） =================
+  # 依据标记：`M2.13 依据`。三类的分工、掉落率与使用代价见 config/numeric.ts 的 NUMERIC.extraordinary。
+  #
+  # ## id 前缀（任务书 §六 的命名约定）
+  #   wonder_*  神奇物品 —— **被动**生效（在背包里就管用），掉落率 0.5% / 1% / 3%
+  #   sealed_*  封印物   —— **主动**使用（.使用），有严重代价，掉落率 0.1% / 0.3% / 1%
+  #   charm_*   符咒     —— 一次性，掉落率 2% / 4% / 8%
+  # 前缀不是装饰：它同时是 `type` 字段的取值，报告里的「按类型统计」直接按它分组。
+  #
+  # ## 两条必须写清楚的边界
+  #
+  # 1. **与 M2.9 的三件老符咒不是一回事。** 符咒·灼烧 / 净除 / 定身 是**战斗专用消耗品**
+  #    （`battle` 字段：对生物的直接伤害 / 清状态 / 定身），它们只在打起来的时候有意义。
+  #    M2.13 的 `charm_*` 是**背包里的一张一次性牌**（走 `.使用`，走 `effect`）。
+  #    把两者并进同一个 `type` 会让「符咒」这一个词指两样东西。
+  #
+  # 2. **全部可交易。** 封印物是**非绑定物品**（掉落时给 `unbound`）——
+  #    「序列 9 的玩家找序列 7 的玩家买封印物」是这一轮想要的社交入口（任务书 §5.5）：
+  #    序列 9 的人进不去 `min_seq: 7` 的地点（那里掉落率最高），但他们买得到。
+  #
+  # ## 封印物的定位（写在这里，因为读内容表的人先看到这里）
+  #
+  # **核心不是「给高序列玩家更多工具」，是「让序列 9 的玩家有可能打赢序列 8 的生物」。**
+  # 命运骰子给他一次重抽的机会，封印之刃给他一次无视序列差拦截的机会 ——
+  # 各只有一次，而且各有代价（MAD +5 / COR +8）。疯狂不会因为一件物品消失。
+
+  # ---- 神奇物品 4 件（被动：在背包里就生效，不需要 .使用） ----
+  - id: wonder_divination_crystal
+    name: 占卜水晶
+    kind: trinket
+    type: wonder
+    rarity: 2
+    effect: { divinationBonus: 1 }
+    sideEffect: { mad: 1 }
+    note: 每天多看一次，代价是每天多一次耳鸣
+  - id: wonder_lucky_coin
+    name: 幸运硬币
+    kind: trinket
+    type: wonder
+    rarity: 2
+    effect: { tradeTaxMultiplier: 0.8 }
+    note: 它落地的声音很轻，税官听不见
+  - id: wonder_night_cloak
+    name: 夜行披风
+    kind: trinket
+    type: wonder
+    rarity: 2
+    effect: { exploreDangerMultiplierNight: 0.85, exploreDangerMultiplierDay: 1.1 }
+    note: 白天穿它太显眼了
+  - id: wonder_record_notes
+    name: 记录笔记
+    kind: trinket
+    type: wonder
+    rarity: 2
+    effect: { playDigMultiplier: 1.1 }
+    note: 写下来的东西比记住的更容易变成自己的
+
+  # ---- 封印物 5 件（主动：.使用，用完之后还在，但每次都要付代价） ----
+  - id: sealed_fate_dice
+    name: 命运骰子
+    kind: trinket
+    type: sealed
+    rarity: 5
+    sealLevel: 4
+    effect: { reroll: true }
+    sideEffect: { mad: 5 }
+    note: 掷出去的那一刻，你已经不确定刚才那一次到底有没有发生过
+  - id: sealed_blade
+    name: 封印之刃
+    kind: trinket
+    type: sealed
+    rarity: 5
+    sealLevel: 5
+    effect: { ignoreSequenceGap: true, hitModifier: 1.0 }
+    sideEffect: { cor: 8 }
+    note: 刀身上缠着七道封条。每一次握紧它，那些封条就松一点
+  - id: sealed_grey_fog_eye
+    name: 灰雾之眼
+    kind: trinket
+    type: sealed
+    rarity: 4
+    sealLevel: 3
+    effect: { reveal: [ location, hp, sequence ] }
+    sideEffect: { mad: 8 }
+    note: 它替你看。看得越多，回来的越少
+  - id: sealed_time_hourglass
+    name: 时间沙漏
+    kind: trinket
+    type: sealed
+    rarity: 5
+    sealLevel: 4
+    note: 倒过来一次，里面的沙就不再落回去了 —— 它变成了一件单纯的收藏（M2.85：行动值移除后，原效果已下线）
+  - id: sealed_blood_moon_blade
+    name: 血月之刃
+    kind: trinket
+    type: sealed
+    rarity: 4
+    sealLevel: 3
+    effect: { damageMultiplier: 2 }
+    sideEffect: { cor: 5 }
+    note: 它开刃的方式和别的刀不一样 —— 先见血，再出鞘
+
+  # ---- 符咒 3 件（一次性：用了就从背包里扣掉） ----
+  - id: charm_exorcism
+    name: 驱邪符
+    kind: consumable
+    type: charm
+    rarity: 2
+    effect: { cor: -20 }
+    note: 烧掉的时候，灰是往上升的
+  - id: charm_invisibility
+    name: 隐身符
+    kind: consumable
+    type: charm
+    rarity: 3
+    effect: { hideWantedHours: 1 }
+    note: 一个小时内，没有人在看你 —— 也没有人记得你刚才在哪
+  - id: charm_teleport
+    name: 传送符
+    kind: consumable
+    type: charm
+    rarity: 3
+    effect: { teleportToMarked: true }
+    note: 撕开的地方，另一边是你去过的地方
+
+  # ============================================================================
+  # M2.76：15 条新途径的魔药材料（678 种）
+  #
+  # 同样取自 诡秘之主原作数据/02-魔药与配方/配方全表.yaml 的逐字材料名。
+  # kind 一律 material、bindable —— 与既有「主材料·X / 辅助材料·X」同一口径。
+  #
+  # ⚠️ 产出点（掉落表）**本轮还没接**：材料先能进背包（配方要引用它），
+  #    产出去向由下一轮的地点/生物掉落补 —— 见 M2.76 交付说明的「未接线」。
+  # ============================================================================
+  - { id: 主材料·“凶蛮之犬”的脑袋, name: 主材料·“凶蛮之犬”的脑袋, kind: material, bindable: true }
+  - { id: 主材料·“古代邪物”的精神集合体, name: 主材料·“古代邪物”的精神集合体, kind: material, bindable: true }
+  - { id: 主材料·“哭泣婴儿”花一朵, name: 主材料·“哭泣婴儿”花一朵, kind: material, bindable: true }
+  - { id: 主材料·“大恶魔”的血晶, name: 主材料·“大恶魔”的血晶, kind: material, bindable: true }
+  - { id: 主材料·“太阳”神血一滴，或成年太阳神鸟的三根尾羽加上神圣光辉石一块, name: 主材料·“太阳”神血一滴，或成年太阳神鸟的三根尾羽加上神圣光辉石一块, kind: material, bindable: true }
+  - { id: 主材料·“岩浆之魔”的独角, name: 主材料·“岩浆之魔”的独角, kind: material, bindable: true }
+  - { id: 主材料·“律法之神”（精灵王的从神之一）的非凡特性，或者“驮岛之龟”的非凡特性，或者“平衡者”非凡特性, name: 主材料·“律法之神”（精灵王的从神之一）的非凡特性，或者“驮岛之龟”的非凡特性，或者“平衡者”非凡特性, kind: material, bindable: true }
+  - { id: 主材料·“心灵之妖”的魂石, name: 主材料·“心灵之妖”的魂石, kind: material, bindable: true }
+  - { id: 主材料·“怨魂”的意识晶石, name: 主材料·“怨魂”的意识晶石, kind: material, bindable: true }
+  - { id: 主材料·“无皮血猫”的心脏, name: 主材料·“无皮血猫”的心脏, kind: material, bindable: true }
+  - { id: 主材料·“星空仰望者”的眼珠（外在是畸形的、眼睛凸出成柱的鱼类）, name: 主材料·“星空仰望者”的眼珠（外在是畸形的、眼睛凸出成柱的鱼类）, kind: material, bindable: true }
+  - { id: 主材料·“智慧果”一枚, name: 主材料·“智慧果”一枚, kind: material, bindable: true }
+  - { id: 主材料·“暗影之蛇”的尖牙, name: 主材料·“暗影之蛇”的尖牙, kind: material, bindable: true }
+  - { id: 主材料·“木偶”的眼珠, name: 主材料·“木偶”的眼珠, kind: material, bindable: true }
+  - { id: 主材料·“杀人黑鸦”的晶羽, name: 主材料·“杀人黑鸦”的晶羽, kind: material, bindable: true }
+  - { id: 主材料·“森林之子”的脑袋（头部有畸形之角形似冠冕的深绿近黑狒狒）, name: 主材料·“森林之子”的脑袋（头部有畸形之角形似冠冕的深绿近黑狒狒）, kind: material, bindable: true }
+  - { id: 主材料·“欲魔”的生殖器官, name: 主材料·“欲魔”的生殖器官, kind: material, bindable: true }
+  - { id: 主材料·“活尸”的心脏, name: 主材料·“活尸”的心脏, kind: material, bindable: true }
+  - { id: 主材料·“熵之公爵”非凡特性1份或者所罗门的指节, name: 主材料·“熵之公爵”非凡特性1份或者所罗门的指节, kind: material, bindable: true }
+  - { id: 主材料·“狼人”的獠牙, name: 主材料·“狼人”的獠牙, kind: material, bindable: true }
+  - { id: 主材料·“痛苦之子”的眼睛, name: 主材料·“痛苦之子”的眼睛, kind: material, bindable: true }
+  - { id: 主材料·“红眼邪豹”的舌头, name: 主材料·“红眼邪豹”的舌头, kind: material, bindable: true }
+  - { id: 主材料·“言魔”的大脑, name: 主材料·“言魔”的大脑, kind: material, bindable: true }
+  - { id: 主材料·“诅咒之物”的喉管, name: 主材料·“诅咒之物”的喉管, kind: material, bindable: true }
+  - { id: 主材料·“贤者”非凡特性1份或者（“幻想古妖”的结晶，“头脑漫游者”的触须）, name: 主材料·“贤者”非凡特性1份或者（“幻想古妖”的结晶，“头脑漫游者”的触须）, kind: material, bindable: true }
+  - { id: 主材料·“食人秃鹫”的喙, name: 主材料·“食人秃鹫”的喙, kind: material, bindable: true }
+  - { id: 主材料·“魅魔”之皮, name: 主材料·“魅魔”之皮, kind: material, bindable: true }
+  - { id: 主材料·“鲜血大公”非凡特性1份或（“恶魔王子”的脑袋，“双蛇主君”的心脏）, name: 主材料·“鲜血大公”非凡特性1份或（“恶魔王子”的脑袋，“双蛇主君”的心脏）, kind: material, bindable: true }
+  - { id: 主材料·“鼠群之主”的尸骸, name: 主材料·“鼠群之主”的尸骸, kind: material, bindable: true }
+  - { id: 主材料·一对成年曼哈尔鱼的眼睛, name: 主材料·一对成年曼哈尔鱼的眼睛, kind: material, bindable: true }
+  - { id: 主材料·一条老年心灵巨龙的完整大脑/树人导师的结晶之心, name: 主材料·一条老年心灵巨龙的完整大脑/树人导师的结晶之心, kind: material, bindable: true }
+  - { id: 主材料·万臂幽魂遗留的晶核, name: 主材料·万臂幽魂遗留的晶核, kind: material, bindable: true }
+  - { id: 主材料·不死肉菌一朵, name: 主材料·不死肉菌一朵, kind: material, bindable: true }
+  - { id: 主材料·丛林狩猎者的舌头, name: 主材料·丛林狩猎者的舌头, kind: material, bindable: true }
+  - { id: 主材料·云雾水母的核心, name: 主材料·云雾水母的核心, kind: material, bindable: true }
+  - { id: 主材料·亵渎祭司的核心, name: 主材料·亵渎祭司的核心, kind: material, bindable: true }
+  - { id: 主材料·人脸狒狒的鼻子, name: 主材料·人脸狒狒的鼻子, kind: material, bindable: true }
+  - { id: 主材料·人身狮的大脑, name: 主材料·人身狮的大脑, kind: material, bindable: true }
+  - { id: 主材料·人面笼草一朵, name: 主材料·人面笼草一朵, kind: material, bindable: true }
+  - { id: 主材料·会唱歌的黑蘑菇一朵, name: 主材料·会唱歌的黑蘑菇一朵, kind: material, bindable: true }
+  - { id: 主材料·伪人的血液之源, name: 主材料·伪人的血液之源, kind: material, bindable: true }
+  - { id: 主材料·傀儡邪虫一条, name: 主材料·傀儡邪虫一条, kind: material, bindable: true }
+  - { id: 主材料·光辉契灵树的果实一枚, name: 主材料·光辉契灵树的果实一枚, kind: material, bindable: true }
+  - { id: 主材料·光辉石一块/炽白之魂的粉末, name: 主材料·光辉石一块/炽白之魂的粉末, kind: material, bindable: true }
+  - { id: 主材料·冥河仆役的脓液之核或者成年羽蛇的大脑, name: 主材料·冥河仆役的脓液之核或者成年羽蛇的大脑, kind: material, bindable: true }
+  - { id: 主材料·冥界巡游者的颅骨, name: 主材料·冥界巡游者的颅骨, kind: material, bindable: true }
+  - { id: 主材料·厄运黑猫的耳朵, name: 主材料·厄运黑猫的耳朵, kind: material, bindable: true }
+  - { id: 主材料·双尾黑蛇的胆囊, name: 主材料·双尾黑蛇的胆囊, kind: material, bindable: true }
+  - { id: 主材料·双相人马之心, name: 主材料·双相人马之心, kind: material, bindable: true }
+  - { id: 主材料·受诅水晶, name: 主材料·受诅水晶, kind: material, bindable: true }
+  - { id: 主材料·变形怪的大脑, name: 主材料·变形怪的大脑, kind: material, bindable: true }
+  - { id: 主材料·古老怨灵的诅咒物, name: 主材料·古老怨灵的诅咒物, kind: material, bindable: true }
+  - { id: 主材料·古老羽蛇的头骨或者某位死亡执政官的非凡特性, name: 主材料·古老羽蛇的头骨或者某位死亡执政官的非凡特性, kind: material, bindable: true }
+  - { id: 主材料·告死乌鸦的眼珠, name: 主材料·告死乌鸦的眼珠, kind: material, bindable: true }
+  - { id: 主材料·命运水晶, name: 主材料·命运水晶, kind: material, bindable: true }
+  - { id: 主材料·命运灰虎的独角或者蛇鳞树人长老的心脏或者“先知”非凡特性一份, name: 主材料·命运灰虎的独角或者蛇鳞树人长老的心脏或者“先知”非凡特性一份, kind: material, bindable: true }
+  - { id: 主材料·噩梦邪眼的角膜, name: 主材料·噩梦邪眼的角膜, kind: material, bindable: true }
+  - { id: 主材料·噩运白蛇的胆, name: 主材料·噩运白蛇的胆, kind: material, bindable: true }
+  - { id: 主材料·噬宝石虫, name: 主材料·噬宝石虫, kind: material, bindable: true }
+  - { id: 主材料·四眼绿龟的心脏, name: 主材料·四眼绿龟的心脏, kind: material, bindable: true }
+  - { id: 主材料·四耳巨猿的大脑, name: 主材料·四耳巨猿的大脑, kind: material, bindable: true }
+  - { id: 主材料·地穴爬行者的心脏（类似穿山甲的超凡生物）, name: 主材料·地穴爬行者的心脏（类似穿山甲的超凡生物）, kind: material, bindable: true }
+  - { id: 主材料·堕落之气的灵, name: 主材料·堕落之气的灵, kind: material, bindable: true }
+  - { id: 主材料·墓园血玫瑰一朵, name: 主材料·墓园血玫瑰一朵, kind: material, bindable: true }
+  - { id: 主材料·复仇之影最大的碎片, name: 主材料·复仇之影最大的碎片, kind: material, bindable: true }
+  - { id: 主材料·复仇石灵的额刺, name: 主材料·复仇石灵的额刺, kind: material, bindable: true }
+  - { id: 主材料·大地犀牛的实心独角结晶, name: 主材料·大地犀牛的实心独角结晶, kind: material, bindable: true }
+  - { id: 主材料·大王剑花的果实, name: 主材料·大王剑花的果实, kind: material, bindable: true }
+  - { id: 主材料·天气巨人的颅骨, name: 主材料·天气巨人的颅骨, kind: material, bindable: true }
+  - { id: 主材料·夺魂怪死后的结晶, name: 主材料·夺魂怪死后的结晶, kind: material, bindable: true }
+  - { id: 主材料·契灵鸟的尾羽, name: 主材料·契灵鸟的尾羽, kind: material, bindable: true }
+  - { id: 主材料·好运之花一朵, name: 主材料·好运之花一朵, kind: material, bindable: true }
+  - { id: 主材料·妖精火花（有自我意识）, name: 主材料·妖精火花（有自我意识）, kind: material, bindable: true }
+  - { id: 主材料·完整的阿斯曼之脑一个, name: 主材料·完整的阿斯曼之脑一个, kind: material, bindable: true }
+  - { id: 主材料·尖齿鹦鹉的舌头, name: 主材料·尖齿鹦鹉的舌头, kind: material, bindable: true }
+  - { id: 主材料·岩浆巨人的核心, name: 主材料·岩浆巨人的核心, kind: material, bindable: true }
+  - { id: 主材料·岩浆精灵的核心, name: 主材料·岩浆精灵的核心, kind: material, bindable: true }
+  - { id: 主材料·崇月邪怪的血液结晶, name: 主材料·崇月邪怪的血液结晶, kind: material, bindable: true }
+  - { id: 主材料·巨怪智者的大脑, name: 主材料·巨怪智者的大脑, kind: material, bindable: true }
+  - { id: 主材料·巫术暗灵的粉尘聚合体, name: 主材料·巫术暗灵的粉尘聚合体, kind: material, bindable: true }
+  - { id: 主材料·布套人的结晶, name: 主材料·布套人的结晶, kind: material, bindable: true }
+  - { id: 主材料·幻象晶石, name: 主材料·幻象晶石, kind: material, bindable: true }
+  - { id: 主材料·幼年独角兽的结晶, name: 主材料·幼年独角兽的结晶, kind: material, bindable: true }
+  - { id: 主材料·幽灵怪猫的前爪, name: 主材料·幽灵怪猫的前爪, kind: material, bindable: true }
+  - { id: 主材料·异度捕猎者的大脑（或者紫色不死鸟的眼睛）, name: 主材料·异度捕猎者的大脑（或者紫色不死鸟的眼睛）, kind: material, bindable: true }
+  - { id: 主材料·异纹巨虎的尾巴, name: 主材料·异纹巨虎的尾巴, kind: material, bindable: true }
+  - { id: 主材料·彩色鲤鱼的尾巴, name: 主材料·彩色鲤鱼的尾巴, kind: material, bindable: true }
+  - { id: 主材料·影王的脓液, name: 主材料·影王的脓液, kind: material, bindable: true }
+  - { id: 主材料·怪脸大麻结晶, name: 主材料·怪脸大麻结晶, kind: material, bindable: true }
+  - { id: 主材料·恐惧魔虫的眼睛一对, name: 主材料·恐惧魔虫的眼睛一对, kind: material, bindable: true }
+  - { id: 主材料·恶臭花群的根茎, name: 主材料·恶臭花群的根茎, kind: material, bindable: true }
+  - { id: 主材料·成年七彩蜥龙的完整脑垂体, name: 主材料·成年七彩蜥龙的完整脑垂体, kind: material, bindable: true }
+  - { id: 主材料·成年寡妇巨蛛的丝腺一个, name: 主材料·成年寡妇巨蛛的丝腺一个, kind: material, bindable: true }
+  - { id: 主材料·成年独角兽的角, name: 主材料·成年独角兽的角, kind: material, bindable: true }
+  - { id: 主材料·成年独角飞马的角, name: 主材料·成年独角飞马的角, kind: material, bindable: true }
+  - { id: 主材料·战争彗星的星核, name: 主材料·战争彗星的星核, kind: material, bindable: true }
+  - { id: 主材料·披袍幽魂的附着物, name: 主材料·披袍幽魂的附着物, kind: material, bindable: true }
+  - { id: 主材料·拉瓦章鱼的血液结晶, name: 主材料·拉瓦章鱼的血液结晶, kind: material, bindable: true }
+  - { id: 主材料·无影魔狼的心脏一颗, name: 主材料·无影魔狼的心脏一颗, kind: material, bindable: true }
+  - { id: 主材料·星纹邪怪的大脑, name: 主材料·星纹邪怪的大脑, kind: material, bindable: true }
+  - { id: 主材料·林地巨妖的眼珠（外形为人化的四臂黑色狒狒）, name: 主材料·林地巨妖的眼珠（外形为人化的四臂黑色狒狒）, kind: material, bindable: true }
+  - { id: 主材料·树人之王的结晶之心或者迷梦巨龙的完整大脑, name: 主材料·树人之王的结晶之心或者迷梦巨龙的完整大脑, kind: material, bindable: true }
+  - { id: 主材料·树人大祭司的星屑外皮, name: 主材料·树人大祭司的星屑外皮, kind: material, bindable: true }
+  - { id: 主材料·树人祭司的树心, name: 主材料·树人祭司的树心, kind: material, bindable: true }
+  - { id: 主材料·格里格尔的血肉凝聚体（格里格尔是一种超凡生物的名称，又叫血色巨人）, name: 主材料·格里格尔的血肉凝聚体（格里格尔是一种超凡生物的名称，又叫血色巨人）, kind: material, bindable: true }
+  - { id: 主材料·格里格尔首领的心脏, name: 主材料·格里格尔首领的心脏, kind: material, bindable: true }
+  - { id: 主材料·梦境捕手的心脏一颗和心灵幻影的结晶一枚，或一条成年心灵巨龙的完整大脑, name: 主材料·梦境捕手的心脏一颗和心灵幻影的结晶一枚，或一条成年心灵巨龙的完整大脑, kind: material, bindable: true }
+  - { id: 主材料·橘光石一枚, name: 主材料·橘光石一枚, kind: material, bindable: true }
+  - { id: 主材料·死亡之影, name: 主材料·死亡之影, kind: material, bindable: true }
+  - { id: 主材料·水晶线虫一条, name: 主材料·水晶线虫一条, kind: material, bindable: true }
+  - { id: 主材料·永生之蝉的遗蜕, name: 主材料·永生之蝉的遗蜕, kind: material, bindable: true }
+  - { id: 主材料·沉默之石, name: 主材料·沉默之石, kind: material, bindable: true }
+  - { id: 主材料·沼泽巨人的双掌, name: 主材料·沼泽巨人的双掌, kind: material, bindable: true }
+  - { id: 主材料·法尔斯曼兔的脊髓液, name: 主材料·法尔斯曼兔的脊髓液, kind: material, bindable: true }
+  - { id: 主材料·活化沼泽的结晶, name: 主材料·活化沼泽的结晶, kind: material, bindable: true }
+  - { id: 主材料·活化的虚空, name: 主材料·活化的虚空, kind: material, bindable: true }
+  - { id: 主材料·海妖之石一块/歌唱葵一朵, name: 主材料·海妖之石一块/歌唱葵一朵, kind: material, bindable: true }
+  - { id: 主材料·深海枪鱼的血液, name: 主材料·深海枪鱼的血液, kind: material, bindable: true }
+  - { id: 主材料·深黯蝙蝠一只, name: 主材料·深黯蝙蝠一只, kind: material, bindable: true }
+  - { id: 主材料·渴血兽的心脏, name: 主材料·渴血兽的心脏, kind: material, bindable: true }
+  - { id: 主材料·游荡之皮, name: 主材料·游荡之皮, kind: material, bindable: true }
+  - { id: 主材料·湖中之灵的粉尘, name: 主材料·湖中之灵的粉尘, kind: material, bindable: true }
+  - { id: 主材料·火蝾螈的腺体, name: 主材料·火蝾螈的腺体, kind: material, bindable: true }
+  - { id: 主材料·灰暗魔狼的前爪, name: 主材料·灰暗魔狼的前爪, kind: material, bindable: true }
+  - { id: 主材料·灰鸟祖母的眼珠, name: 主材料·灰鸟祖母的眼珠, kind: material, bindable: true }
+  - { id: 主材料·灵界水晶的一块, name: 主材料·灵界水晶的一块, kind: material, bindable: true }
+  - { id: 主材料·灾厄不死鸟的结晶核, name: 主材料·灾厄不死鸟的结晶核, kind: material, bindable: true }
+  - { id: 主材料·灾难之石, name: 主材料·灾难之石, kind: material, bindable: true }
+  - { id: 主材料·炽光巨人的脑袋，或者太阳神鸟之王的深黑尾羽+万物礼赞者的雄蕊——外形是巨花的怪物, name: 主材料·炽光巨人的脑袋，或者太阳神鸟之王的深黑尾羽+万物礼赞者的雄蕊——外形是巨花的怪物, kind: material, bindable: true }
+  - { id: 主材料·炽光巨人首领的心脏或“逐光者”非凡特性, name: 主材料·炽光巨人首领的心脏或“逐光者”非凡特性, kind: material, bindable: true }
+  - { id: 主材料·牧群之主的头颅, name: 主材料·牧群之主的头颅, kind: material, bindable: true }
+  - { id: 主材料·牧群看守者的大脑（形象类似猴子）, name: 主材料·牧群看守者的大脑（形象类似猴子）, kind: material, bindable: true }
+  - { id: 主材料·狂化草一株, name: 主材料·狂化草一株, kind: material, bindable: true }
+  - { id: 主材料·狂野人猿的尾巴, name: 主材料·狂野人猿的尾巴, kind: material, bindable: true }
+  - { id: 主材料·狩猎黑蛛的复眼, name: 主材料·狩猎黑蛛的复眼, kind: material, bindable: true }
+  - { id: 主材料·独眼白牛的蛇尾, name: 主材料·独眼白牛的蛇尾, kind: material, bindable: true }
+  - { id: 主材料·狮身人的大脑, name: 主材料·狮身人的大脑, kind: material, bindable: true }
+  - { id: 主材料·猫脸鬼影的舌头（人形）, name: 主材料·猫脸鬼影的舌头（人形）, kind: material, bindable: true }
+  - { id: 主材料·王庭祭祀死后的结晶（注，王庭指巨人王庭），或者夺魂怪之王的竖眼，或者别的“命运木马”的非凡特性, name: 主材料·王庭祭祀死后的结晶（注，王庭指巨人王庭），或者夺魂怪之王的竖眼，或者别的“命运木马”的非凡特性, kind: material, bindable: true }
+  - { id: 主材料·玛瑙孔雀的蛋, name: 主材料·玛瑙孔雀的蛋, kind: material, bindable: true }
+  - { id: 主材料·瘟疫母蛇的毒囊, name: 主材料·瘟疫母蛇的毒囊, kind: material, bindable: true }
+  - { id: 主材料·白鬃狩猎者的面部皮肤（外形类雄狮）, name: 主材料·白鬃狩猎者的面部皮肤（外形类雄狮）, kind: material, bindable: true }
+  - { id: 主材料·皇冠水母的毒液结晶, name: 主材料·皇冠水母的毒液结晶, kind: material, bindable: true }
+  - { id: 主材料·皇冠猎隼的三根尾羽, name: 主材料·皇冠猎隼的三根尾羽, kind: material, bindable: true }
+  - { id: 主材料·神佑水晶一块, name: 主材料·神佑水晶一块, kind: material, bindable: true }
+  - { id: 主材料·秘法妖精的头皮, name: 主材料·秘法妖精的头皮, kind: material, bindable: true }
+  - { id: 主材料·精灵之泉的意识核, name: 主材料·精灵之泉的意识核, kind: material, bindable: true }
+  - { id: 主材料·精灵之泉的髓质结晶, name: 主材料·精灵之泉的髓质结晶, kind: material, bindable: true }
+  - { id: 主材料·红头蝙蝠的翅膀, name: 主材料·红头蝙蝠的翅膀, kind: material, bindable: true }
+  - { id: 主材料·红焰树人的树心, name: 主材料·红焰树人的树心, kind: material, bindable: true }
+  - { id: 主材料·纯白光辉石一块, name: 主材料·纯白光辉石一块, kind: material, bindable: true }
+  - { id: 主材料·纸妖的虚幻之眼, name: 主材料·纸妖的虚幻之眼, kind: material, bindable: true }
+  - { id: 主材料·结晶太阳花一朵/一只成年火石鸟的尾羽/纵火鸟的尾羽, name: 主材料·结晶太阳花一朵/一只成年火石鸟的尾羽/纵火鸟的尾羽, kind: material, bindable: true }
+  - { id: 主材料·羊角黑鱼的血液, name: 主材料·羊角黑鱼的血液, kind: material, bindable: true }
+  - { id: 主材料·腐烂尸花一朵, name: 主材料·腐烂尸花一朵, kind: material, bindable: true }
+  - { id: 主材料·腐烂羽蛇的胆囊, name: 主材料·腐烂羽蛇的胆囊, kind: material, bindable: true }
+  - { id: 主材料·自然卫士的舌头（一种类人的、金色猿猴状的、以严格维护所在区域自然秩序为使命的超凡生物）, name: 主材料·自然卫士的舌头（一种类人的、金色猿猴状的、以严格维护所在区域自然秩序为使命的超凡生物）, kind: material, bindable: true }
+  - { id: 主材料·艾瑞霍格或者其他古老心灵巨龙的苍白心脏，或者“洞察者”非凡特性, name: 主材料·艾瑞霍格或者其他古老心灵巨龙的苍白心脏，或者“洞察者”非凡特性, kind: material, bindable: true }
+  - { id: 主材料·花面蝙蝠的头部, name: 主材料·花面蝙蝠的头部, kind: material, bindable: true }
+  - { id: 主材料·苍白巫妖的魂体, name: 主材料·苍白巫妖的魂体, kind: material, bindable: true }
+  - { id: 主材料·莉莉丝的头发或者某位“灾难魔女”的非凡特性, name: 主材料·莉莉丝的头发或者某位“灾难魔女”的非凡特性, kind: material, bindable: true }
+  - { id: 主材料·蓝斑火鸟的心脏, name: 主材料·蓝斑火鸟的心脏, kind: material, bindable: true }
+  - { id: 主材料·蛇发女妖的眼睛一对, name: 主材料·蛇发女妖的眼睛一对, kind: material, bindable: true }
+  - { id: 主材料·蛇身怪鸟的黑羽, name: 主材料·蛇身怪鸟的黑羽, kind: material, bindable: true }
+  - { id: 主材料·血斑黑蚊一只, name: 主材料·血斑黑蚊一只, kind: material, bindable: true }
+  - { id: 主材料·血族侯爵的非凡特性或是对应序列人造吸血鬼的“遗产”, name: 主材料·血族侯爵的非凡特性或是对应序列人造吸血鬼的“遗产”, kind: material, bindable: true }
+  - { id: 主材料·血族公爵的非凡特性或是对应序列人造吸血鬼的“遗产”, name: 主材料·血族公爵的非凡特性或是对应序列人造吸血鬼的“遗产”, kind: material, bindable: true }
+  - { id: 主材料·血眼黑山羊的独角, name: 主材料·血眼黑山羊的独角, kind: material, bindable: true }
+  - { id: 主材料·血肉君主的结晶, name: 主材料·血肉君主的结晶, kind: material, bindable: true }
+  - { id: 主材料·血腥红栗, name: 主材料·血腥红栗, kind: material, bindable: true }
+  - { id: 主材料·血色稻草人的结晶, name: 主材料·血色稻草人的结晶, kind: material, bindable: true }
+  - { id: 主材料·西斯库恩魔虫一条, name: 主材料·西斯库恩魔虫一条, kind: material, bindable: true }
+  - { id: 主材料·迷宫鹦鹉的舌头, name: 主材料·迷宫鹦鹉的舌头, kind: material, bindable: true }
+  - { id: 主材料·迷雾窥探者遗留的结晶, name: 主材料·迷雾窥探者遗留的结晶, kind: material, bindable: true }
+  - { id: 主材料·迷魂虫群的幼虫一条, name: 主材料·迷魂虫群的幼虫一条, kind: material, bindable: true }
+  - { id: 主材料·迷魂虫群的成虫一条, name: 主材料·迷魂虫群的成虫一条, kind: material, bindable: true }
+  - { id: 主材料·邪神之眼的瞳仁, name: 主材料·邪神之眼的瞳仁, kind: material, bindable: true }
+  - { id: 主材料·金属巨猿的心脏, name: 主材料·金属巨猿的心脏, kind: material, bindable: true }
+  - { id: 主材料·金色不死鸟的眼睛（或者西斯库恩魔虫首领一条，安卡之门的基座）, name: 主材料·金色不死鸟的眼睛（或者西斯库恩魔虫首领一条，安卡之门的基座）, kind: material, bindable: true }
+  - { id: 主材料·铁臂兽人（可能是不同种族的野兽变化而来，共同点是前臂粗壮，仿佛铁铸）的脊椎, name: 主材料·铁臂兽人（可能是不同种族的野兽变化而来，共同点是前臂粗壮，仿佛铁铸）的脊椎, kind: material, bindable: true }
+  - { id: 主材料·铜色精灵的手掌, name: 主材料·铜色精灵的手掌, kind: material, bindable: true }
+  - { id: 主材料·铜表邪灵的结晶, name: 主材料·铜表邪灵的结晶, kind: material, bindable: true }
+  - { id: 主材料·银白战熊的右掌, name: 主材料·银白战熊的右掌, kind: material, bindable: true }
+  - { id: 主材料·银眼怪蛇的眼珠, name: 主材料·银眼怪蛇的眼珠, kind: material, bindable: true }
+  - { id: 主材料·银色四叶草一朵, name: 主材料·银色四叶草一朵, kind: material, bindable: true }
+  - { id: 主材料·银色猎杀者的结晶, name: 主材料·银色猎杀者的结晶, kind: material, bindable: true }
+  - { id: 主材料·镜猬的血液/熔浆巨怪之心, name: 主材料·镜猬的血液/熔浆巨怪之心, kind: material, bindable: true }
+  - { id: 主材料·镜神之心一颗, name: 主材料·镜神之心一颗, kind: material, bindable: true }
+  - { id: 主材料·镜龙的眼睛一对, name: 主材料·镜龙的眼睛一对, kind: material, bindable: true }
+  - { id: 主材料·长者之树的果实, name: 主材料·长者之树的果实, kind: material, bindable: true }
+  - { id: 主材料·长者之树的根茎结晶, name: 主材料·长者之树的根茎结晶, kind: material, bindable: true }
+  - { id: 主材料·长者蝙蝠的翅膀, name: 主材料·长者蝙蝠的翅膀, kind: material, bindable: true }
+  - { id: 主材料·闪纹黑蛇的角, name: 主材料·闪纹黑蛇的角, kind: material, bindable: true }
+  - { id: 主材料·阴影毒花的根须, name: 主材料·阴影毒花的根须, kind: material, bindable: true }
+  - { id: 主材料·阴影蠕虫一条, name: 主材料·阴影蠕虫一条, kind: material, bindable: true }
+  - { id: 主材料·阴影骑士残留的幕布, name: 主材料·阴影骑士残留的幕布, kind: material, bindable: true }
+  - { id: 主材料·陨星水晶, name: 主材料·陨星水晶, kind: material, bindable: true }
+  - { id: 主材料·面具精灵的石牙, name: 主材料·面具精灵的石牙, kind: material, bindable: true }
+  - { id: 主材料·风干的成年黑斑青蛙, name: 主材料·风干的成年黑斑青蛙, kind: material, bindable: true }
+  - { id: 主材料·食人之犬的舌头, name: 主材料·食人之犬的舌头, kind: material, bindable: true }
+  - { id: 主材料·食梦鼠的心脏一颗, name: 主材料·食梦鼠的心脏一颗, kind: material, bindable: true }
+  - { id: 主材料·食灵者的胃袋, name: 主材料·食灵者的胃袋, kind: material, bindable: true }
+  - { id: 主材料·食烛之灵的核心, name: 主材料·食烛之灵的核心, kind: material, bindable: true }
+  - { id: 主材料·魅欲.女妖的眼睛一对, name: 主材料·魅欲.女妖的眼睛一对, kind: material, bindable: true }
+  - { id: 主材料·魔喉蜜䴕的心脏, name: 主材料·魔喉蜜䴕的心脏, kind: material, bindable: true }
+  - { id: 主材料·鹿头兽人的角, name: 主材料·鹿头兽人的角, kind: material, bindable: true }
+  - { id: 主材料·黎明雄鸡之王的红冠, name: 主材料·黎明雄鸡之王的红冠, kind: material, bindable: true }
+  - { id: 主材料·黎明雄鸡的红冠一朵, name: 主材料·黎明雄鸡的红冠一朵, kind: material, bindable: true }
+  - { id: 主材料·黑域领主的头皮（类似精灵的超凡生物）, name: 主材料·黑域领主的头皮（类似精灵的超凡生物）, kind: material, bindable: true }
+  - { id: 主材料·黑山君主（外型为六臂巨大狒狒）的心脏, name: 主材料·黑山君主（外型为六臂巨大狒狒）的心脏, kind: material, bindable: true }
+  - { id: 主材料·黑暗潜伏者的毒囊, name: 主材料·黑暗潜伏者的毒囊, kind: material, bindable: true }
+  - { id: 主材料·黑暗蝙蝠的翅膀, name: 主材料·黑暗蝙蝠的翅膀, kind: material, bindable: true }
+  - { id: 主材料·黑渊魔鱼的全部血液, name: 主材料·黑渊魔鱼的全部血液, kind: material, bindable: true }
+  - { id: 主材料·黑狩巨蜥的脊髓液60毫升和迷幻风铃树的果实一颗，或青年心灵巨龙的完整脑垂体, name: 主材料·黑狩巨蜥的脊髓液60毫升和迷幻风铃树的果实一颗，或青年心灵巨龙的完整脑垂体, kind: material, bindable: true }
+  - { id: 辅助材料·“凶蛮之犬”的血液, name: 辅助材料·“凶蛮之犬”的血液, kind: material, bindable: true }
+  - { id: 辅助材料·“古代邪物”常用物品1件, name: 辅助材料·“古代邪物”常用物品1件, kind: material, bindable: true }
+  - { id: 辅助材料·“大恶魔”的黑色心脏一颗（大恶魔不止一颗心脏）, name: 辅助材料·“大恶魔”的黑色心脏一颗（大恶魔不止一颗心脏）, kind: material, bindable: true }
+  - { id: 辅助材料·“太阳”精油, name: 辅助材料·“太阳”精油, kind: material, bindable: true }
+  - { id: 辅助材料·“头脑漫游者”的虚质光点9个/信息洪流遗留光点, name: 辅助材料·“头脑漫游者”的虚质光点9个/信息洪流遗留光点, kind: material, bindable: true }
+  - { id: 辅助材料·“岩浆之魔”的熔融之液, name: 辅助材料·“岩浆之魔”的熔融之液, kind: material, bindable: true }
+  - { id: 辅助材料·“平衡者”或相应事物的污染物, name: 辅助材料·“平衡者”或相应事物的污染物, kind: material, bindable: true }
+  - { id: 辅助材料·“幻想古妖”的血液130毫升/“贤者”的血液, name: 辅助材料·“幻想古妖”的血液130毫升/“贤者”的血液, kind: material, bindable: true }
+  - { id: 辅助材料·“心灵之妖”的诅咒附着物1件, name: 辅助材料·“心灵之妖”的诅咒附着物1件, kind: material, bindable: true }
+  - { id: 辅助材料·“怨魂”的血液100毫升或被“怨魂”污染产生的阴冷之水, name: 辅助材料·“怨魂”的血液100毫升或被“怨魂”污染产生的阴冷之水, kind: material, bindable: true }
+  - { id: 辅助材料·“怨魂”遗留的粉尘, name: 辅助材料·“怨魂”遗留的粉尘, kind: material, bindable: true }
+  - { id: 辅助材料·“无皮血猫”的血液, name: 辅助材料·“无皮血猫”的血液, kind: material, bindable: true }
+  - { id: 辅助材料·“星空仰望者”的脑液, name: 辅助材料·“星空仰望者”的脑液, kind: material, bindable: true }
+  - { id: 辅助材料·“暗影之蛇”的血液, name: 辅助材料·“暗影之蛇”的血液, kind: material, bindable: true }
+  - { id: 辅助材料·“木偶”的发丝, name: 辅助材料·“木偶”的发丝, kind: material, bindable: true }
+  - { id: 辅助材料·“木偶”穿过的衣物1件或经常使用的物品1件, name: 辅助材料·“木偶”穿过的衣物1件或经常使用的物品1件, kind: material, bindable: true }
+  - { id: 辅助材料·“杀人黑鸦”的血液, name: 辅助材料·“杀人黑鸦”的血液, kind: material, bindable: true }
+  - { id: 辅助材料·“森林之子”的血液, name: 辅助材料·“森林之子”的血液, kind: material, bindable: true }
+  - { id: 辅助材料·“欲魔”的血液, name: 辅助材料·“欲魔”的血液, kind: material, bindable: true }
+  - { id: 辅助材料·“活尸”的眼珠, name: 辅助材料·“活尸”的眼珠, kind: material, bindable: true }
+  - { id: 辅助材料·“活尸”的血肉, name: 辅助材料·“活尸”的血肉, kind: material, bindable: true }
+  - { id: 辅助材料·“熵之公爵”的血液, name: 辅助材料·“熵之公爵”的血液, kind: material, bindable: true }
+  - { id: 辅助材料·“狼人”的血液, name: 辅助材料·“狼人”的血液, kind: material, bindable: true }
+  - { id: 辅助材料·“狼人”的黑毛, name: 辅助材料·“狼人”的黑毛, kind: material, bindable: true }
+  - { id: 辅助材料·“痛苦之子”的血液, name: 辅助材料·“痛苦之子”的血液, kind: material, bindable: true }
+  - { id: 辅助材料·“红眼邪豹”的血液, name: 辅助材料·“红眼邪豹”的血液, kind: material, bindable: true }
+  - { id: 辅助材料·“观众”高位者（至少序列2）制作的“安抚”符咒一块或能达到类似效果的东西, name: 辅助材料·“观众”高位者（至少序列2）制作的“安抚”符咒一块或能达到类似效果的东西, kind: material, bindable: true }
+  - { id: 辅助材料·“言魔”的体液, name: 辅助材料·“言魔”的体液, kind: material, bindable: true }
+  - { id: 辅助材料·“诅咒之物”污染过的疯狂之水, name: 辅助材料·“诅咒之物”污染过的疯狂之水, kind: material, bindable: true }
+  - { id: 辅助材料·“诅咒之物”诅咒过的事物1个（已死去也符合条件）, name: 辅助材料·“诅咒之物”诅咒过的事物1个（已死去也符合条件）, kind: material, bindable: true }
+  - { id: 辅助材料·“食人秃鹫”的血液, name: 辅助材料·“食人秃鹫”的血液, kind: material, bindable: true }
+  - { id: 辅助材料·“魅魔”的血液, name: 辅助材料·“魅魔”的血液, kind: material, bindable: true }
+  - { id: 辅助材料·“鲜血大公”的血液1000毫升或（“恶魔王子”的酸血500毫升，“双蛇主君”的毒血500毫升）, name: 辅助材料·“鲜血大公”的血液1000毫升或（“恶魔王子”的酸血500毫升，“双蛇主君”的毒血500毫升）, kind: material, bindable: true }
+  - { id: 辅助材料·“鼠群之主”的血液, name: 辅助材料·“鼠群之主”的血液, kind: material, bindable: true }
+  - { id: 辅助材料·一个地区每年第一场雪所化之水, name: 辅助材料·一个地区每年第一场雪所化之水, kind: material, bindable: true }
+  - { id: 辅助材料·七个不同人类或类人生物因强烈情绪产生的泪水各自一滴, name: 辅助材料·七个不同人类或类人生物因强烈情绪产生的泪水各自一滴, kind: material, bindable: true }
+  - { id: 辅助材料·七月酒汁液五滴, name: 辅助材料·七月酒汁液五滴, kind: material, bindable: true }
+  - { id: 辅助材料·万物礼赞者的花瓣, name: 辅助材料·万物礼赞者的花瓣, kind: material, bindable: true }
+  - { id: 辅助材料·万臂幽魂残存的粉末, name: 辅助材料·万臂幽魂残存的粉末, kind: material, bindable: true }
+  - { id: 辅助材料·三天内捡到的金币或银币一枚, name: 辅助材料·三天内捡到的金币或银币一枚, kind: material, bindable: true }
+  - { id: 辅助材料·不同种族不同位格不同身份者的血液49种, name: 辅助材料·不同种族不同位格不同身份者的血液49种, kind: material, bindable: true }
+  - { id: 辅助材料·不死肉菌的伴生藤蔓一截, name: 辅助材料·不死肉菌的伴生藤蔓一截, kind: material, bindable: true }
+  - { id: 辅助材料·丛林狩猎者的尖牙两颗, name: 辅助材料·丛林狩猎者的尖牙两颗, kind: material, bindable: true }
+  - { id: 辅助材料·丰饶大地之土, name: 辅助材料·丰饶大地之土, kind: material, bindable: true }
+  - { id: 辅助材料·于教堂内供奉过的蜡烛一截, name: 辅助材料·于教堂内供奉过的蜡烛一截, kind: material, bindable: true }
+  - { id: 辅助材料·云雾水母的结晶, name: 辅助材料·云雾水母的结晶, kind: material, bindable: true }
+  - { id: 辅助材料·亡者的腐烂液体, name: 辅助材料·亡者的腐烂液体, kind: material, bindable: true }
+  - { id: 辅助材料·亲手所杀之人的完整外皮1张, name: 辅助材料·亲手所杀之人的完整外皮1张, kind: material, bindable: true }
+  - { id: 辅助材料·亵渎祭司的菌毯, name: 辅助材料·亵渎祭司的菌毯, kind: material, bindable: true }
+  - { id: 辅助材料·亵渎过某间教堂的物品（种类不限）, name: 辅助材料·亵渎过某间教堂的物品（种类不限）, kind: material, bindable: true }
+  - { id: 辅助材料·人心深处最恶劣最恐怖的漆黑之花, name: 辅助材料·人心深处最恶劣最恐怖的漆黑之花, kind: material, bindable: true }
+  - { id: 辅助材料·人类或超凡生物的灵魂, name: 辅助材料·人类或超凡生物的灵魂, kind: material, bindable: true }
+  - { id: 辅助材料·人类的内脏, name: 辅助材料·人类的内脏, kind: material, bindable: true }
+  - { id: 辅助材料·人脸狒狒的血液, name: 辅助材料·人脸狒狒的血液, kind: material, bindable: true }
+  - { id: 辅助材料·人身狮的血液, name: 辅助材料·人身狮的血液, kind: material, bindable: true }
+  - { id: 辅助材料·从尸体上长出的任意花朵一朵, name: 辅助材料·从尸体上长出的任意花朵一朵, kind: material, bindable: true }
+  - { id: 辅助材料·他人之血, name: 辅助材料·他人之血, kind: material, bindable: true }
+  - { id: 辅助材料·他人眼泪, name: 辅助材料·他人眼泪, kind: material, bindable: true }
+  - { id: 辅助材料·仲夏草一根, name: 辅助材料·仲夏草一根, kind: material, bindable: true }
+  - { id: 辅助材料·任意一种章鱼的眼球一对, name: 辅助材料·任意一种章鱼的眼球一对, kind: material, bindable: true }
+  - { id: 辅助材料·任意毒蘑菇一朵, name: 辅助材料·任意毒蘑菇一朵, kind: material, bindable: true }
+  - { id: 辅助材料·伪人的头发, name: 辅助材料·伪人的头发, kind: material, bindable: true }
+  - { id: 辅助材料·使用过的裹尸袋一个, name: 辅助材料·使用过的裹尸袋一个, kind: material, bindable: true }
+  - { id: 辅助材料·傀儡邪虫的分泌物, name: 辅助材料·傀儡邪虫的分泌物, kind: material, bindable: true }
+  - { id: 辅助材料·光辉契灵树的汁液, name: 辅助材料·光辉契灵树的汁液, kind: material, bindable: true }
+  - { id: 辅助材料·六月雪制成的精油, name: 辅助材料·六月雪制成的精油, kind: material, bindable: true }
+  - { id: 辅助材料·冥河仆役的脓液9滴或者成年羽蛇的羽毛, name: 辅助材料·冥河仆役的脓液9滴或者成年羽蛇的羽毛, kind: material, bindable: true }
+  - { id: 辅助材料·冥界巡游者的烂肉一块, name: 辅助材料·冥界巡游者的烂肉一块, kind: material, bindable: true }
+  - { id: 辅助材料·冥界深处的苍白之物一个, name: 辅助材料·冥界深处的苍白之物一个, kind: material, bindable: true }
+  - { id: 辅助材料·凝固的熔浆, name: 辅助材料·凝固的熔浆, kind: material, bindable: true }
+  - { id: 辅助材料·分别死于不同瘟疫的七个死者的血液各, name: 辅助材料·分别死于不同瘟疫的七个死者的血液各, kind: material, bindable: true }
+  - { id: 辅助材料·刚偷来的美酒, name: 辅助材料·刚偷来的美酒, kind: material, bindable: true }
+  - { id: 辅助材料·刚映照过星空的湖水, name: 辅助材料·刚映照过星空的湖水, kind: material, bindable: true }
+  - { id: 辅助材料·前代巫师笔记, name: 辅助材料·前代巫师笔记, kind: material, bindable: true }
+  - { id: 辅助材料·动物尸油, name: 辅助材料·动物尸油, kind: material, bindable: true }
+  - { id: 辅助材料·厄运黑猫的心脏, name: 辅助材料·厄运黑猫的心脏, kind: material, bindable: true }
+  - { id: 辅助材料·双向人马的血液, name: 辅助材料·双向人马的血液, kind: material, bindable: true }
+  - { id: 辅助材料·双尾黑蛇的尾尖, name: 辅助材料·双尾黑蛇的尾尖, kind: material, bindable: true }
+  - { id: 辅助材料·双生花纯露, name: 辅助材料·双生花纯露, kind: material, bindable: true }
+  - { id: 辅助材料·反复蒸馏提纯过的烈酒, name: 辅助材料·反复蒸馏提纯过的烈酒, kind: material, bindable: true }
+  - { id: 辅助材料·受诅水晶的伴生物, name: 辅助材料·受诅水晶的伴生物, kind: material, bindable: true }
+  - { id: 辅助材料·变异金手柑汁液, name: 辅助材料·变异金手柑汁液, kind: material, bindable: true }
+  - { id: 辅助材料·变形怪的脸皮, name: 辅助材料·变形怪的脸皮, kind: material, bindable: true }
+  - { id: 辅助材料·古井之水, name: 辅助材料·古井之水, kind: material, bindable: true }
+  - { id: 辅助材料·古老之河的河水, name: 辅助材料·古老之河的河水, kind: material, bindable: true }
+  - { id: 辅助材料·古老年代的尸骨, name: 辅助材料·古老年代的尸骨, kind: material, bindable: true }
+  - { id: 辅助材料·古老心灵巨龙或“洞察者”血液, name: 辅助材料·古老心灵巨龙或“洞察者”血液, kind: material, bindable: true }
+  - { id: 辅助材料·古老羽蛇的体液, name: 辅助材料·古老羽蛇的体液, kind: material, bindable: true }
+  - { id: 辅助材料·只会赞美太阳的物品1件, name: 辅助材料·只会赞美太阳的物品1件, kind: material, bindable: true }
+  - { id: 辅助材料·吊死过至少千名罪犯的绞刑架木屑, name: 辅助材料·吊死过至少千名罪犯的绞刑架木屑, kind: material, bindable: true }
+  - { id: 辅助材料·告死乌鸦的羽毛三根, name: 辅助材料·告死乌鸦的羽毛三根, kind: material, bindable: true }
+  - { id: 辅助材料·命运异常者的头发9根（每根的来源都不同）, name: 辅助材料·命运异常者的头发9根（每根的来源都不同）, kind: material, bindable: true }
+  - { id: 辅助材料·命运水晶的污染物, name: 辅助材料·命运水晶的污染物, kind: material, bindable: true }
+  - { id: 辅助材料·命运灰虎的血液100毫升或蛇鳞树人长老的汁液100毫升或对应天使的血液100毫升（三选一）, name: 辅助材料·命运灰虎的血液100毫升或蛇鳞树人长老的汁液100毫升或对应天使的血液100毫升（三选一）, kind: material, bindable: true }
+  - { id: 辅助材料·噩梦邪眼的脓液, name: 辅助材料·噩梦邪眼的脓液, kind: material, bindable: true }
+  - { id: 辅助材料·噩运白蛇的毒液, name: 辅助材料·噩运白蛇的毒液, kind: material, bindable: true }
+  - { id: 辅助材料·囚禁至死者的镣铐或类似物品1件, name: 辅助材料·囚禁至死者的镣铐或类似物品1件, kind: material, bindable: true }
+  - { id: 辅助材料·四眼绿龟的背壳粉末, name: 辅助材料·四眼绿龟的背壳粉末, kind: material, bindable: true }
+  - { id: 辅助材料·四耳巨猿的耳朵一只, name: 辅助材料·四耳巨猿的耳朵一只, kind: material, bindable: true }
+  - { id: 辅助材料·因噩梦死亡或疯狂的十三个智慧生物的毛发各九根, name: 辅助材料·因噩梦死亡或疯狂的十三个智慧生物的毛发各九根, kind: material, bindable: true }
+  - { id: 辅助材料·因晋升者误导而死去的九个灵界怨灵, name: 辅助材料·因晋升者误导而死去的九个灵界怨灵, kind: material, bindable: true }
+  - { id: 辅助材料·因理想破碎而流下的他人眼泪, name: 辅助材料·因理想破碎而流下的他人眼泪, kind: material, bindable: true }
+  - { id: 辅助材料·圣星百合纯露, name: 辅助材料·圣星百合纯露, kind: material, bindable: true }
+  - { id: 辅助材料·在审判庭使用超过10年的法槌1柄, name: 辅助材料·在审判庭使用超过10年的法槌1柄, kind: material, bindable: true }
+  - { id: 辅助材料·堕落的神职者血液9种, name: 辅助材料·堕落的神职者血液9种, kind: material, bindable: true }
+  - { id: 辅助材料·堕落者的毛发, name: 辅助材料·堕落者的毛发, kind: material, bindable: true }
+  - { id: 辅助材料·墓园血玫瑰的叶子五片, name: 辅助材料·墓园血玫瑰的叶子五片, kind: material, bindable: true }
+  - { id: 辅助材料·复仇之影残留的粉末, name: 辅助材料·复仇之影残留的粉末, kind: material, bindable: true }
+  - { id: 辅助材料·复仇石灵的剥落物, name: 辅助材料·复仇石灵的剥落物, kind: material, bindable: true }
+  - { id: 辅助材料·夜光宝石, name: 辅助材料·夜光宝石, kind: material, bindable: true }
+  - { id: 辅助材料·大型战场上被士兵血液渗透的泥土, name: 辅助材料·大型战场上被士兵血液渗透的泥土, kind: material, bindable: true }
+  - { id: 辅助材料·大王剑花的花, name: 辅助材料·大王剑花的花, kind: material, bindable: true }
+  - { id: 辅助材料·大量被认为是真实的虚假历史（记录在纸上）, name: 辅助材料·大量被认为是真实的虚假历史（记录在纸上）, kind: material, bindable: true }
+  - { id: 辅助材料·天气巨人的头发, name: 辅助材料·天气巨人的头发, kind: material, bindable: true }
+  - { id: 辅助材料·天青石一颗, name: 辅助材料·天青石一颗, kind: material, bindable: true }
+  - { id: 辅助材料·太阳神鸟的羽毛一根（非尾羽）, name: 辅助材料·太阳神鸟的羽毛一根（非尾羽）, kind: material, bindable: true }
+  - { id: 辅助材料·太阳神鸟的血液, name: 辅助材料·太阳神鸟的血液, kind: material, bindable: true }
+  - { id: 辅助材料·失去灵性的堕落之气, name: 辅助材料·失去灵性的堕落之气, kind: material, bindable: true }
+  - { id: 辅助材料·夺魂怪的血液, name: 辅助材料·夺魂怪的血液, kind: material, bindable: true }
+  - { id: 辅助材料·好运之花生长的泥土, name: 辅助材料·好运之花生长的泥土, kind: material, bindable: true }
+  - { id: 辅助材料·婴儿胎毛, name: 辅助材料·婴儿胎毛, kind: material, bindable: true }
+  - { id: 辅助材料·安卡之门的余烬（前两样可以用金色不死鸟的羽毛代替）, name: 辅助材料·安卡之门的余烬（前两样可以用金色不死鸟的羽毛代替）, kind: material, bindable: true }
+  - { id: 辅助材料·完整的羊皮或兔子皮1张, name: 辅助材料·完整的羊皮或兔子皮1张, kind: material, bindable: true }
+  - { id: 辅助材料·对应“平衡者”的天使、从神的血液, name: 辅助材料·对应“平衡者”的天使、从神的血液, kind: material, bindable: true }
+  - { id: 辅助材料·封印着100个灵魂的石头一颗, name: 辅助材料·封印着100个灵魂的石头一颗, kind: material, bindable: true }
+  - { id: 辅助材料·尖利指甲, name: 辅助材料·尖利指甲, kind: material, bindable: true }
+  - { id: 辅助材料·尸香精油, name: 辅助材料·尸香精油, kind: material, bindable: true }
+  - { id: 辅助材料·属于自身的“月亮纸人”一个, name: 辅助材料·属于自身的“月亮纸人”一个, kind: material, bindable: true }
+  - { id: 辅助材料·山茶花精油, name: 辅助材料·山茶花精油, kind: material, bindable: true }
+  - { id: 辅助材料·岩水, name: 辅助材料·岩水, kind: material, bindable: true }
+  - { id: 辅助材料·岩浆之心粉末, name: 辅助材料·岩浆之心粉末, kind: material, bindable: true }
+  - { id: 辅助材料·岩浆辉石粉末, name: 辅助材料·岩浆辉石粉末, kind: material, bindable: true }
+  - { id: 辅助材料·崇月邪怪的心脏, name: 辅助材料·崇月邪怪的心脏, kind: material, bindable: true }
+  - { id: 辅助材料·巨怪智者的血液, name: 辅助材料·巨怪智者的血液, kind: material, bindable: true }
+  - { id: 辅助材料·巫术暗灵的污染物10克（(对应序列的血族或人造吸血鬼的头发10根或指甲三片）, name: 辅助材料·巫术暗灵的污染物10克（(对应序列的血族或人造吸血鬼的头发10根或指甲三片）, kind: material, bindable: true }
+  - { id: 辅助材料·已应验的重要启示一条（应验前已记录在石碑或纸张上）, name: 辅助材料·已应验的重要启示一条（应验前已记录在石碑或纸张上）, kind: material, bindable: true }
+  - { id: 辅助材料·年份超过五百年的、有对应镜后区域的古董镜子一面, name: 辅助材料·年份超过五百年的、有对应镜后区域的古董镜子一面, kind: material, bindable: true }
+  - { id: 辅助材料·幸运符一块（序列9非凡者就可以制作的那种）, name: 辅助材料·幸运符一块（序列9非凡者就可以制作的那种）, kind: material, bindable: true }
+  - { id: 辅助材料·幼年独角兽的血液, name: 辅助材料·幼年独角兽的血液, kind: material, bindable: true }
+  - { id: 辅助材料·幽灵怪猫的血液, name: 辅助材料·幽灵怪猫的血液, kind: material, bindable: true }
+  - { id: 辅助材料·序列高于“卷轴教授”者所制卷轴1张, name: 辅助材料·序列高于“卷轴教授”者所制卷轴1张, kind: material, bindable: true }
+  - { id: 辅助材料·开在自身腐烂血肉上的花朵一朵, name: 辅助材料·开在自身腐烂血肉上的花朵一朵, kind: material, bindable: true }
+  - { id: 辅助材料·异纹巨虎的牙齿两颗, name: 辅助材料·异纹巨虎的牙齿两颗, kind: material, bindable: true }
+  - { id: 辅助材料·当前国度主要法典原本1部, name: 辅助材料·当前国度主要法典原本1部, kind: material, bindable: true }
+  - { id: 辅助材料·彩髯角蜥的毒液, name: 辅助材料·彩髯角蜥的毒液, kind: material, bindable: true }
+  - { id: 辅助材料·影王残留的粉末, name: 辅助材料·影王残留的粉末, kind: material, bindable: true }
+  - { id: 辅助材料·徘徊的幽灵一个, name: 辅助材料·徘徊的幽灵一个, kind: material, bindable: true }
+  - { id: 辅助材料·心灵大海的原生物, name: 辅助材料·心灵大海的原生物, kind: material, bindable: true }
+  - { id: 辅助材料·忍冬精油, name: 辅助材料·忍冬精油, kind: material, bindable: true }
+  - { id: 辅助材料·忍冬花纯露, name: 辅助材料·忍冬花纯露, kind: material, bindable: true }
+  - { id: 辅助材料·恐惧魔虫的汁液, name: 辅助材料·恐惧魔虫的汁液, kind: material, bindable: true }
+  - { id: 辅助材料·成年心灵巨龙的血液100毫升或者（梦境捕手的血液90毫升）, name: 辅助材料·成年心灵巨龙的血液100毫升或者（梦境捕手的血液90毫升）, kind: material, bindable: true }
+  - { id: 辅助材料·成年心灵巨龙的鳞片3片（或者心灵幻影遗留的粉尘3克）, name: 辅助材料·成年心灵巨龙的鳞片3片（或者心灵幻影遗留的粉尘3克）, kind: material, bindable: true }
+  - { id: 辅助材料·成年独角兽的血液, name: 辅助材料·成年独角兽的血液, kind: material, bindable: true }
+  - { id: 辅助材料·成年独角飞马的血液, name: 辅助材料·成年独角飞马的血液, kind: material, bindable: true }
+  - { id: 辅助材料·战争彗星的碎片, name: 辅助材料·战争彗星的碎片, kind: material, bindable: true }
+  - { id: 辅助材料·所有仪式对象每人一滴血液, name: 辅助材料·所有仪式对象每人一滴血液, kind: material, bindable: true }
+  - { id: 辅助材料·披袍幽魂的残留粉末, name: 辅助材料·披袍幽魂的残留粉末, kind: material, bindable: true }
+  - { id: 辅助材料·捕蝇花汁液, name: 辅助材料·捕蝇花汁液, kind: material, bindable: true }
+  - { id: 辅助材料·放置于自身房间超过三个月的镜子1面, name: 辅助材料·放置于自身房间超过三个月的镜子1面, kind: material, bindable: true }
+  - { id: 辅助材料·新鲜的榭寄生一枝, name: 辅助材料·新鲜的榭寄生一枝, kind: material, bindable: true }
+  - { id: 辅助材料·无影魔狼的血液, name: 辅助材料·无影魔狼的血液, kind: material, bindable: true }
+  - { id: 辅助材料·时之虫一条, name: 辅助材料·时之虫一条, kind: material, bindable: true }
+  - { id: 辅助材料·星之虫一条, name: 辅助材料·星之虫一条, kind: material, bindable: true }
+  - { id: 辅助材料·星纹邪怪的脓水, name: 辅助材料·星纹邪怪的脓水, kind: material, bindable: true }
+  - { id: 辅助材料·晒干的香橙皮（从一颗香橙上完整剥下来）, name: 辅助材料·晒干的香橙皮（从一颗香橙上完整剥下来）, kind: material, bindable: true }
+  - { id: 辅助材料·普通四叶草, name: 辅助材料·普通四叶草, kind: material, bindable: true }
+  - { id: 辅助材料·智慧生物的脑垂体9种, name: 辅助材料·智慧生物的脑垂体9种, kind: material, bindable: true }
+  - { id: 辅助材料·曼德拉草纯露, name: 辅助材料·曼德拉草纯露, kind: material, bindable: true }
+  - { id: 辅助材料·曾经埋葬过自己的棺柩一副, name: 辅助材料·曾经埋葬过自己的棺柩一副, kind: material, bindable: true }
+  - { id: 辅助材料·月亮花, name: 辅助材料·月亮花, kind: material, bindable: true }
+  - { id: 辅助材料·月亮花精油, name: 辅助材料·月亮花精油, kind: material, bindable: true }
+  - { id: 辅助材料·月长石一颗, name: 辅助材料·月长石一颗, kind: material, bindable: true }
+  - { id: 辅助材料·有束缚含义的建筑雕塑, name: 辅助材料·有束缚含义的建筑雕塑, kind: material, bindable: true }
+  - { id: 辅助材料·有锚点寄托的自身雕像1尊, name: 辅助材料·有锚点寄托的自身雕像1尊, kind: material, bindable: true }
+  - { id: 辅助材料·木樨花纯露, name: 辅助材料·木樨花纯露, kind: material, bindable: true }
+  - { id: 辅助材料·来源于不同人的指甲碎片九个, name: 辅助材料·来源于不同人的指甲碎片九个, kind: material, bindable: true }
+  - { id: 辅助材料·来自冥界深处的亡灵一个, name: 辅助材料·来自冥界深处的亡灵一个, kind: material, bindable: true }
+  - { id: 辅助材料·来自噩运或灾厄幸存者的书面感谢九份, name: 辅助材料·来自噩运或灾厄幸存者的书面感谢九份, kind: material, bindable: true }
+  - { id: 辅助材料·来自太阳信仰的物品一件, name: 辅助材料·来自太阳信仰的物品一件, kind: material, bindable: true }
+  - { id: 辅助材料·杨树皮浸泡出的纯露, name: 辅助材料·杨树皮浸泡出的纯露, kind: material, bindable: true }
+  - { id: 辅助材料·林地巨妖的血液, name: 辅助材料·林地巨妖的血液, kind: material, bindable: true }
+  - { id: 辅助材料·枯萎的葡萄藤一截, name: 辅助材料·枯萎的葡萄藤一截, kind: material, bindable: true }
+  - { id: 辅助材料·柏树皮精油, name: 辅助材料·柏树皮精油, kind: material, bindable: true }
+  - { id: 辅助材料·染上过他人之血的黑曜石一块, name: 辅助材料·染上过他人之血的黑曜石一块, kind: material, bindable: true }
+  - { id: 辅助材料·柠檬草, name: 辅助材料·柠檬草, kind: material, bindable: true }
+  - { id: 辅助材料·树人之王的汁液100毫升或者迷梦巨龙的血液, name: 辅助材料·树人之王的汁液100毫升或者迷梦巨龙的血液, kind: material, bindable: true }
+  - { id: 辅助材料·树人大祭司的汁液, name: 辅助材料·树人大祭司的汁液, kind: material, bindable: true }
+  - { id: 辅助材料·树人导师的金色树叶三片, name: 辅助材料·树人导师的金色树叶三片, kind: material, bindable: true }
+  - { id: 辅助材料·树人的叶子, name: 辅助材料·树人的叶子, kind: material, bindable: true }
+  - { id: 辅助材料·树人祭司的汁液, name: 辅助材料·树人祭司的汁液, kind: material, bindable: true }
+  - { id: 辅助材料·树苗一株, name: 辅助材料·树苗一株, kind: material, bindable: true }
+  - { id: 辅助材料·栗树芽孢, name: 辅助材料·栗树芽孢, kind: material, bindable: true }
+  - { id: 辅助材料·格里格尔的影痕, name: 辅助材料·格里格尔的影痕, kind: material, bindable: true }
+  - { id: 辅助材料·格里格尔首领的眼眸, name: 辅助材料·格里格尔首领的眼眸, kind: material, bindable: true }
+  - { id: 辅助材料·梦魇草汁液, name: 辅助材料·梦魇草汁液, kind: material, bindable: true }
+  - { id: 辅助材料·樱桃李汁液, name: 辅助材料·樱桃李汁液, kind: material, bindable: true }
+  - { id: 辅助材料·橡树果实一枚, name: 辅助材料·橡树果实一枚, kind: material, bindable: true }
+  - { id: 辅助材料·橡树种子, name: 辅助材料·橡树种子, kind: material, bindable: true }
+  - { id: 辅助材料·正确率高于错误率的预言集1本, name: 辅助材料·正确率高于错误率的预言集1本, kind: material, bindable: true }
+  - { id: 辅助材料·死于不同极端天气的死者血液各, name: 辅助材料·死于不同极端天气的死者血液各, kind: material, bindable: true }
+  - { id: 辅助材料·死于仪式异变者的脸皮9张, name: 辅助材料·死于仪式异变者的脸皮9张, kind: material, bindable: true }
+  - { id: 辅助材料·死于恶灵附身之人的脑浆, name: 辅助材料·死于恶灵附身之人的脑浆, kind: material, bindable: true }
+  - { id: 辅助材料·死于诅咒者的血液, name: 辅助材料·死于诅咒者的血液, kind: material, bindable: true }
+  - { id: 辅助材料·死亡之影寄居之物, name: 辅助材料·死亡之影寄居之物, kind: material, bindable: true }
+  - { id: 辅助材料·母亲制作的护身符1块（若母亲已经过世，可由空想产物或历史投影代替，当然，概念上的母亲和广义上的母亲也可以满足条件）, name: 辅助材料·母亲制作的护身符1块（若母亲已经过世，可由空想产物或历史投影代替，当然，概念上的母亲和广义上的母亲也可以满足条件）, kind: material, bindable: true }
+  - { id: 辅助材料·每年第一场洪水之雨, name: 辅助材料·每年第一场洪水之雨, kind: material, bindable: true }
+  - { id: 辅助材料·毛地黄（又名狐狸手套）精油, name: 辅助材料·毛地黄（又名狐狸手套）精油, kind: material, bindable: true }
+  - { id: 辅助材料·毛茛精油, name: 辅助材料·毛茛精油, kind: material, bindable: true }
+  - { id: 辅助材料·水仙花汁液, name: 辅助材料·水仙花汁液, kind: material, bindable: true }
+  - { id: 辅助材料·水堇纯露, name: 辅助材料·水堇纯露, kind: material, bindable: true }
+  - { id: 辅助材料·水果烈酒, name: 辅助材料·水果烈酒, kind: material, bindable: true }
+  - { id: 辅助材料·水蕨汁液, name: 辅助材料·水蕨汁液, kind: material, bindable: true }
+  - { id: 辅助材料·水蕨草粉末, name: 辅助材料·水蕨草粉末, kind: material, bindable: true }
+  - { id: 辅助材料·水银, name: 辅助材料·水银, kind: material, bindable: true }
+  - { id: 辅助材料·永暗石一个, name: 辅助材料·永暗石一个, kind: material, bindable: true }
+  - { id: 辅助材料·永生之蝉栖息之树的树皮, name: 辅助材料·永生之蝉栖息之树的树皮, kind: material, bindable: true }
+  - { id: 辅助材料·汇聚上万真诚祝福的物品, name: 辅助材料·汇聚上万真诚祝福的物品, kind: material, bindable: true }
+  - { id: 辅助材料·沉默之石的伴生物, name: 辅助材料·沉默之石的伴生物, kind: material, bindable: true }
+  - { id: 辅助材料·沟酸浆精油, name: 辅助材料·沟酸浆精油, kind: material, bindable: true }
+  - { id: 辅助材料·沟酸浆纯露, name: 辅助材料·沟酸浆纯露, kind: material, bindable: true }
+  - { id: 辅助材料·治安官或类似职务的任命文书1份（不需要是自己的）, name: 辅助材料·治安官或类似职务的任命文书1份（不需要是自己的）, kind: material, bindable: true }
+  - { id: 辅助材料·沼泽巨人的血液, name: 辅助材料·沼泽巨人的血液, kind: material, bindable: true }
+  - { id: 辅助材料·活人的鲜血, name: 辅助材料·活人的鲜血, kind: material, bindable: true }
+  - { id: 辅助材料·活蜘蛛一只, name: 辅助材料·活蜘蛛一只, kind: material, bindable: true }
+  - { id: 辅助材料·流传范围很广、称颂自身事迹的歌谣, name: 辅助材料·流传范围很广、称颂自身事迹的歌谣, kind: material, bindable: true }
+  - { id: 辅助材料·浑浊的河水, name: 辅助材料·浑浊的河水, kind: material, bindable: true }
+  - { id: 辅助材料·浓醋, name: 辅助材料·浓醋, kind: material, bindable: true }
+  - { id: 辅助材料·海棠花精油, name: 辅助材料·海棠花精油, kind: material, bindable: true }
+  - { id: 辅助材料·海水、湖水、冰川水各, name: 辅助材料·海水、湖水、冰川水各, kind: material, bindable: true }
+  - { id: 辅助材料·涉及神秘学事件的遗迹之物1件, name: 辅助材料·涉及神秘学事件的遗迹之物1件, kind: material, bindable: true }
+  - { id: 辅助材料·深红彼岸花精油, name: 辅助材料·深红彼岸花精油, kind: material, bindable: true }
+  - { id: 辅助材料·深红礼赞（一种花朵）制成的纯露, name: 辅助材料·深红礼赞（一种花朵）制成的纯露, kind: material, bindable: true }
+  - { id: 辅助材料·深纹胡桃一个, name: 辅助材料·深纹胡桃一个, kind: material, bindable: true }
+  - { id: 辅助材料·清晨、中午、傍晚的阳光各一缕（想到办法搜集）, name: 辅助材料·清晨、中午、傍晚的阳光各一缕（想到办法搜集）, kind: material, bindable: true }
+  - { id: 辅助材料·渴血兽的血液, name: 辅助材料·渴血兽的血液, kind: material, bindable: true }
+  - { id: 辅助材料·游荡之皮的脓液, name: 辅助材料·游荡之皮的脓液, kind: material, bindable: true }
+  - { id: 辅助材料·湖中之灵的伴生物, name: 辅助材料·湖中之灵的伴生物, kind: material, bindable: true }
+  - { id: 辅助材料·源于“熵之公爵”或相应事物的污染物, name: 辅助材料·源于“熵之公爵”或相应事物的污染物, kind: material, bindable: true }
+  - { id: 辅助材料·源于仪式场地的星之水, name: 辅助材料·源于仪式场地的星之水, kind: material, bindable: true }
+  - { id: 辅助材料·源自他人的幸运, name: 辅助材料·源自他人的幸运, kind: material, bindable: true }
+  - { id: 辅助材料·溺死者肺部的水, name: 辅助材料·溺死者肺部的水, kind: material, bindable: true }
+  - { id: 辅助材料·滚烫岩浆, name: 辅助材料·滚烫岩浆, kind: material, bindable: true }
+  - { id: 辅助材料·火种一个, name: 辅助材料·火种一个, kind: material, bindable: true }
+  - { id: 辅助材料·火蝾螈的血液, name: 辅助材料·火蝾螈的血液, kind: material, bindable: true }
+  - { id: 辅助材料·灰暗魔狼的血液, name: 辅助材料·灰暗魔狼的血液, kind: material, bindable: true }
+  - { id: 辅助材料·灰琥珀香水, name: 辅助材料·灰琥珀香水, kind: material, bindable: true }
+  - { id: 辅助材料·灰白色龙息草, name: 辅助材料·灰白色龙息草, kind: material, bindable: true }
+  - { id: 辅助材料·灰鸟祖母的羽毛, name: 辅助材料·灰鸟祖母的羽毛, kind: material, bindable: true }
+  - { id: 辅助材料·灵之虫一条, name: 辅助材料·灵之虫一条, kind: material, bindable: true }
+  - { id: 辅助材料·灵体之虫一条, name: 辅助材料·灵体之虫一条, kind: material, bindable: true }
+  - { id: 辅助材料·灵界七光之一的祝福，积攒超过百年的幸运, name: 辅助材料·灵界七光之一的祝福，积攒超过百年的幸运, kind: material, bindable: true }
+  - { id: 辅助材料·灾厄不死鸟的血液, name: 辅助材料·灾厄不死鸟的血液, kind: material, bindable: true }
+  - { id: 辅助材料·灾难之石污染的草木粉末, name: 辅助材料·灾难之石污染的草木粉末, kind: material, bindable: true }
+  - { id: 辅助材料·灾难死者之诅咒一万份（目标位格越高，所需数量越少）, name: 辅助材料·灾难死者之诅咒一万份（目标位格越高，所需数量越少）, kind: material, bindable: true }
+  - { id: 辅助材料·炽光巨人的血液, name: 辅助材料·炽光巨人的血液, kind: material, bindable: true }
+  - { id: 辅助材料·炽光巨人首领的眼珠一对, name: 辅助材料·炽光巨人首领的眼珠一对, kind: material, bindable: true }
+  - { id: 辅助材料·烈焰巨树的树皮, name: 辅助材料·烈焰巨树的树皮, kind: material, bindable: true }
+  - { id: 辅助材料·烈酒, name: 辅助材料·烈酒, kind: material, bindable: true }
+  - { id: 辅助材料·牛齿芍药粉末, name: 辅助材料·牛齿芍药粉末, kind: material, bindable: true }
+  - { id: 辅助材料·牧群之主的血液, name: 辅助材料·牧群之主的血液, kind: material, bindable: true }
+  - { id: 辅助材料·牧群看守者的血液, name: 辅助材料·牧群看守者的血液, kind: material, bindable: true }
+  - { id: 辅助材料·犯罪所得1件, name: 辅助材料·犯罪所得1件, kind: material, bindable: true }
+  - { id: 辅助材料·狂野人猿的牙齿, name: 辅助材料·狂野人猿的牙齿, kind: material, bindable: true }
+  - { id: 辅助材料·狩猎黑蛛的毒腺一个, name: 辅助材料·狩猎黑蛛的毒腺一个, kind: material, bindable: true }
+  - { id: 辅助材料·独眼白牛的血液, name: 辅助材料·独眼白牛的血液, kind: material, bindable: true }
+  - { id: 辅助材料·狮身人的血液, name: 辅助材料·狮身人的血液, kind: material, bindable: true }
+  - { id: 辅助材料·猫脸鬼影的指甲, name: 辅助材料·猫脸鬼影的指甲, kind: material, bindable: true }
+  - { id: 辅助材料·琥珀粉末, name: 辅助材料·琥珀粉末, kind: material, bindable: true }
+  - { id: 辅助材料·瓣精灵花, name: 辅助材料·瓣精灵花, kind: material, bindable: true }
+  - { id: 辅助材料·甜栗花精油, name: 辅助材料·甜栗花精油, kind: material, bindable: true }
+  - { id: 辅助材料·用灵性血液绘制的星图一副, name: 辅助材料·用灵性血液绘制的星图一副, kind: material, bindable: true }
+  - { id: 辅助材料·用盐制净化法处理过的海蓝水晶一块, name: 辅助材料·用盐制净化法处理过的海蓝水晶一块, kind: material, bindable: true }
+  - { id: 辅助材料·电气石, name: 辅助材料·电气石, kind: material, bindable: true }
+  - { id: 辅助材料·瘟疫母蛇的胆汁, name: 辅助材料·瘟疫母蛇的胆汁, kind: material, bindable: true }
+  - { id: 辅助材料·白杨的树叶粉末, name: 辅助材料·白杨的树叶粉末, kind: material, bindable: true }
+  - { id: 辅助材料·白栗花精油, name: 辅助材料·白栗花精油, kind: material, bindable: true }
+  - { id: 辅助材料·白栗香膏, name: 辅助材料·白栗香膏, kind: material, bindable: true }
+  - { id: 辅助材料·白橡树果实两颗, name: 辅助材料·白橡树果实两颗, kind: material, bindable: true }
+  - { id: 辅助材料·白芥子, name: 辅助材料·白芥子, kind: material, bindable: true }
+  - { id: 辅助材料·白芥子9粒, name: 辅助材料·白芥子9粒, kind: material, bindable: true }
+  - { id: 辅助材料·白茉莉一朵, name: 辅助材料·白茉莉一朵, kind: material, bindable: true }
+  - { id: 辅助材料·白边太阳花一朵, name: 辅助材料·白边太阳花一朵, kind: material, bindable: true }
+  - { id: 辅助材料·白鬃狩猎者的血液, name: 辅助材料·白鬃狩猎者的血液, kind: material, bindable: true }
+  - { id: 辅助材料·皇冠水母的触须, name: 辅助材料·皇冠水母的触须, kind: material, bindable: true }
+  - { id: 辅助材料·皇冠猎隼的鸟爪一只, name: 辅助材料·皇冠猎隼的鸟爪一只, kind: material, bindable: true }
+  - { id: 辅助材料·盛开的红栗花一朵, name: 辅助材料·盛开的红栗花一朵, kind: material, bindable: true }
+  - { id: 辅助材料·真实有效的王国或帝国戒严令, name: 辅助材料·真实有效的王国或帝国戒严令, kind: material, bindable: true }
+  - { id: 辅助材料·真正的木乃伊骨灰, name: 辅助材料·真正的木乃伊骨灰, kind: material, bindable: true }
+  - { id: 辅助材料·真神之血, name: 辅助材料·真神之血, kind: material, bindable: true }
+  - { id: 辅助材料·真神教会的供奉圣徽, name: 辅助材料·真神教会的供奉圣徽, kind: material, bindable: true }
+  - { id: 辅助材料·砷粉, name: 辅助材料·砷粉, kind: material, bindable: true }
+  - { id: 辅助材料·神佑水晶的附着物, name: 辅助材料·神佑水晶的附着物, kind: material, bindable: true }
+  - { id: 辅助材料·神圣光辉石伴生液, name: 辅助材料·神圣光辉石伴生液, kind: material, bindable: true }
+  - { id: 辅助材料·秋水仙精华, name: 辅助材料·秋水仙精华, kind: material, bindable: true }
+  - { id: 辅助材料·秘法妖精的眼泪, name: 辅助材料·秘法妖精的眼泪, kind: material, bindable: true }
+  - { id: 辅助材料·精灵之泉的泉水, name: 辅助材料·精灵之泉的泉水, kind: material, bindable: true }
+  - { id: 辅助材料·精灵之泉的金色泉水100毫升(对应序列的血族或人造吸血鬼的血液100毫升）, name: 辅助材料·精灵之泉的金色泉水100毫升(对应序列的血族或人造吸血鬼的血液100毫升）, kind: material, bindable: true }
+  - { id: 辅助材料·精灵暗叶一片, name: 辅助材料·精灵暗叶一片, kind: material, bindable: true }
+  - { id: 辅助材料·紫水晶一枚, name: 辅助材料·紫水晶一枚, kind: material, bindable: true }
+  - { id: 辅助材料·红冠凤仙草粉末, name: 辅助材料·红冠凤仙草粉末, kind: material, bindable: true }
+  - { id: 辅助材料·红头蝙蝠的牙齿3颗（这两个可同等替换成血族或人造吸血鬼对应的部位）, name: 辅助材料·红头蝙蝠的牙齿3颗（这两个可同等替换成血族或人造吸血鬼对应的部位）, kind: material, bindable: true }
+  - { id: 辅助材料·红栗花一朵（可以是标本，也可替换成相应精油10滴）, name: 辅助材料·红栗花一朵（可以是标本，也可替换成相应精油10滴）, kind: material, bindable: true }
+  - { id: 辅助材料·红焰树人的汁液, name: 辅助材料·红焰树人的汁液, kind: material, bindable: true }
+  - { id: 辅助材料·红葡萄酒, name: 辅助材料·红葡萄酒, kind: material, bindable: true }
+  - { id: 辅助材料·纯水, name: 辅助材料·纯水, kind: material, bindable: true }
+  - { id: 辅助材料·纯白精灵花3瓣, name: 辅助材料·纯白精灵花3瓣, kind: material, bindable: true }
+  - { id: 辅助材料·纯白罂粟花, name: 辅助材料·纯白罂粟花, kind: material, bindable: true }
+  - { id: 辅助材料·纯酒精, name: 辅助材料·纯酒精, kind: material, bindable: true }
+  - { id: 辅助材料·纸妖的灰烬, name: 辅助材料·纸妖的灰烬, kind: material, bindable: true }
+  - { id: 辅助材料·纸根草纯露, name: 辅助材料·纸根草纯露, kind: material, bindable: true }
+  - { id: 辅助材料·线球草粉末, name: 辅助材料·线球草粉末, kind: material, bindable: true }
+  - { id: 辅助材料·绝望者的泪瓶九个（分属不同的绝望者）, name: 辅助材料·绝望者的泪瓶九个（分属不同的绝望者）, kind: material, bindable: true }
+  - { id: 辅助材料·绿橄榄, name: 辅助材料·绿橄榄, kind: material, bindable: true }
+  - { id: 辅助材料·罗勒, name: 辅助材料·罗勒, kind: material, bindable: true }
+  - { id: 辅助材料·羊须草纯露, name: 辅助材料·羊须草纯露, kind: material, bindable: true }
+  - { id: 辅助材料·老年心灵巨龙的血液, name: 辅助材料·老年心灵巨龙的血液, kind: material, bindable: true }
+  - { id: 辅助材料·肉桂, name: 辅助材料·肉桂, kind: material, bindable: true }
+  - { id: 辅助材料·肮脏的水, name: 辅助材料·肮脏的水, kind: material, bindable: true }
+  - { id: 辅助材料·胡桃, name: 辅助材料·胡桃, kind: material, bindable: true }
+  - { id: 辅助材料·胡桃一颗, name: 辅助材料·胡桃一颗, kind: material, bindable: true }
+  - { id: 辅助材料·腐烂羽蛇的体液, name: 辅助材料·腐烂羽蛇的体液, kind: material, bindable: true }
+  - { id: 辅助材料·自己的鲜血, name: 辅助材料·自己的鲜血, kind: material, bindable: true }
+  - { id: 辅助材料·自我编织出来的真实身份, name: 辅助材料·自我编织出来的真实身份, kind: material, bindable: true }
+  - { id: 辅助材料·自然卫士的血液, name: 辅助材料·自然卫士的血液, kind: material, bindable: true }
+  - { id: 辅助材料·自然灵祝福过的叶子一片, name: 辅助材料·自然灵祝福过的叶子一片, kind: material, bindable: true }
+  - { id: 辅助材料·自身之血, name: 辅助材料·自身之血, kind: material, bindable: true }
+  - { id: 辅助材料·自身创造的血裔的头发, name: 辅助材料·自身创造的血裔的头发, kind: material, bindable: true }
+  - { id: 辅助材料·自身制造的、超过一百年的、与堕落相关的传说一份（写在纸上）, name: 辅助材料·自身制造的、超过一百年的、与堕落相关的传说一份（写在纸上）, kind: material, bindable: true }
+  - { id: 辅助材料·自身发明的一种药剂, name: 辅助材料·自身发明的一种药剂, kind: material, bindable: true }
+  - { id: 辅助材料·自身所创的巫师秘药1份（任何效果都可以）, name: 辅助材料·自身所创的巫师秘药1份（任何效果都可以）, kind: material, bindable: true }
+  - { id: 辅助材料·自身猎杀的半神尸体1块（不需要全部尸骸）, name: 辅助材料·自身猎杀的半神尸体1块（不需要全部尸骸）, kind: material, bindable: true }
+  - { id: 辅助材料·自身的血液, name: 辅助材料·自身的血液, kind: material, bindable: true }
+  - { id: 辅助材料·自身虔诚抄录的赞美太阳的典籍一册, name: 辅助材料·自身虔诚抄录的赞美太阳的典籍一册, kind: material, bindable: true }
+  - { id: 辅助材料·自身血液, name: 辅助材料·自身血液, kind: material, bindable: true }
+  - { id: 辅助材料·自身设计的密码一套（写于纸上）, name: 辅助材料·自身设计的密码一套（写于纸上）, kind: material, bindable: true }
+  - { id: 辅助材料·自身谋害的第一个同种族者的心脏1个（或类似器官）, name: 辅助材料·自身谋害的第一个同种族者的心脏1个（或类似器官）, kind: material, bindable: true }
+  - { id: 辅助材料·至少抽打过一百人的皮鞭一根, name: 辅助材料·至少抽打过一百人的皮鞭一根, kind: material, bindable: true }
+  - { id: 辅助材料·花面蝙蝠的血液, name: 辅助材料·花面蝙蝠的血液, kind: material, bindable: true }
+  - { id: 辅助材料·苍白巫妖的碎骨, name: 辅助材料·苍白巫妖的碎骨, kind: material, bindable: true }
+  - { id: 辅助材料·苍白彼岸花一朵, name: 辅助材料·苍白彼岸花一朵, kind: material, bindable: true }
+  - { id: 辅助材料·茴香, name: 辅助材料·茴香, kind: material, bindable: true }
+  - { id: 辅助材料·莳萝精油, name: 辅助材料·莳萝精油, kind: material, bindable: true }
+  - { id: 辅助材料·落叶松精油, name: 辅助材料·落叶松精油, kind: material, bindable: true }
+  - { id: 辅助材料·葡萄藤粉末, name: 辅助材料·葡萄藤粉末, kind: material, bindable: true }
+  - { id: 辅助材料·蒸馏酒, name: 辅助材料·蒸馏酒, kind: material, bindable: true }
+  - { id: 辅助材料·蓝宝石一颗, name: 辅助材料·蓝宝石一颗, kind: material, bindable: true }
+  - { id: 辅助材料·蓝斑火鸟的羽毛三根, name: 辅助材料·蓝斑火鸟的羽毛三根, kind: material, bindable: true }
+  - { id: 辅助材料·蓝臻尤加利精油, name: 辅助材料·蓝臻尤加利精油, kind: material, bindable: true }
+  - { id: 辅助材料·蓝色曼陀罗汁液, name: 辅助材料·蓝色曼陀罗汁液, kind: material, bindable: true }
+  - { id: 辅助材料·薰衣草纯露, name: 辅助材料·薰衣草纯露, kind: material, bindable: true }
+  - { id: 辅助材料·蛇发女妖血液, name: 辅助材料·蛇发女妖血液, kind: material, bindable: true }
+  - { id: 辅助材料·蛇鳞10片（以白色、银色为佳）, name: 辅助材料·蛇鳞10片（以白色、银色为佳）, kind: material, bindable: true }
+  - { id: 辅助材料·血族侯爵或是对应序列人造吸血鬼的指甲, name: 辅助材料·血族侯爵或是对应序列人造吸血鬼的指甲, kind: material, bindable: true }
+  - { id: 辅助材料·血族侯爵或是对应序列人造吸血鬼的血液, name: 辅助材料·血族侯爵或是对应序列人造吸血鬼的血液, kind: material, bindable: true }
+  - { id: 辅助材料·血族公爵或对应序列人造吸血鬼的血液, name: 辅助材料·血族公爵或对应序列人造吸血鬼的血液, kind: material, bindable: true }
+  - { id: 辅助材料·血液300毫升（这两样可用“逐光者”的部位取代）, name: 辅助材料·血液300毫升（这两样可用“逐光者”的部位取代）, kind: material, bindable: true }
+  - { id: 辅助材料·血眼黑山羊的尾巴, name: 辅助材料·血眼黑山羊的尾巴, kind: material, bindable: true }
+  - { id: 辅助材料·血肉君王的血100毫升、肉, name: 辅助材料·血肉君王的血100毫升、肉, kind: material, bindable: true }
+  - { id: 辅助材料·血色图铎鸢尾, name: 辅助材料·血色图铎鸢尾, kind: material, bindable: true }
+  - { id: 辅助材料·血色稻草人的秸秆, name: 辅助材料·血色稻草人的秸秆, kind: material, bindable: true }
+  - { id: 辅助材料·被“源堡”灰雾气息侵染过的物品1件, name: 辅助材料·被“源堡”灰雾气息侵染过的物品1件, kind: material, bindable: true }
+  - { id: 辅助材料·被囚禁的灵魂一个, name: 辅助材料·被囚禁的灵魂一个, kind: material, bindable: true }
+  - { id: 辅助材料·被困鬼魂残留的粉末, name: 辅助材料·被困鬼魂残留的粉末, kind: material, bindable: true }
+  - { id: 辅助材料·被害者的眼泪, name: 辅助材料·被害者的眼泪, kind: material, bindable: true }
+  - { id: 辅助材料·被死亡气息侵染的水液, name: 辅助材料·被死亡气息侵染的水液, kind: material, bindable: true }
+  - { id: 辅助材料·被灵界水晶污染的泥土, name: 辅助材料·被灵界水晶污染的泥土, kind: material, bindable: true }
+  - { id: 辅助材料·被灵界生物污染的泥土, name: 辅助材料·被灵界生物污染的泥土, kind: material, bindable: true }
+  - { id: 辅助材料·被父母杀死的婴儿遗留手指, name: 辅助材料·被父母杀死的婴儿遗留手指, kind: material, bindable: true }
+  - { id: 辅助材料·被血月照耀过七次（每次至少一刻钟）的水, name: 辅助材料·被血月照耀过七次（每次至少一刻钟）的水, kind: material, bindable: true }
+  - { id: 辅助材料·被诅咒的物品1件, name: 辅助材料·被诅咒的物品1件, kind: material, bindable: true }
+  - { id: 辅助材料·被闪电劈焦的木头, name: 辅助材料·被闪电劈焦的木头, kind: material, bindable: true }
+  - { id: 辅助材料·被雷劈过的树木枝芽一截, name: 辅助材料·被雷劈过的树木枝芽一截, kind: material, bindable: true }
+  - { id: 辅助材料·西斯库恩魔虫的巢穴, name: 辅助材料·西斯库恩魔虫的巢穴, kind: material, bindable: true }
+  - { id: 辅助材料·记录自身正义的笔记一份, name: 辅助材料·记录自身正义的笔记一份, kind: material, bindable: true }
+  - { id: 辅助材料·记载他人秘密的纸1张, name: 辅助材料·记载他人秘密的纸1张, kind: material, bindable: true }
+  - { id: 辅助材料·诱人堕落的心灵深渊气息1缕, name: 辅助材料·诱人堕落的心灵深渊气息1缕, kind: material, bindable: true }
+  - { id: 辅助材料·象征过王权的冠冕一顶, name: 辅助材料·象征过王权的冠冕一顶, kind: material, bindable: true }
+  - { id: 辅助材料·费内波特苍蝇碾成的粉末, name: 辅助材料·费内波特苍蝇碾成的粉末, kind: material, bindable: true }
+  - { id: 辅助材料·超过二十二年历史的日记三页, name: 辅助材料·超过二十二年历史的日记三页, kind: material, bindable: true }
+  - { id: 辅助材料·较完整星图, name: 辅助材料·较完整星图, kind: material, bindable: true }
+  - { id: 辅助材料·还未完全消除的恶毒诅咒1个（延绵的年代越久，效果越好）, name: 辅助材料·还未完全消除的恶毒诅咒1个（延绵的年代越久，效果越好）, kind: material, bindable: true }
+  - { id: 辅助材料·连续背叛者的耳朵1个（至少有过两次背叛经历）, name: 辅助材料·连续背叛者的耳朵1个（至少有过两次背叛经历）, kind: material, bindable: true }
+  - { id: 辅助材料·迷宫鹦鹉的血液, name: 辅助材料·迷宫鹦鹉的血液, kind: material, bindable: true }
+  - { id: 辅助材料·迷幻草精油, name: 辅助材料·迷幻草精油, kind: material, bindable: true }
+  - { id: 辅助材料·迷迭香, name: 辅助材料·迷迭香, kind: material, bindable: true }
+  - { id: 辅助材料·迷迭香精油, name: 辅助材料·迷迭香精油, kind: material, bindable: true }
+  - { id: 辅助材料·迷雾窥探者的眼皮, name: 辅助材料·迷雾窥探者的眼皮, kind: material, bindable: true }
+  - { id: 辅助材料·迷魂虫群遗留的黏液, name: 辅助材料·迷魂虫群遗留的黏液, kind: material, bindable: true }
+  - { id: 辅助材料·逝者的眼睛, name: 辅助材料·逝者的眼睛, kind: material, bindable: true }
+  - { id: 辅助材料·遇害者的内脏7组, name: 辅助材料·遇害者的内脏7组, kind: material, bindable: true }
+  - { id: 辅助材料·邪神之眼的灰液, name: 辅助材料·邪神之眼的灰液, kind: material, bindable: true }
+  - { id: 辅助材料·重病人类的血液, name: 辅助材料·重病人类的血液, kind: material, bindable: true }
+  - { id: 辅助材料·野玫瑰一朵, name: 辅助材料·野玫瑰一朵, kind: material, bindable: true }
+  - { id: 辅助材料·野玫瑰纯露, name: 辅助材料·野玫瑰纯露, kind: material, bindable: true }
+  - { id: 辅助材料·野茄提炼的汁液, name: 辅助材料·野茄提炼的汁液, kind: material, bindable: true }
+  - { id: 辅助材料·金属巨猿的脓液, name: 辅助材料·金属巨猿的脓液, kind: material, bindable: true }
+  - { id: 辅助材料·金手柑汁液, name: 辅助材料·金手柑汁液, kind: material, bindable: true }
+  - { id: 辅助材料·金手柑粉末, name: 辅助材料·金手柑粉末, kind: material, bindable: true }
+  - { id: 辅助材料·金橙一颗, name: 辅助材料·金橙一颗, kind: material, bindable: true }
+  - { id: 辅助材料·金盏花香膏, name: 辅助材料·金盏花香膏, kind: material, bindable: true }
+  - { id: 辅助材料·金色曼陀罗汁液, name: 辅助材料·金色曼陀罗汁液, kind: material, bindable: true }
+  - { id: 辅助材料·金边太阳花一朵, name: 辅助材料·金边太阳花一朵, kind: material, bindable: true }
+  - { id: 辅助材料·铁线莲粉末, name: 辅助材料·铁线莲粉末, kind: material, bindable: true }
+  - { id: 辅助材料·铁臂兽人的血液, name: 辅助材料·铁臂兽人的血液, kind: material, bindable: true }
+  - { id: 辅助材料·铁锈, name: 辅助材料·铁锈, kind: material, bindable: true }
+  - { id: 辅助材料·铅粉, name: 辅助材料·铅粉, kind: material, bindable: true }
+  - { id: 辅助材料·铜色精灵的头发, name: 辅助材料·铜色精灵的头发, kind: material, bindable: true }
+  - { id: 辅助材料·铜表邪灵的锈迹沉淀物, name: 辅助材料·铜表邪灵的锈迹沉淀物, kind: material, bindable: true }
+  - { id: 辅助材料·银白战熊的血液, name: 辅助材料·银白战熊的血液, kind: material, bindable: true }
+  - { id: 辅助材料·银眼怪蛇的血液, name: 辅助材料·银眼怪蛇的血液, kind: material, bindable: true }
+  - { id: 辅助材料·银色猎杀者的碎片三块, name: 辅助材料·银色猎杀者的碎片三块, kind: material, bindable: true }
+  - { id: 辅助材料·镜中世界碎片一块（非特殊镜中世界碎片）, name: 辅助材料·镜中世界碎片一块（非特殊镜中世界碎片）, kind: material, bindable: true }
+  - { id: 辅助材料·镜子1面, name: 辅助材料·镜子1面, kind: material, bindable: true }
+  - { id: 辅助材料·镜神碎片九枚, name: 辅助材料·镜神碎片九枚, kind: material, bindable: true }
+  - { id: 辅助材料·镜龙血液, name: 辅助材料·镜龙血液, kind: material, bindable: true }
+  - { id: 辅助材料·长者之树的树皮粉末, name: 辅助材料·长者之树的树皮粉末, kind: material, bindable: true }
+  - { id: 辅助材料·长者蝙蝠的眼睛（这两个可同等替换成血族或人造吸血鬼对应的部位）, name: 辅助材料·长者蝙蝠的眼睛（这两个可同等替换成血族或人造吸血鬼对应的部位）, kind: material, bindable: true }
+  - { id: 辅助材料·长耳兔的绒毛, name: 辅助材料·长耳兔的绒毛, kind: material, bindable: true }
+  - { id: 辅助材料·闪纹黑蛇的血液, name: 辅助材料·闪纹黑蛇的血液, kind: material, bindable: true }
+  - { id: 辅助材料·阴影毒花的花瓣三片, name: 辅助材料·阴影毒花的花瓣三片, kind: material, bindable: true }
+  - { id: 辅助材料·阴影蜥蜴的鳞片三枚, name: 辅助材料·阴影蜥蜴的鳞片三枚, kind: material, bindable: true }
+  - { id: 辅助材料·阴影骑士的黑液, name: 辅助材料·阴影骑士的黑液, kind: material, bindable: true }
+  - { id: 辅助材料·附子汁液三滴, name: 辅助材料·附子汁液三滴, kind: material, bindable: true }
+  - { id: 辅助材料·雪松精油, name: 辅助材料·雪松精油, kind: material, bindable: true }
+  - { id: 辅助材料·雪松纯露, name: 辅助材料·雪松纯露, kind: material, bindable: true }
+  - { id: 辅助材料·青年心灵巨龙的血液80毫升（或者黑狩巨蜥的血液80毫升）, name: 辅助材料·青年心灵巨龙的血液80毫升（或者黑狩巨蜥的血液80毫升）, kind: material, bindable: true }
+  - { id: 辅助材料·青年心灵巨龙的鳞片3片（或者迷幻风铃树的树皮3块）, name: 辅助材料·青年心灵巨龙的鳞片3片（或者迷幻风铃树的树皮3块）, kind: material, bindable: true }
+  - { id: 辅助材料·青金石一颗, name: 辅助材料·青金石一颗, kind: material, bindable: true }
+  - { id: 辅助材料·非凡者的心脏, name: 辅助材料·非凡者的心脏, kind: material, bindable: true }
+  - { id: 辅助材料·面具精灵的血液, name: 辅助材料·面具精灵的血液, kind: material, bindable: true }
+  - { id: 辅助材料·面包一份, name: 辅助材料·面包一份, kind: material, bindable: true }
+  - { id: 辅助材料·颂星花精油, name: 辅助材料·颂星花精油, kind: material, bindable: true }
+  - { id: 辅助材料·颠茄果实, name: 辅助材料·颠茄果实, kind: material, bindable: true }
+  - { id: 辅助材料·食人之犬的唾液, name: 辅助材料·食人之犬的唾液, kind: material, bindable: true }
+  - { id: 辅助材料·食梦鼠的血液, name: 辅助材料·食梦鼠的血液, kind: material, bindable: true }
+  - { id: 辅助材料·香蜂草一株, name: 辅助材料·香蜂草一株, kind: material, bindable: true }
+  - { id: 辅助材料·香蜂草粉末, name: 辅助材料·香蜂草粉末, kind: material, bindable: true }
+  - { id: 辅助材料·香蜂草精油, name: 辅助材料·香蜂草精油, kind: material, bindable: true }
+  - { id: 辅助材料·马鞭草粉末, name: 辅助材料·马鞭草粉末, kind: material, bindable: true }
+  - { id: 辅助材料·魅欲.女妖残留的全部毛发, name: 辅助材料·魅欲.女妖残留的全部毛发, kind: material, bindable: true }
+  - { id: 辅助材料·魔喉蜜䴕的鸣管, name: 辅助材料·魔喉蜜䴕的鸣管, kind: material, bindable: true }
+  - { id: 辅助材料·鸡蛋花, name: 辅助材料·鸡蛋花, kind: material, bindable: true }
+  - { id: 辅助材料·鹅耳枥制作的精油, name: 辅助材料·鹅耳枥制作的精油, kind: material, bindable: true }
+  - { id: 辅助材料·鹅耳枥精油, name: 辅助材料·鹅耳枥精油, kind: material, bindable: true }
+  - { id: 辅助材料·鹿头兽人的血液, name: 辅助材料·鹿头兽人的血液, kind: material, bindable: true }
+  - { id: 辅助材料·黄水晶一颗, name: 辅助材料·黄水晶一颗, kind: material, bindable: true }
+  - { id: 辅助材料·黄色“不凋花”, name: 辅助材料·黄色“不凋花”, kind: material, bindable: true }
+  - { id: 辅助材料·黄金, name: 辅助材料·黄金, kind: material, bindable: true }
+  - { id: 辅助材料·黎明雄鸡之王的血液, name: 辅助材料·黎明雄鸡之王的血液, kind: material, bindable: true }
+  - { id: 辅助材料·黎明雄鸡的血, name: 辅助材料·黎明雄鸡的血, kind: material, bindable: true }
+  - { id: 辅助材料·黑域领主的血液, name: 辅助材料·黑域领主的血液, kind: material, bindable: true }
+  - { id: 辅助材料·黑山君主的血液, name: 辅助材料·黑山君主的血液, kind: material, bindable: true }
+  - { id: 辅助材料·黑斑青蛙的黏液, name: 辅助材料·黑斑青蛙的黏液, kind: material, bindable: true }
+  - { id: 辅助材料·黑暗类生物的胚胎, name: 辅助材料·黑暗类生物的胚胎, kind: material, bindable: true }
+  - { id: 辅助材料·黑暗蝙蝠的绒毛7根（这两个可同等替换成血族或人造吸血鬼对应的部位）, name: 辅助材料·黑暗蝙蝠的绒毛7根（这两个可同等替换成血族或人造吸血鬼对应的部位）, kind: material, bindable: true }
+  - { id: 辅助材料·黑橄榄一个, name: 辅助材料·黑橄榄一个, kind: material, bindable: true }
+  - { id: 辅助材料·黑百合精华, name: 辅助材料·黑百合精华, kind: material, bindable: true }
+  - { id: 辅助材料·黑色曼陀罗汁液, name: 辅助材料·黑色曼陀罗汁液, kind: material, bindable: true }
+  - { id: 辅助材料·黑色百合花的纯露, name: 辅助材料·黑色百合花的纯露, kind: material, bindable: true }
+  - { id: 辅助材料·黑色羔羊的尾巴, name: 辅助材料·黑色羔羊的尾巴, kind: material, bindable: true }
+  - { id: 辅助材料·黑莨菪的根茎, name: 辅助材料·黑莨菪的根茎, kind: material, bindable: true }
+  - { id: 辅助材料·龙牙草粉末, name: 辅助材料·龙牙草粉末, kind: material, bindable: true }
+  - { id: 辅助材料·龙胆草纯露, name: 辅助材料·龙胆草纯露, kind: material, bindable: true }
+
+  # M2.76：15 条新途径的**成品魔药**（120 件，序列 9—2）。
+  # id 由 loader 的 potionProductId() 约定成 potion_<途径>_<序列>，缺一件那条配方就解析不过。
+  # 名字里的途径名取 PATHWAY_LABELS（序列 0 名），与既有「魔药·愚者·序列9」同一口径。
+  - { id: potion_door_9, name: 魔药·门·序列9, kind: potion, bindable: true, pathway: door, seq: 9 }
+  - { id: potion_door_8, name: 魔药·门·序列8, kind: potion, bindable: true, pathway: door, seq: 8 }
+  - { id: potion_door_7, name: 魔药·门·序列7, kind: potion, bindable: true, pathway: door, seq: 7 }
+  - { id: potion_door_6, name: 魔药·门·序列6, kind: potion, bindable: true, pathway: door, seq: 6 }
+  - { id: potion_door_5, name: 魔药·门·序列5, kind: potion, bindable: true, pathway: door, seq: 5 }
+  - { id: potion_door_4, name: 魔药·门·序列4, kind: potion, bindable: true, pathway: door, seq: 4 }
+  - { id: potion_door_3, name: 魔药·门·序列3, kind: potion, bindable: true, pathway: door, seq: 3 }
+  - { id: potion_door_2, name: 魔药·门·序列2, kind: potion, bindable: true, pathway: door, seq: 2 }
+  - { id: potion_sun_9, name: 魔药·太阳·序列9, kind: potion, bindable: true, pathway: sun, seq: 9 }
+  - { id: potion_sun_8, name: 魔药·太阳·序列8, kind: potion, bindable: true, pathway: sun, seq: 8 }
+  - { id: potion_sun_7, name: 魔药·太阳·序列7, kind: potion, bindable: true, pathway: sun, seq: 7 }
+  - { id: potion_sun_6, name: 魔药·太阳·序列6, kind: potion, bindable: true, pathway: sun, seq: 6 }
+  - { id: potion_sun_5, name: 魔药·太阳·序列5, kind: potion, bindable: true, pathway: sun, seq: 5 }
+  - { id: potion_sun_4, name: 魔药·太阳·序列4, kind: potion, bindable: true, pathway: sun, seq: 4 }
+  - { id: potion_sun_3, name: 魔药·太阳·序列3, kind: potion, bindable: true, pathway: sun, seq: 3 }
+  - { id: potion_sun_2, name: 魔药·太阳·序列2, kind: potion, bindable: true, pathway: sun, seq: 2 }
+  - { id: potion_corpse_collector_9, name: 魔药·死神·序列9, kind: potion, bindable: true, pathway: corpse_collector, seq: 9 }
+  - { id: potion_corpse_collector_8, name: 魔药·死神·序列8, kind: potion, bindable: true, pathway: corpse_collector, seq: 8 }
+  - { id: potion_corpse_collector_7, name: 魔药·死神·序列7, kind: potion, bindable: true, pathway: corpse_collector, seq: 7 }
+  - { id: potion_corpse_collector_6, name: 魔药·死神·序列6, kind: potion, bindable: true, pathway: corpse_collector, seq: 6 }
+  - { id: potion_corpse_collector_5, name: 魔药·死神·序列5, kind: potion, bindable: true, pathway: corpse_collector, seq: 5 }
+  - { id: potion_corpse_collector_4, name: 魔药·死神·序列4, kind: potion, bindable: true, pathway: corpse_collector, seq: 4 }
+  - { id: potion_corpse_collector_3, name: 魔药·死神·序列3, kind: potion, bindable: true, pathway: corpse_collector, seq: 3 }
+  - { id: potion_corpse_collector_2, name: 魔药·死神·序列2, kind: potion, bindable: true, pathway: corpse_collector, seq: 2 }
+  - { id: potion_error_9, name: 魔药·错误·序列9, kind: potion, bindable: true, pathway: error, seq: 9 }
+  - { id: potion_error_8, name: 魔药·错误·序列8, kind: potion, bindable: true, pathway: error, seq: 8 }
+  - { id: potion_error_7, name: 魔药·错误·序列7, kind: potion, bindable: true, pathway: error, seq: 7 }
+  - { id: potion_error_6, name: 魔药·错误·序列6, kind: potion, bindable: true, pathway: error, seq: 6 }
+  - { id: potion_error_5, name: 魔药·错误·序列5, kind: potion, bindable: true, pathway: error, seq: 5 }
+  - { id: potion_error_4, name: 魔药·错误·序列4, kind: potion, bindable: true, pathway: error, seq: 4 }
+  - { id: potion_error_3, name: 魔药·错误·序列3, kind: potion, bindable: true, pathway: error, seq: 3 }
+  - { id: potion_error_2, name: 魔药·错误·序列2, kind: potion, bindable: true, pathway: error, seq: 2 }
+  - { id: potion_mystery_pryer_9, name: 魔药·隐者·序列9, kind: potion, bindable: true, pathway: mystery_pryer, seq: 9 }
+  - { id: potion_mystery_pryer_8, name: 魔药·隐者·序列8, kind: potion, bindable: true, pathway: mystery_pryer, seq: 8 }
+  - { id: potion_mystery_pryer_7, name: 魔药·隐者·序列7, kind: potion, bindable: true, pathway: mystery_pryer, seq: 7 }
+  - { id: potion_mystery_pryer_6, name: 魔药·隐者·序列6, kind: potion, bindable: true, pathway: mystery_pryer, seq: 6 }
+  - { id: potion_mystery_pryer_5, name: 魔药·隐者·序列5, kind: potion, bindable: true, pathway: mystery_pryer, seq: 5 }
+  - { id: potion_mystery_pryer_4, name: 魔药·隐者·序列4, kind: potion, bindable: true, pathway: mystery_pryer, seq: 4 }
+  - { id: potion_mystery_pryer_3, name: 魔药·隐者·序列3, kind: potion, bindable: true, pathway: mystery_pryer, seq: 3 }
+  - { id: potion_mystery_pryer_2, name: 魔药·隐者·序列2, kind: potion, bindable: true, pathway: mystery_pryer, seq: 2 }
+  - { id: potion_spectator_9, name: 魔药·空想家·序列9, kind: potion, bindable: true, pathway: spectator, seq: 9 }
+  - { id: potion_spectator_8, name: 魔药·空想家·序列8, kind: potion, bindable: true, pathway: spectator, seq: 8 }
+  - { id: potion_spectator_7, name: 魔药·空想家·序列7, kind: potion, bindable: true, pathway: spectator, seq: 7 }
+  - { id: potion_spectator_6, name: 魔药·空想家·序列6, kind: potion, bindable: true, pathway: spectator, seq: 6 }
+  - { id: potion_spectator_5, name: 魔药·空想家·序列5, kind: potion, bindable: true, pathway: spectator, seq: 5 }
+  - { id: potion_spectator_4, name: 魔药·空想家·序列4, kind: potion, bindable: true, pathway: spectator, seq: 4 }
+  - { id: potion_spectator_3, name: 魔药·空想家·序列3, kind: potion, bindable: true, pathway: spectator, seq: 3 }
+  - { id: potion_spectator_2, name: 魔药·空想家·序列2, kind: potion, bindable: true, pathway: spectator, seq: 2 }
+  - { id: potion_apothecary_9, name: 魔药·月亮·序列9, kind: potion, bindable: true, pathway: apothecary, seq: 9 }
+  - { id: potion_apothecary_8, name: 魔药·月亮·序列8, kind: potion, bindable: true, pathway: apothecary, seq: 8 }
+  - { id: potion_apothecary_7, name: 魔药·月亮·序列7, kind: potion, bindable: true, pathway: apothecary, seq: 7 }
+  - { id: potion_apothecary_6, name: 魔药·月亮·序列6, kind: potion, bindable: true, pathway: apothecary, seq: 6 }
+  - { id: potion_apothecary_5, name: 魔药·月亮·序列5, kind: potion, bindable: true, pathway: apothecary, seq: 5 }
+  - { id: potion_apothecary_4, name: 魔药·月亮·序列4, kind: potion, bindable: true, pathway: apothecary, seq: 4 }
+  - { id: potion_apothecary_3, name: 魔药·月亮·序列3, kind: potion, bindable: true, pathway: apothecary, seq: 3 }
+  - { id: potion_apothecary_2, name: 魔药·月亮·序列2, kind: potion, bindable: true, pathway: apothecary, seq: 2 }
+  - { id: potion_arbiter_9, name: 魔药·审判者·序列9, kind: potion, bindable: true, pathway: arbiter, seq: 9 }
+  - { id: potion_arbiter_8, name: 魔药·审判者·序列8, kind: potion, bindable: true, pathway: arbiter, seq: 8 }
+  - { id: potion_arbiter_7, name: 魔药·审判者·序列7, kind: potion, bindable: true, pathway: arbiter, seq: 7 }
+  - { id: potion_arbiter_6, name: 魔药·审判者·序列6, kind: potion, bindable: true, pathway: arbiter, seq: 6 }
+  - { id: potion_arbiter_5, name: 魔药·审判者·序列5, kind: potion, bindable: true, pathway: arbiter, seq: 5 }
+  - { id: potion_arbiter_4, name: 魔药·审判者·序列4, kind: potion, bindable: true, pathway: arbiter, seq: 4 }
+  - { id: potion_arbiter_3, name: 魔药·审判者·序列3, kind: potion, bindable: true, pathway: arbiter, seq: 3 }
+  - { id: potion_arbiter_2, name: 魔药·审判者·序列2, kind: potion, bindable: true, pathway: arbiter, seq: 2 }
+  - { id: potion_assassin_9, name: 魔药·魔女·序列9, kind: potion, bindable: true, pathway: assassin, seq: 9 }
+  - { id: potion_assassin_8, name: 魔药·魔女·序列8, kind: potion, bindable: true, pathway: assassin, seq: 8 }
+  - { id: potion_assassin_7, name: 魔药·魔女·序列7, kind: potion, bindable: true, pathway: assassin, seq: 7 }
+  - { id: potion_assassin_6, name: 魔药·魔女·序列6, kind: potion, bindable: true, pathway: assassin, seq: 6 }
+  - { id: potion_assassin_5, name: 魔药·魔女·序列5, kind: potion, bindable: true, pathway: assassin, seq: 5 }
+  - { id: potion_assassin_4, name: 魔药·魔女·序列4, kind: potion, bindable: true, pathway: assassin, seq: 4 }
+  - { id: potion_assassin_3, name: 魔药·魔女·序列3, kind: potion, bindable: true, pathway: assassin, seq: 3 }
+  - { id: potion_assassin_2, name: 魔药·魔女·序列2, kind: potion, bindable: true, pathway: assassin, seq: 2 }
+  - { id: potion_criminal_9, name: 魔药·深渊·序列9, kind: potion, bindable: true, pathway: criminal, seq: 9 }
+  - { id: potion_criminal_8, name: 魔药·深渊·序列8, kind: potion, bindable: true, pathway: criminal, seq: 8 }
+  - { id: potion_criminal_7, name: 魔药·深渊·序列7, kind: potion, bindable: true, pathway: criminal, seq: 7 }
+  - { id: potion_criminal_6, name: 魔药·深渊·序列6, kind: potion, bindable: true, pathway: criminal, seq: 6 }
+  - { id: potion_criminal_5, name: 魔药·深渊·序列5, kind: potion, bindable: true, pathway: criminal, seq: 5 }
+  - { id: potion_criminal_4, name: 魔药·深渊·序列4, kind: potion, bindable: true, pathway: criminal, seq: 4 }
+  - { id: potion_criminal_3, name: 魔药·深渊·序列3, kind: potion, bindable: true, pathway: criminal, seq: 3 }
+  - { id: potion_criminal_2, name: 魔药·深渊·序列2, kind: potion, bindable: true, pathway: criminal, seq: 2 }
+  - { id: potion_hunter_9, name: 魔药·红祭司·序列9, kind: potion, bindable: true, pathway: hunter, seq: 9 }
+  - { id: potion_hunter_8, name: 魔药·红祭司·序列8, kind: potion, bindable: true, pathway: hunter, seq: 8 }
+  - { id: potion_hunter_7, name: 魔药·红祭司·序列7, kind: potion, bindable: true, pathway: hunter, seq: 7 }
+  - { id: potion_hunter_6, name: 魔药·红祭司·序列6, kind: potion, bindable: true, pathway: hunter, seq: 6 }
+  - { id: potion_hunter_5, name: 魔药·红祭司·序列5, kind: potion, bindable: true, pathway: hunter, seq: 5 }
+  - { id: potion_hunter_4, name: 魔药·红祭司·序列4, kind: potion, bindable: true, pathway: hunter, seq: 4 }
+  - { id: potion_hunter_3, name: 魔药·红祭司·序列3, kind: potion, bindable: true, pathway: hunter, seq: 3 }
+  - { id: potion_hunter_2, name: 魔药·红祭司·序列2, kind: potion, bindable: true, pathway: hunter, seq: 2 }
+  - { id: potion_lawyer_9, name: 魔药·黑皇帝·序列9, kind: potion, bindable: true, pathway: lawyer, seq: 9 }
+  - { id: potion_lawyer_8, name: 魔药·黑皇帝·序列8, kind: potion, bindable: true, pathway: lawyer, seq: 8 }
+  - { id: potion_lawyer_7, name: 魔药·黑皇帝·序列7, kind: potion, bindable: true, pathway: lawyer, seq: 7 }
+  - { id: potion_lawyer_6, name: 魔药·黑皇帝·序列6, kind: potion, bindable: true, pathway: lawyer, seq: 6 }
+  - { id: potion_lawyer_5, name: 魔药·黑皇帝·序列5, kind: potion, bindable: true, pathway: lawyer, seq: 5 }
+  - { id: potion_lawyer_4, name: 魔药·黑皇帝·序列4, kind: potion, bindable: true, pathway: lawyer, seq: 4 }
+  - { id: potion_lawyer_3, name: 魔药·黑皇帝·序列3, kind: potion, bindable: true, pathway: lawyer, seq: 3 }
+  - { id: potion_lawyer_2, name: 魔药·黑皇帝·序列2, kind: potion, bindable: true, pathway: lawyer, seq: 2 }
+  - { id: potion_monster_9, name: 魔药·命运之轮·序列9, kind: potion, bindable: true, pathway: monster, seq: 9 }
+  - { id: potion_monster_8, name: 魔药·命运之轮·序列8, kind: potion, bindable: true, pathway: monster, seq: 8 }
+  - { id: potion_monster_7, name: 魔药·命运之轮·序列7, kind: potion, bindable: true, pathway: monster, seq: 7 }
+  - { id: potion_monster_6, name: 魔药·命运之轮·序列6, kind: potion, bindable: true, pathway: monster, seq: 6 }
+  - { id: potion_monster_5, name: 魔药·命运之轮·序列5, kind: potion, bindable: true, pathway: monster, seq: 5 }
+  - { id: potion_monster_4, name: 魔药·命运之轮·序列4, kind: potion, bindable: true, pathway: monster, seq: 4 }
+  - { id: potion_monster_3, name: 魔药·命运之轮·序列3, kind: potion, bindable: true, pathway: monster, seq: 3 }
+  - { id: potion_monster_2, name: 魔药·命运之轮·序列2, kind: potion, bindable: true, pathway: monster, seq: 2 }
+  - { id: potion_prisoner_9, name: 魔药·被缚者·序列9, kind: potion, bindable: true, pathway: prisoner, seq: 9 }
+  - { id: potion_prisoner_8, name: 魔药·被缚者·序列8, kind: potion, bindable: true, pathway: prisoner, seq: 8 }
+  - { id: potion_prisoner_7, name: 魔药·被缚者·序列7, kind: potion, bindable: true, pathway: prisoner, seq: 7 }
+  - { id: potion_prisoner_6, name: 魔药·被缚者·序列6, kind: potion, bindable: true, pathway: prisoner, seq: 6 }
+  - { id: potion_prisoner_5, name: 魔药·被缚者·序列5, kind: potion, bindable: true, pathway: prisoner, seq: 5 }
+  - { id: potion_prisoner_4, name: 魔药·被缚者·序列4, kind: potion, bindable: true, pathway: prisoner, seq: 4 }
+  - { id: potion_prisoner_3, name: 魔药·被缚者·序列3, kind: potion, bindable: true, pathway: prisoner, seq: 3 }
+  - { id: potion_prisoner_2, name: 魔药·被缚者·序列2, kind: potion, bindable: true, pathway: prisoner, seq: 2 }
+  - { id: potion_secrets_supplicant_9, name: 魔药·倒吊人·序列9, kind: potion, bindable: true, pathway: secrets_supplicant, seq: 9 }
+  - { id: potion_secrets_supplicant_8, name: 魔药·倒吊人·序列8, kind: potion, bindable: true, pathway: secrets_supplicant, seq: 8 }
+  - { id: potion_secrets_supplicant_7, name: 魔药·倒吊人·序列7, kind: potion, bindable: true, pathway: secrets_supplicant, seq: 7 }
+  - { id: potion_secrets_supplicant_6, name: 魔药·倒吊人·序列6, kind: potion, bindable: true, pathway: secrets_supplicant, seq: 6 }
+  - { id: potion_secrets_supplicant_5, name: 魔药·倒吊人·序列5, kind: potion, bindable: true, pathway: secrets_supplicant, seq: 5 }
+  - { id: potion_secrets_supplicant_4, name: 魔药·倒吊人·序列4, kind: potion, bindable: true, pathway: secrets_supplicant, seq: 4 }
+  - { id: potion_secrets_supplicant_3, name: 魔药·倒吊人·序列3, kind: potion, bindable: true, pathway: secrets_supplicant, seq: 3 }
+  - { id: potion_secrets_supplicant_2, name: 魔药·倒吊人·序列2, kind: potion, bindable: true, pathway: secrets_supplicant, seq: 2 }
+  # ===== M2.169：**神陨落之后才会出现的东西** =====
+  # 【原作】这两条是序列 1 配方的辅助材料（lawyer:1 与 arbiter:1），
+  #        平时**不在任何掉落表里** —— 只有一位神陨落之后，它们才会出现在地上。
+  #        这正是「神明的阴谋是世界级的」在物品层的落点：它打开了一条新的材料来源。
+  - { id: 辅助材料·陨落真神造成的污染物, name: 辅助材料·陨落真神造成的污染物, kind: material, bindable: true }
+  - { id: 辅助材料·陨落于背叛的真神尸液, name: 辅助材料·陨落于背叛的真神尸液, kind: material, bindable: true }
+  - { id: 辅助材料·神战遗迹的神力残片, name: 辅助材料·神战遗迹的神力残片, kind: material, bindable: true }

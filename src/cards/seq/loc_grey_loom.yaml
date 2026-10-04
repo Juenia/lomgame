@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「灰雾织坊」（grey_loom，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_grey_loom
+name: 织出来的东西有脸
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:灰雾织坊'
+effects:
+  - { dig: 4 }
+  - { mad: 3 }
+texts:
+  priv: |
+    坊里的织机在动，没有人在。
+    梭子自己来回，很快，很匀。
+    你走近看那匹布 —— 织到一半，上面已经有东西了。
+    **是一张脸。** 你觉得眼熟。你把布翻了过去。
+  group: 那间织坊的织机昨晚一直在响。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把布翻回来看那张脸
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你又翻了回来。那张脸还在。
+      **而你认出来了** —— 是你自己的脸，只是老了很多。
+  - key: '2'
+    label: 把织机停下来
+    effects: [ { dig: 6, hp: 2, cor: 2 } ]
+    text: |
+      你伸手按住了梭子。它停了。
+      **而布上的脸没有停** —— 它还在慢慢地转过来。
+  - key: '3'
+    label: 看看坊里还有谁在
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你在坊里走了一圈。没有人。
+      **而门口的鞋架上有一双鞋** —— 湿的，鞋底带着新泥。

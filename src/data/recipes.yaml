@@ -1,0 +1,2748 @@
+# 魔药配方（序列 9：MVP 阶段所有角色都在序列 9）
+# main/aux 里的材料必须先拥有才能调制；bindType 不限制材料来源（绑定材料也能用）
+recipes:
+  - id: seer_9
+    pathway: seer
+    seq: 9
+    main:
+      - { itemId: 主材料·灰雾结晶, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·银粉, qty: 1 }
+    ritual: 在无人打扰的暗处，用银粉画出一个圆，念三遍自己的名字
+    base_success: 0.75
+    cor_on_fail: 10
+    mad_on_fail: 6
+
+  - id: warrior_9
+    pathway: warrior
+    seq: 9
+    main:
+      - { itemId: 主材料·战火余烬, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+    ritual: 把余烬摊在圣盐上，直到它不再冒烟
+    base_success: 0.75
+    cor_on_fail: 9
+    mad_on_fail: 7
+
+  - id: sleepless_9
+    pathway: sleepless
+    seq: 9
+    main:
+      - { itemId: 主材料·夜之瞳, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+    ritual: 整夜不睡，把月长石粉撒在门槛上，天亮前不许回头
+    base_success: 0.72
+    cor_on_fail: 11
+    mad_on_fail: 5
+
+  # ---------------- M2.19：水手（sailor，风暴之主）的序列 9 魔药 ----------------
+  #
+  # 只做序列 9 一份：这一轮的验收是「这条途径能被玩家走通」（.创建 → 调制 → 服用 → 入途径），
+  # 而序列 9 是入途径那一瓶。序列 8 的配方（与它的主材料产出点）留给「让水手能升到 7」的那一轮。
+  # 三条数值照抄现有三条的量级（base_success 0.72—0.75 / cor 9—11 / mad 5—7），
+  # 没有新的调参口径。
+  - id: sailor_9
+    pathway: sailor
+    seq: 9
+    main:
+      - { itemId: 主材料·海盐结晶, qty: 1 }
+    aux:
+      # 复用现有的辅助材料（圣盐）：调制魔药的辅料是通用的
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+    ritual: 把海盐结晶碾碎化进一碗海水里，端着它面朝外海站到风把水吹凉为止
+    base_success: 0.74
+    cor_on_fail: 10
+    mad_on_fail: 6
+
+  # ---------------- M2.26 第一批：完美者（perfect，蒸汽与机械之神）----------------
+  #
+  # **两条都给**（序列 9 与序列 8），与 seer / warrior / sleepless 同口径。
+  # 对照：`sailor` 只做了序列 9（M2.19 的划界「序列 8 的配方留给让水手能升到 7 的那一轮」），
+  # 所以一个水手玩家**至今升不到序列 7** —— 新途径不再重复这个缺口。
+  #
+  # 数值照抄现有量级（seq 9：0.72—0.75 / cor 9—11 / mad 5—7；seq 8：0.62 / cor 11—12 / mad 8—9），
+  # 没有新的调参口径。
+  - id: perfect_9
+    pathway: perfect
+    seq: 9
+    main:
+      - { itemId: 主材料·校准之芯, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·银粉, qty: 1 }
+    ritual: 把机芯拆到只剩最后一颗螺丝，再原样装回去 —— 全程手不能抖
+    base_success: 0.73
+    cor_on_fail: 10
+    mad_on_fail: 6
+
+  - id: perfect_8
+    pathway: perfect
+    seq: 8
+    main:
+      - { itemId: 主材料·齿轮之心, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+    ritual: 把齿轮之心泡进熔开的圣盐里，等它自己转起来再取出来
+    base_success: 0.62
+    cor_on_fail: 12
+    mad_on_fail: 8
+
+  # ---------------- M2.26 第二批：阅读者（reader，知识与智慧之神）----------------
+  #
+  # 两条都给（序列 9 与序列 8），与完美者同口径。
+  # ⚠️ 主材料的产出点必须在**传承城市**里、且 min_seq ≥ 配方 seq（K17 的那条校验）——
+  #    异邦人街区（foreign_quarter，min_seq 9）在 trier，而知识教会的 seats 含 trier。
+  - id: reader_9
+    pathway: reader
+    seq: 9
+    main:
+      - { itemId: 主材料·褪色书页, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·银粉, qty: 1 }
+    ritual: 把褪色书页对着光读三遍 —— 第三遍读出来的和第一遍不是同一句话
+    base_success: 0.73
+    cor_on_fail: 10
+    mad_on_fail: 6
+
+  - id: reader_8
+    pathway: reader
+    seq: 8
+    main:
+      - { itemId: 主材料·无名手稿, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+    ritual: 把无名手稿按字迹重新排一次序，排到你认得出作者为止
+    base_success: 0.62
+    cor_on_fail: 12
+    mad_on_fail: 8
+
+  # ---------------- M2.26 第三批：母亲（mother，大地母神）----------------
+  #
+  # ⚠️ 主材料与辅助材料**都必须**在传承城市（earth_mother 的 seats = backlund, byron 里的拜朗）
+  #    有 min_seq ≥ 配方 seq 的产出点 —— 这是 K17 的那条校验，不满足就跑不起来。
+  #    新生之芽在太阳神殿、沃土之核在骨市，辅助材料（圣盐 / 月长石粉）也都在拜朗城内。
+  # ---------------- M2.29 批次 A1：序列 6（7 途径）----------------
+  #
+  # ⚠️ K17 校验：主材料必须在**传承城市**、且 `min_seq >= 6`。
+  #    产出点选在 `min_seq 7` 的地点（拜朗的疫病坑那一档）—— 那是**高序列天然的门槛**：
+  #    `min_seq` 越大越难进，所以高序列配方本来就只对高序列玩家可达。
+  # seer 无教会 ⇒ 传承城市 N/A（设计边界），产出点自由选；选「雾中礼拜堂」（tingen，min_seq 7），
+  # 名字正贴「无面人」：雾里谁都看不清脸。
+  # ---------------- M2.29 批次 A2：序列 5（7 途径）----------------
+  # ⚠️ `base_success` 继续沿既有递减曲线（序列 6 是 0.55 ⇒ 序列 5 取 0.48）。
+  - id: seer_5
+    pathway: seer
+    seq: 5
+    main:
+      - { itemId: 主材料·牵线之心, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+    ritual: 把线绕在自己手腕上，另一头系在它身上，然后松手
+    base_success: 0.48
+    cor_on_fail: 16
+    mad_on_fail: 10
+
+  # ---------------- M2.39 批次 B：序列 4、3（7 途径）----------------
+  # 难度落在**材料与时间**上，不落在 planned 上（M2.36 的实测结论）：主材料产地从「每城一处」
+  # 收到更深的一层、权重减半再减半、辅料味数 1 → 2 → 3。
+  # ⚠️ seer 无教会 ⇒ 传承城市 = **所有开放它的城市**（tingen / backlund / trier / byron），
+  #    所以主材料不可能「只在另一座城」—— 那会让另外三城各报一条 K17 error。
+  #    稀有度只能压在产出点深度（min_seq）与权重／辅料味数上。
+  - id: seer_4
+    pathway: seer
+    seq: 4
+    main:
+      - { itemId: 主材料·定数之结, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+      - { itemId: 辅助材料·银粉, qty: 1 }
+    ritual: 把那个结解开，再按你想要的顺序重新打上 —— 顺序对了，它会自己收紧
+    base_success: 0.42
+    cor_on_fail: 17
+    mad_on_fail: 11
+
+  - id: seer_3
+    pathway: seer
+    seq: 3
+    main:
+      - { itemId: 主材料·命途之梭, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+      - { itemId: 辅助材料·银粉, qty: 1 }
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+    ritual: 用它把两根线织在一起，织到分不出哪一根是自己的
+    base_success: 0.36
+    cor_on_fail: 18
+    mad_on_fail: 12
+
+  - id: warrior_5
+    pathway: warrior
+    seq: 5
+    main:
+      - { itemId: 主材料·断刃残片, qty: 1 }
+    aux:
+      # ⚠️ 用银粉不用星尘粉：warrior 的传承城市含 pritz，而 pritz 的高 min_seq 地点没有星尘粉（K17 会红）。
+      - { itemId: 辅助材料·银粉, qty: 1 }
+    ritual: 用它割一下自己的手背，等血流到刃口停住
+    base_success: 0.48
+    cor_on_fail: 16
+    mad_on_fail: 10
+
+  # M2.39 批次 B：序列 4、3。辅料味数 1 → 2 → 3，全部避开 pritz 没有的星尘粉（K17）。
+  - id: warrior_4
+    pathway: warrior
+    seq: 4
+    main:
+      - { itemId: 主材料·不坠之旗, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·银粉, qty: 1 }
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+    ritual: 把旗插进土里，站到风把它吹不动的那个时刻 —— 然后松手
+    base_success: 0.42
+    cor_on_fail: 18
+    mad_on_fail: 11
+
+  - id: warrior_3
+    pathway: warrior
+    seq: 3
+    main:
+      - { itemId: 主材料·常胜之印, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·银粉, qty: 1 }
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+    ritual: 让所有看见你的人先低头 —— 谁先抬头，谁就输
+    base_success: 0.36
+    cor_on_fail: 20
+    mad_on_fail: 12
+
+  - id: sleepless_5
+    pathway: sleepless
+    seq: 5
+    main:
+      - { itemId: 主材料·彼岸之尘, qty: 1 }
+    aux:
+      # ⚠️ 同上：sleepless 的传承城市含 pritz，那里的高 min_seq 地点没有星尘粉（K17）。
+      - { itemId: 辅助材料·银粉, qty: 1 }
+    ritual: 撒一把在枕边，睡着之前数清楚它掉了几粒
+    base_success: 0.48
+    cor_on_fail: 16
+    mad_on_fail: 10
+
+  # M2.39 批次 B：序列 4、3。
+  # ⚠️ sleepless_4 的辅料写成**单条 qty: 2**（不是两条）—— 全表第一次出现 qty > 1，
+  #    语义是「同一味要两份」，与「两味各一份」不是一回事（时间预算上是同一味采两次）。
+  - id: sleepless_4
+    pathway: sleepless
+    seq: 4
+    main:
+      - { itemId: 主材料·织梦之丝, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·月长石粉, qty: 2 }
+    ritual: 把今天走过的地方在梦里再走一遍，回来的时候手里得有一件白天没拿到的东西
+    base_success: 0.42
+    cor_on_fail: 17
+    mad_on_fail: 11
+
+  - id: sleepless_3
+    pathway: sleepless
+    seq: 3
+    main:
+      - { itemId: 主材料·不熄之灯, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+      - { itemId: 辅助材料·银粉, qty: 1 }
+    ritual: 把它点在你看不见的地方，然后不回头地走出去
+    base_success: 0.36
+    cor_on_fail: 18
+    mad_on_fail: 12
+
+  - id: sailor_5
+    pathway: sailor
+    seq: 5
+    main:
+      - { itemId: 主材料·祭海之贝, qty: 1 }
+    aux:
+      # ⚠️ 同上：pritz 落点要能凑齐（K17）。
+      - { itemId: 辅助材料·银粉, qty: 1 }
+    ritual: 把一件东西放进贝壳里，然后把它扔回水里
+    base_success: 0.48
+    cor_on_fail: 16
+    mad_on_fail: 10
+
+  # M2.39 批次 B：序列 4、3。sailor 的传承城市只有 pritz 一座，三条辅料都落得住（K17）。
+  - id: sailor_4
+    pathway: sailor
+    seq: 4
+    main:
+      - { itemId: 主材料·压舱之石, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+    ritual: 把它压在最底下那一层，然后等船自己稳下来
+    base_success: 0.42
+    cor_on_fail: 17
+    mad_on_fail: 11
+
+  - id: sailor_3
+    pathway: sailor
+    seq: 3
+    main:
+      - { itemId: 主材料·怒潮之角, qty: 1 }
+    aux:
+      # ⚠️ 圣盐要**两份**：与 sleepless_4 同一种写法（同一味采两次，不是两味各一次）。
+      - { itemId: 辅助材料·圣盐, qty: 2 }
+      - { itemId: 辅助材料·银粉, qty: 1 }
+    ritual: 朝着海的方向吹一声，然后立刻把它按进水里
+    base_success: 0.38
+    cor_on_fail: 18
+    mad_on_fail: 12
+
+  - id: perfect_5
+    pathway: perfect
+    seq: 5
+    main:
+      - { itemId: 主材料·万机之心, qty: 1 }
+    aux:
+      # ⚠️ 同上：pritz 落点要能凑齐（K17）。
+      - { itemId: 辅助材料·银粉, qty: 1 }
+    ritual: 让它停 —— 停下来的那一下才算数
+    base_success: 0.48
+    cor_on_fail: 16
+    mad_on_fail: 10
+
+  # M2.39 批次 B：序列 4、3。perfect 的传承城市只有 backlund 一座。
+  - id: perfect_4
+    pathway: perfect
+    seq: 4
+    main:
+      - { itemId: 主材料·自合之匣, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+    ritual: 把所有零件摊开，闭着眼装回去 —— 装完发现多出一颗螺丝，那颗不许扔
+    base_success: 0.42
+    cor_on_fail: 18
+    mad_on_fail: 11
+
+  - id: perfect_3
+    pathway: perfect
+    seq: 3
+    main:
+      - { itemId: 主材料·不歇之摆, qty: 1 }
+    aux:
+      # ⚠️ 银粉要**两份**（同一味采两次，与 sleepless_4 / sailor_3 同一种写法）。
+      - { itemId: 辅助材料·银粉, qty: 2 }
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+    ritual: 让它转起来，然后走开；第二天回来，它还在转 —— 那就把它停下来
+    base_success: 0.36
+    cor_on_fail: 20
+    mad_on_fail: 12
+
+  - id: reader_5
+    pathway: reader
+    seq: 5
+    main:
+      - { itemId: 主材料·百科之钥, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+    ritual: 用它去开一本没有锁的书
+    base_success: 0.48
+    cor_on_fail: 16
+    mad_on_fail: 10
+
+  # M2.39 批次 B：序列 4、3。reader 的传承城市只有 trier 一座（deep_catacombs 已在其中）。
+  - id: reader_4
+    pathway: reader
+    seq: 4
+    main:
+      - { itemId: 主材料·总目之册, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+    ritual: 把抄下来的东西一件件归位，归到你不用翻就知道它在第几页
+    base_success: 0.42
+    cor_on_fail: 17
+    mad_on_fail: 11
+
+  - id: reader_3
+    pathway: reader
+    seq: 3
+    main:
+      - { itemId: 主材料·通晓之印, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·银粉, qty: 1 }
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+    ritual: 合上册子，把里面的东西从头到尾说一遍 —— 说到没有一处是你需要想的
+    base_success: 0.36
+    cor_on_fail: 18
+    mad_on_fail: 12
+
+  - id: mother_5
+    pathway: mother
+    seq: 5
+    main:
+      - { itemId: 主材料·地脉之心, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+    ritual: 把它埋进地里，等它自己跳一下
+    base_success: 0.48
+    cor_on_fail: 16
+    mad_on_fail: 10
+
+  # M2.39 批次 B：序列 4、3。mother 的传承城市只有 byron 一座（两个产出点都已在其中）。
+  - id: mother_4
+    pathway: mother
+    seq: 4
+    main:
+      - { itemId: 主材料·留种之荚, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+    ritual: 把它掰开，数清里面有几粒；数到最后一粒，把那一粒咽下去
+    base_success: 0.42
+    cor_on_fail: 18
+    mad_on_fail: 11
+
+  - id: mother_3
+    pathway: mother
+    seq: 3
+    main:
+      - { itemId: 主材料·生养之泉, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+    ritual: 在它渗出来的地方挖一个坑，把自己埋进去一半，等土凉下来
+    base_success: 0.36
+    cor_on_fail: 20
+    mad_on_fail: 12
+
+  - id: warrior_6
+    pathway: warrior
+    seq: 6
+    main:
+      - { itemId: 主材料·不折之钢, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+    ritual: 把这截钢横在膝上，坐下，直到腿麻了也不动
+    base_success: 0.55
+    cor_on_fail: 14
+    mad_on_fail: 9
+
+  - id: sleepless_6
+    pathway: sleepless
+    seq: 6
+    main:
+      - { itemId: 主材料·无梦之眠, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+    ritual: 在无光的地方把它喝下去，然后睁着眼躺一整夜
+    base_success: 0.55
+    cor_on_fail: 14
+    mad_on_fail: 9
+
+  - id: sailor_6
+    pathway: sailor
+    seq: 6
+    main:
+      - { itemId: 主材料·深海的回声, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+    ritual: 把它贴在耳朵上，听清楚里面那句话的第一个字
+    base_success: 0.55
+    cor_on_fail: 14
+    mad_on_fail: 9
+
+  - id: perfect_6
+    pathway: perfect
+    seq: 6
+    main:
+      - { itemId: 主材料·拆解之匙, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·银粉, qty: 1 }
+    ritual: 用它开一把没有锁的锁 —— 转到底的那一下就是
+    base_success: 0.55
+    cor_on_fail: 14
+    mad_on_fail: 9
+
+  - id: reader_6
+    pathway: reader
+    seq: 6
+    main:
+      - { itemId: 主材料·边注残卷, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+    ritual: 只读旁注，正文一眼都别看
+    base_success: 0.55
+    cor_on_fail: 14
+    mad_on_fail: 9
+
+  - id: mother_6
+    pathway: mother
+    seq: 6
+    main:
+      - { itemId: 主材料·常青之根, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+    ritual: 把它埋回土里，守三天，第三天早上再挖出来
+    base_success: 0.55
+    cor_on_fail: 14
+    mad_on_fail: 9
+
+  - id: seer_6
+    pathway: seer
+    seq: 6
+    main:
+      - { itemId: 主材料·无面之皮, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+    ritual: 把那张皮贴在脸上，等它自己找到你的轮廓
+    base_success: 0.55
+    cor_on_fail: 14
+    mad_on_fail: 9
+
+  # ---------------- M2.29：水手（sailor）序列 8 —— **补 M2.19 的缺口** ----------------
+  #
+  # 缺口是什么：`sailor` 原本只有 `sailor_9`，而两条晋升路径都按 `recipe.seq === character.sequence`
+  # 取配方（`promote.ts:25-27` ≡ `ritual.ts:77-79`）⇒ **序列 8 的水手两条路都拿不到配方**。
+  # 见 docs/M2.28-现状盘点.md §4.1。
+  #
+  # ⚠️ 辅助材料用**圣盐**不用银粉：M2.28 的设计稿写的是银粉，但 K17 的校验要求辅材也在
+  #    传承城市（pritz）有产出点 —— 而 `pritz_harbor` 不产银粉。以实测为准。
+  - id: sailor_8
+    pathway: sailor
+    seq: 8
+    main:
+      - { itemId: 主材料·潮汐之骨, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+    ritual: 把这截骨头含在嘴里，直到尝出海的味道为止
+    base_success: 0.62
+    cor_on_fail: 12
+    mad_on_fail: 8
+
+  - id: mother_9
+    pathway: mother
+    seq: 9
+    main:
+      - { itemId: 主材料·新生之芽, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+    ritual: 把新芽埋进一小堆土里，守着它过一夜 —— 第二天早上再挖出来看
+    base_success: 0.74
+    cor_on_fail: 10
+    mad_on_fail: 6
+
+  - id: mother_8
+    pathway: mother
+    seq: 8
+    main:
+      - { itemId: 主材料·沃土之核, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+    ritual: 把沃土之核碾开，一半撒进地里，一半自己咽下去
+    base_success: 0.61
+    cor_on_fail: 12
+    mad_on_fail: 8
+
+  # ---------------- M2.33：序列 7 的魔药（序列 7 → 6 的入场券，7 途径各一条） ----------------
+  #
+  # ⚠️ 这一批补的是一条**断链**，不是「再加一批内容」：
+  # M2.32 实测 recipes.yaml 的 seq 分布是 {5:7, 6:7, 8:7, 9:7} —— **7 一条都没有**，
+  # 而晋升取配方是 `c.seq === character.sequence`（promote.ts:25-27 ≡ ritual.ts:77-79），
+  # 所以序列 7 的玩家两条路都取不到配方 ⇒ **M2.29 交付的序列 6/5 内容没有任何玩家能碰到**。
+  #
+  # 命名口径、主材料命名依据、避让的词根：见 items.yaml 的 M2.33 段。
+  # 辅材料按 K17 选（必须在该途径的**每一座传承城市**有 min_seq ≥ 7 的产出点）：
+  #   星尘粉没有 pritz 的产出点（M2.28 在 sailor_8 上已经踩过一次）⇒ 只给不含 pritz 的途径用。
+  #
+  # 数值：现役曲线是 9 → 0.72—0.75、8 → 0.60—0.62、6 → 0.55、5 → 0.48 ⇒
+  # 这一批取 **0.57—0.58**，落在 8 与 6 之间（设计稿建议的 0.55 会与 seq 6 撞成平线）。
+  # 失败代价照 M2.24 设计稿 §5.2：**与 K7 对齐、不重新发明**（cor/mad 按档递增）。
+  - id: seer_7
+    pathway: seer
+    seq: 7
+    main:
+      - { itemId: 主材料·无面之镜, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+    ritual: 把无面之镜对着别人的脸，直到镜子里出现你自己的表情 —— 那才是你
+    base_success: 0.58
+    cor_on_fail: 13
+    mad_on_fail: 9
+
+  - id: warrior_7
+    pathway: warrior
+    seq: 7
+    main:
+      - { itemId: 主材料·断刃之心, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+    ritual: 把断刃埋进土里，三天后取出来；它还是断的，但你已经知道该怎么握了
+    base_success: 0.58
+    cor_on_fail: 13
+    mad_on_fail: 9
+
+  - id: sleepless_7
+    pathway: sleepless
+    seq: 7
+    main:
+      - { itemId: 主材料·长夜之露, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+    ritual: 在长夜里不睡，直到听见第一个醒来的声音 —— 那时候再睡
+    base_success: 0.57
+    cor_on_fail: 13
+    mad_on_fail: 9
+
+  - id: sailor_7
+    pathway: sailor
+    seq: 7
+    main:
+      - { itemId: 主材料·深潮之珠, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+    ritual: 把深潮之珠含在舌下出海；等它化了，你就知道洋流在说什么
+    base_success: 0.58
+    cor_on_fail: 13
+    mad_on_fail: 9
+
+  - id: perfect_7
+    pathway: perfect
+    seq: 7
+    main:
+      - { itemId: 主材料·机械之枢, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·银粉, qty: 1 }
+    ritual: 把轴拆下来再装回去，装到它自己找到那个角度为止 —— 手不能停
+    base_success: 0.58
+    cor_on_fail: 13
+    mad_on_fail: 9
+
+  - id: reader_7
+    pathway: reader
+    seq: 7
+    main:
+      - { itemId: 主材料·解读之墨, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+    ritual: 用这墨抄一遍你自己写的东西，抄到你能读懂它为止
+    base_success: 0.58
+    cor_on_fail: 13
+    mad_on_fail: 9
+
+  - id: mother_7
+    pathway: mother
+    seq: 7
+    main:
+      - { itemId: 主材料·牧者之铃, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+    ritual: 摇一次铃，然后往声音去的方向走 —— 走到有东西应你为止
+    base_success: 0.57
+    cor_on_fail: 13
+    mad_on_fail: 9
+
+  # ---------------- M2.12：序列 8 的魔药（序列 8 → 7 的入场券） ----------------
+  #
+  # ⚠️ 命名口径：**seer_8 是「序列 8 的魔药」**，与 seer_9 是「序列 9 的魔药」一致。
+  # 晋升命令层找的正是「与**当前序列**相同的配方」（promote.ts: recipe.seq === character.sequence），
+  # 所以「序列 8 玩家要晋升到 7」需要的是 **seq: 8** 的配方，不是 seq: 7 的。
+  # （任务书 §2.4 把这三个配方写成 seer_7 / warrior_7 / sleepless_7，那是把配方的命名
+  # 和能力的命名混了：abilities 里的 seer_7 是「序列 7 的能力」，那一条是对的。
+  # 详见 docs/M2.12-交付说明.md 的「与任务书的两处口径差」。）
+  #
+  # 主材料 ×2 的算法没变（NUMERIC.promotion.mainMaterialMultiplier，M2.5 定的）——
+  # 下面 qty 写 1，晋升时自动乘 2。
+  - id: seer_8
+    pathway: seer
+    seq: 8
+    main:
+      - { itemId: 主材料·命运之线, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+    ritual: 把命运之线浸在星尘粉里，在没有人的房间里问它一个问题 —— 它会先动，再回答
+    base_success: 0.62
+    cor_on_fail: 12
+    mad_on_fail: 8
+
+  - id: warrior_8
+    pathway: warrior
+    seq: 8
+    main:
+      - { itemId: 主材料·破晓碎片, qty: 1 }
+    aux:
+      - { itemId: 主材料·战火余烬, qty: 1 }
+    ritual: 把破晓碎片垫在还温着的余烬上，等它自己裂开 —— 不要催它
+    base_success: 0.62
+    cor_on_fail: 11
+    mad_on_fail: 9
+
+  - id: sleepless_8
+    pathway: sleepless
+    seq: 8
+    main:
+      - { itemId: 主材料·梦境之核, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+    ritual: 连续三夜不睡，在第三个夜里把梦境之核捏碎在掌心 —— 睡意会替你做完剩下的事
+    base_success: 0.6
+    cor_on_fail: 13
+    mad_on_fail: 7
+
+  # ================= M2.43 批次 C：序列 2 的配方（7 途径 × 1 档） =================
+  # 递进口径沿批次 B 的实测值再走一档：
+  #   base_success 0.42(4) → 0.36/0.38(3) → **0.30(2)**
+  #   cor_on_fail  17(4)  → 18/20(3)     → **19(2)**    mad_on_fail 11(4) → 12(3) → **13(2)**
+  #   辅料味数     2(4)   → 3/2(3)       → **4(2)**（四味辅料全用上，每途径按自己的轴排）
+  # ⚠️ 主材料是本档唯一的新物品（每途径 1 个），落点是 locations.yaml 里 min_seq: 2 的那 7 个新地点。
+
+  - id: seer_2
+    pathway: seer
+    seq: 2
+    main:
+      - { itemId: 主材料·既视之环, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+      - { itemId: 辅助材料·银粉, qty: 1 }
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+    ritual: 把环扣上，让「已经发生过」和「还没发生」对上一次表
+    base_success: 0.3
+    cor_on_fail: 19
+    mad_on_fail: 13
+
+  - id: warrior_2
+    pathway: warrior
+    seq: 2
+    main:
+      - { itemId: 主材料·陷阵之甲, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·银粉, qty: 1 }
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+    ritual: 披上它站到最前面 —— 阵线是从你这里算起的
+    base_success: 0.3
+    cor_on_fail: 19
+    mad_on_fail: 13
+
+  - id: sleepless_2
+    pathway: sleepless
+    seq: 2
+    main:
+      - { itemId: 主材料·永夜之幕, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+      - { itemId: 辅助材料·银粉, qty: 1 }
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+    ritual: 用它把天遮上，遮到你自己也分不清这是第几个夜
+    base_success: 0.3
+    cor_on_fail: 19
+    mad_on_fail: 13
+
+  - id: sailor_2
+    pathway: sailor
+    seq: 2
+    main:
+      - { itemId: 主材料·操舵之盘, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+      - { itemId: 辅助材料·银粉, qty: 1 }
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+    ritual: 把舵盘装上，然后松开手 —— 它会自己找那条最稳的线
+    base_success: 0.3
+    cor_on_fail: 19
+    mad_on_fail: 13
+
+  - id: perfect_2
+    pathway: perfect
+    seq: 2
+    main:
+      - { itemId: 主材料·永动之轮, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·银粉, qty: 1 }
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+    ritual: 让它转起来，再把它固定住；这两件事必须同时完成
+    base_success: 0.3
+    cor_on_fail: 19
+    mad_on_fail: 13
+
+  - id: reader_2
+    pathway: reader
+    seq: 2
+    main:
+      - { itemId: 主材料·全知之页, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·银粉, qty: 1 }
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+    ritual: 读到最后一页，然后把前面读过的全部忘掉
+    base_success: 0.3
+    cor_on_fail: 19
+    mad_on_fail: 13
+
+  - id: mother_2
+    pathway: mother
+    seq: 2
+    main:
+      - { itemId: 主材料·轮回之种, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·圣盐, qty: 1 }
+      - { itemId: 辅助材料·星尘粉, qty: 1 }
+      - { itemId: 辅助材料·银粉, qty: 1 }
+      - { itemId: 辅助材料·月长石粉, qty: 1 }
+    ritual: 埋下去，等它长出第二颗 —— 那一颗才是你要的
+    base_success: 0.3
+    cor_on_fail: 19
+    mad_on_fail: 13
+
+  # ============================================================================
+  # M2.76：15 条新途径的魔药配方（序列 9—2，共 120 条）
+  #
+  # 来源：诡秘之主原作数据/02-魔药与配方/配方全表.yaml（阅文官方 API 330 个序列配方 +
+  # 萌娘百科交叉核对，00-索引/交叉校验-官方配方.md 记着 184 格逐字相同）。
+  # 魔药名 / 主材料 / 辅助材料**逐字取自原著**，未做改写。
+  #
+  # 数值口径（数据集没有给，按现有 7 条途径的量级推）：
+  #   base_success = 0.75 − (9 − seq) × 0.02   → 序列 9 是 0.75，序列 2 是 0.61
+  #   cor_on_fail  = 10 + (9 − seq)
+  #   mad_on_fail  =  6 + (9 − seq)
+  # 即「越往上越难、代价越大」，与 README 的高序列口径一致。
+  # ============================================================================
+
+  # ---- 门（door）----
+  - id: door_9
+    pathway: door
+    seq: 9
+    # 原著魔药名：学徒（Apprentice）
+    main:
+      - { itemId: 主材料·噬宝石虫, qty: 1 }
+      - { itemId: 主材料·幻象晶石, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·羊须草纯露, qty: 1 }
+      - { itemId: 辅助材料·古井之水, qty: 1 }
+      - { itemId: 辅助材料·从尸体上长出的任意花朵一朵, qty: 1 }
+      - { itemId: 辅助材料·被灵界生物污染的泥土, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.75
+    cor_on_fail: 10
+    mad_on_fail: 6
+  - id: door_8
+    pathway: door
+    seq: 8
+    # 原著魔药名：戏法大师（Trickmaster）
+    main:
+      - { itemId: 主材料·食灵者的胃袋, qty: 1 }
+      - { itemId: 主材料·深海枪鱼的血液, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·鹅耳枥制作的精油, qty: 1 }
+      - { itemId: 辅助材料·线球草粉末, qty: 1 }
+      - { itemId: 辅助材料·盛开的红栗花一朵, qty: 1 }
+      - { itemId: 辅助材料·纯水, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.73
+    cor_on_fail: 11
+    mad_on_fail: 7
+  - id: door_7
+    pathway: door
+    seq: 7
+    # 原著魔药名：占星人（Astrologer）
+    main:
+      - { itemId: 主材料·拉瓦章鱼的血液结晶, qty: 1 }
+      - { itemId: 主材料·陨星水晶, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·铁线莲粉末, qty: 1 }
+      - { itemId: 辅助材料·枯萎的葡萄藤一截, qty: 1 }
+      - { itemId: 辅助材料·任意一种章鱼的眼球一对, qty: 1 }
+      - { itemId: 辅助材料·烈酒, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.71
+    cor_on_fail: 12
+    mad_on_fail: 8
+  - id: door_6
+    pathway: door
+    seq: 6
+    # 原著魔药名：记录官（Scribe）
+    main:
+      - { itemId: 主材料·完整的阿斯曼之脑一个, qty: 1 }
+      - { itemId: 主材料·古老怨灵的诅咒物, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·超过二十二年历史的日记三页, qty: 1 }
+      - { itemId: 辅助材料·水银, qty: 1 }
+      - { itemId: 辅助材料·忍冬精油, qty: 1 }
+      - { itemId: 辅助材料·海水、湖水、冰川水各, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.69
+    cor_on_fail: 13
+    mad_on_fail: 9
+  - id: door_5
+    pathway: door
+    seq: 5
+    # 原著魔药名：旅行家（Traveler）
+    main:
+      - { itemId: 主材料·西斯库恩魔虫一条, qty: 1 }
+      - { itemId: 主材料·无影魔狼的心脏一颗, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·被困鬼魂残留的粉末, qty: 1 }
+      - { itemId: 辅助材料·香蜂草粉末, qty: 1 }
+      - { itemId: 辅助材料·用灵性血液绘制的星图一副, qty: 1 }
+      - { itemId: 辅助材料·无影魔狼的血液, qty: 1 }
+    ritual: '于灵界深处四个完全不同，相隔很远的地方设立特殊坐标'
+    base_success: 0.67
+    cor_on_fail: 14
+    mad_on_fail: 10
+  - id: door_4
+    pathway: door
+    seq: 4
+    # 原著魔药名：秘法师（Secrets Sorcerer）
+    main:
+      - { itemId: 主材料·金色不死鸟的眼睛（或者西斯库恩魔虫首领一条，安卡之门的基座）, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·西斯库恩魔虫的巢穴, qty: 1 }
+      - { itemId: 辅助材料·安卡之门的余烬（前两样可以用金色不死鸟的羽毛代替）, qty: 1 }
+      - { itemId: 辅助材料·胡桃一颗, qty: 1 }
+      - { itemId: 辅助材料·刚映照过星空的湖水, qty: 1 }
+    ritual: '封印一个半神层次的，有明确敌意的生物，越不借助外力，仪式效果越好'
+    base_success: 0.65
+    cor_on_fail: 15
+    mad_on_fail: 11
+  - id: door_3
+    pathway: door
+    seq: 3
+    # 原著魔药名：漫游者（Wanderer）
+    main:
+      - { itemId: 主材料·游荡之皮, qty: 1 }
+      - { itemId: 主材料·迷雾窥探者遗留的结晶, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·游荡之皮的脓液, qty: 1 }
+      - { itemId: 辅助材料·迷雾窥探者的眼皮, qty: 1 }
+      - { itemId: 辅助材料·白芥子9粒, qty: 1 }
+      - { itemId: 辅助材料·源于仪式场地的星之水, qty: 1 }
+    ritual: '找到三种投射于灵界的星界信息，进入它们衍生出来的危险场景，切实地全部记录下来，不能遗忘'
+    base_success: 0.63
+    cor_on_fail: 16
+    mad_on_fail: 12
+  - id: door_2
+    pathway: door
+    seq: 2
+    # 原著魔药名：旅法师（Planeswalker）
+    main:
+      - { itemId: 主材料·活化的虚空, qty: 1 }
+      - { itemId: 主材料·异度捕猎者的大脑（或者紫色不死鸟的眼睛）, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·星之虫一条, qty: 1 }
+      - { itemId: 辅助材料·时之虫一条, qty: 1 }
+      - { itemId: 辅助材料·灵体之虫一条, qty: 1 }
+    ritual: '在这个星球外的九个地方留下传说'
+    base_success: 0.61
+    cor_on_fail: 17
+    mad_on_fail: 13
+
+  # ---- 太阳（sun）----
+  - id: sun_9
+    pathway: sun
+    seq: 9
+    # 原著魔药名：歌颂者（Bard）
+    main:
+      - { itemId: 主材料·结晶太阳花一朵/一只成年火石鸟的尾羽/纵火鸟的尾羽, qty: 1 }
+      - { itemId: 主材料·海妖之石一块/歌唱葵一朵, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·红葡萄酒, qty: 1 }
+      - { itemId: 辅助材料·仲夏草一根, qty: 1 }
+      - { itemId: 辅助材料·七月酒汁液五滴, qty: 1 }
+      - { itemId: 辅助材料·精灵暗叶一片, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.75
+    cor_on_fail: 10
+    mad_on_fail: 6
+  - id: sun_8
+    pathway: sun
+    seq: 8
+    # 原著魔药名：祈光人（Light Supplicant）
+    main:
+      - { itemId: 主材料·光辉石一块/炽白之魂的粉末, qty: 1 }
+      - { itemId: 主材料·镜猬的血液/熔浆巨怪之心, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·红葡萄酒, qty: 1 }
+      - { itemId: 辅助材料·金边太阳花一朵, qty: 1 }
+      - { itemId: 辅助材料·附子汁液三滴, qty: 1 }
+      - { itemId: 辅助材料·来自太阳信仰的物品一件, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.73
+    cor_on_fail: 11
+    mad_on_fail: 7
+  - id: sun_7
+    pathway: sun
+    seq: 7
+    # 原著魔药名：太阳神官（Solar High Priest）
+    main:
+      - { itemId: 主材料·黎明雄鸡的红冠一朵, qty: 1 }
+      - { itemId: 主材料·光辉契灵树的果实一枚, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·黎明雄鸡的血, qty: 1 }
+      - { itemId: 辅助材料·“太阳”精油, qty: 1 }
+      - { itemId: 辅助材料·金手柑粉末, qty: 1 }
+      - { itemId: 辅助材料·凝固的熔浆, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.71
+    cor_on_fail: 12
+    mad_on_fail: 8
+  - id: sun_6
+    pathway: sun
+    seq: 6
+    # 原著魔药名：公证人（Notary）
+    main:
+      - { itemId: 主材料·长者之树的根茎结晶, qty: 1 }
+      - { itemId: 主材料·契灵鸟的尾羽, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·光辉契灵树的汁液, qty: 1 }
+      - { itemId: 辅助材料·金边太阳花一朵, qty: 1 }
+      - { itemId: 辅助材料·白边太阳花一朵, qty: 1 }
+      - { itemId: 辅助材料·水蕨汁液, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.69
+    cor_on_fail: 13
+    mad_on_fail: 9
+  - id: sun_5
+    pathway: sun
+    seq: 5
+    # 原著魔药名：光之祭司（Priest of Light）
+    main:
+      - { itemId: 主材料·黎明雄鸡之王的红冠, qty: 1 }
+      - { itemId: 主材料·纯白光辉石一块, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·迷迭香, qty: 1 }
+      - { itemId: 辅助材料·金手柑汁液, qty: 1 }
+      - { itemId: 辅助材料·岩水, qty: 1 }
+      - { itemId: 辅助材料·黎明雄鸡之王的血液, qty: 1 }
+    ritual: '在纯粹的黑暗中，将全身埋入正常不会融化的冰块里，然后服食魔药'
+    base_success: 0.67
+    cor_on_fail: 14
+    mad_on_fail: 10
+  - id: sun_4
+    pathway: sun
+    seq: 4
+    # 原著魔药名：无暗者（Unshadowed）
+    main:
+      - { itemId: 主材料·“太阳”神血一滴，或成年太阳神鸟的三根尾羽加上神圣光辉石一块, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·太阳神鸟的血液, qty: 1 }
+      - { itemId: 辅助材料·神圣光辉石伴生液, qty: 1 }
+      - { itemId: 辅助材料·变异金手柑汁液, qty: 1 }
+      - { itemId: 辅助材料·岩浆之心粉末, qty: 1 }
+    ritual: '将最强烈最不愿意舍弃的情感剥离出来，然后服食魔药，并在过程中回输这些情感'
+    base_success: 0.65
+    cor_on_fail: 15
+    mad_on_fail: 11
+  - id: sun_3
+    pathway: sun
+    seq: 3
+    # 原著魔药名：正义导师（Justice Mentor）
+    main:
+      - { itemId: 主材料·炽光巨人的脑袋，或者太阳神鸟之王的深黑尾羽+万物礼赞者的雄蕊——外形是巨花的怪物, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·炽光巨人的血液, qty: 1 }
+      - { itemId: 辅助材料·万物礼赞者的花瓣, qty: 1 }
+      - { itemId: 辅助材料·记录自身正义的笔记一份, qty: 1 }
+      - { itemId: 辅助材料·清晨、中午、傍晚的阳光各一缕（想到办法搜集）, qty: 1 }
+    ritual: '明确自己的正义是什么，并践行这种正义三年，中途不能有丝毫违背，不能做任何与该正义有冲突的事情'
+    base_success: 0.63
+    cor_on_fail: 16
+    mad_on_fail: 12
+  - id: sun_2
+    pathway: sun
+    seq: 2
+    # 原著魔药名：逐光者（Lightseeker）
+    main:
+      - { itemId: 主材料·炽光巨人首领的心脏或“逐光者”非凡特性, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·炽光巨人首领的眼珠一对, qty: 1 }
+      - { itemId: 辅助材料·血液300毫升（这两样可用“逐光者”的部位取代）, qty: 1 }
+      - { itemId: 辅助材料·自身虔诚抄录的赞美太阳的典籍一册, qty: 1 }
+      - { itemId: 辅助材料·堕落的神职者血液9种, qty: 1 }
+    ritual: '找到一件至少天使位格、与神秘学“太阳”有密切联系的物品，想办法将自身核心正义紧密相关的、最重要的那段记忆与它捆绑在一起，放置在身前——这能为服下“逐光者”魔药的非凡者提供一个道标，帮助他们在“逐光”或“逐日”过程中不迷失方向，不混乱意识，提升他们坚持下去的信念，以此撑到魔药完成改造'
+    base_success: 0.61
+    cor_on_fail: 17
+    mad_on_fail: 13
+
+  # ---- 死神（corpse_collector）----
+  - id: corpse_collector_9
+    pathway: corpse_collector
+    seq: 9
+    # 原著魔药名：收尸人（Corpse Collector）
+    main:
+      - { itemId: 主材料·风干的成年黑斑青蛙, qty: 1 }
+      - { itemId: 主材料·布套人的结晶, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·反复蒸馏提纯过的烈酒, qty: 1 }
+      - { itemId: 辅助材料·黑斑青蛙的黏液, qty: 1 }
+      - { itemId: 辅助材料·黑色百合花的纯露, qty: 1 }
+      - { itemId: 辅助材料·使用过的裹尸袋一个, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.75
+    cor_on_fail: 10
+    mad_on_fail: 6
+  - id: corpse_collector_8
+    pathway: corpse_collector
+    seq: 8
+    # 原著魔药名：掘墓人（Gravedigger）
+    main:
+      - { itemId: 主材料·告死乌鸦的眼珠, qty: 1 }
+      - { itemId: 主材料·墓园血玫瑰一朵, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·纯酒精, qty: 1 }
+      - { itemId: 辅助材料·告死乌鸦的羽毛三根, qty: 1 }
+      - { itemId: 辅助材料·墓园血玫瑰的叶子五片, qty: 1 }
+      - { itemId: 辅助材料·尸香精油, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.73
+    cor_on_fail: 11
+    mad_on_fail: 7
+  - id: corpse_collector_7
+    pathway: corpse_collector
+    seq: 7
+    # 原著魔药名：通灵者（Spirit Medium）
+    main:
+      - { itemId: 主材料·幽灵怪猫的前爪, qty: 1 }
+      - { itemId: 主材料·灵界水晶的一块, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·幽灵怪猫的血液, qty: 1 }
+      - { itemId: 辅助材料·被灵界水晶污染的泥土, qty: 1 }
+      - { itemId: 辅助材料·死于恶灵附身之人的脑浆, qty: 1 }
+      - { itemId: 辅助材料·自然灵祝福过的叶子一片, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.71
+    cor_on_fail: 12
+    mad_on_fail: 8
+  - id: corpse_collector_6
+    pathway: corpse_collector
+    seq: 6
+    # 原著魔药名：死灵导师（Spirit Guide）
+    main:
+      - { itemId: 主材料·死亡之影, qty: 1 }
+      - { itemId: 主材料·苍白巫妖的魂体, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·亡者的腐烂液体, qty: 1 }
+      - { itemId: 辅助材料·苍白巫妖的碎骨, qty: 1 }
+      - { itemId: 辅助材料·死亡之影寄居之物, qty: 1 }
+      - { itemId: 辅助材料·徘徊的幽灵一个, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.69
+    cor_on_fail: 13
+    mad_on_fail: 9
+  - id: corpse_collector_5
+    pathway: corpse_collector
+    seq: 5
+    # 原著魔药名：看门人（Gatekeeper）
+    main:
+      - { itemId: 主材料·冥界巡游者的颅骨, qty: 1 }
+      - { itemId: 主材料·万臂幽魂遗留的晶核, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·被死亡气息侵染的水液, qty: 1 }
+      - { itemId: 辅助材料·冥界巡游者的烂肉一块, qty: 1 }
+      - { itemId: 辅助材料·万臂幽魂残存的粉末, qty: 1 }
+      - { itemId: 辅助材料·深红彼岸花精油, qty: 1 }
+    ritual: '找到外溢的冥界气息，接触并活下来。'
+    base_success: 0.67
+    cor_on_fail: 14
+    mad_on_fail: 10
+  - id: corpse_collector_4
+    pathway: corpse_collector
+    seq: 4
+    # 原著魔药名：不死者（Undying）
+    main:
+      - { itemId: 主材料·腐烂羽蛇的胆囊, qty: 1 }
+      - { itemId: 主材料·永生之蝉的遗蜕, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·腐烂羽蛇的体液, qty: 1 }
+      - { itemId: 辅助材料·永生之蝉栖息之树的树皮, qty: 1 }
+      - { itemId: 辅助材料·永暗石一个, qty: 1 }
+      - { itemId: 辅助材料·苍白彼岸花一朵, qty: 1 }
+    ritual: '寻找受到死亡侵染的地下河，于河畔完成一场真正的葬礼，将自己和魔药共同埋葬在河畔六十天，六十天后若未能存活且保持一定的理智，则仪式失败。（此仪式若是失败，必然诞生危险的“尸王”）'
+    base_success: 0.65
+    cor_on_fail: 15
+    mad_on_fail: 11
+  - id: corpse_collector_3
+    pathway: corpse_collector
+    seq: 3
+    # 原著魔药名：摆渡人（Ferryman）
+    main:
+      - { itemId: 主材料·冥河仆役的脓液之核或者成年羽蛇的大脑, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·自身的血液, qty: 1 }
+      - { itemId: 辅助材料·冥河仆役的脓液9滴或者成年羽蛇的羽毛, qty: 1 }
+      - { itemId: 辅助材料·来自冥界深处的亡灵一个, qty: 1 }
+      - { itemId: 辅助材料·开在自身腐烂血肉上的花朵一朵, qty: 1 }
+    ritual: '走入自己召唤的冥界之门，在里面死去的同时服食魔药。'
+    base_success: 0.63
+    cor_on_fail: 16
+    mad_on_fail: 12
+  - id: corpse_collector_2
+    pathway: corpse_collector
+    seq: 2
+    # 原著魔药名：死亡执政官（Death Consul）
+    main:
+      - { itemId: 主材料·古老羽蛇的头骨或者某位死亡执政官的非凡特性, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·古老羽蛇的体液, qty: 1 }
+      - { itemId: 辅助材料·曾经埋葬过自己的棺柩一副, qty: 1 }
+      - { itemId: 辅助材料·象征过王权的冠冕一顶, qty: 1 }
+      - { itemId: 辅助材料·冥界深处的苍白之物一个, qty: 1 }
+    ritual: '成为冥界其中一层的主宰或是将一个国度完全变成亡灵的世界，并将冥界之门固定在这个世界中。'
+    base_success: 0.61
+    cor_on_fail: 17
+    mad_on_fail: 13
+
+  # ---- 错误（error）----
+  - id: error_9
+    pathway: error
+    seq: 9
+    # 原著魔药名：偷盗者（Marauder）
+    main:
+      - { itemId: 主材料·血斑黑蚊一只, qty: 1 }
+      - { itemId: 主材料·食烛之灵的核心, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·他人之血, qty: 1 }
+      - { itemId: 辅助材料·来源于不同人的指甲碎片九个, qty: 1 }
+      - { itemId: 辅助材料·蓝宝石一颗, qty: 1 }
+      - { itemId: 辅助材料·马鞭草粉末, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.75
+    cor_on_fail: 10
+    mad_on_fail: 6
+  - id: error_8
+    pathway: error
+    seq: 8
+    # 原著魔药名：诈骗师（Swindler）
+    main:
+      - { itemId: 主材料·人面笼草一朵, qty: 1 }
+      - { itemId: 主材料·迷魂虫群的幼虫一条, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·纯水, qty: 1 }
+      - { itemId: 辅助材料·他人眼泪, qty: 1 }
+      - { itemId: 辅助材料·青金石一颗, qty: 1 }
+      - { itemId: 辅助材料·白栗香膏, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.73
+    cor_on_fail: 11
+    mad_on_fail: 7
+  - id: error_7
+    pathway: error
+    seq: 7
+    # 原著魔药名：解密学者（Cryptologist）
+    main:
+      - { itemId: 主材料·狮身人的大脑, qty: 1 }
+      - { itemId: 主材料·迷魂虫群的成虫一条, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·狮身人的血液, qty: 1 }
+      - { itemId: 辅助材料·迷魂虫群遗留的黏液, qty: 1 }
+      - { itemId: 辅助材料·月长石一颗, qty: 1 }
+      - { itemId: 辅助材料·野玫瑰一朵, qty: 1 }
+      - { itemId: 辅助材料·自身设计的密码一套（写于纸上）, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.71
+    cor_on_fail: 12
+    mad_on_fail: 8
+  - id: error_6
+    pathway: error
+    seq: 6
+    # 原著魔药名：盗火人（Prometheus）
+    main:
+      - { itemId: 主材料·水晶线虫一条, qty: 1 }
+      - { itemId: 主材料·披袍幽魂的附着物, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·刚偷来的美酒, qty: 1 }
+      - { itemId: 辅助材料·披袍幽魂的残留粉末, qty: 1 }
+      - { itemId: 辅助材料·黄水晶一颗, qty: 1 }
+      - { itemId: 辅助材料·落叶松精油, qty: 1 }
+      - { itemId: 辅助材料·火种一个, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.69
+    cor_on_fail: 13
+    mad_on_fail: 9
+  - id: error_5
+    pathway: error
+    seq: 5
+    # 原著魔药名：窃梦者（Dream Stealer）
+    main:
+      - { itemId: 主材料·食梦鼠的心脏一颗, qty: 1 }
+      - { itemId: 主材料·堕落之气的灵, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·食梦鼠的血液, qty: 1 }
+      - { itemId: 辅助材料·失去灵性的堕落之气, qty: 1 }
+      - { itemId: 辅助材料·天青石一颗, qty: 1 }
+      - { itemId: 辅助材料·薰衣草纯露, qty: 1 }
+      - { itemId: 辅助材料·因理想破碎而流下的他人眼泪, qty: 1 }
+    ritual: '在至少三十个人无意识的梦里成为重要配角或主要反派，这些梦持续多少天并不重要，重要的是服食魔药时，它们都正在发生'
+    base_success: 0.67
+    cor_on_fail: 14
+    mad_on_fail: 10
+  - id: error_4
+    pathway: error
+    seq: 4
+    # 原著魔药名：寄生者（Parasite）
+    main:
+      - { itemId: 主材料·夺魂怪死后的结晶, qty: 1 }
+      - { itemId: 主材料·傀儡邪虫一条, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·夺魂怪的血液, qty: 1 }
+      - { itemId: 辅助材料·傀儡邪虫的分泌物, qty: 1 }
+      - { itemId: 辅助材料·紫水晶一枚, qty: 1 }
+      - { itemId: 辅助材料·樱桃李汁液, qty: 1 }
+      - { itemId: 辅助材料·被囚禁的灵魂一个, qty: 1 }
+    ritual: '选择一个目标，让他、她、它或祂心甘情愿地供养你，奉献自身的所有给你，重复这样的事情，直到第九次'
+    base_success: 0.65
+    cor_on_fail: 15
+    mad_on_fail: 11
+  - id: error_3
+    pathway: error
+    seq: 3
+    # 原著魔药名：欺瞒导师（Mentor of Deceit）
+    main:
+      - { itemId: 主材料·沼泽巨人的双掌, qty: 1 }
+      - { itemId: 主材料·亵渎祭司的核心, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·沼泽巨人的血液, qty: 1 }
+      - { itemId: 辅助材料·亵渎祭司的菌毯, qty: 1 }
+      - { itemId: 辅助材料·黄金, qty: 1 }
+      - { itemId: 辅助材料·水堇纯露, qty: 1 }
+      - { itemId: 辅助材料·因晋升者误导而死去的九个灵界怨灵, qty: 1 }
+    ritual: '不使用暴力，找到并利用规则的漏洞，让一片区域的秩序暂时瓦解（注：区域大小不低于一个乡村，也就是能在灵界形成一个整体投影的最小实体）'
+    base_success: 0.63
+    cor_on_fail: 16
+    mad_on_fail: 12
+  - id: error_2
+    pathway: error
+    seq: 2
+    # 原著魔药名：命运木马（Trojan Horse of Destiny）
+    main:
+      - { itemId: 主材料·王庭祭祀死后的结晶（注，王庭指巨人王庭），或者夺魂怪之王的竖眼，或者别的“命运木马”的非凡特性, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·古老之河的河水, qty: 1 }
+      - { itemId: 辅助材料·灵之虫一条, qty: 1 }
+      - { itemId: 辅助材料·星之虫一条, qty: 1 }
+      - { itemId: 辅助材料·大量被认为是真实的虚假历史（记录在纸上）, qty: 1 }
+    ritual: '通过伪装、欺骗等不涉及超凡力量的办法成为另外一个人，并以此取得对方相应社会关系的信任，直至该身份自然死亡（注：顶替濒死者或三年内会死去的人，仪式无效；顶替的目标位格越高，仪式所需维持的时间越短——最短半年，无需维持到身份自然死亡。）'
+    base_success: 0.61
+    cor_on_fail: 17
+    mad_on_fail: 13
+
+  # ---- 隐者（mystery_pryer）----
+  - id: mystery_pryer_9
+    pathway: mystery_pryer
+    seq: 9
+    # 原著魔药名：窥秘人（Mystery Pryer）
+    main:
+      - { itemId: 主材料·噩梦邪眼的角膜, qty: 1 }
+      - { itemId: 主材料·受诅水晶, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·噩梦邪眼的脓液, qty: 1 }
+      - { itemId: 辅助材料·受诅水晶的伴生物, qty: 1 }
+      - { itemId: 辅助材料·记载他人秘密的纸1张, qty: 1 }
+      - { itemId: 辅助材料·迷迭香精油, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.75
+    cor_on_fail: 10
+    mad_on_fail: 6
+  - id: mystery_pryer_8
+    pathway: mystery_pryer
+    seq: 8
+    # 原著魔药名：格斗学者（Melee Scholar）
+    main:
+      - { itemId: 主材料·铁臂兽人（可能是不同种族的野兽变化而来，共同点是前臂粗壮，仿佛铁铸）的脊椎, qty: 1 }
+      - { itemId: 主材料·四眼绿龟的心脏, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·铁臂兽人的血液, qty: 1 }
+      - { itemId: 辅助材料·四眼绿龟的背壳粉末, qty: 1 }
+      - { itemId: 辅助材料·尖利指甲, qty: 1 }
+      - { itemId: 辅助材料·捕蝇花汁液, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.73
+    cor_on_fail: 11
+    mad_on_fail: 7
+  - id: mystery_pryer_7
+    pathway: mystery_pryer
+    seq: 7
+    # 原著魔药名：巫师（Warlock）
+    main:
+      - { itemId: 主材料·鹿头兽人的角, qty: 1 }
+      - { itemId: 主材料·灰鸟祖母的眼珠, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·鹿头兽人的血液, qty: 1 }
+      - { itemId: 辅助材料·灰鸟祖母的羽毛, qty: 1 }
+      - { itemId: 辅助材料·逝者的眼睛, qty: 1 }
+      - { itemId: 辅助材料·前代巫师笔记, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.71
+    cor_on_fail: 12
+    mad_on_fail: 8
+  - id: mystery_pryer_6
+    pathway: mystery_pryer
+    seq: 6
+    # 原著魔药名：卷轴教授（Scrolls Professor）
+    main:
+      - { itemId: 主材料·树人祭司的树心, qty: 1 }
+      - { itemId: 主材料·纸妖的虚幻之眼, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·树人祭司的汁液, qty: 1 }
+      - { itemId: 辅助材料·纸妖的灰烬, qty: 1 }
+      - { itemId: 辅助材料·序列高于“卷轴教授”者所制卷轴1张, qty: 1 }
+      - { itemId: 辅助材料·纸根草纯露, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.69
+    cor_on_fail: 13
+    mad_on_fail: 9
+  - id: mystery_pryer_5
+    pathway: mystery_pryer
+    seq: 5
+    # 原著魔药名：星象师（Constellations Master）
+    main:
+      - { itemId: 主材料·星纹邪怪的大脑, qty: 1 }
+      - { itemId: 主材料·命运水晶, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·星纹邪怪的脓水, qty: 1 }
+      - { itemId: 辅助材料·命运水晶的污染物, qty: 1 }
+      - { itemId: 辅助材料·较完整星图, qty: 1 }
+      - { itemId: 辅助材料·颂星花精油, qty: 1 }
+    ritual: '选择、观察并绘制一个星座的全幅图景，还原它真实的模样，并掌握与此对应的全部神秘学知识。'
+    base_success: 0.67
+    cor_on_fail: 14
+    mad_on_fail: 10
+  - id: mystery_pryer_4
+    pathway: mystery_pryer
+    seq: 4
+    # 原著魔药名：神秘学家（Mysticologist）
+    main:
+      - { itemId: 主材料·秘法妖精的头皮, qty: 1 }
+      - { itemId: 主材料·邪神之眼的瞳仁, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·秘法妖精的眼泪, qty: 1 }
+      - { itemId: 辅助材料·邪神之眼的灰液, qty: 1 }
+      - { itemId: 辅助材料·涉及神秘学事件的遗迹之物1件, qty: 1 }
+      - { itemId: 辅助材料·自身所创的巫师秘药1份（任何效果都可以）, qty: 1 }
+    ritual: '需要完全解析一滴神话生物的血液，从中获得复杂而庞大的知识，这属于仪式的一部分，而因为采用的神话生物血液不同，一旦成功，他们在‘神秘学家’这个阶段的擅长也会有一定的不同。'
+    base_success: 0.65
+    cor_on_fail: 15
+    mad_on_fail: 11
+  - id: mystery_pryer_3
+    pathway: mystery_pryer
+    seq: 3
+    # 原著魔药名：预言大师（Clairvoyant）
+    main:
+      - { itemId: 主材料·“星空仰望者”的眼珠（外在是畸形的、眼睛凸出成柱的鱼类）, qty: 1 }
+      - { itemId: 主材料·树人大祭司的星屑外皮, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·树人大祭司的汁液, qty: 1 }
+      - { itemId: 辅助材料·“星空仰望者”的脑液, qty: 1 }
+      - { itemId: 辅助材料·正确率高于错误率的预言集1本, qty: 1 }
+      - { itemId: 辅助材料·命运异常者的头发9根（每根的来源都不同）, qty: 1 }
+    ritual: '搜集庞杂的信息，通过分析、推断和占卜，“预言”三年后将发生的某一件事情（必须是涉及半神的），并最终见证它的实现，整个过程中，不能依赖外力，也不能直接推动事情的发生，只能间接引导。'
+    base_success: 0.63
+    cor_on_fail: 16
+    mad_on_fail: 12
+  - id: mystery_pryer_2
+    pathway: mystery_pryer
+    seq: 2
+    # 原著魔药名：贤者（Sage）
+    main:
+      - { itemId: 主材料·“贤者”非凡特性1份或者（“幻想古妖”的结晶，“头脑漫游者”的触须）, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·“幻想古妖”的血液130毫升/“贤者”的血液, qty: 1 }
+      - { itemId: 辅助材料·“头脑漫游者”的虚质光点9个/信息洪流遗留光点, qty: 1 }
+      - { itemId: 辅助材料·流传范围很广、称颂自身事迹的歌谣, qty: 1 }
+      - { itemId: 辅助材料·汇聚上万真诚祝福的物品, qty: 1 }
+    ritual: '阻止一场涉及高层次力量的灾难。仪式本质是需要与该行为产生的灵界信息建立起某种联系，这样的信息有鲜明的烙印以及涉及很高层次而显得异常坚固，短时间内不会被其余信息冲散，帮助晋升者初步稳定住自身的意识，一点点收拢起发散淡化的本体信息洪流。'
+    base_success: 0.61
+    cor_on_fail: 17
+    mad_on_fail: 13
+
+  # ---- 空想家（spectator）----
+  - id: spectator_9
+    pathway: spectator
+    seq: 9
+    # 原著魔药名：观众（Spectator）
+    main:
+      - { itemId: 主材料·一对成年曼哈尔鱼的眼睛, qty: 1 }
+      - { itemId: 主材料·羊角黑鱼的血液, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·纯水, qty: 1 }
+      - { itemId: 辅助材料·秋水仙精华, qty: 1 }
+      - { itemId: 辅助材料·牛齿芍药粉末, qty: 1 }
+      - { itemId: 辅助材料·瓣精灵花, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.75
+    cor_on_fail: 10
+    mad_on_fail: 6
+  - id: spectator_8
+    pathway: spectator
+    seq: 8
+    # 原著魔药名：读心者（Telepathist）
+    main:
+      - { itemId: 主材料·成年七彩蜥龙的完整脑垂体, qty: 1 }
+      - { itemId: 主材料·法尔斯曼兔的脊髓液, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·栗树芽孢, qty: 1 }
+      - { itemId: 辅助材料·龙牙草粉末, qty: 1 }
+      - { itemId: 辅助材料·纯白精灵花3瓣, qty: 1 }
+      - { itemId: 辅助材料·纯水, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.73
+    cor_on_fail: 11
+    mad_on_fail: 7
+  - id: spectator_7
+    pathway: spectator
+    seq: 7
+    # 原著魔药名：心理医生（Psychiatrist）
+    main:
+      - { itemId: 主材料·镜龙的眼睛一对, qty: 1 }
+      - { itemId: 主材料·长者之树的果实, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·镜龙血液, qty: 1 }
+      - { itemId: 辅助材料·长者之树的树皮粉末, qty: 1 }
+      - { itemId: 辅助材料·毛地黄（又名狐狸手套）精油, qty: 1 }
+      - { itemId: 辅助材料·婴儿胎毛, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.71
+    cor_on_fail: 12
+    mad_on_fail: 8
+  - id: spectator_6
+    pathway: spectator
+    seq: 6
+    # 原著魔药名：催眠师（Hypnotist）
+    main:
+      - { itemId: 主材料·黑狩巨蜥的脊髓液60毫升和迷幻风铃树的果实一颗，或青年心灵巨龙的完整脑垂体, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·青年心灵巨龙的血液80毫升（或者黑狩巨蜥的血液80毫升）, qty: 1 }
+      - { itemId: 辅助材料·青年心灵巨龙的鳞片3片（或者迷幻风铃树的树皮3块）, qty: 1 }
+      - { itemId: 辅助材料·颠茄果实, qty: 1 }
+      - { itemId: 辅助材料·放置于自身房间超过三个月的镜子1面, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.69
+    cor_on_fail: 13
+    mad_on_fail: 9
+  - id: spectator_5
+    pathway: spectator
+    seq: 5
+    # 原著魔药名：梦境行者（Dreamwalker）
+    main:
+      - { itemId: 主材料·梦境捕手的心脏一颗和心灵幻影的结晶一枚，或一条成年心灵巨龙的完整大脑, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·成年心灵巨龙的血液100毫升或者（梦境捕手的血液90毫升）, qty: 1 }
+      - { itemId: 辅助材料·成年心灵巨龙的鳞片3片（或者心灵幻影遗留的粉尘3克）, qty: 1 }
+      - { itemId: 辅助材料·灰白色龙息草, qty: 1 }
+      - { itemId: 辅助材料·树人的叶子, qty: 1 }
+    ritual: '去灵界契约一种生物，获得在梦境中保持清醒的特质寻找灵界人头鸟妖，与它签订契约，然后拿着它的一根尾羽，在或喜悦或愤怒的激烈情绪里服食魔药'
+    base_success: 0.67
+    cor_on_fail: 14
+    mad_on_fail: 10
+  - id: spectator_4
+    pathway: spectator
+    seq: 4
+    # 原著魔药名：操纵师（Manipulator）
+    main:
+      - { itemId: 主材料·一条老年心灵巨龙的完整大脑/树人导师的结晶之心, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·老年心灵巨龙的血液, qty: 1 }
+      - { itemId: 辅助材料·树人导师的金色树叶三片, qty: 1 }
+      - { itemId: 辅助材料·七个不同人类或类人生物因强烈情绪产生的泪水各自一滴, qty: 1 }
+    ritual: '在有至少一万人的特定场合里，于他们情绪的巨大共鸣中服食魔药'
+    base_success: 0.65
+    cor_on_fail: 15
+    mad_on_fail: 11
+  - id: spectator_3
+    pathway: spectator
+    seq: 3
+    # 原著魔药名：织梦人（Dream Weaver）
+    main:
+      - { itemId: 主材料·树人之王的结晶之心或者迷梦巨龙的完整大脑, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·树人之王的汁液100毫升或者迷梦巨龙的血液, qty: 1 }
+      - { itemId: 辅助材料·因噩梦死亡或疯狂的十三个智慧生物的毛发各九根, qty: 1 }
+      - { itemId: 辅助材料·树苗一株, qty: 1 }
+      - { itemId: 辅助材料·梦魇草汁液, qty: 1 }
+    ritual: '让至少十万个人在同一个夜晚做同样的梦'
+    base_success: 0.63
+    cor_on_fail: 16
+    mad_on_fail: 12
+  - id: spectator_2
+    pathway: spectator
+    seq: 2
+    # 原著魔药名：洞察者（Discerner）
+    main:
+      - { itemId: 主材料·艾瑞霍格或者其他古老心灵巨龙的苍白心脏，或者“洞察者”非凡特性, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·古老心灵巨龙或“洞察者”血液, qty: 1 }
+      - { itemId: 辅助材料·自我编织出来的真实身份, qty: 1 }
+      - { itemId: 辅助材料·人心深处最恶劣最恐怖的漆黑之花, qty: 1 }
+      - { itemId: 辅助材料·太阳神鸟的羽毛一根（非尾羽）, qty: 1 }
+    ritual: '深入至少一万个人类的潜意识，弄清楚对应之人最真实的恐惧、最本能的欲望和所有心理问题的根源，然后留下属于自己的印记。'
+    base_success: 0.61
+    cor_on_fail: 17
+    mad_on_fail: 13
+
+  # ---- 月亮（apothecary）----
+  - id: apothecary_9
+    pathway: apothecary
+    seq: 9
+    # 原著魔药名：药师（Apothecary）
+    main:
+      - { itemId: 主材料·成年独角飞马的角, qty: 1 }
+      - { itemId: 主材料·皇冠水母的毒液结晶, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·成年独角飞马的血液, qty: 1 }
+      - { itemId: 辅助材料·皇冠水母的触须, qty: 1 }
+      - { itemId: 辅助材料·砷粉, qty: 1 }
+      - { itemId: 辅助材料·黑莨菪的根茎, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.75
+    cor_on_fail: 10
+    mad_on_fail: 6
+  - id: apothecary_8
+    pathway: apothecary
+    seq: 8
+    # 原著魔药名：驯兽师（Beast Tamer）
+    main:
+      - { itemId: 主材料·精灵之泉的髓质结晶, qty: 1 }
+      - { itemId: 主材料·大王剑花的果实, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·精灵之泉的泉水, qty: 1 }
+      - { itemId: 辅助材料·大王剑花的花, qty: 1 }
+      - { itemId: 辅助材料·野茄提炼的汁液, qty: 1 }
+      - { itemId: 辅助材料·动物尸油, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.73
+    cor_on_fail: 11
+    mad_on_fail: 7
+  - id: apothecary_7
+    pathway: apothecary
+    seq: 7
+    # 原著魔药名：吸血鬼（Vampire）
+    main:
+      - { itemId: 主材料·渴血兽的心脏, qty: 1 }
+      - { itemId: 主材料·红头蝙蝠的翅膀, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·渴血兽的血液, qty: 1 }
+      - { itemId: 辅助材料·红头蝙蝠的牙齿3颗（这两个可同等替换成血族或人造吸血鬼对应的部位）, qty: 1 }
+      - { itemId: 辅助材料·长耳兔的绒毛, qty: 1 }
+      - { itemId: 辅助材料·木樨花纯露, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.71
+    cor_on_fail: 12
+    mad_on_fail: 8
+  - id: apothecary_6
+    pathway: apothecary
+    seq: 6
+    # 原著魔药名：魔药教授（Potions Professor）
+    main:
+      - { itemId: 主材料·巨怪智者的大脑, qty: 1 }
+      - { itemId: 主材料·黑暗蝙蝠的翅膀, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·巨怪智者的血液, qty: 1 }
+      - { itemId: 辅助材料·黑暗蝙蝠的绒毛7根（这两个可同等替换成血族或人造吸血鬼对应的部位）, qty: 1 }
+      - { itemId: 辅助材料·六月雪制成的精油, qty: 1 }
+      - { itemId: 辅助材料·自身发明的一种药剂, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.69
+    cor_on_fail: 13
+    mad_on_fail: 9
+  - id: apothecary_5
+    pathway: apothecary
+    seq: 5
+    # 原著魔药名：深红学者（Scarlet Scholar）
+    main:
+      - { itemId: 主材料·崇月邪怪的血液结晶, qty: 1 }
+      - { itemId: 主材料·长者蝙蝠的翅膀, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·崇月邪怪的心脏, qty: 1 }
+      - { itemId: 辅助材料·长者蝙蝠的眼睛（这两个可同等替换成血族或人造吸血鬼对应的部位）, qty: 1 }
+      - { itemId: 辅助材料·被血月照耀过七次（每次至少一刻钟）的水, qty: 1 }
+      - { itemId: 辅助材料·深红礼赞（一种花朵）制成的纯露, qty: 1 }
+    ritual: '在满月的照耀之下，凑够代表不同月亮状态的金属、宝石，以及超凡生物的血液。'
+    base_success: 0.67
+    cor_on_fail: 14
+    mad_on_fail: 10
+  - id: apothecary_4
+    pathway: apothecary
+    seq: 4
+    # 原著魔药名：巫王（Shaman King）
+    main:
+      - { itemId: 主材料·精灵之泉的意识核, qty: 1 }
+      - { itemId: 主材料·巫术暗灵的粉尘聚合体, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·精灵之泉的金色泉水100毫升(对应序列的血族或人造吸血鬼的血液100毫升）, qty: 1 }
+      - { itemId: 辅助材料·巫术暗灵的污染物10克（(对应序列的血族或人造吸血鬼的头发10根或指甲三片）, qty: 1 }
+      - { itemId: 辅助材料·月亮花精油, qty: 1 }
+      - { itemId: 辅助材料·黑暗类生物的胚胎, qty: 1 }
+    ritual: '真正取得“月亮”的认可（注：有的“月亮”一直很危险，有的“月亮”在某些时刻很危险，有的“月亮”在你自己的心里）。'
+    base_success: 0.65
+    cor_on_fail: 15
+    mad_on_fail: 11
+  - id: apothecary_3
+    pathway: apothecary
+    seq: 3
+    # 原著魔药名：召唤大师（High Summoner）
+    main:
+      - { itemId: 主材料·血族侯爵的非凡特性或是对应序列人造吸血鬼的“遗产”, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·血族侯爵或是对应序列人造吸血鬼的血液, qty: 1 }
+      - { itemId: 辅助材料·被“源堡”灰雾气息侵染过的物品1件, qty: 1 }
+      - { itemId: 辅助材料·血族侯爵或是对应序列人造吸血鬼的指甲, qty: 1 }
+      - { itemId: 辅助材料·属于自身的“月亮纸人”一个, qty: 1 }
+    ritual: '于灵界的深处找到一段与自身过去、现在、未来都存在密切关系，且和“月亮”深层缠绕的特殊信息，然后举行仪式，将它定义为自己用于各种神秘学的“真名”（如果选错了，找到了不正确的，那将成为“月亮”的奴仆）。'
+    base_success: 0.63
+    cor_on_fail: 16
+    mad_on_fail: 12
+  - id: apothecary_2
+    pathway: apothecary
+    seq: 2
+    # 原著魔药名：创生者（Life-Giver）
+    main:
+      - { itemId: 主材料·血族公爵的非凡特性或是对应序列人造吸血鬼的“遗产”, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·母亲制作的护身符1块（若母亲已经过世，可由空想产物或历史投影代替，当然，概念上的母亲和广义上的母亲也可以满足条件）, qty: 1 }
+      - { itemId: 辅助材料·自身创造的血裔的头发, qty: 1 }
+      - { itemId: 辅助材料·血族公爵或对应序列人造吸血鬼的血液, qty: 1 }
+      - { itemId: 辅助材料·橡树种子, qty: 1 }
+    ritual: '将自身分割成五个部分，摧毁并封印于不同的地方，然后在彻底死亡前，由包含心脏的那部分躯体服食魔药（注：该仪式主要的困难有两个，一是怎么保证自身在那种状态下不立刻死亡，二是被封印的状态下怎么服食魔药）。'
+    base_success: 0.61
+    cor_on_fail: 17
+    mad_on_fail: 13
+
+  # ---- 审判者（arbiter）----
+  - id: arbiter_9
+    pathway: arbiter
+    seq: 9
+    # 原著魔药名：仲裁人（Arbiter）
+    main:
+      - { itemId: 主材料·白鬃狩猎者的面部皮肤（外形类雄狮）, qty: 1 }
+      - { itemId: 主材料·皇冠猎隼的三根尾羽, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·白鬃狩猎者的血液, qty: 1 }
+      - { itemId: 辅助材料·皇冠猎隼的鸟爪一只, qty: 1 }
+      - { itemId: 辅助材料·绿橄榄, qty: 1 }
+      - { itemId: 辅助材料·黄金, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.75
+    cor_on_fail: 10
+    mad_on_fail: 6
+  - id: arbiter_8
+    pathway: arbiter
+    seq: 8
+    # 原著魔药名：治安官（Sheriff）
+    main:
+      - { itemId: 主材料·恐惧魔虫的眼睛一对, qty: 1 }
+      - { itemId: 主材料·银白战熊的右掌, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·银白战熊的血液, qty: 1 }
+      - { itemId: 辅助材料·恐惧魔虫的汁液, qty: 1 }
+      - { itemId: 辅助材料·治安官或类似职务的任命文书1份（不需要是自己的）, qty: 1 }
+      - { itemId: 辅助材料·沟酸浆精油, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.73
+    cor_on_fail: 11
+    mad_on_fail: 7
+  - id: arbiter_7
+    pathway: arbiter
+    seq: 7
+    # 原著魔药名：审讯者（Interrogator）
+    main:
+      - { itemId: 主材料·闪纹黑蛇的角, qty: 1 }
+      - { itemId: 主材料·湖中之灵的粉尘, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·闪纹黑蛇的血液, qty: 1 }
+      - { itemId: 辅助材料·湖中之灵的伴生物, qty: 1 }
+      - { itemId: 辅助材料·被闪电劈焦的木头, qty: 1 }
+      - { itemId: 辅助材料·电气石, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.71
+    cor_on_fail: 12
+    mad_on_fail: 8
+  - id: arbiter_6
+    pathway: arbiter
+    seq: 6
+    # 原著魔药名：法官（Judge）
+    main:
+      - { itemId: 主材料·黑域领主的头皮（类似精灵的超凡生物）, qty: 1 }
+      - { itemId: 主材料·异纹巨虎的尾巴, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·黑域领主的血液, qty: 1 }
+      - { itemId: 辅助材料·异纹巨虎的牙齿两颗, qty: 1 }
+      - { itemId: 辅助材料·在审判庭使用超过10年的法槌1柄, qty: 1 }
+      - { itemId: 辅助材料·黄色“不凋花”, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.69
+    cor_on_fail: 13
+    mad_on_fail: 9
+  - id: arbiter_5
+    pathway: arbiter
+    seq: 5
+    # 原著魔药名：惩戒骑士（Discipline Paladin）
+    main:
+      - { itemId: 主材料·金属巨猿的心脏, qty: 1 }
+      - { itemId: 主材料·复仇石灵的额刺, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·金属巨猿的脓液, qty: 1 }
+      - { itemId: 辅助材料·复仇石灵的剥落物, qty: 1 }
+      - { itemId: 辅助材料·黑色羔羊的尾巴, qty: 1 }
+      - { itemId: 辅助材料·莳萝精油, qty: 1 }
+    ritual: '选定一个至少序列5的通缉犯，确定他的罪行，然后独自追踪他，锁定他，处决他。'
+    base_success: 0.67
+    cor_on_fail: 14
+    mad_on_fail: 10
+  - id: arbiter_4
+    pathway: arbiter
+    seq: 4
+    # 原著魔药名：律令法师（Imperative Mage）
+    main:
+      - { itemId: 主材料·铜表邪灵的结晶, qty: 1 }
+      - { itemId: 主材料·面具精灵的石牙, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·面具精灵的血液, qty: 1 }
+      - { itemId: 辅助材料·铜表邪灵的锈迹沉淀物, qty: 1 }
+      - { itemId: 辅助材料·当前国度主要法典原本1部, qty: 1 }
+      - { itemId: 辅助材料·曼德拉草纯露, qty: 1 }
+    ritual: '制定一条与既有条文不同、但又不排斥的法律，让它通过当前国家的立法流程颁布实施，当违反这条法律并遭受相应处罚的人达到一万人以后，服食魔药。'
+    base_success: 0.65
+    cor_on_fail: 15
+    mad_on_fail: 11
+  - id: arbiter_3
+    pathway: arbiter
+    seq: 3
+    # 原著魔药名：混乱猎手（Chaos Hunter）
+    main:
+      - { itemId: 主材料·铜色精灵的手掌, qty: 1 }
+      - { itemId: 主材料·自然卫士的舌头（一种类人的、金色猿猴状的、以严格维护所在区域自然秩序为使命的超凡生物）, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·自然卫士的血液, qty: 1 }
+      - { itemId: 辅助材料·铜色精灵的头发, qty: 1 }
+      - { itemId: 辅助材料·自身猎杀的半神尸体1块（不需要全部尸骸）, qty: 1 }
+      - { itemId: 辅助材料·吊死过至少千名罪犯的绞刑架木屑, qty: 1 }
+    ritual: '独自处理一起至少涉及天使层面力量的神秘学事件，让受影响的区域恢复正常的秩序，该区域的人和物损失越小，仪式效果越好。'
+    base_success: 0.63
+    cor_on_fail: 16
+    mad_on_fail: 12
+  - id: arbiter_2
+    pathway: arbiter
+    seq: 2
+    # 原著魔药名：平衡者（Balancer）
+    main:
+      - { itemId: 主材料·“律法之神”（精灵王的从神之一）的非凡特性，或者“驮岛之龟”的非凡特性，或者“平衡者”非凡特性, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·对应“平衡者”的天使、从神的血液, qty: 1 }
+      - { itemId: 辅助材料·只会赞美太阳的物品1件, qty: 1 }
+      - { itemId: 辅助材料·诱人堕落的心灵深渊气息1缕, qty: 1 }
+      - { itemId: 辅助材料·源于“熵之公爵”或相应事物的污染物, qty: 1 }
+    ritual: '结束一片大陆的纷乱，让各个势力取得能维持至少百年的平衡，该仪式不需要仪式举行者占据主导地位，但必须发挥重要作用。'
+    base_success: 0.61
+    cor_on_fail: 17
+    mad_on_fail: 13
+
+  # ---- 魔女（assassin）----
+  - id: assassin_9
+    pathway: assassin
+    seq: 9
+    # 原著魔药名：刺客（Assassin）
+    main:
+      - { itemId: 主材料·阴影毒花的根须, qty: 1 }
+      - { itemId: 主材料·蛇身怪鸟的黑羽, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·浓醋, qty: 1 }
+      - { itemId: 辅助材料·阴影毒花的花瓣三片, qty: 1 }
+      - { itemId: 辅助材料·毛茛精油, qty: 1 }
+      - { itemId: 辅助材料·活蜘蛛一只, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.75
+    cor_on_fail: 10
+    mad_on_fail: 6
+  - id: assassin_8
+    pathway: assassin
+    seq: 8
+    # 原著魔药名：教唆者（Instigator）
+    main:
+      - { itemId: 主材料·魔喉蜜䴕的心脏, qty: 1 }
+      - { itemId: 主材料·黑暗潜伏者的毒囊, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·魔喉蜜䴕的鸣管, qty: 1 }
+      - { itemId: 辅助材料·蓝色曼陀罗汁液, qty: 1 }
+      - { itemId: 辅助材料·水蕨草粉末, qty: 1 }
+      - { itemId: 辅助材料·胡桃, qty: 1 }
+      - { itemId: 辅助材料·纯水, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.73
+    cor_on_fail: 11
+    mad_on_fail: 7
+  - id: assassin_7
+    pathway: assassin
+    seq: 7
+    # 原著魔药名：女巫（Witch）
+    main:
+      - { itemId: 主材料·黑渊魔鱼的全部血液, qty: 1 }
+      - { itemId: 主材料·玛瑙孔雀的蛋, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·纯水, qty: 1 }
+      - { itemId: 辅助材料·金色曼陀罗汁液, qty: 1 }
+      - { itemId: 辅助材料·阴影蜥蜴的鳞片三枚, qty: 1 }
+      - { itemId: 辅助材料·水仙花汁液, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.71
+    cor_on_fail: 12
+    mad_on_fail: 8
+  - id: assassin_6
+    pathway: assassin
+    seq: 6
+    # 原著魔药名：欢愉（Pleasure）
+    main:
+      - { itemId: 主材料·魅欲.女妖的眼睛一对, qty: 1 }
+      - { itemId: 主材料·成年寡妇巨蛛的丝腺一个, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·纯水, qty: 1 }
+      - { itemId: 辅助材料·黑色曼陀罗汁液, qty: 1 }
+      - { itemId: 辅助材料·魅欲.女妖残留的全部毛发, qty: 1 }
+      - { itemId: 辅助材料·费内波特苍蝇碾成的粉末, qty: 1 }
+      - { itemId: 辅助材料·真正的木乃伊骨灰, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.69
+    cor_on_fail: 13
+    mad_on_fail: 9
+  - id: assassin_5
+    pathway: assassin
+    seq: 5
+    # 原著魔药名：痛苦（Afflictions）
+    main:
+      - { itemId: 主材料·花面蝙蝠的头部, qty: 1 }
+      - { itemId: 主材料·双尾黑蛇的胆囊, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·花面蝙蝠的血液, qty: 1 }
+      - { itemId: 辅助材料·重病人类的血液, qty: 1 }
+      - { itemId: 辅助材料·双尾黑蛇的尾尖, qty: 1 }
+      - { itemId: 辅助材料·蓝臻尤加利精油, qty: 1 }
+    ritual: '不使用替身，在火刑架上被焚烧一刻钟并活下来，且没有疯掉。'
+    base_success: 0.67
+    cor_on_fail: 14
+    mad_on_fail: 10
+  - id: assassin_4
+    pathway: assassin
+    seq: 4
+    # 原著魔药名：绝望（Despair）
+    main:
+      - { itemId: 主材料·瘟疫母蛇的毒囊, qty: 1 }
+      - { itemId: 主材料·银色猎杀者的结晶, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·瘟疫母蛇的胆汁, qty: 1 }
+      - { itemId: 辅助材料·银色猎杀者的碎片三块, qty: 1 }
+      - { itemId: 辅助材料·新鲜的榭寄生一枝, qty: 1 }
+      - { itemId: 辅助材料·分别死于不同瘟疫的七个死者的血液各, qty: 1 }
+    ritual: '让超过三万人卷入一场强烈的瘟疫，死者越多，绝望和痛苦越强烈，仪式效果越好。'
+    base_success: 0.65
+    cor_on_fail: 15
+    mad_on_fail: 11
+  - id: assassin_3
+    pathway: assassin
+    seq: 3
+    # 原著魔药名：不老（Unaging）
+    main:
+      - { itemId: 主材料·镜神之心一颗, qty: 1 }
+      - { itemId: 主材料·蛇发女妖的眼睛一对, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·镜神碎片九枚, qty: 1 }
+      - { itemId: 辅助材料·蛇发女妖血液, qty: 1 }
+      - { itemId: 辅助材料·年份超过五百年的、有对应镜后区域的古董镜子一面, qty: 1 }
+      - { itemId: 辅助材料·溺死者肺部的水, qty: 1 }
+    ritual: '找到镜子中的自己，仅凭自己的力量奴役他，或者让他真正迷恋自己，或与他和解。'
+    base_success: 0.63
+    cor_on_fail: 16
+    mad_on_fail: 12
+  - id: assassin_2
+    pathway: assassin
+    seq: 2
+    # 原著魔药名：灾难（Catastrophe）
+    main:
+      - { itemId: 主材料·莉莉丝的头发或者某位“灾难魔女”的非凡特性, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·丰饶大地之土, qty: 1 }
+      - { itemId: 辅助材料·每年第一场洪水之雨, qty: 1 }
+      - { itemId: 辅助材料·镜中世界碎片一块（非特殊镜中世界碎片）, qty: 1 }
+      - { itemId: 辅助材料·灾难死者之诅咒一万份（目标位格越高，所需数量越少）, qty: 1 }
+    ritual: '以参与者的身份制造一场影响整片大陆的灾难，在灾难中晋升。'
+    base_success: 0.61
+    cor_on_fail: 17
+    mad_on_fail: 13
+
+  # ---- 深渊（criminal）----
+  - id: criminal_9
+    pathway: criminal
+    seq: 9
+    # 原著魔药名：罪犯（Criminal）
+    main:
+      - { itemId: 主材料·“凶蛮之犬”的脑袋, qty: 1 }
+      - { itemId: 主材料·“杀人黑鸦”的晶羽, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·“凶蛮之犬”的血液, qty: 1 }
+      - { itemId: 辅助材料·“杀人黑鸦”的血液, qty: 1 }
+      - { itemId: 辅助材料·犯罪所得1件, qty: 1 }
+      - { itemId: 辅助材料·被害者的眼泪, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.75
+    cor_on_fail: 10
+    mad_on_fail: 6
+  - id: criminal_8
+    pathway: criminal
+    seq: 8
+    # 原著魔药名：冷血者（Coldblooded）
+    main:
+      - { itemId: 主材料·“鼠群之主”的尸骸, qty: 1 }
+      - { itemId: 主材料·“无皮血猫”的心脏, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·“鼠群之主”的血液, qty: 1 }
+      - { itemId: 辅助材料·“无皮血猫”的血液, qty: 1 }
+      - { itemId: 辅助材料·自身谋害的第一个同种族者的心脏1个（或类似器官）, qty: 1 }
+      - { itemId: 辅助材料·双生花纯露, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.73
+    cor_on_fail: 11
+    mad_on_fail: 7
+  - id: criminal_7
+    pathway: criminal
+    seq: 7
+    # 原著魔药名：连环杀手（Serial Killer）
+    main:
+      - { itemId: 主材料·“食人秃鹫”的喙, qty: 1 }
+      - { itemId: 主材料·“暗影之蛇”的尖牙, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·“食人秃鹫”的血液, qty: 1 }
+      - { itemId: 辅助材料·“暗影之蛇”的血液, qty: 1 }
+      - { itemId: 辅助材料·亲手所杀之人的完整外皮1张, qty: 1 }
+      - { itemId: 辅助材料·遇害者的内脏7组, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.71
+    cor_on_fail: 12
+    mad_on_fail: 8
+  - id: criminal_6
+    pathway: criminal
+    seq: 6
+    # 原著魔药名：恶魔（Devil）
+    main:
+      - { itemId: 主材料·“红眼邪豹”的舌头, qty: 1 }
+      - { itemId: 主材料·“岩浆之魔”的独角, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·“红眼邪豹”的血液, qty: 1 }
+      - { itemId: 辅助材料·“岩浆之魔”的熔融之液, qty: 1 }
+      - { itemId: 辅助材料·黑百合精华, qty: 1 }
+      - { itemId: 辅助材料·被父母杀死的婴儿遗留手指, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.69
+    cor_on_fail: 13
+    mad_on_fail: 9
+  - id: criminal_5
+    pathway: criminal
+    seq: 5
+    # 原著魔药名：欲望使徒（Desire Apostle）
+    main:
+      - { itemId: 主材料·“魅魔”之皮, qty: 1 }
+      - { itemId: 主材料·“痛苦之子”的眼睛, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·“魅魔”的血液, qty: 1 }
+      - { itemId: 辅助材料·“痛苦之子”的血液, qty: 1 }
+      - { itemId: 辅助材料·纯白罂粟花, qty: 1 }
+      - { itemId: 辅助材料·智慧生物的脑垂体9种, qty: 1 }
+    ritual: '连环杀人，针对曾经堕落过的人；最低限度是13个人，最高是49个，仪式越完整，越有希望晋升。两次杀人之间，至少间隔三天，否则很容易失控，但间隔也不能超过九天，那会让仪式重置。每一次杀人，每一部分仪式后，恶魔都会吃掉被害人的内脏，从这开始，他将一直处于暴躁嗜血，想伤害他人的状态里，直到那种欲望再次得到满足。'
+    base_success: 0.67
+    cor_on_fail: 14
+    mad_on_fail: 10
+  - id: criminal_4
+    pathway: criminal
+    seq: 4
+    # 原著魔药名：魔鬼（Demon）
+    main:
+      - { itemId: 主材料·“大恶魔”的血晶, qty: 1 }
+      - { itemId: 主材料·“欲魔”的生殖器官, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·“欲魔”的血液, qty: 1 }
+      - { itemId: 辅助材料·“大恶魔”的黑色心脏一颗（大恶魔不止一颗心脏）, qty: 1 }
+      - { itemId: 辅助材料·真神教会的供奉圣徽, qty: 1 }
+      - { itemId: 辅助材料·非凡者的心脏, qty: 1 }
+    ritual: '诱使至少一万个智慧生物自愿出卖灵魂给自己（需成功获取到对应灵魂），满足条件的目标位格越高，所需数量越少。'
+    base_success: 0.65
+    cor_on_fail: 15
+    mad_on_fail: 11
+  - id: criminal_3
+    pathway: criminal
+    seq: 3
+    # 原著魔药名：呓语者（Blatherer）
+    main:
+      - { itemId: 主材料·“言魔”的大脑, qty: 1 }
+      - { itemId: 主材料·“心灵之妖”的魂石, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·“言魔”的体液, qty: 1 }
+      - { itemId: 辅助材料·“心灵之妖”的诅咒附着物1件, qty: 1 }
+      - { itemId: 辅助材料·心灵大海的原生物, qty: 1 }
+      - { itemId: 辅助材料·绝望者的泪瓶九个（分属不同的绝望者）, qty: 1 }
+    ritual: '想办法与“太阳”、“黄昏巨人”等有净化特质的途径所属半神或“母亲”等代表生命的途径所属半神，签订一份有时效性的或永久的“同生共死”契约，并在契约生效期内服食魔药。'
+    base_success: 0.63
+    cor_on_fail: 16
+    mad_on_fail: 12
+  - id: criminal_2
+    pathway: criminal
+    seq: 2
+    # 原著魔药名：鲜血大公（Bloody Archduke）
+    main:
+      - { itemId: 主材料·“鲜血大公”非凡特性1份或（“恶魔王子”的脑袋，“双蛇主君”的心脏）, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·“鲜血大公”的血液1000毫升或（“恶魔王子”的酸血500毫升，“双蛇主君”的毒血500毫升）, qty: 1 }
+      - { itemId: 辅助材料·不同种族不同位格不同身份者的血液49种, qty: 1 }
+      - { itemId: 辅助材料·真神之血, qty: 1 }
+    ritual: '献祭十三个至少有万名智慧生物存在的聚居点给“深渊”，每次献祭不能间隔超过三个月，而且，献祭时需采用“鲜血仪式”，也就是逐个杀死聚居点每一个生物，用他们喷涌出来的鲜血清洗祭坛，重描对应的符号和花纹。'
+    base_success: 0.61
+    cor_on_fail: 17
+    mad_on_fail: 13
+
+  # ---- 红祭司（hunter）----
+  - id: hunter_9
+    pathway: hunter
+    seq: 9
+    # 原著魔药名：猎人（Hunter）
+    main:
+      - { itemId: 主材料·血腥红栗, qty: 1 }
+      - { itemId: 主材料·活化沼泽的结晶, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·红葡萄酒, qty: 1 }
+      - { itemId: 辅助材料·红栗花一朵（可以是标本，也可替换成相应精油10滴）, qty: 1 }
+      - { itemId: 辅助材料·白杨的树叶粉末, qty: 1 }
+      - { itemId: 辅助材料·罗勒, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.75
+    cor_on_fail: 10
+    mad_on_fail: 6
+  - id: hunter_8
+    pathway: hunter
+    seq: 8
+    # 原著魔药名：挑衅者（Provoker）
+    main:
+      - { itemId: 主材料·恶臭花群的根茎, qty: 1 }
+      - { itemId: 主材料·尖齿鹦鹉的舌头, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·蒸馏酒, qty: 1 }
+      - { itemId: 辅助材料·忍冬花纯露, qty: 1 }
+      - { itemId: 辅助材料·葡萄藤粉末, qty: 1 }
+      - { itemId: 辅助材料·水蕨草粉末, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.73
+    cor_on_fail: 11
+    mad_on_fail: 7
+  - id: hunter_7
+    pathway: hunter
+    seq: 7
+    # 原著魔药名：纵火家（Pyromaniac）
+    main:
+      - { itemId: 主材料·火蝾螈的腺体, qty: 1 }
+      - { itemId: 主材料·岩浆精灵的核心, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·火蝾螈的血液, qty: 1 }
+      - { itemId: 辅助材料·岩浆辉石粉末, qty: 1 }
+      - { itemId: 辅助材料·红冠凤仙草粉末, qty: 1 }
+      - { itemId: 辅助材料·圣星百合纯露, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.71
+    cor_on_fail: 12
+    mad_on_fail: 8
+  - id: hunter_6
+    pathway: hunter
+    seq: 6
+    # 原著魔药名：阴谋家（Conspirer）
+    main:
+      - { itemId: 主材料·狩猎黑蛛的复眼, qty: 1 }
+      - { itemId: 主材料·人身狮的大脑, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·狩猎黑蛛的毒腺一个, qty: 1 }
+      - { itemId: 辅助材料·人身狮的血液, qty: 1 }
+      - { itemId: 辅助材料·琥珀粉末, qty: 1 }
+      - { itemId: 辅助材料·白橡树果实两颗, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.69
+    cor_on_fail: 13
+    mad_on_fail: 9
+  - id: hunter_5
+    pathway: hunter
+    seq: 5
+    # 原著魔药名：收割者（Reaper）
+    main:
+      - { itemId: 主材料·灰暗魔狼的前爪, qty: 1 }
+      - { itemId: 主材料·丛林狩猎者的舌头, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·灰暗魔狼的血液, qty: 1 }
+      - { itemId: 辅助材料·丛林狩猎者的尖牙两颗, qty: 1 }
+      - { itemId: 辅助材料·彩髯角蜥的毒液, qty: 1 }
+      - { itemId: 辅助材料·鹅耳枥精油, qty: 1 }
+    ritual: '策划一场阴谋，活捉一个序列高于自己的目标，在他的面前炫耀出完整的阴谋，于他恐惧懊恼的眼神里服食魔药。'
+    base_success: 0.67
+    cor_on_fail: 14
+    mad_on_fail: 10
+  - id: hunter_4
+    pathway: hunter
+    seq: 4
+    # 原著魔药名：铁血骑士（Iron-Blooded Knight）
+    main:
+      - { itemId: 主材料·岩浆巨人的核心, qty: 1 }
+      - { itemId: 主材料·灾难之石, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·滚烫岩浆, qty: 1 }
+      - { itemId: 辅助材料·灾难之石污染的草木粉末, qty: 1 }
+      - { itemId: 辅助材料·大型战场上被士兵血液渗透的泥土, qty: 1 }
+      - { itemId: 辅助材料·橡树果实一枚, qty: 1 }
+    ritual: '组建一支至少三十个人的队伍，与他们培养深厚的战友情谊，让他们相继变得强大，并且配合默契，能根据眼神和动作领悟自己的意思，彼此近乎一体，然后由他们组成仪式。队伍的实力和默契度越高，仪式的效果越好。'
+    base_success: 0.65
+    cor_on_fail: 15
+    mad_on_fail: 11
+  - id: hunter_3
+    pathway: hunter
+    seq: 3
+    # 原著魔药名：战争主教（War Bishop）
+    main:
+      - { itemId: 主材料·双相人马之心, qty: 1 }
+      - { itemId: 主材料·战争彗星的星核, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·双向人马的血液, qty: 1 }
+      - { itemId: 辅助材料·战争彗星的碎片, qty: 1 }
+      - { itemId: 辅助材料·血色图铎鸢尾, qty: 1 }
+      - { itemId: 辅助材料·烈焰巨树的树皮, qty: 1 }
+    ritual: '带领属于自己的队伍，在一场战争中战胜强大的敌方势力。敌方势力越强，仪式效果越好。'
+    base_success: 0.63
+    cor_on_fail: 16
+    mad_on_fail: 12
+  - id: hunter_2
+    pathway: hunter
+    seq: 2
+    # 原著魔药名：天气术士（Weather Warlock）
+    main:
+      - { itemId: 主材料·天气巨人的颅骨, qty: 1 }
+      - { itemId: 主材料·云雾水母的核心, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·死于不同极端天气的死者血液各, qty: 1 }
+      - { itemId: 辅助材料·天气巨人的头发, qty: 1 }
+      - { itemId: 辅助材料·云雾水母的结晶, qty: 1 }
+      - { itemId: 辅助材料·被雷劈过的树木枝芽一截, qty: 1 }
+      - { itemId: 辅助材料·一个地区每年第一场雪所化之水, qty: 1 }
+    ritual: '不依靠外力的帮助，在很短时间内强行改变一个地区的天气。'
+    base_success: 0.61
+    cor_on_fail: 17
+    mad_on_fail: 13
+
+  # ---- 黑皇帝（lawyer）----
+  - id: lawyer_9
+    pathway: lawyer
+    seq: 9
+    # 原著魔药名：律师（Lawyer）
+    main:
+      - { itemId: 主材料·“智慧果”一枚, qty: 1 }
+      - { itemId: 主材料·迷宫鹦鹉的舌头, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·迷宫鹦鹉的血液, qty: 1 }
+      - { itemId: 辅助材料·黑橄榄一个, qty: 1 }
+      - { itemId: 辅助材料·柏树皮精油, qty: 1 }
+      - { itemId: 辅助材料·白茉莉一朵, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.75
+    cor_on_fail: 10
+    mad_on_fail: 6
+  - id: lawyer_8
+    pathway: lawyer
+    seq: 8
+    # 原著魔药名：野蛮人（Barbarian）
+    main:
+      - { itemId: 主材料·狂化草一株, qty: 1 }
+      - { itemId: 主材料·大地犀牛的实心独角结晶, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·深纹胡桃一个, qty: 1 }
+      - { itemId: 辅助材料·香蜂草一株, qty: 1 }
+      - { itemId: 辅助材料·杨树皮浸泡出的纯露, qty: 1 }
+      - { itemId: 辅助材料·烈酒, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.73
+    cor_on_fail: 11
+    mad_on_fail: 7
+  - id: lawyer_7
+    pathway: lawyer
+    seq: 7
+    # 原著魔药名：贿赂者（Briber）
+    main:
+      - { itemId: 主材料·“哭泣婴儿”花一朵, qty: 1 }
+      - { itemId: 主材料·怪脸大麻结晶, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·金色曼陀罗汁液, qty: 1 }
+      - { itemId: 辅助材料·黑色曼陀罗汁液, qty: 1 }
+      - { itemId: 辅助材料·迷幻草精油, qty: 1 }
+      - { itemId: 辅助材料·红葡萄酒, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.71
+    cor_on_fail: 12
+    mad_on_fail: 8
+  - id: lawyer_6
+    pathway: lawyer
+    seq: 6
+    # 原著魔药名：腐化男爵（Baron of Corruption）
+    main:
+      - { itemId: 主材料·人脸狒狒的鼻子, qty: 1 }
+      - { itemId: 主材料·腐烂尸花一朵, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·人脸狒狒的血液, qty: 1 }
+      - { itemId: 辅助材料·灰琥珀香水, qty: 1 }
+      - { itemId: 辅助材料·水果烈酒, qty: 1 }
+      - { itemId: 辅助材料·铅粉, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.69
+    cor_on_fail: 13
+    mad_on_fail: 9
+  - id: lawyer_5
+    pathway: lawyer
+    seq: 5
+    # 原著魔药名：混乱导师（Mentor of Disorder）
+    main:
+      - { itemId: 主材料·妖精火花（有自我意识）, qty: 1 }
+      - { itemId: 主材料·“森林之子”的脑袋（头部有畸形之角形似冠冕的深绿近黑狒狒）, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·“森林之子”的血液, qty: 1 }
+      - { itemId: 辅助材料·雪松纯露, qty: 1 }
+      - { itemId: 辅助材料·连续背叛者的耳朵1个（至少有过两次背叛经历）, qty: 1 }
+      - { itemId: 辅助材料·鸡蛋花, qty: 1 }
+    ritual: '成为一座城市地下秩序的主导者，让这座城市的犯罪率提升超过十倍，该种状况必然维持至少三个月。'
+    base_success: 0.67
+    cor_on_fail: 14
+    mad_on_fail: 10
+  - id: lawyer_4
+    pathway: lawyer
+    seq: 4
+    # 原著魔药名：堕落伯爵（Earl of the Fallen）
+    main:
+      - { itemId: 主材料·林地巨妖的眼珠（外形为人化的四臂黑色狒狒）, qty: 1 }
+      - { itemId: 主材料·猫脸鬼影的舌头（人形）, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·林地巨妖的血液, qty: 1 }
+      - { itemId: 辅助材料·猫脸鬼影的指甲, qty: 1 }
+      - { itemId: 辅助材料·山茶花精油, qty: 1 }
+      - { itemId: 辅助材料·堕落者的毛发, qty: 1 }
+    ritual: '成为一个国家的中高层官员，并拉拢腐化七个和自己处于同一阶层的人员，与他们结成利益共同体，推动一项有利于自身不利于民众的国家政策得到实施。'
+    base_success: 0.65
+    cor_on_fail: 15
+    mad_on_fail: 11
+  - id: lawyer_3
+    pathway: lawyer
+    seq: 3
+    # 原著魔药名：狂乱法师（Frenzied Mage）
+    main:
+      - { itemId: 主材料·黑山君主（外型为六臂巨大狒狒）的心脏, qty: 1 }
+      - { itemId: 主材料·狂野人猿的尾巴, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·黑山君主的血液, qty: 1 }
+      - { itemId: 辅助材料·狂野人猿的牙齿, qty: 1 }
+      - { itemId: 辅助材料·黄金, qty: 1 }
+      - { itemId: 辅助材料·死于仪式异变者的脸皮9张, qty: 1 }
+    ritual: '挑选三个至少涉及天使层面力量的仪式，以超出自身知识范围、纯凭直觉的方式修改其中关键描述，然后一一举行，最终存活下来。'
+    base_success: 0.63
+    cor_on_fail: 16
+    mad_on_fail: 12
+  - id: lawyer_2
+    pathway: lawyer
+    seq: 2
+    # 原著魔药名：熵之公爵（Duke of Entropy）
+    main:
+      - { itemId: 主材料·“熵之公爵”非凡特性1份或者所罗门的指节, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·“熵之公爵”的血液, qty: 1 }
+      - { itemId: 辅助材料·真实有效的王国或帝国戒严令, qty: 1 }
+      - { itemId: 辅助材料·“平衡者”或相应事物的污染物, qty: 1 }
+      - { itemId: 辅助材料·夜光宝石, qty: 1 }
+    ritual: '推动一个至少千万人的国度从内部腐化开始，在无外力直接干涉的情况下，逐渐崩塌（该国度非凡者越多越强，则所需人口数量越少）。'
+    base_success: 0.61
+    cor_on_fail: 17
+    mad_on_fail: 13
+
+  # ---- 命运之轮（monster）----
+  - id: monster_9
+    pathway: monster
+    seq: 9
+    # 原著魔药名：怪物（Monster）
+    main:
+      - { itemId: 主材料·彩色鲤鱼的尾巴, qty: 1 }
+      - { itemId: 主材料·银色四叶草一朵, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·浑浊的河水, qty: 1 }
+      - { itemId: 辅助材料·普通四叶草, qty: 1 }
+      - { itemId: 辅助材料·沟酸浆纯露, qty: 1 }
+      - { itemId: 辅助材料·幸运符一块（序列9非凡者就可以制作的那种）, qty: 1 }
+      - { itemId: 辅助材料·自身血液, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.75
+    cor_on_fail: 10
+    mad_on_fail: 6
+  - id: monster_8
+    pathway: monster
+    seq: 8
+    # 原著魔药名：机器（Robot）
+    main:
+      - { itemId: 主材料·橘光石一枚, qty: 1 }
+      - { itemId: 主材料·幼年独角兽的结晶, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·幼年独角兽的血液, qty: 1 }
+      - { itemId: 辅助材料·蛇鳞10片（以白色、银色为佳）, qty: 1 }
+      - { itemId: 辅助材料·白栗花精油, qty: 1 }
+      - { itemId: 辅助材料·柠檬草, qty: 1 }
+      - { itemId: 辅助材料·铁锈, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.73
+    cor_on_fail: 11
+    mad_on_fail: 7
+  - id: monster_7
+    pathway: monster
+    seq: 7
+    # 原著魔药名：幸运儿（Lucky One）
+    main:
+      - { itemId: 主材料·好运之花一朵, qty: 1 }
+      - { itemId: 主材料·银眼怪蛇的眼珠, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·银眼怪蛇的血液, qty: 1 }
+      - { itemId: 辅助材料·好运之花生长的泥土, qty: 1 }
+      - { itemId: 辅助材料·三天内捡到的金币或银币一枚, qty: 1 }
+      - { itemId: 辅助材料·水银, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.71
+    cor_on_fail: 12
+    mad_on_fail: 8
+  - id: monster_6
+    pathway: monster
+    seq: 6
+    # 原著魔药名：灾祸教士（Calamity Priest）
+    main:
+      - { itemId: 主材料·蓝斑火鸟的心脏, qty: 1 }
+      - { itemId: 主材料·独眼白牛的蛇尾, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·独眼白牛的血液, qty: 1 }
+      - { itemId: 辅助材料·蓝斑火鸟的羽毛三根, qty: 1 }
+      - { itemId: 辅助材料·龙胆草纯露, qty: 1 }
+      - { itemId: 辅助材料·染上过他人之血的黑曜石一块, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.69
+    cor_on_fail: 13
+    mad_on_fail: 9
+  - id: monster_5
+    pathway: monster
+    seq: 5
+    # 原著魔药名：赢家（Winner）
+    main:
+      - { itemId: 主材料·神佑水晶一块, qty: 1 }
+      - { itemId: 主材料·红焰树人的树心, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·红焰树人的汁液, qty: 1 }
+      - { itemId: 辅助材料·神佑水晶的附着物, qty: 1 }
+      - { itemId: 辅助材料·白芥子, qty: 1 }
+      - { itemId: 辅助材料·甜栗花精油, qty: 1 }
+      - { itemId: 辅助材料·源自他人的幸运, qty: 1 }
+    ritual: '在持续一个月的时间里，让自己处于倒霉的状态，绝对不能有一次幸运'
+    base_success: 0.67
+    cor_on_fail: 14
+    mad_on_fail: 10
+  - id: monster_4
+    pathway: monster
+    seq: 4
+    # 原著魔药名：厄运法师（Misfortune Mage）
+    main:
+      - { itemId: 主材料·四耳巨猿的大脑, qty: 1 }
+      - { itemId: 主材料·成年独角兽的角, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·成年独角兽的血液, qty: 1 }
+      - { itemId: 辅助材料·四耳巨猿的耳朵一只, qty: 1 }
+      - { itemId: 辅助材料·用盐制净化法处理过的海蓝水晶一块, qty: 1 }
+      - { itemId: 辅助材料·金橙一颗, qty: 1 }
+    ritual: '在不提前做准备，不找到消除或解轻相应影响的办法下，于自身幸运处于低谷时，直面一场大的灾祸，并活下来'
+    base_success: 0.65
+    cor_on_fail: 15
+    mad_on_fail: 11
+  - id: monster_3
+    pathway: monster
+    seq: 3
+    # 原著魔药名：混乱行者（Chaoswalker）
+    main:
+      - { itemId: 主材料·灾厄不死鸟的结晶核, qty: 1 }
+      - { itemId: 主材料·噩运白蛇的胆, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·噩运白蛇的毒液, qty: 1 }
+      - { itemId: 辅助材料·灾厄不死鸟的血液, qty: 1 }
+      - { itemId: 辅助材料·“观众”高位者（至少序列2）制作的“安抚”符咒一块或能达到类似效果的东西, qty: 1 }
+      - { itemId: 辅助材料·来自噩运或灾厄幸存者的书面感谢九份, qty: 1 }
+    ritual: '为自己未来十年的命运确定一个必然会抵达的节点，或者说道标'
+    base_success: 0.63
+    cor_on_fail: 16
+    mad_on_fail: 12
+  - id: monster_2
+    pathway: monster
+    seq: 2
+    # 原著魔药名：先知（Soothsayer）
+    main:
+      - { itemId: 主材料·命运灰虎的独角或者蛇鳞树人长老的心脏或者“先知”非凡特性一份, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·命运灰虎的血液100毫升或蛇鳞树人长老的汁液100毫升或对应天使的血液100毫升（三选一）, qty: 1 }
+      - { itemId: 辅助材料·已应验的重要启示一条（应验前已记录在石碑或纸张上）, qty: 1 }
+      - { itemId: 辅助材料·灵界七光之一的祝福，积攒超过百年的幸运, qty: 1 }
+    ritual: '窥探命运长河，找到事关至少一个国家的重要启示，并确保这个启示最终以自己“看见”的模样呈现'
+    base_success: 0.61
+    cor_on_fail: 17
+    mad_on_fail: 13
+
+  # ---- 被缚者（prisoner）----
+  - id: prisoner_9
+    pathway: prisoner
+    seq: 9
+    # 原著魔药名：囚犯（Prisoner）
+    main:
+      - { itemId: 主材料·沉默之石, qty: 1 }
+      - { itemId: 主材料·伪人的血液之源, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·肮脏的水, qty: 1 }
+      - { itemId: 辅助材料·沉默之石的伴生物, qty: 1 }
+      - { itemId: 辅助材料·伪人的头发, qty: 1 }
+      - { itemId: 辅助材料·雪松精油, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.75
+    cor_on_fail: 10
+    mad_on_fail: 6
+  - id: prisoner_8
+    pathway: prisoner
+    seq: 8
+    # 原著魔药名：疯子（Lunatic）
+    main:
+      - { itemId: 主材料·变形怪的大脑, qty: 1 }
+      - { itemId: 主材料·食人之犬的舌头, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·自己的鲜血, qty: 1 }
+      - { itemId: 辅助材料·变形怪的脸皮, qty: 1 }
+      - { itemId: 辅助材料·食人之犬的唾液, qty: 1 }
+      - { itemId: 辅助材料·晒干的香橙皮（从一颗香橙上完整剥下来）, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.73
+    cor_on_fail: 11
+    mad_on_fail: 7
+  - id: prisoner_7
+    pathway: prisoner
+    seq: 7
+    # 原著魔药名：狼人（Werewolf）
+    main:
+      - { itemId: 主材料·“狼人”的獠牙, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·“狼人”的血液, qty: 1 }
+      - { itemId: 辅助材料·“狼人”的黑毛, qty: 1 }
+      - { itemId: 辅助材料·人类的内脏, qty: 1 }
+      - { itemId: 辅助材料·被诅咒的物品1件, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.71
+    cor_on_fail: 12
+    mad_on_fail: 8
+  - id: prisoner_6
+    pathway: prisoner
+    seq: 6
+    # 原著魔药名：活尸（Zombie）
+    main:
+      - { itemId: 主材料·“活尸”的心脏, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·活人的鲜血, qty: 1 }
+      - { itemId: 辅助材料·“活尸”的血肉, qty: 1 }
+      - { itemId: 辅助材料·“活尸”的眼珠, qty: 1 }
+      - { itemId: 辅助材料·月亮花, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.69
+    cor_on_fail: 13
+    mad_on_fail: 9
+  - id: prisoner_5
+    pathway: prisoner
+    seq: 5
+    # 原著魔药名：怨魂（Wraith）
+    main:
+      - { itemId: 主材料·“怨魂”的意识晶石, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·“怨魂”的血液100毫升或被“怨魂”污染产生的阴冷之水, qty: 1 }
+      - { itemId: 辅助材料·“怨魂”遗留的粉尘, qty: 1 }
+      - { itemId: 辅助材料·镜子1面, qty: 1 }
+      - { itemId: 辅助材料·人类或超凡生物的灵魂, qty: 1 }
+    ritual: '想办法进入灵界，找到对应自己的那部分信息，将它们封锁或封印至少3分钟，然后，在封锁解除前服食魔药。'
+    base_success: 0.67
+    cor_on_fail: 14
+    mad_on_fail: 10
+  - id: prisoner_4
+    pathway: prisoner
+    seq: 4
+    # 原著魔药名：木偶（Puppet）
+    main:
+      - { itemId: 主材料·“木偶”的眼珠, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·死于诅咒者的血液, qty: 1 }
+      - { itemId: 辅助材料·“木偶”的发丝, qty: 1 }
+      - { itemId: 辅助材料·“木偶”穿过的衣物1件或经常使用的物品1件, qty: 1 }
+      - { itemId: 辅助材料·囚禁至死者的镣铐或类似物品1件, qty: 1 }
+    ritual: '预备一具经特殊仪式制成的、含有神性的、原本属于“被缚者”途径的木乃伊，然后附身于上，服食魔药。（真正的木乃伊都是“被缚者”途径半神死亡后遗留的尸骸经内脏净化、诅咒铭刻、缠绕绷带、陵寝修建、安葬超过一年而来）'
+    base_success: 0.65
+    cor_on_fail: 15
+    mad_on_fail: 11
+  - id: prisoner_3
+    pathway: prisoner
+    seq: 3
+    # 原著魔药名：诅咒之物（Disciple of Silence）
+    main:
+      - { itemId: 主材料·“诅咒之物”的喉管, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·“诅咒之物”污染过的疯狂之水, qty: 1 }
+      - { itemId: 辅助材料·“诅咒之物”诅咒过的事物1个（已死去也符合条件）, qty: 1 }
+      - { itemId: 辅助材料·完整的羊皮或兔子皮1张, qty: 1 }
+      - { itemId: 辅助材料·有锚点寄托的自身雕像1尊, qty: 1 }
+    ritual: '成立一个教团，培养至少千名追随者，让他们能理解你的眼神，明白你的想法，贯彻你的理念，最恰当地代行你的意志，替你说出你想说的话语——追随者位格越高，所需数量越少，不是必须达到千名。'
+    base_success: 0.63
+    cor_on_fail: 16
+    mad_on_fail: 12
+  - id: prisoner_2
+    pathway: prisoner
+    seq: 2
+    # 原著魔药名：古代邪物（Ancient Bane）
+    main:
+      - { itemId: 主材料·“古代邪物”的精神集合体, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·“古代邪物”常用物品1件, qty: 1 }
+      - { itemId: 辅助材料·古老年代的尸骨, qty: 1 }
+      - { itemId: 辅助材料·还未完全消除的恶毒诅咒1个（延绵的年代越久，效果越好）, qty: 1 }
+      - { itemId: 辅助材料·有束缚含义的建筑雕塑, qty: 1 }
+    ritual: '需要找一件来自古代的、能承载天使力量的邪异物品。'
+    base_success: 0.61
+    cor_on_fail: 17
+    mad_on_fail: 13
+
+  # ---- 倒吊人（secrets_supplicant）----
+  - id: secrets_supplicant_9
+    pathway: secrets_supplicant
+    seq: 9
+    # 原著魔药名：秘祈人（Secrets Supplicant）
+    main:
+      - { itemId: 主材料·会唱歌的黑蘑菇一朵, qty: 1 }
+      - { itemId: 主材料·深黯蝙蝠一只, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·红葡萄酒, qty: 1 }
+      - { itemId: 辅助材料·于教堂内供奉过的蜡烛一截, qty: 1 }
+      - { itemId: 辅助材料·任意毒蘑菇一朵, qty: 1 }
+      - { itemId: 辅助材料·马鞭草粉末, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.75
+    cor_on_fail: 10
+    mad_on_fail: 6
+  - id: secrets_supplicant_8
+    pathway: secrets_supplicant
+    seq: 8
+    # 原著魔药名：倾听者（Listener）
+    main:
+      - { itemId: 主材料·厄运黑猫的耳朵, qty: 1 }
+      - { itemId: 主材料·地穴爬行者的心脏（类似穿山甲的超凡生物）, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·红葡萄酒, qty: 1 }
+      - { itemId: 辅助材料·面包一份, qty: 1 }
+      - { itemId: 辅助材料·厄运黑猫的心脏, qty: 1 }
+      - { itemId: 辅助材料·海棠花精油, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.73
+    cor_on_fail: 11
+    mad_on_fail: 7
+  - id: secrets_supplicant_7
+    pathway: secrets_supplicant
+    seq: 7
+    # 原著魔药名：隐修士（Shadow Ascetic）
+    main:
+      - { itemId: 主材料·阴影蠕虫一条, qty: 1 }
+      - { itemId: 主材料·血眼黑山羊的独角, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·他人之血, qty: 1 }
+      - { itemId: 辅助材料·血眼黑山羊的尾巴, qty: 1 }
+      - { itemId: 辅助材料·亵渎过某间教堂的物品（种类不限）, qty: 1 }
+      - { itemId: 辅助材料·野玫瑰纯露, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.71
+    cor_on_fail: 12
+    mad_on_fail: 8
+  - id: secrets_supplicant_6
+    pathway: secrets_supplicant
+    seq: 6
+    # 原著魔药名：蔷薇主教（Rose Bishop）
+    main:
+      - { itemId: 主材料·不死肉菌一朵, qty: 1 }
+      - { itemId: 主材料·复仇之影最大的碎片, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·自身之血, qty: 1 }
+      - { itemId: 辅助材料·不死肉菌的伴生藤蔓一截, qty: 1 }
+      - { itemId: 辅助材料·复仇之影残留的粉末, qty: 1 }
+      - { itemId: 辅助材料·肉桂, qty: 1 }
+    ritual: '（原著未记载具体仪式）'
+    base_success: 0.69
+    cor_on_fail: 13
+    mad_on_fail: 9
+  - id: secrets_supplicant_5
+    pathway: secrets_supplicant
+    seq: 5
+    # 原著魔药名：牧羊人（Shepherd）
+    main:
+      - { itemId: 主材料·血色稻草人的结晶, qty: 1 }
+      - { itemId: 主材料·牧群看守者的大脑（形象类似猴子）, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·牧群看守者的血液, qty: 1 }
+      - { itemId: 辅助材料·血色稻草人的秸秆, qty: 1 }
+      - { itemId: 辅助材料·至少抽打过一百人的皮鞭一根, qty: 1 }
+      - { itemId: 辅助材料·金盏花香膏, qty: 1 }
+    ritual: '想办法将自己的灵魂抽离身体，并在这种情况下影响身体，让它服食魔药，最后完成回归'
+    base_success: 0.67
+    cor_on_fail: 14
+    mad_on_fail: 10
+  - id: secrets_supplicant_4
+    pathway: secrets_supplicant
+    seq: 4
+    # 原著魔药名：黑骑士（Black Knight）
+    main:
+      - { itemId: 主材料·阴影骑士残留的幕布, qty: 1 }
+      - { itemId: 主材料·格里格尔的血肉凝聚体（格里格尔是一种超凡生物的名称，又叫血色巨人）, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·格里格尔的影痕, qty: 1 }
+      - { itemId: 辅助材料·阴影骑士的黑液, qty: 1 }
+      - { itemId: 辅助材料·所有仪式对象每人一滴血液, qty: 1 }
+      - { itemId: 辅助材料·香蜂草精油, qty: 1 }
+    ritual: '不使用暴力，诱导超过一万人的堕落，堕落者序列越高，仪式效果越好，另外，从正常到堕落的转化节点在时间上越是集中在一起，仪式效果也越好'
+    base_success: 0.65
+    cor_on_fail: 15
+    mad_on_fail: 11
+  - id: secrets_supplicant_3
+    pathway: secrets_supplicant
+    seq: 3
+    # 原著魔药名：三首圣堂（Trinity Templar）
+    main:
+      - { itemId: 主材料·牧群之主的头颅, qty: 1 }
+      - { itemId: 主材料·格里格尔首领的心脏, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·牧群之主的血液, qty: 1 }
+      - { itemId: 辅助材料·格里格尔首领的眼眸, qty: 1 }
+      - { itemId: 辅助材料·封印着100个灵魂的石头一颗, qty: 1 }
+      - { itemId: 辅助材料·茴香, qty: 1 }
+    ritual: '利用各种手段，主动让自己人格分裂又不至于失控（注：在之前序列，要是已经人格分裂，晋升时会直接失控）'
+    base_success: 0.63
+    cor_on_fail: 16
+    mad_on_fail: 12
+  - id: secrets_supplicant_2
+    pathway: secrets_supplicant
+    seq: 2
+    # 原著魔药名：秽语长老（Profane Presbyter）
+    main:
+      - { itemId: 主材料·影王的脓液, qty: 1 }
+      - { itemId: 主材料·血肉君主的结晶, qty: 1 }
+    aux:
+      - { itemId: 辅助材料·影王残留的粉末, qty: 1 }
+      - { itemId: 辅助材料·血肉君王的血100毫升、肉, qty: 1 }
+      - { itemId: 辅助材料·自身制造的、超过一百年的、与堕落相关的传说一份（写在纸上）, qty: 1 }
+    ritual: '分离、击败并彻底掌控住自身的影子后，进入阴影世界，面对各种危险，建立起一片属于自己的“国度”——阴影世界是异度空间的一种，与镜中世界有交集'
+    base_success: 0.61
+    cor_on_fail: 17
+    mad_on_fail: 13

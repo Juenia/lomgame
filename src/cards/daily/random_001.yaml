@@ -1,0 +1,35 @@
+id: random_001
+name: 跟着背影走
+trigger:
+  type: random
+  weight: 6
+  cond:
+    - cor<30
+  location:
+    - 迷雾街区
+effects:
+  - { dig: 2 }
+  - { cor: 1 }
+texts:
+  priv: |
+    {{气味}}先到，然后才是{{声音}}。
+    你在{{地点}}跟着一个背影走了半条街，{{收获}}。
+  group: "{{声音}}"
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 继续跟着他
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你跟着。跟到第二条街的时候，那个背影不见了。
+  - key: '2'
+    label: 停下来，看他是谁
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你停下来。他走远了，一直没有回头。
+  - key: '3'
+    label: 记住这条街
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你记住了街名。第二天再走，这里没有这条街。

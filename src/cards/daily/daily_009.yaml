@@ -1,0 +1,34 @@
+id: daily_009
+name: 碑上的名字
+trigger:
+  type: daily
+  weight: 6
+  cond: []
+  location:
+    - 墓园小径
+effects:
+  - { dig: 2 }
+  - { mad: 1 }
+  - { flag: dream_touched }
+texts:
+  priv: |
+    你沿着墓园小径走了一段。碑上的名字读起来像别人的梦。
+  group: 墓园小径的灯亮了一盏。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把每个名字读一遍
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你读到第七个的时候停了 —— 那个名字你认得。
+  - key: '2'
+    label: 看看是谁的灯亮了
+    effects: [ { dig: 5, cor: 1, mad: 1 } ]
+    text: |
+      灯在墓园门口。你走过去的时候它灭了。
+  - key: '3'
+    label: 走完这条小径
+    effects: [ { dig: 3 } ]
+    text: |
+      你走到尽头。尽头是一堵墙。

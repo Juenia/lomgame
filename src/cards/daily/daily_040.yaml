@@ -1,0 +1,36 @@
+# 原著依据：《日常生活.md》light_gas —— 壁上煤气灯「开阀——扭开关——点火苗」（ch1/ch2）
+# 本项目从该素材融合为事件卡（不是原作的原文，是依据它写的事件）。
+id: daily_040
+name: 点不着的煤气灯
+trigger:
+  type: random
+  weight: 5
+  cond:
+    - mad>25
+effects:
+  - { mad: 3 }
+  - { cor: 1 }
+  - { dig: 1 }
+texts:
+  priv: |
+    你按老规矩开阀、扭开关、点火苗 —— 火苗起来了，是绿的。
+    你眨了下眼，它又是正常的橘色。房间里没有任何别人。
+  group: 那扇窗里的灯亮了一下，颜色不太对。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把灯关了，点蜡烛
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你点上了蜡烛。这一夜屋里很安静。
+  - key: '2'
+    label: 再点一次，盯着看
+    effects: [ { dig: 5, cor: 2, mad: 3 } ]
+    text: |
+      你又点了一次。这次绿了大概三秒。
+  - key: '3'
+    label: 看灯罩上有没有痕迹
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      灯罩内侧有一圈很淡的绿。擦不掉。

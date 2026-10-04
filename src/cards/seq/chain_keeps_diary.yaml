@@ -1,0 +1,24 @@
+# 事件卡链（M2.87）—— **后续卡**：只有触发过前置卡的人才抽得到。
+# 前置：daily_013 一页残纸 / random_004 自己的笔迹（设 flag `keeps_diary`）
+# 判据：`cond: flag:keeps_diary`。
+#
+# ⚠️ 这一类此前**一条都没有**：全库 29 张卡设了 flag，而要求 flag 的卡是 **0 张** ——
+#    flag 设了就再没有人读，等于写了一半的链。这张是它的后半段。
+id: chain_keeps_diary
+name: 不是我写的
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:keeps_diary'
+effects:
+  - { mad: 3 }
+  - { dig: 2 }
+texts:
+  priv: |
+    你翻开日记，今天那一页已经写好了。
+    **字是你的字。** 笔画、连笔、连那一处习惯性的歪都对。
+    写的内容是今天还没发生的事。
+    你把本子合上，坐在那儿等。
+  group: 有人昨天一直在等一件事，后来那件事真的发生了。
+daily_limit: 1

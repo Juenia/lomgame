@@ -1,0 +1,37 @@
+id: path_reader_002
+name: 少了一枚纽扣
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:reader' ]
+  min_seq: 8
+effects:
+  - { dig: 5 }
+  - { cor: 1 }
+texts:
+  priv: |
+    现场很整齐，整齐得不对。
+    推理学员的工作不是找线索，是找**那些被人特意摆整齐的地方**。
+    死者外套上少了一枚纽扣，而地上没有。纽扣不会自己走 —— 它被人带走了，因为**上面有他不想让人看见的东西**。
+  group: 有人低声说了句什么，随即被别的声音盖住。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 在附近找那枚纽扣
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你找了一圈。没有。
+      **而地上有一道很细的拖痕** —— 通向门外。
+  - key: '2'
+    label: 查这件外套是哪家做的
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      你去问了。裁缝认得这块料子。
+      **他说这件衣服是定做的** —— 而做的时候来的是两个人。
+  - key: '3'
+    label: 问谁最先发现现场
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你问了。是他隔壁的邻居。
+      **而他描述现场的时候** —— 把纽扣的位置说对了。

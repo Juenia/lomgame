@@ -1,0 +1,777 @@
+# 权柄与象征（M2.85 内容填充 P1）
+#
+# 数据来源：诡秘之主原作数据/03-能力与权柄/权柄.yaml（萌娘百科《非凡途径》直出）
+# 原作 118 条，按「途径 × 权柄名」去重后 95 条（原作有 23 条同名重复行）。
+#
+# 读取点：`.图鉴 权柄`（按途径列出）与 `.图鉴 权柄 <名字>`（详查）。
+# ⚠️ 与 authorities.yaml（世界级能力的玩法落点）是两张不同的表，不要混。
+meta:
+  source: 诡秘之主原作数据/03-能力与权柄/权柄.yaml（萌娘百科《非凡途径》）
+  raw_count: 118
+  merged_duplicates: 23
+  count: 95
+  path_count: 18
+  transform_note: 按「途径 × 权柄名」去重（原作有 23 条同途径同名的重复行，描述整段相同）；kind 由名字前缀派生（「象征：X」→ 象征，其余 → 权柄），未新增文字。
+  relation_note: ⚠️ 与 authorities.yaml 是两回事：那张表是 M2.76 的**世界级能力玩法**（触发后改天气），本表是原作的**设定层权柄**（真神层次的能力概念）。
+  fill_note: M2.85 内容填充 P1：全部来自原作数据。
+divine_authorities:
+  - id: dauth_seer_01
+    pathway: seer
+    pathwayName: 占卜家·愚者途径
+    name: 象征：诡异
+    kind: 象征
+    description: “诡秘之境”：神国，“诡异”象征和“时空之王”象征自然带来的、可自行创造的神国，既然“诡异”象征又称“不可思议”象征，那自然是包含“不可理解”这个概念在内的，也就是说，自带一定的“隐秘”，“愚者”符号里的隐秘部分其实就来源于这里，是“诡异”的一种体现。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_seer_02
+    pathway: seer
+    pathwayName: 占卜家·愚者途径
+    name: 象征：时空之王
+    kind: 象征
+    description: “诡秘之境”：神国，“诡异”象征和“时空之王”象征自然带来的、可自行创造的神国，既然“诡异”象征又称“不可思议”象征，那自然是包含“不可理解”这个概念在内的，也就是说，自带一定的“隐秘”，“愚者”符号里的隐秘部分其实就来源于这里，是“诡异”的一种体现。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_seer_04
+    pathway: seer
+    pathwayName: 占卜家·愚者途径
+    name: 象征：不可思议
+    kind: 象征
+    description: “诡秘之境”：神国，“诡异”象征和“时空之王”象征自然带来的、可自行创造的神国，既然“诡异”象征又称“不可思议”象征，那自然是包含“不可理解”这个概念在内的，也就是说，自带一定的“隐秘”，“愚者”符号里的隐秘部分其实就来源于这里，是“诡异”的一种体现。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_seer_05
+    pathway: seer
+    pathwayName: 占卜家·愚者途径
+    name: 愚弄
+    kind: 权柄
+    description: 这是“愚者”最核心的两大权柄之一，也有对应的象征，主要效果是“弄假成真”，可以降低敌人的智商，可以产生强烈的变化，让周围的环境随着某种概念产生相应的改变，可以愚弄时间，混淆时间的先后，使非凡能力的效果滞后，仿佛摆脱了时间的限制，在凝固的环境中晃动，通过各种或真实或概念的缝隙，还可以愚弄历史，将前一秒和后一秒的自己做出分割。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_seer_06
+    pathway: seer
+    pathwayName: 占卜家·愚者途径
+    name: 重组（又称嫁接）
+    kind: 权柄
+    description: 这也是“愚者”的核心权柄，能将包含自身在内的、本身无法产生联系的实体事物和抽象概念重新组合在一起，达成不可思议、完全真实的效果，这能直接作用于“概念”，甚至权柄本身，像“愚者”途径低序列的“伤害转移”其实就是“重组”权柄的下位和细分。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_seer_07
+    pathway: seer
+    pathwayName: 占卜家·愚者途径
+    name: 奇迹
+    kind: 权柄
+    description: 这是“不可思议”这个象征所属的权柄（这个象征又称“诡异”），奇迹本身就无法解释、无法理解，所以才能称之为奇迹。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_seer_08
+    pathway: seer
+    pathwayName: 占卜家·愚者途径
+    name: 历史
+    kind: 权柄
+    description: “时空之王”象征和“诡异”象征混杂的权柄，虽然过去无法改变，历史已经成真，但“愚者”依旧能在一定程度上玩弄历史。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_seer_11
+    pathway: seer
+    pathwayName: 占卜家·愚者途径
+    name: 变形
+    kind: 权柄
+    description: “变化”象征所属权柄之一。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_seer_12
+    pathway: seer
+    pathwayName: 占卜家·愚者途径
+    name: 象征：变化
+    kind: 象征
+    description: “变形”权柄：“变化”象征所属权柄之一。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_seer_13
+    pathway: seer
+    pathwayName: 占卜家·愚者途径
+    name: 象征：命运道标
+    kind: 象征
+    description: “命运锚点”：“命运道标”象征的所属权柄，“命运锚点”的命运很难被改变，而除非祂自我控制，否则祂所说的话，将成为命运长河未来发展的节点之一，也就是说，祂之所言，都是未来，只是实现的方式和最终的表现未必是祂想要的，可能非常扭曲。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_seer_14
+    pathway: seer
+    pathwayName: 占卜家·愚者途径
+    name: 空间
+    kind: 权柄
+    description: 能凭空制造空间牢笼；能令空间退化和毁灭，使目标随着周围虚空坍塌和毁灭并被幽黑吞没；能瞬间前往任何一片空间；能开辟一个新的异度空间——“门”先生用来制造了特殊镜中世界。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_error_01
+    pathway: error
+    pathwayName: 偷盗者·错误途径
+    name: 象征：时空之王
+    kind: 象征
+    description: 弱化的，来自“时空之王”象征的时间权柄能。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_spectator_01
+    pathway: spectator
+    pathwayName: 观众·空想家途径
+    name: 洞察
+    kind: 权柄
+    description: 能洞悉目标潜在的心灵漏洞，知道其最恐惧的是什么东西；也能初步洞察目标过去的种种命运和因此产生的因果联系；“洞察”有时能穿透“隐秘”的遮掩，有时又会被“隐秘”挡住，彼此之间互相克制，同样的，面对欺瞒、愚弄等也一样；正常的反占卜、反预言无法瞒过洞察者。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_spectator_02
+    pathway: spectator
+    pathwayName: 观众·空想家途径
+    name: 空想
+    kind: 权柄
+    description: 书写的故事都会变成现实，但是若故事不符合逻辑，而是以“莫名”、“奇怪”等含糊不清的理由推动事情的发生的话，消耗会变大，被察觉的可能也会增加。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_spectator_04
+    pathway: spectator
+    pathwayName: 观众·空想家途径
+    name: 心灵
+    kind: 权柄
+    description: 能支配每个生物的心灵，让他们按照自己的意志行事，而这些生物很难察觉，认为那就是他们真实的想法。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_spectator_07
+    pathway: spectator
+    pathwayName: 观众·空想家途径
+    name: 人性
+    kind: 权柄
+    description: 人性是好，也是坏，是理智，也是疯狂，它们既自然诞生而来，也可以由“空想家”制造。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_spectator_08
+    pathway: spectator
+    pathwayName: 观众·空想家途径
+    name: 梦境
+    kind: 权柄
+    description: 梦境这个概念本身。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_spectator_09
+    pathway: spectator
+    pathwayName: 观众·空想家途径
+    name: 失控
+    kind: 权柄
+    description: 对非凡者来说，自身心灵的失败，往往就是失控的开始。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_sailor_01
+    pathway: sailor
+    pathwayName: 水手·暴君途径
+    name: 象征：造物
+    kind: 象征
+    description: “造物”象征衍化而来的部分“雷霆”权柄（电与磁）：掌控电与磁的力量，能发出强烈的电磁风暴，破坏所有的信息结构；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_sailor_02
+    pathway: sailor
+    pathwayName: 水手·暴君途径
+    name: 暴君
+    kind: 权柄
+    description: 万王之王，下分“威慑”权柄、“愤怒”权柄、部分“恐惧”权柄——而这些往下衍化出了“歌唱”能力；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_sailor_03
+    pathway: sailor
+    pathwayName: 水手·暴君途径
+    name: 物质
+    kind: 权柄
+    description: 物质可转化为能量，能量可凝为物质，也就包含了电磁、强、弱等基本之力，与“雷霆”权柄有交叉，拥有该权柄者能于短时间内电流化光速化，能带着部分物质，接近速度的极限，一次创造出可以毁灭星球的狂暴波浪；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_sailor_05
+    pathway: sailor
+    pathwayName: 水手·暴君途径
+    name: 天灾
+    kind: 权柄
+    description: “灾难”下属，衍化而成；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_sun_01
+    pathway: sun
+    pathwayName: 歌颂者·太阳途径
+    name: 太阳
+    kind: 权柄
+    description: 一轮既符合现实又满足神秘学定义的真正太阳，既能散发出可以照亮甚至摧毁整个世界整个星系的灼热光芒，也能挥洒能量和制造出超高温火焰，并净化掉相应的污秽和邪恶。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_sun_02
+    pathway: sun
+    pathwayName: 歌颂者·太阳途径
+    name: 契约
+    kind: 权柄
+    description: 一旦签订契约，没相应象征的旧日也会受到很强的约束。来源于“神圣”的“信仰”权柄：身心的纯化，精神的狂热，他人和自己。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_reader_01
+    pathway: reader
+    pathwayName: 阅读者·白塔途径
+    name: 智慧
+    kind: 权柄
+    description: 总是能提前看清楚局势的变化，做出最正确最及时的选择。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_reader_02
+    pathway: reader
+    pathwayName: 阅读者·白塔途径
+    name: 全知
+    kind: 权柄
+    description: 可以看到目标过去、现在、未来的全部信息；模仿能力和法术的效果达到原版的100%——不涉及权柄。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_reader_03
+    pathway: reader
+    pathwayName: 阅读者·白塔途径
+    name: 星界导师
+    kind: 权柄
+    description: 可以在短时间里，在较小范围内，通过对星界概念的触及和利用，使得目标的某些行为失去效果或出现错误或扩大影响，比如，短时间内重新定义心灵大海的“水”、“混沌海”的“水”等概念，让它们无法被“暴君”利用，或更好的利用——这种概念的临时性修改，只能作用于原本概念的其中一方面且必须是不涉及主体的部分，并且不能超过一项。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_reader_05
+    pathway: reader
+    pathwayName: 阅读者·白塔途径
+    name: 创造
+    kind: 权柄
+    description: 源于“造物”象征和“全知全能”象征，全知的“白塔”自然能创造任何东西，只是无法脱离那些不属于自己的象征和权柄。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_reader_06
+    pathway: reader
+    pathwayName: 阅读者·白塔途径
+    name: 象征：造物
+    kind: 象征
+    description: 部分“创造”权柄：源于“造物”象征和“全知全能”象征，全知的“白塔”自然能创造任何东西，只是无法脱离那些不属于自己的象征和权柄。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_reader_07
+    pathway: reader
+    pathwayName: 阅读者·白塔途径
+    name: 象征：全知全能
+    kind: 象征
+    description: 部分“创造”权柄：源于“造物”象征和“全知全能”象征，全知的“白塔”自然能创造任何东西，只是无法脱离那些不属于自己的象征和权柄。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_reader_08
+    pathway: reader
+    pathwayName: 阅读者·白塔途径
+    name: 星界阶梯
+    kind: 权柄
+    description: “白塔”能在一定程度上影响星界汇聚的概念，也象征着知识一层层通向宇宙最本质的那些象征，通向最源头的那些危险。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_reader_10
+    pathway: reader
+    pathwayName: 阅读者·白塔途径
+    name: 灾祸
+    kind: 权柄
+    description: 能给予他人“疯狂”和“毁灭”，某些知识就是这些象征的具现化。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_reader_11
+    pathway: reader
+    pathwayName: 阅读者·白塔途径
+    name: 规律
+    kind: 权柄
+    description: 来自“全知”的下位权柄，知晓的规律，就能掌握规律，利用规律。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_reader_12
+    pathway: reader
+    pathwayName: 阅读者·白塔途径
+    name: 学习
+    kind: 权柄
+    description: “全知”和“智慧”的下位权柄。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_reader_13
+    pathway: reader
+    pathwayName: 阅读者·白塔途径
+    name: 解析
+    kind: 权柄
+    description: “全知”和“智慧”的下位权柄。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_mother_01
+    pathway: mother
+    pathwayName: 耕种者·母亲途径
+    name: 象征：万物之母
+    kind: 象征
+    description: “母亲”权柄由“万物之母”象征衍化来的权柄：“母亲”孕育万物，包括神灵、“概念”和世界；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_apothecary_01
+    pathway: apothecary
+    pathwayName: 药师·月亮途径
+    name: 召唤
+    kind: 权柄
+    description: 能借助月亮对灵界的影响，从灵界深处召唤来各种类型的强大生物帮助自己；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_apothecary_02
+    pathway: apothecary
+    pathwayName: 药师·月亮途径
+    name: 灵性
+    kind: 权柄
+    description: 能干扰和影响所有目标的灵性状态，可分别给予迅速恢复、消耗加剧、不稳定等效果。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_apothecary_04
+    pathway: apothecary
+    pathwayName: 药师·月亮途径
+    name: 生命
+    kind: 权柄
+    description: 自身拥有永恒的生命，也可赐予或收回生命（比如创造一枚吃了可以延续生命上千年的桃子），治愈创伤与疾病，清除附着于生命的污秽之物，以及创造或改变生物；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_apothecary_05
+    pathway: apothecary
+    pathwayName: 药师·月亮途径
+    name: 黑暗
+    kind: 权柄
+    description: 与“黑暗”途径不同，“月亮”途径的“黑暗”权柄更偏重因月亮而滋生的黑暗类法术和特质；部分“诡异”权柄：“月亮”的朦胧和“月亮”的神秘带来了自我替身、恐怖诅咒、月光化等诡异的能力；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_warrior_01
+    pathway: warrior
+    pathwayName: 战士·黄昏巨人途径
+    name: 战斗
+    kind: 权柄
+    description: “荣耀者”是最擅长正面战斗的序列2天使，其下位的“守护”在此阶段可以形成“牢笼”，除了防御，还获得封印的效果——这融合了“黄昏”的衰败之力。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_warrior_02
+    pathway: warrior
+    pathwayName: 战士·黄昏巨人途径
+    name: 神圣
+    kind: 权柄
+    description: “荣耀”是“神圣”的一部分，死亡同样是生命最神圣最严肃的事情之一，所以，“荣耀者”的“荣耀”是晨曦，也是黄昏，是摧毁，也是净化。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_warrior_03
+    pathway: warrior
+    pathwayName: 战士·黄昏巨人途径
+    name: 代行
+    kind: 权柄
+    description: 和同领域的“衰败左手”一样，“神明之手”可代表自身所效忠的神明（唯一性也算）或旧日展现威能，降下神罚，当然，只能短暂和节制，否则会逐渐丧失心智，成为真正的“奴仆”。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_warrior_04
+    pathway: warrior
+    pathwayName: 战士·黄昏巨人途径
+    name: 象征：奴役
+    kind: 象征
+    description: 部分“神圣”权柄，“黄昏”权柄，“战斗”权柄（其有诸多下位权柄，比如“力量”、“巨大”、“摧毁”、“守护”等），部分“代行”权柄——永暗之河“奴役”象征在“巨人”途径的体现；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_warrior_05
+    pathway: warrior
+    pathwayName: 战士·黄昏巨人途径
+    name: 黄昏
+    kind: 权柄
+    description: “光”、“时空”与“衰败”三大象征共同衍化而来；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_corpse_collector_01
+    pathway: corpse_collector
+    pathwayName: 收尸人·死神途径
+    name: 死亡
+    kind: 权柄
+    description: 死亡能力上升到概念领域，生命会死亡，记忆会死亡，互相之间的联系也会死亡，事物存在的烙印同样会死亡——哪怕非凡特性不灭，在面对这个权柄时，也会短暂死亡；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_corpse_collector_02
+    pathway: corpse_collector
+    pathwayName: 收尸人·死神途径
+    name: 苍白
+    kind: 权柄
+    description: 凋零的极致，一切的褪色，精神、意志、非凡能力都将在苍白下逐渐平静、死寂；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_corpse_collector_03
+    pathway: corpse_collector
+    pathwayName: 收尸人·死神途径
+    name: 奴役
+    kind: 权柄
+    description: 万物的奴役者；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_corpse_collector_04
+    pathway: corpse_collector
+    pathwayName: 收尸人·死神途径
+    name: 亡灵
+    kind: 权柄
+    description: 亡灵存在的根源，所有亡灵的主人；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_corpse_collector_05
+    pathway: corpse_collector
+    pathwayName: 收尸人·死神途径
+    name: 终点
+    kind: 权柄
+    description: 一切的归宿，所有生命共同的终点，它依托“门”途径的能力衍生出了冥界。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_assassin_01
+    pathway: assassin
+    pathwayName: 刺客·魔女途径
+    name: 末日
+    kind: 权柄
+    description: “末日”和“灾难”皆属于“混沌”的下位权柄，“末日”可以在指定区域内，带来完整的末日，让包括命运在内的万事万物纠缠终结，是矛盾的总爆发，这是“灾难”无法比拟的，简单来说就是，“灾难”的重点是不同的灾难表现形式，而“末日”的重点是最终结果的到来——“混沌”代表最终的结果。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_assassin_02
+    pathway: assassin
+    pathwayName: 刺客·魔女途径
+    name: 欢愉
+    kind: 权柄
+    description: 这是“魅力”权柄的下位，让人沉沦的极致欢愉本身就是极致“魅力”的一部分，而欢愉过后的极端空虚和痛苦让这样的魅力更无法抗拒，在欢愉中流泪，在欢愉中升华，也在欢愉中死去，这何尝不是一种末日？
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_assassin_03
+    pathway: assassin
+    pathwayName: 刺客·魔女途径
+    name: 疾病
+    kind: 权柄
+    description: 掌握的不再仅仅是神秘学病原体，而是所有通往疾病的东西。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_assassin_04
+    pathway: assassin
+    pathwayName: 刺客·魔女途径
+    name: 混沌
+    kind: 权柄
+    description: 核心权柄，万物归于混沌、复返原初的权柄，它是毁灭和终结象征的分支，是不同于死亡、永暗、衰弱、败亡、杀戮、破碎的终结方式。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_assassin_05
+    pathway: assassin
+    pathwayName: 刺客·魔女途径
+    name: 原初
+    kind: 权柄
+    description: 混沌是结束，原初则是开始，作为最初造物主的阴性面，“原初魔女”同时拥有着开始和结束方面的权柄，而这两者在某种程度上又是相同的，等到造物主层次，会融为一体，而目前阶段，序列0的“原初”权柄代表着静止，代表着停滞，代表着全能，下位权柄是“石化”等。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_assassin_06
+    pathway: assassin
+    pathwayName: 刺客·魔女途径
+    name: 镜中世界
+    kind: 权柄
+    description: 掌控与镜子相关的一切以及延伸出来的各种能力，包括不老和复活——除非毁灭所有的镜中世界，否则没法真正杀死原初魔女。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_assassin_07
+    pathway: assassin
+    pathwayName: 刺客·魔女途径
+    name: 魅力
+    kind: 权柄
+    description: 概念层面的魅力，对万事万物都具有极致的，让人产生迷恋、不舍和占有欲的魅力，哪怕旧日，也会受到吸引，但如果该旧日对相关唯一性和序列1非凡特性有渴望，则占有欲会被动增强，达到疯狂想吃掉魔女融合魔女，从而永远在一起的程度——奇克疯掉后，该权柄的效果未能达到最佳。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_assassin_08
+    pathway: assassin
+    pathwayName: 刺客·魔女途径
+    name: 女性
+    kind: 权柄
+    description: 我及我之所见，皆为女性，若该权柄出问题，则全宇宙的相关性别皆会出问题。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_hunter_01
+    pathway: hunter
+    pathwayName: 猎人·红祭司途径
+    name: 征服
+    kind: 权柄
+    description: 征服不再仅仅是物品，还可以是地域，甚至是一些概念；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_hunter_02
+    pathway: hunter
+    pathwayName: 猎人·红祭司途径
+    name: 魅力
+    kind: 权柄
+    description: 部分“魅力”权柄，让人想要臣服想要效忠的魅力，以及极端厌恶杀之而后快的“魅力”。与“征服”权柄共生，每一位红祭司都是最有魅力的雄性；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_hunter_03
+    pathway: hunter
+    pathwayName: 猎人·红祭司途径
+    name: 战争
+    kind: 权柄
+    description: 哪怕不亲自掀起战争，也能通过注视或存在，让目标区域发生战争，并决定战争的规模、烈度、方式；附带的“战争之主”象征，可以在一个星球上，给任何一个地方的团队成员分享力量，这包括自身位格和“唯一性”的力量——同一时间，团队成员和红祭司只有一位能使用唯一性，而团队成员使用唯一性会受本身支撑的缺乏，无法发挥出完整的威能；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_hunter_04
+    pathway: hunter
+    pathwayName: 猎人·红祭司途径
+    name: 象征：战争之主
+    kind: 象征
+    description: “战争”权柄：哪怕不亲自掀起战争，也能通过注视或存在，让目标区域发生战争，并决定战争的规模、烈度、方式；附带的“战争之主”象征，可以在一个星球上，给任何一个地方的团队成员分享力量，这包括自身位格和“唯一性”的力量——同一时间，团队成员和红祭司只有一位能使用唯一性，而团队成员使用唯一性会受本身支撑的缺乏，无法发挥出完整的威能；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_hunter_05
+    pathway: hunter
+    pathwayName: 猎人·红祭司途径
+    name: 毁灭
+    kind: 权柄
+    description: 上可毁灭一个星球，下可杀死一位真神，这还附带了弱点的侦察和最后的锁定，被“毁灭”权柄杀死的，若没有特殊的、提前的布置，无法复活，将走向真正的终结；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_hunter_06
+    pathway: hunter
+    pathwayName: 猎人·红祭司途径
+    name: 祭祀
+    kind: 权柄
+    description: 可向力量本源（源质）祈求力量或投影降临——掌握着“祭祀”权柄的红祭司甚至可以向别的源质祈求，只要是最初那位造物主分裂出来的那些，当然，这也意味着“红祭司”时刻走在被源质污染的边缘；“红祭司”还能干扰和影响星系内任何一场祭祀活动；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_hunter_07
+    pathway: hunter
+    pathwayName: 猎人·红祭司途径
+    name: 男性
+    kind: 权柄
+    description: 自身必为男性，且是最阳刚最强力最有繁衍能力的男性，可将任何事物转变为男性，并给予不同程度的生殖能力；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_criminal_01
+    pathway: criminal
+    pathwayName: 罪犯·深渊途径
+    name: 堕落
+    kind: 权柄
+    description: 如果说“倒吊人”体现的是每个生灵的堕落自性，那深渊就是让所有身处其中者必然堕落的环境，不仅诱发，而且制造。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_criminal_02
+    pathway: criminal
+    pathwayName: 罪犯·深渊途径
+    name: 污秽
+    kind: 权柄
+    description: “污秽”是深渊的组成部分，是所有不洁之物的具现，会带来的身体、精神、心灵的多重冲击和影响。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_criminal_03
+    pathway: criminal
+    pathwayName: 罪犯·深渊途径
+    name: 污染
+    kind: 权柄
+    description: 既是堕落和污染的向外延伸，也是欲望爆发、理智失控的必然结局。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_criminal_04
+    pathway: criminal
+    pathwayName: 罪犯·深渊途径
+    name: 欲望
+    kind: 权柄
+    description: 比如“欲望母树”残存的那些，“深渊”的欲望更多体现在对欲望的诱发、催化和引爆，而不是欲望本身。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_criminal_05
+    pathway: criminal
+    pathwayName: 罪犯·深渊途径
+    name: 诅咒
+    kind: 权柄
+    description: 比起“被缚者”，深渊的诅咒主要在精神和心灵领域。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_criminal_06
+    pathway: criminal
+    pathwayName: 罪犯·深渊途径
+    name: 异类
+    kind: 权柄
+    description: 向下的影响是恶魔们因个人特点、环境因素体现出不同的异变，而向上的好处是，深渊拥有这些异变的全部，包容这一切。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_lawyer_01
+    pathway: lawyer
+    pathwayName: 律师·黑皇帝途径
+    name: 象征：秩序阴影
+    kind: 象征
+    description: 核心是“秩序阴影”象征下的“独裁者”权柄，另外还有大部分“混乱”权柄。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_lawyer_02
+    pathway: lawyer
+    pathwayName: 律师·黑皇帝途径
+    name: 混乱
+    kind: 权柄
+    description: 不再是秩序的寄生虫、解释者、扭曲者，脱离秩序，让秩序和规则本身都陷入混乱。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_arbiter_01
+    pathway: arbiter
+    pathwayName: 仲裁人·审判者途径
+    name: 审判
+    kind: 权柄
+    description: “审判之剑”：对混乱之物可做出一次直接“审判”，无法躲避，目标越是混乱（也就是越背离或越扰乱当前秩序），受到的“审判”效果越强；通过这种“审判”，“混乱猎手”可以借助环境秩序瞬间跳跃到目标地点或目标身前。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_arbiter_02
+    pathway: arbiter
+    pathwayName: 仲裁人·审判者途径
+    name: 混乱
+    kind: 权柄
+    description: 对“混乱”有直接的感应能力和锁定、追踪能力，可迅速平息环境的混乱。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_arbiter_04
+    pathway: arbiter
+    pathwayName: 仲裁人·审判者途径
+    name: 平衡
+    kind: 权柄
+    description: 强制平衡，除了之前表现出来的那些，还能令很多抽象之物平衡，比如，让理智和疯狂在一定时间内恢复平衡，但最多三分钟。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_perfect_01
+    pathway: perfect
+    pathwayName: 通识者·完美者途径
+    name: 规律
+    kind: 权柄
+    description: 能对物理规律进行一定程度的改变，燃烧未必会出现火焰，冰霜或许会带来温暖，大地不再承载重量。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_perfect_02
+    pathway: perfect
+    pathwayName: 通识者·完美者途径
+    name: 解析
+    kind: 权柄
+    description: 能看到天使的本质并据此拟定战术。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_perfect_03
+    pathway: perfect
+    pathwayName: 通识者·完美者途径
+    name: 制造
+    kind: 权柄
+    description: 能制造出自身想象的绝大部分物品，哪怕与超凡相关的，在缺乏材料的情况下，也能有临时性的替代物。弱化的“学习”权柄：看一遍就学会不再是传说。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_perfect_04
+    pathway: perfect
+    pathwayName: 通识者·完美者途径
+    name: 文明
+    kind: 权柄
+    description: 可以让混沌沉淀出少许秩序，可以让毁灭焕发出微弱新生，可以让黑暗迸发起初光，可以依靠“文明”的重量冲击、束缚、碾压目标。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_perfect_05
+    pathway: perfect
+    pathwayName: 通识者·完美者途径
+    name: 教化
+    kind: 权柄
+    description: 可提升目标智慧，可给予启迪和灵感，可让敌人困在数理的迷宫里，或达成类似的效果。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_perfect_06
+    pathway: perfect
+    pathwayName: 通识者·完美者途径
+    name: 现实知识
+    kind: 权柄
+    description: 掌握现实世界已被发现的全部知识，并能对它们做一定的修改，在大陆层面立即生效，在星球层面迅速生效，在星系层面逐渐生效，在此之外无效；可让目标短暂失去对应的知识，被知识排斥；可让目标掌控的知识变成有利于自身的潜伏者、污染者。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_perfect_09
+    pathway: perfect
+    pathwayName: 通识者·完美者途径
+    name: 灵界导师
+    kind: 权柄
+    description: “完美者”和“隐者”共享“灵界导师”权柄。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_perfect_10
+    pathway: perfect
+    pathwayName: 通识者·完美者途径
+    name: 学习
+    kind: 权柄
+    description: 既可以让自身一学就会，也能让他人怎么都学不会。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_mystery_pryer_01
+    pathway: mystery_pryer
+    pathwayName: 窥秘人·隐者途径
+    name: 教化
+    kind: 权柄
+    description: 能于眼眸内凝聚出一个又一个复杂而虚幻的符号，将大量的庞杂的无用的知识灌入目标脑海，撑爆其脑袋。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_mystery_pryer_02
+    pathway: mystery_pryer
+    pathwayName: 窥秘人·隐者途径
+    name: 窥秘
+    kind: 权柄
+    description: 能直接窥见许多秘密，包括众神的，乃至旧日的。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_mystery_pryer_03
+    pathway: mystery_pryer
+    pathwayName: 窥秘人·隐者途径
+    name: 神秘知识
+    kind: 权柄
+    description: 核心能力之一是赋予数字力量，赋予它们真正意义上的、各自不同的、比原版衰减了不少的象征力量。其中，“0”代表混沌，代表未知，代表一切发生之前，“1”代表开始，代表最初，代表创造了这个世界的那位造物主。当它们首尾相接将形成一片数字世界，隐者可通过将1变为0将世界归于虚无。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_mystery_pryer_06
+    pathway: mystery_pryer
+    pathwayName: 窥秘人·隐者途径
+    name: 备份
+    kind: 权柄
+    description: 能通过备份后隐藏起来的信息复活，指定的备份信息要想接收到唯一性，必须于死亡之前，自主选择做出激活。若不做激活，唯一性将自然地转移到最近的那份备用信息内，遵循就近原则。相应的，信息会在不断的备份中出现丢失、衰减、错误、混乱等情况，这是整个世界的底层规律决定的，是错误、衰败、增熵等象征的体现，每多备份一次整体信息，出问题的概率就越多，暗藏混乱的可能就越高。在这件事情上，比起被人杀死，自我毁灭会更显著地导致信息的衰减与混乱加剧，因为这是从内部、从自我意识的否定开始的。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_monster_01
+    pathway: monster
+    pathwayName: 怪物·命运之轮途径
+    name: 预知
+    kind: 权柄
+    description: 不仅能通过把握命运长河，得到未来的画面和必将出现的道标，而且还可以深刻影响短时间内的命运长河支流，让自身做出的预言得到确切的实现——类似的大预言术；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_monster_02
+    pathway: monster
+    pathwayName: 怪物·命运之轮途径
+    name: 象征：命运
+    kind: 象征
+    description: “命运”象征衍化而来的“命运”权柄（非权柄，别的途径也有涉及部分命运权柄）：命运的化身，既是“好运”，也是“厄运”，更擅长“预知”；其中，部分“预知”权柄：不仅能通过把握命运长河，得到未来的画面和必将出现的道标，而且还可以深刻影响短时间内的命运长河支流，让自身做出的预言得到确切的实现——类似的大预言术；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_monster_03
+    pathway: monster
+    pathwayName: 怪物·命运之轮途径
+    name: 概率
+    kind: 权柄
+    description: “命运”象征衍化来的另一大权柄，万事皆可概率化，这是命运的混乱本质的体现之一，掌握了概率，就掌握了万物的命运；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_monster_05
+    pathway: monster
+    pathwayName: 怪物·命运之轮途径
+    name: 循环
+    kind: 权柄
+    description: “回归”象征衍化来的权柄，归于母体，归于源头，归于最初，是宇宙的本能；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_monster_06
+    pathway: monster
+    pathwayName: 怪物·命运之轮途径
+    name: 象征：回归
+    kind: 象征
+    description: “循环”权柄：“回归”象征衍化来的权柄，归于母体，归于源头，归于最初，是宇宙的本能；
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_monster_07
+    pathway: monster
+    pathwayName: 怪物·命运之轮途径
+    name: 混乱
+    kind: 权柄
+    description: “混乱”象征的体现之一，命运的本质是混乱，体现着疯狂，“命运之轮”看守着它们，又利用着它们。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）
+  - id: dauth_monster_08
+    pathway: monster
+    pathwayName: 怪物·命运之轮途径
+    name: 象征：混乱
+    kind: 象征
+    description: “混乱”权柄：“混乱”象征的体现之一，命运的本质是混乱，体现着疯狂，“命运之轮”看守着它们，又利用着它们。
+    source: https://zh.moegirl.org.cn/非凡途径
+    confidence: 中高（萌娘百科《非凡途径》直出）

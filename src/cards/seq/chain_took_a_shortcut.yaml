@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：抄了近路（设 flag `took_a_shortcut`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_took_a_shortcut
+name: 你又走了那条
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:took_a_shortcut'
+effects:
+  - { dig: 3 }
+  - { cor: 2 }
+texts:
+  priv: |
+    这次你数着步子进去。
+    走到第一百二十步的时候，你听见后面有人也在走。
+    **你停下来。后面的脚步也停了。**
+    你转过身。巷子里只有你一个人的脚印。
+  group: 有人昨天在巷子里站了很久，出来的时候天快亮了。
+daily_limit: 1

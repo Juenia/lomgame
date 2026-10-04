@@ -1,0 +1,35 @@
+id: random_008
+name: 准时换班
+trigger:
+  type: random
+  weight: 4
+  cond:
+    - party:size>=2
+  location:
+    - 墓园小径
+effects:
+  - { dig: 2 }
+  - { mad: -2 }
+texts:
+  priv: |
+    换班的人准时来了，{{声音}}。
+    你们在{{地点}}并排站了一会儿，谁都没说话，这让你安心。
+  group: "巡夜的人换了一班。"
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 跟他并排站完这一班
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你们站到天亮。谁都没说话。
+  - key: '2'
+    label: 问他昨晚看见了什么
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      他说没什么。而他说这话的时候在数自己的手指。
+  - key: '3'
+    label: 先走，把位置让给他
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你走了。走出十几步回头看，他还站在原处。

@@ -1,0 +1,39 @@
+id: path_mother_005
+name: 树记得你
+trigger:
+  type: daily
+  weight: 6
+  cond: [ 'pathway:mother' ]
+  min_seq: 5
+  cooldown_days: 4
+effects:
+  - { dig: 6 }
+  - { cor: 2 }
+  - { hp: 5 }
+texts:
+  priv: |
+    你在林子里睡了两个钟头，醒的时候树根已经绕过了你的手腕，但没有收紧。
+    德鲁伊走的不是路，是**被允许走的地方**。
+    你把手抽出来，树根自己退开了。你站起来的时候，整片林子安静了一瞬 —— 那种安静不是害怕，是**认出了你**。
+  group: 林子里的鸟忽然全都不叫了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把手抽出来，站起来
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你把手抽出来。树根自己退开了。
+      **而你站起来的时候** —— 整片林子安静了一瞬。
+  - key: '2'
+    label: 再躺回去
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你又躺下了。这次树根收得紧了一点。
+      **而你睡了过去** —— 醒来的时候天已经黑了。
+  - key: '3'
+    label: 跟这片林子说句话
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      你说了一句话。没有回答。
+      **而鸟在你说话的时候回来了** —— 一只一只落回原来的枝上。

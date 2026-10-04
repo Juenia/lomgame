@@ -1,0 +1,39 @@
+# M2.1（方案 D）：lost_001 的队伍版。lost_001 改成独狼版之后，
+# 「队友在身边时才会发生的失控场景」挪到这里，保住原本的设计（队伍 ≥2 才抽得到）。
+id: lost_006
+name: 身边的人
+trigger:
+  type: random
+  weight: 6
+  cond:
+    - status:lost_control
+    - party:size>=2
+  cooldown_days: 2
+effects:
+  - { hp: -8 }
+  - { mad: 3 }
+  - { flag: marked_by_party }
+texts:
+  priv: |
+    你朝身边的人挥了手。
+    等你认出那是谁的时候，他已经退到了三步外，脸上多了一道口子。
+    {{声音}}，而你分不清是谁在喘。
+  group: "队伍里传出了一声闷响。"
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 扶住他
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你伸手扶他。他躲开了，自己靠到了墙上。
+  - key: '2'
+    label: 退开，问他是谁
+    effects: [ { dig: 5, cor: 2, mad: 3 } ]
+    text: |
+      你问了。他答了一个名字 —— 而那是你的名字。
+  - key: '3'
+    label: 低头看自己手上的血
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你低头。手上有血 —— 而你没碰过他。

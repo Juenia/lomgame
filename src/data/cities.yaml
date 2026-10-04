@@ -1,0 +1,899 @@
+# 城市（M2.7 主任务二）：玩家出生的地方，也是「你能走哪条途径」的唯一依据。
+#
+# ⚠️ **M2.76：22 条正途径全部落地，所以 planned_pathways 一律清空。**
+#    这一栏的语义是「地理上属于这里、但还没有内容」——正途径既然都有了内容，
+#    留在这里只会让「哪条途径还没做」这件事看起来比实际更糟。
+#    真正未实现的只剩《宿命之环》10 条**外神途径**，而它们不该由城市传承
+#    （设定上它们不是「某座城的传承」，是外神的东西），所以也不写进来。
+#
+# 途径分配口径（任务书 §2.2「每个区域只开 2—3 条途径」）：
+#
+# 途径分配口径（任务书 §2.2「每个区域只开 2—3 条途径」）：
+#   tingen   愚者 + 不眠者   —— 新手区，与任务书 §3.2 表一致
+#   backlund 战士 + 愚者 + 完美者 —— 首都；任务书写「战士、门」，门尚未实现（M2.26 加 perfect）
+#   pritz    不眠者 + 战士 + 水手 —— 港口；秘法师尚未实现（sailor 已在 M2.19 落地）
+#   trier    愚者 + 战士     —— 异国；任务书写「错误、观众」，两条都尚未实现
+#   byron    不眠者 + 愚者 + 母亲   —— 南大陆；任务书写「收尸人、窥秘人」，两条都尚未实现
+#   sunia    （无）          —— 海域，出生权重 0：它只能被「到达」，不能被出生
+#
+# 这张分配表有一个刻意的性质：**每一条途径都至少有一座城市不开放它**。
+# 于是「你所在的城市没有这条途径的传承」这句话在任何途径上都是可达的，
+# 而不是一句永远走不到的死代码。
+#
+# center 是抵达时的落脚点：到达必须落到一个具体地点（通缉系统读的 flags.loc 是按地点存的），
+# 否则玩家会带着上一座城市的地点下车，势力判定就错位了。
+cities:
+  - id: tingen
+    name: 廷根市
+    region_id: loen
+    center: tingen
+    # 廷根都会区：原有 11 个地点里的九个都归这里（含老码头、无光地下室、封存档案室 ——
+    # 它们在 M2.2 的天气扩散图里本来就与 tingen 连成一片）。
+    # 这一条是**刻意**的：现有实例测试里那些 .探索 老码头 / .探索 墓园小径
+    # 因此完全不用改，M2.7 的「按城市过滤」不会把它们的动作打回来。
+    locations: [ tingen, mist_street, old_dock, candle_bookstore, graveyard_path, steam_station, dark_cellar, blackthorn_abbey, above_grey_fog, sealed_archive, fog_chapel, grey_loom, house_of_deja_vu, st_selena_cathedral, saint_number_church, river_and_sea_church, blackthorn_security, wild_heart_bar, hound_tavern ]
+    factions: [ police, church, gang, none ]
+    is_port: false
+    min_seq: 9
+    pathways: [ seer, sleepless, mystery_pryer, secrets_supplicant ]
+    # M2.76：廷根：隐者（窥秘人）+ 倒吊人（秘祈人）—— 内陆小城，隐秘组织的地盘
+    # M2.76：廷根：隐者（窥秘人）+ 倒吊人（秘祈人）—— 内陆小城，隐秘组织的地盘
+    planned_pathways: []
+    birth_weight: 30
+    # M2.7.6：创建回执里的一句氛围。普通人第一次看见自己的城市，就该是这一句。
+    flavor: 雨一直没停。街上的人低着头走，谁也不看谁。
+    # ===== M2.85 内容填充 P2：原作设定字段（源：诡秘之主原作数据/05-地理/城市.yaml）=====
+    # 执行点：.世界 城市 <名字或别名>（含别名匹配）。全部可选，缺省为空 —— 向后兼容。
+    country: 鲁恩王国
+    city_type: city
+    status: 现存
+    population: ''
+    aliases:
+      - 大学之城
+    features:
+      - 位于鲁恩王国北方，气候凉爽
+      - 号称“大学之城”，设有霍伊、廷根两所大学，另有技术学校、大律师学院、商学院，地位仅次于首都贝克兰德
+      - 霍伊河发源于廷根市北面的约克山，在廷根汇入塔索克河；塔索克河沿河而下可到达贝克兰德
+      - 教育费用参考：周日学校每周上课一天、学费每周一便士；公立初等学校每周上课六天、学费每周三便士
+      - 宗教分布为黑夜女神教会、蒸汽与机械之神教会、风暴之主教会
+      - 非凡事件管辖划分（S7）：值夜者负责北区、西区、金梧桐区；代罚者负责码头区、东区和南区；机械之心负责大学区和郊外
+    districts:
+      - name: undefined
+        note: ''
+      - name: undefined
+        note: ''
+      - name: undefined
+        note: ''
+      - name: undefined
+        note: ''
+      - name: undefined
+        note: ''
+      - name: undefined
+        note: ''
+      - name: undefined
+        note: ''
+      - name: undefined
+        note: ''
+    notable_places:
+      - 黑荆棘安保公司（佐特兰街 36 号 2 楼）
+      - 圣赛琳娜教堂（红月亮街）
+      - 圣数教堂（郊外）
+      - 河与海教堂（北区）
+      - 霍伊大学
+      - 廷根大学
+    sources:
+      - S3
+    confidence: 中高（街区与街道细节来自 S7 个人整理，标中；其余中高）
+
+  - id: backlund
+    name: 贝克兰德
+    region_id: loen
+    center: backlund
+    locations: [ backlund, backlund_bridge, backlund_theatre, backlund_slum, backlund_cathedral, backlund_underground, rusted_gallery, old_weavery, backlund_forge, backlund_war_vault, backlund_works, backlund_furnace, endless_workshop, st_samuel_cathedral, st_shillan_cathedral, harvest_church, mi9, capital_police_hq, brave_bar ]
+    factions: [ police, church, gang, none ]
+    is_port: false
+    min_seq: 9
+    # M2.26 第一批：蒸汽（完美者）落地 —— 首都的工业底子，是这条途径唯一开放的城市。
+    # ⚠️ **这里也是一个「手抄的途径列表」**（K16 的第四个实例）：新途径落地时，
+    # 除了 `OPEN_PATHWAYS`，**出生城市的 pathways 也必须同步** ——
+    # 漏掉它的症状是「池子里抽得到，但建号时被校正成城市支持的途径」，
+    # 玩家侧看起来是「这条途径一个人都没有」（m226-steam-small 第一次跑就是 0 人）。
+    pathways: [ warrior, seer, perfect, door, spectator, lawyer ]
+    # M2.76：贝克兰德：门 + 空想家 + 黑皇帝 —— 首都，什么人都混得进来
+    # M2.76：贝克兰德：门 + 空想家 + 黑皇帝 —— 首都，什么人都混得进来
+    planned_pathways: []
+    birth_weight: 25
+    flavor: 烟从无数根烟囱里升起来，把天空压得很低。这里什么都有，什么都贵。
+    # ===== M2.85 内容填充 P2：原作设定字段（源：诡秘之主原作数据/05-地理/城市.yaml）=====
+    # 执行点：.世界 城市 <名字或别名>（含别名匹配）。全部可选，缺省为空 —— 向后兼容。
+    country: 鲁恩王国
+    city_type: capital
+    status: 现存
+    population: 超过五百万
+    aliases:
+      - 尘埃之都
+      - 希望之地
+      - 万都之都
+    features:
+      - 南北大陆最繁华的城市
+      - 被流向东南入海口的塔索克河斜着分成两个部分，由贝克兰德桥和渡船连接
+      - 工业发达，空气污染严重
+      - 时常下雨，许多区域的道路都用水泥或沥青修筑，拥有先进的下水道系统（1337 年大瘟疫后建立，一举超越因蒂斯的“罗塞尔遗产”）
+      - 拥有贝克兰德地铁系统（诞生于 1324 年，最早连通塔索克河两岸，后来拓展到主要城区，站点并不多）
+      - 第四纪图铎-特伦索斯特联合帝国与特伦索斯特帝国的首都
+      - 贝克兰德附近有阿蒙家族的“祖坟”、雅各家族预留的宝藏
+    districts:
+      - name: 皇后区
+        note: 贵族与顶级富商聚居，治安最好、监管最严格
+      - name: 西区
+        note: 贵族和顶级富商聚居
+      - name: 希尔斯顿区
+        note: 鲁恩王国的经济、商业和金融中心；有贝克兰德证券交易所、票据交换所、期货中心、七大银行总部、各种信托基金与铁路公司
+      - name: 乔伍德区
+        note: 小公司林立，住宅众多
+      - name: 北区
+        note: 黑夜女神教会贝克兰德教区总部圣赛缪尔教堂所在
+      - name: 东区
+        note: 贫民聚集的区域
+      - name: 贝克兰德桥区域
+        note: 贫民聚集的区域；勇敢者酒吧位于此
+      - name: 大桥南区
+        note: 丰收教堂所在
+      - name: 圣乔治区
+        note: 蒸汽与机械之神教会贝克兰德教区总部圣希尔兰教堂所在
+      - name: 工厂区
+        note: 劳工阶层聚集的区域
+      - name: 码头区
+        note: 劳工阶层聚集的区域；贝克兰德有许多码头，大部分被划入此区，被命名为各种"船坞"
+    notable_places:
+      - 贝克兰德桥
+      - 圣赛缪尔教堂
+      - 圣希尔兰教堂
+      - 丰收教堂
+      - 贝克兰德地下遗迹
+      - 西维拉斯街（首都警察厅总部）
+    sources:
+      - S3
+    confidence: 中高
+
+  - id: pritz
+    name: 普利兹港
+    region_id: loen
+    center: pritz
+    locations: [ pritz, pritz_harbor, fish_market, lighthouse, smugglers_cave, tide_cavern, pritz_sunken_hulk, pritz_battle_reef, windless_cape, oak_island_base, warrior_and_sea_bar ]
+    factions: [ police, gang, none ]
+    is_port: true
+    min_seq: 9
+    # M2.19：sailor 已经实现（配方 / 途径能力 / 教会绑定齐备），所以它从
+    # 「尚未实现的途径」那张登记表（planned_pathways）里**搬进了 pathways**——
+    # 普利兹港是任务书 §3.2 里水手的城，风暴之主的据点也在这里。
+    # ⚠️ 仍然缺一环：引导势力（factions.yaml）里还没有一家传承 sailor，
+    # 所以这一城的玩家现在还**翻不到**水手的配方线索（线索的途径由本城势力决定）。
+    # 补齐那一家是「让水手真的能被生出来」的下一轮。
+    pathways: [ sleepless, warrior, sailor, assassin, hunter, monster ]
+    # M2.76：普利兹港：魔女 + 红祭司 + 命运之轮 —— 港口，走私与佣兵的城
+    # M2.76：普利兹港：魔女 + 红祭司 + 命运之轮 —— 港口，走私与佣兵的城
+    planned_pathways: []
+    birth_weight: 20
+    flavor: 海风里有盐和铁锈的味道，码头上的人各忙各的。
+    # ===== M2.85 内容填充 P2：原作设定字段（源：诡秘之主原作数据/05-地理/城市.yaml）=====
+    # 执行点：.世界 城市 <名字或别名>（含别名匹配）。全部可选，缺省为空 —— 向后兼容。
+    country: 鲁恩王国
+    city_type: port
+    status: 现存
+    population: ''
+    aliases: []
+    features:
+      - 拥有王国最大也是最重要的港口
+      - 与恩马特港一北一南，共同支撑起贝克兰德超过一半的物资补充
+      - 塔索克河在普利兹港附近入海
+      - 1349 年新增划时代铁甲舰“普利兹号”（长 101 米，宽 21 米，排水量 10060 吨，主装甲带厚 457 毫米，前后共四门 305 毫米主炮，航速可达 16 节）
+      - 1350 年 10 月遭弗萨克苏尼亚海舰队袭击（橡树岛皇家海军基地与周边造船厂）
+    districts:
+      - name: undefined
+        note: ''
+    notable_places:
+      - 橡树岛皇家海军基地
+    sources:
+      - S2
+    confidence: 中高
+
+  - id: trier
+    name: 特里尔
+    region_id: intez
+    center: trier
+    locations: [ trier, intel_cafe, ironworks, foreign_quarter, catacombs, deep_catacombs, iron_loom, trier_ossuary, trier_war_crypt, unrecorded_vault ]
+    # M2.71：补上 church —— M2.39 批次 B 给特里尔加了 trier_ossuary 与 trier_war_crypt（归教会），
+    # 而这份城市声明没人读、也就没人同步。现在由 link-check 第 5 项守着（与领地表双向一致）。
+    factions: [ police, church, gang, none ]
+    is_port: false
+    min_seq: 9
+    # M2.26 第二批：阅读者（知识与智慧之神）落地 —— 异国城市，知识教会的第二处堂口。
+    # 与第一批同一处置：**新途径落地必须同时改这里**（K16 第四实例），
+    # 否则途径池里抽得到、建号时被校正掉，表现为「这条途径 0 人」。
+    pathways: [ seer, warrior, reader, sun, error, arbiter ]
+    # M2.76：特里尔：太阳 + 错误 + 审判者 —— 因蒂斯，永恒烈阳的势力范围
+    # M2.76：特里尔：太阳 + 错误 + 审判者 —— 因蒂斯，永恒烈阳的势力范围
+    planned_pathways: []
+    birth_weight: 15
+    flavor: 这里的人说话很快，看你的眼神很慢。
+    # ===== M2.85 内容填充 P2：原作设定字段（源：诡秘之主原作数据/05-地理/城市.yaml）=====
+    # 执行点：.世界 城市 <名字或别名>（含别名匹配）。全部可选，缺省为空 —— 向后兼容。
+    country: 因蒂斯共和国
+    city_type: capital
+    status: 现存
+    population: ''
+    aliases: []
+    features:
+      - 因蒂斯共和国的首都，全大陆文化艺术的中心
+      - 每一个因蒂斯人都想去特里尔。而在特里尔人眼里，因蒂斯只有特里尔人和外省人两种。
+      - 一位预言家曾说：“只要特里尔仍在，世间欢乐长存。”
+      - 国民公会共有三百多人，议席按人口和经济地位分解到各省与直辖区（特里尔大区）；特里尔分到的国会议席近四十个，又分解到二十个城区
+      - 进入特里尔市场的商品会被收取入市税（受战争影响，政府取消了全部食物的入市税；烈酒、葡萄酒、香槟酒税率最高）
+      - 第四纪图铎帝国的首都
+    districts: []
+    notable_places: []
+    sources:
+      - S2
+    confidence: 中高
+
+  - id: byron
+    name: 拜朗
+    region_id: south
+    center: byron
+    locations: [ byron, bone_market, sun_temple, plague_camp, jungle_ruins, plague_pit, bone_shuttle, renewing_terrace ]
+    factions: [ police, church, gang, none ]
+    is_port: true
+    min_seq: 9
+    # M2.26 第三批：加 mother（母亲）—— 拜朗从 2 条途径变 3 条，仍在本文件顶部的「每区域 2—3 条」口径内。
+    # ⚠️ 开途径只是三件事里的第一件：factions.yaml 必须同时加一家传承它的势力（K18）。
+    pathways: [ sleepless, seer, mother, corpse_collector, apothecary, criminal, prisoner ]
+    # M2.76：拜朗：死神 + 月亮 + 深渊 + 被缚者 —— 南大陆，生死与疯狂的地界
+    # M2.76：拜朗：死神 + 月亮 + 深渊 + 被缚者 —— 南大陆，生死与疯狂的地界
+    planned_pathways: []
+    birth_weight: 10
+    flavor: 太阳很毒，空气里有香料和别的什么东西混在一起的味道。
+
+  - id: sunia
+    name: 苏尼亚海
+    region_id: sunia
+    center: storm_cape
+    locations: [ storm_cape, coral_reef, ghost_graveyard, nameless_isle, mirage_bay, divine_war_ruins ]
+    factions: [ none ]
+    is_port: true
+    min_seq: 8
+    # M2.76：**归空**。苏尼亚海 birth_weight 是 0（只能被「到达」，不能被出生），
+    # 而引导势力服务的是「还没入途径的普通人」—— 这座城没有那种人，
+    # 所以它不该开放途径（开放了就必须配一家势力，而那家势力没有服务对象）。
+    # 水手途径在这片海上的传承由 regions.yaml 的 sunia.pathways 承载。
+    pathways: []
+    # M2.76：苏尼亚海：水手 —— 海域只有一座风暴角，途径由区域决定（原本是空的）
+    # M2.19：sailor 已实现，不再是「尚未实现的途径」——苏尼亚海这张表因此清空
+    planned_pathways: []
+    birth_weight: 0
+
+  # M2.85 内容填充 P2：康斯顿城（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: konstun
+    name: 康斯顿城
+    region_id: loen
+    center: konstun_center
+    locations: [ konstun_center ]
+    factions: [ none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 鲁恩王国
+    city_type: city
+    status: 现存
+    population: ''
+    aliases:
+      - 风城
+    features:
+      - 王国的第二大城市
+      - 煤钢产业极度发达，在国内的城市中排名前三
+      - 设有康斯顿工业大学
+      - 世界大战中于 1350—1351 年被弗萨克间海部队攻陷
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：恩马特港（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: enmat
+    name: 恩马特港
+    region_id: loen
+    center: enmat_center
+    locations: [ enmat_center ]
+    factions: [ none ]
+    is_port: true
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 鲁恩王国
+    city_type: port
+    status: 现存
+    population: ''
+    aliases: []
+    features:
+      - 中部最出名的海港之一
+      - 与普利兹港一北一南，共同支撑起贝克兰德超过一半的物资补充
+      - 从廷根可走海路到普利兹，再到贝克兰德
+      - 二十年战争的战略分析中，被列为弗萨克若占领苏尼亚岛即可袭击的鲁恩港口之一
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：斯托恩城（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: storn
+    name: 斯托恩城
+    region_id: loen
+    center: storn_center
+    locations: [ storn_center ]
+    factions: [ none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 鲁恩王国
+    city_type: city
+    status: 现存
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：贝尔丹市（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: beldan
+    name: 贝尔丹市
+    region_id: loen
+    center: beldan_center
+    locations: [ beldan_center ]
+    factions: [ none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 鲁恩王国
+    city_type: city
+    status: 现存
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：利蒙市（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: limon
+    name: 利蒙市
+    region_id: loen
+    center: limon_center
+    locations: [ limon_center ]
+    factions: [ none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 鲁恩王国
+    city_type: city
+    status: 现存
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：康纳特市（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: connate
+    name: 康纳特市
+    region_id: loen
+    center: connate_center
+    locations: [ connate_center ]
+    factions: [ none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 鲁恩王国
+    city_type: city
+    status: 现存
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：班西港（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: banshee_port
+    name: 班西港
+    region_id: loen
+    center: banshee_port_center
+    locations: [ banshee_port_center ]
+    factions: [ none ]
+    is_port: true
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 鲁恩王国
+    city_type: port
+    status: 现存
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：达米尔港（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: damir_port
+    name: 达米尔港
+    region_id: loen
+    center: damir_port_center
+    locations: [ damir_port_center ]
+    factions: [ none ]
+    is_port: true
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 鲁恩王国
+    city_type: port
+    status: 现存
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：拉姆德镇（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: ramd_town
+    name: 拉姆德镇
+    region_id: loen
+    center: ramd_town_center
+    locations: [ ramd_town_center ]
+    factions: [ none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 鲁恩王国
+    city_type: town
+    status: 现存
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：维尼亚镇（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: vinia_town
+    name: 维尼亚镇
+    region_id: loen
+    center: vinia_town_center
+    locations: [ vinia_town_center ]
+    factions: [ none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 鲁恩王国
+    city_type: town
+    status: 现存
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：比戈尔（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: bigorre
+    name: 比戈尔
+    region_id: intez
+    center: bigorre_center
+    locations: [ bigorre_center ]
+    factions: [ none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 因蒂斯共和国
+    city_type: city
+    status: 现存
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：达列日（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: daliege
+    name: 达列日
+    region_id: intez
+    center: daliege_center
+    locations: [ daliege_center ]
+    factions: [ none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 因蒂斯共和国
+    city_type: city
+    status: 现存
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：奥米尔（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: aumir
+    name: 奥米尔
+    region_id: intez
+    center: aumir_center
+    locations: [ aumir_center ]
+    factions: [ none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 因蒂斯共和国
+    city_type: city
+    status: 现存
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：科尔杜村（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: koldur
+    name: 科尔杜村
+    region_id: intez
+    center: koldur_center
+    locations: [ koldur_center ]
+    factions: [ none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 因蒂斯共和国
+    city_type: village
+    status: 现存
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中（萌娘百科因蒂斯条目提及，未进一步核验）
+
+  # M2.85 内容填充 P2：圣密隆（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: saint_miron
+    name: 圣密隆
+    region_id: forsak
+    center: saint_miron_center
+    locations: [ saint_miron_center ]
+    factions: [ none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 弗萨克帝国
+    city_type: capital
+    status: 现存
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：费内波特城（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: fennepot_city
+    name: 费内波特城
+    region_id: fennepot
+    center: fennepot_city_center
+    locations: [ fennepot_city_center ]
+    factions: [ none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 费内波特王国
+    city_type: capital
+    status: 现存
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：艾萨拉（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: aisara
+    name: 艾萨拉
+    region_id: luenburg
+    center: aisara_center
+    locations: [ aisara_center ]
+    factions: [ none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 伦堡
+    city_type: capital
+    status: 现存
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：拜亚姆（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: byam
+    name: 拜亚姆
+    region_id: east_byron
+    center: byam_center
+    locations: [ byam_center, sea_wave_church, fool_church_byam ]
+    factions: [ gang, none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 鲁恩王国殖民地（东拜朗）
+    city_type: city
+    status: 现存
+    population: ''
+    aliases: []
+    features:
+      - 风暴信仰的重要城市，设有海浪教堂（其地底封印着大量封印物）
+      - 有“拜亚姆黑兰德”这一本地蒸馏酒品类
+      - 1352 年神战中，风暴之主在拜亚姆对抗蒸汽与机械之神
+      - 1352 年春，白银城与月城的民众离开神弃之地，乘罗思德新政府的船只来到拜亚姆定居，建立“新白银城”与“新月城”
+      - 1352 年 2 月 25 日，拜亚姆的愚者教会开始组建，戴里克·伯格成为愚者教会大主教
+    districts: []
+    notable_places:
+      - 海浪教堂
+      - 新白银城
+      - 新月城
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：新白银城（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: new_silver_city
+    name: 新白银城
+    region_id: silver_kingdom
+    center: new_silver_city_center
+    locations: [ new_silver_city_center ]
+    factions: [ none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 无（神弃之地移民聚落）
+    city_type: city
+    status: 现存（1352 年建立）
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：新月城（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: new_moon_city
+    name: 新月城
+    region_id: silver_kingdom
+    center: new_moon_city_center
+    locations: [ new_moon_city_center ]
+    factions: [ none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 无（神弃之地移民聚落）
+    city_type: city
+    status: 现存（1352 年建立）
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：白银城（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: silver_city
+    name: 白银城
+    region_id: silver_kingdom
+    center: silver_city_center
+    locations: [ silver_city_center ]
+    factions: [ none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 无（神弃之地独立城邦）
+    city_type: city
+    status: 现存至 1352 年，其后居民迁往拜亚姆
+    population: ''
+    aliases: []
+    features:
+      - 由白银之国演变而来，大灾变后变成现在的白银城
+      - 神弃之地中存续的人类聚居点之一；据阿蒙所知，包括白银城在内还存续的聚居点不超过十个
+      - 设有“六人议事团”，首席为科林·伊利亚特
+      - 1352 年春，白银城民众离开神弃之地前往拜亚姆
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：月城（源：诡秘之主原作数据/05-地理/城市.yaml）
+  # ⚠️ birth_weight = 0：这些城**只能被到达，不能出生**（避免改变既有出生分布与跑批基线）
+  # ⚠️ pathways 留空：原作没有「哪条途径在这座城传承」的记载 —— 不编造（空集也满足 link-check）
+  - id: moon_city
+    name: 月城
+    region_id: silver_kingdom
+    center: moon_city_center
+    locations: [ moon_city_center ]
+    factions: [ none ]
+    is_port: false
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: ''
+    country: 无（神弃之地独立城邦）
+    city_type: city
+    status: 现存至 1352 年，其后居民迁往拜亚姆
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高
+
+  # ═══════════ M2.95：埃斯科森港（第 29 座城市）═══════════
+  #
+  # 原作《05-地理/城市.yaml》的 29 座城里，项目一直没有它。
+  # 另外两座（利维希德 / 卡尔德隆城）原作标的是 **otherworld** ——
+  # 一个在《格罗塞尔游记》里面、一个在灵界深处，那不是「城市」，不能当出生地，
+  # 所以这一批只加埃斯科森港（它原作标的是「现存 / 海岛 / 港口」）。
+  #
+  # ⚠️ `birth_weight: 0` —— **只能到达、不能出生**（与班西港同一口径）：
+  #    出生分布是按权重抽的，动它等于改全体玩家的出生比例，那是另一件事。
+  # ⚠️ `pathways: []` 空集 ⇒ link-check 的「城市途径 ⊆ 区域途径」恒成立。
+  - id: escosen_port
+    name: 埃斯科森港
+    region_id: loen
+    center: escosen_port_center
+    locations: [ escosen_port_center ]
+    factions: [ none ]
+    is_port: true
+    min_seq: 9
+    pathways: []
+    planned_pathways: []
+    birth_weight: 0
+    flavor: 迪西海湾最南的那座岛。风从狂暴海那边过来的时候，是全咸的。
+    country: 鲁恩王国
+    city_type: port
+    status: 现存
+    population: ''
+    aliases: []
+    features: []
+    districts: []
+    notable_places: []
+    sources: []
+    confidence: 中高

@@ -1,0 +1,36 @@
+id: daily_017
+name: 三句话
+trigger:
+  type: daily
+  weight: 5
+  cond:
+    - cor<30
+  location:
+    - 黑荆棘修道院
+effects:
+  - { dig: 2 }
+  - { mp: -5 }
+  - { flag: met_mentor }
+texts:
+  priv: |
+    黑荆棘修道院里，一位老人用三句话拆掉了你半个月的困惑。
+    临走时他说，下次来不要带问题。
+  group: 修道院的门开了一条缝。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把那三句话记下来
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你写下来了。写完之后那三道结好像松了一点。
+  - key: '2'
+    label: 不走，留下来继续问
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      他又说了三句。这三句你听懂了，但不想懂。
+  - key: '3'
+    label: 什么都不带，空手再去一次
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      你空着手去了。门开了一条缝，里面的人问你带没带问题。

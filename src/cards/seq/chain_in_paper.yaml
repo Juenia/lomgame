@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：上了报纸（设 flag `in_paper`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_in_paper
+name: 有人照着地址来了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:in_paper'
+effects:
+  - { dig: 3 }
+  - { cor: 2 }
+texts:
+  priv: |
+    敲门的人很客气。
+    「看到了报纸，」他说，「想认识一下。」
+    **他没有说自己是谁。**
+    你请他进来了。他一直坐到天黑。
+  group: 那户人家昨天有个客人待到很晚。
+daily_limit: 1

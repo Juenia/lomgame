@@ -1,0 +1,34 @@
+# 原著依据：《日常生活.md》comm_telegraph ——「电报已普及；按单个字母收费」（ch22/ch53）
+# 本项目从该素材融合为事件卡（不是原作的原文，是依据它写的事件）。
+id: daily_031
+name: 按字母收费的电报
+trigger:
+  type: daily
+  weight: 7
+effects:
+  - { dig: 1 }
+  - { mad: 2 }
+  - { item: 便士, n: 2 }
+texts:
+  priv: |
+    电报局的窗口递出一张纸条。发信人显然付不起更多的字母 ——
+    「你还好吗」四个字，下面就没有了。你数了数剩下的钱，回了一个「好」。
+  group: 有人在电报局站了很久，最后只发了两个字。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 再多发几个字
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你多发了五个字。柜台的人说对方已经付不起了。
+  - key: '2'
+    label: 去查发信的人是谁
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      电报局说不能查。而那个窗口的人一直在看那张纸条。
+  - key: '3'
+    label: 把那两个字抄下来留着
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你抄了。「好」那个字，你写了两遍才写像。

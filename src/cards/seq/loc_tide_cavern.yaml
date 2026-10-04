@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「潮汐石窟」（tide_cavern，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_tide_cavern
+name: 一排脚印
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:潮汐石窟'
+effects:
+  - { dig: 3 }
+  - { cor: 1 }
+texts:
+  priv: |
+    退潮之后洞底露了出来。
+    湿沙上有一排脚印，从水里一直走到最里面。
+    **比人的大。** 每一步都陷得很深 —— 说明很重。
+    你顺着看过去。最里面是黑的，你没有进去。
+  group: 退潮之后那片沙上有一排很大的脚印。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 顺着脚印往里走
+    effects: [ { dig: 7, hp: 3, cor: 3, mad: 4 } ]
+    text: |
+      你往里走。里面很黑。
+      **走了几十步之后** —— 脚印变了方向，是往回走的。
+  - key: '2'
+    label: 量一量那排脚印
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你量了。一步比你的一步长半尺。
+      **而脚印之间的间隔完全一样** —— 一样到像是量出来的。
+  - key: '3'
+    label: 在洞口等着看它回不回来
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你等到涨潮。水漫上来了。
+      **而水漫过脚印的时候** —— 那一排脚印一个都没被冲掉。

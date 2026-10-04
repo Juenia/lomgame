@@ -1,0 +1,38 @@
+id: path_mother_006
+name: 抬棺人的规矩
+trigger:
+  type: daily
+  weight: 6
+  cond: [ 'pathway:mother' ]
+  min_seq: 3
+  cooldown_days: 5
+effects:
+  - { dig: 7 }
+  - { cor: 3 }
+texts:
+  priv: |
+    棺木很轻，轻得不像装了一个人。
+    抬棺人有一条规矩：**中途不能换肩**。
+    你咬着牙走完了全程。落土的时候你听见棺里有一下很轻的、像是翻身的动静。你没有说。有些事说出来，就得有人去开棺。
+  group: 送葬的队伍里没有人说话。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 咬着牙走完，不换肩
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你走完了。落土的时候那声响你也听见了。
+      **而你没有说** —— 说出来就得有人去开棺。
+  - key: '2'
+    label: 告诉他们棺里有动静
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你说了。队伍停下来。
+      **而没有人愿意上前** —— 他们只是站着，看着那口棺。
+  - key: '3'
+    label: 落土之后自己回去看一眼
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你半夜回去了。土是平的。
+      **而棺木的一角露在外面** —— 那一角是新的，木头还是白的。

@@ -1,0 +1,33 @@
+id: daily_023
+name: 镇静香薰
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - mad>=50
+  cooldown_days: 3
+effects:
+  - { mad: -6 }
+  - { mp: 3 }
+texts:
+  priv: |
+    镇静香薰烧到一半，你终于把那些低声说话的东西请出了房间。
+  group: 窗台上留着一小截烧尽的香。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把香灰收起来
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你把灰扫进小碟。灰是黑的，一点白都没有。
+  - key: '2'
+    label: 再点一支
+    effects: [ { dig: 5, mad: -1 } ]
+    text: |
+      屋里彻底安静了 —— 安静到你听得见自己的心跳变了节奏。
+  - key: '3'
+    label: 打开窗户
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你推开窗。那些声音没有回来。

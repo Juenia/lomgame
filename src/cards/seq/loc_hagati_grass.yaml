@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「哈加提草原」（hagati_grass，危险度 3）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_hagati_grass
+name: 草在让路
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:哈加提草原'
+effects:
+  - { dig: 3 }
+  - { hp: -1 }
+texts:
+  priv: |
+    你在草原上走，草到膝盖。
+    走着走着你发现**前面的草矮下去了**，一条很窄的路。
+    不是踩出来的，是本来就那样。
+    你顺着走了一段。回头的时候，那条路已经没了。
+  group: 哈加提草原上有人说见过一条会消失的路。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 顺着那条路一直走
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你顺着走。走了很久。
+      **而草越来越矮** —— 矮到最后只到脚踝，前面是空地。
+  - key: '2'
+    label: 停下来回头看
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你回头看。路已经没了。
+      **而你来时的脚印还在** —— 一直连到很远的地方。
+  - key: '3'
+    label: 蹲下摸那些矮下去的草
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      你摸了摸。草是活的，只是没长起来。
+      **而草根是热的** —— 热得不正常。

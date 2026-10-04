@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「沉舰战礁」（pritz_battle_reef，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_pritz_battle_reef
+name: 旗还在飘
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:沉舰战礁'
+effects:
+  - { dig: 3 }
+  - { mad: 1 }
+texts:
+  priv: |
+    礁石上插着一面旗，半截破的。
+    船早就没了，人也没了。
+    **旗还在飘。** 但那一带没有风 —— 海面是平的。
+    你在礁石上站了一会儿。旗一直飘，方向从来没变过。
+  group: 那片礁石上有一面旗，一直在飘。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 走过去站在旗底下
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你走到旗底下。旗还在飘。
+      **而站在底下的时候** —— 你听见了很远的号声。
+  - key: '2'
+    label: 把旗取下来看看
+    effects: [ { dig: 7, hp: 2, cor: 3, mad: 4 } ]
+    text: |
+      你伸手去取。旗布很脆。
+      **而它一离杆就不飘了** —— 垂下来，像一块普通的布。
+  - key: '3'
+    label: 记住它飘的方向
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你看清了一直是往东南。
+      **而第二天你来** —— 还是东南，一点没变。

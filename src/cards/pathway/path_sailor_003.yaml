@@ -1,0 +1,39 @@
+id: path_sailor_003
+name: 海唱的那一段
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:sailor' ]
+  min_seq: 5
+  cooldown_days: 4
+effects:
+  - { dig: 6 }
+  - { mp: -4 }
+  - { mad: 1 }
+texts:
+  priv: |
+    你听见海在唱。
+    不是比喻 —— 那是有旋律、有换气的东西，从船底传上来，隔着龙骨都能听清。
+    海洋歌者学的是**跟着唱**，但今天你没有跟。你捂住耳朵，直到它自己停了。停下来之后你发现，你居然记得全部歌词。
+  group: 海面浮起一串气泡，久久不破。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把记得的歌词写下来
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你写了下来。写到第三行停了。
+      **因为第三行不是词** —— 是一串数字，而数字你认得。
+  - key: '2'
+    label: 再听一次，这次不捂耳朵
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你又听了。这一次它唱得很慢。
+      **而它唱的正是你写下来的那三行** —— 一个音都不差。
+  - key: '3'
+    label: 把这段唱给别人听
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你唱了。他听完脸色发白。
+      **而他说他小时候听他奶奶唱过** —— 歌词不一样，调子一样。

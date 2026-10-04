@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「枫林」（maple_forest，危险度 3）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_maple_forest
+name: 叶子提前红了
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:枫林'
+effects:
+  - { dig: 2 }
+  - { cor: 1 }
+texts:
+  priv: |
+    今年天还热，枫叶不该红。
+    但整片林子已经红了 —— **红得很整齐**，像一晚上就变的。
+    你捡了一片。放在手里看的时候，它还在变深。
+    你把它扔了。
+  group: 枫林今年红得早，而且快。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把扔掉的叶子捡回来
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你捡了回来。它还在变深。
+      **而变到某个颜色就停了** —— 停在一种很暗的红上。
+  - key: '2'
+    label: 往林子深处走一段
+    effects: [ { dig: 7, hp: 2, cor: 3, mad: 3 } ]
+    text: |
+      你往里走。走了半里地。
+      **而里面的叶子是绿的** —— 一片都没红。
+  - key: '3'
+    label: 去问守林人今年怎么回事
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      他说他也不知道。
+      **而他说他这半个月没敢进林子** —— 他一直在林子外面转。

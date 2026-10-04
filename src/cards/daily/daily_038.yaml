@@ -1,0 +1,37 @@
+# 原著依据：《日常生活.md》cls_underclass ——「下街是治安很差的贫民区」（ch4/ch90）
+# 本项目从该素材融合为事件卡（不是原作的原文，是依据它写的事件）。
+id: daily_038
+name: 下街
+trigger:
+  type: random
+  weight: 4
+  cond:
+    - cor>20
+effects:
+  - { hp: -5 }
+  - { cor: 2 }
+  - { mad: 2 }
+texts:
+  priv: |
+    你拐错了一个路口，脚下的石板忽然变成了泥。
+    有人在暗处看着你 —— 不是打量，是等。你把外套拉紧，原路退了回去。
+    退回灯下的时候，你才发现自己一直屏着呼吸。
+  group: 有人从下街的方向走回来，走得很快。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 退回灯下
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你退回去了。回头看的时候，那片泥地上没有脚印。
+  - key: '2'
+    label: 再往暗处走一步
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你往前走了。那点「等」的感觉更近了些 —— 近到你听见了呼吸。
+  - key: '3'
+    label: 站在路口数一数有几处暗
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你数出四处。其中一处比别处深。

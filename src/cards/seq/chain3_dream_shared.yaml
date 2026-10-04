@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **三级链的第三段（终点）**。
+# 前置链：第一段设 `dream` → 第二段读它、设 `dream_shared` → 本卡读 `dream_shared`。
+# 本卡**不再设新 flag** —— 链到此为止。
+id: chain3_dream_shared
+name: 第三个人也会了
+trigger:
+  type: daily
+  weight: 10
+  cond:
+    - 'flag:dream_shared'
+effects:
+  - { mad: 4 }
+  - { dig: 3 }
+texts:
+  priv: |
+    你们把这件事告诉了第三个人。
+    当天晚上他也做了那个梦。
+    **第二天早上他说出了梦里那扇门的样子** —— 和你们看见的一样。
+    三个人坐在桌边，谁都没有先说话。
+  group: 那三个人昨天在茶馆里坐到很晚。
+daily_limit: 1

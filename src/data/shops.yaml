@@ -1,0 +1,136 @@
+# 商店（M2.87）—— 「哪里能买到什么」
+#
+# ## 为什么要有这张表
+#
+# 在这之前项目里**没有商店**：`.买` 只能买装备，价格硬编码在 `equipment.ts` 里。
+# 用户点出的：「现在并没有建立起交易体系，例如货币的交易，按原作设计」。
+#
+# ## 挂在哪：地点
+#
+# 每个商店**就是一个地点**（`locationId`），不另造一层「商店实体」。理由是：
+#   · 玩家已经在用地点思考（`.探索 咸鱼市场`），多一层只会多一个要记的名字；
+#   · 地点表已经有 154 个条目，其中 22 个的名字本身就是店铺（烛火书店 / 咸鱼市场 /
+#     情报咖啡馆 / 猎犬酒馆…）—— **这些名字本来就是为这件事留的**。
+#
+# ## 价格：默认按 kind 派生，可以逐件覆盖
+#
+# `price` 不写 → 走 `prices.yaml` 的规则（这样调价只需改一处）；
+# 写了 → 以这里的为准（给「这一家特别贵 / 特别便宜」留了口子）。
+# 无论哪种，`.买` 都会把它标成**项目派生值**，不冒充原作数据。
+#
+# ## 世界观：这些店分别是什么地方
+#
+#   书店 / 杂货 / 酒馆 / 咖啡馆   —— 普通人日常能进的，卖日用品与见闻
+#   教堂                          —— 教会开的，卖净除类符咒与圣物
+#   工坊                          —— 铁工厂一类，卖刀具与劳保
+#   黑市                          —— **非凡侧**。这里才是材料与魔药的去处，
+#                                   而且它开在「情报咖啡馆」—— 原作里情报与黑市本就同源
+
+shops:
+  # ---------------- 普通人日常 ----------------
+  - id: candle_bookstore
+    locationId: candle_bookstore
+    name: 烛火书店
+    kind: bookstore
+    keeper: 老板是个戴圆眼镜的老头，柜台上永远点着一支蜡烛。
+    greeting: 他抬了抬眼镜：「随便看，别碰最上面那排。」
+    stock:
+      - itemId: 旧日记残页
+      - itemId: 潮湿的火柴
+        price: 2
+
+  - id: fish_market
+    locationId: fish_market
+    name: 咸鱼市场
+    kind: general
+    keeper: 摊子一个挨一个，地上永远是湿的。
+    greeting: 摊主一边刮鳞一边斜眼看你：「买什么？」
+    stock:
+      - itemId: 夜香草
+      - itemId: 海盐结晶
+      # 货币不上架 —— 它没有「价」，`.买` 会显式拒绝
+
+  - id: hound_tavern
+    locationId: hound_tavern
+    name: 猎犬酒馆
+    kind: tavern
+    keeper: 吧台后面挂着一条褪色的猎犬皮。
+    greeting: 酒保把杯子往你面前一推：「黑麦的还是恩马特的？」
+    stock:
+      - itemId: 苦艾酒
+      - itemId: 夜香草
+
+  - id: brave_bar
+    locationId: brave_bar
+    name: 勇敢者酒吧
+    kind: tavern
+    keeper: 墙上钉满了各地的船票与旧报纸。
+    greeting: 有人替你拉开了椅子，没人问你是谁。
+    stock:
+      - itemId: 苦艾酒
+      - itemId: 潮湿的火柴
+
+  - id: wild_heart_bar
+    locationId: wild_heart_bar
+    name: 狂野之心酒吧
+    kind: tavern
+    keeper: 角落里总有人在低声说话，说的不是鲁恩语。
+    greeting: 「坐吧。这里的酒不管你是谁。」
+    stock:
+      - itemId: 苦艾酒
+      - itemId: 无名者骨牌
+
+  # ---------------- 教会 ----------------
+  - id: st_selena_cathedral
+    locationId: st_selena_cathedral
+    name: 圣赛琳娜教堂
+    kind: church
+    keeper: 一位沉默的执事，袍子上有洗不掉的灰。
+    greeting: 「愿女神看顾你。」—— 他没抬头，手却把东西推了过来。
+    stock:
+      - itemId: 符咒·净除
+      - itemId: 辅助材料·圣盐
+      - itemId: 镇静香薰
+
+  - id: harvest_church
+    locationId: harvest_church
+    name: 丰收教堂
+    kind: church
+    keeper: 地母的信徒，手上总有泥土的味道。
+    greeting: 「要什么？圣盐还有，别的得等。」
+    stock:
+      - itemId: 辅助材料·圣盐
+      - itemId: 夜香草
+      - itemId: 安神药剂
+
+  # ---------------- 工坊 ----------------
+  - id: ironworks
+    locationId: ironworks
+    name: 铁工厂
+    kind: workshop
+    keeper: 炉火整夜不熄，工人三班倒。
+    greeting: 管事的人上下看了看你：「要刀还是手套？快说，炉子等着。」
+    stock:
+      - itemId: 淬火匕首
+      - itemId: 黑纱手套
+
+  # ---------------- 黑市（非凡侧）----------------
+  #
+  # ⚠️ 这是**唯一卖材料与魔药的地方**，而且只有序列 9 的货 ——
+  #    高序列材料必须靠探索或交易拿，否则「非凡」就成了花钱就能买的日用品。
+  - id: intel_cafe
+    locationId: intel_cafe
+    name: 情报咖啡馆
+    kind: blackmarket
+    keeper: 老板从不问客人叫什么，只问「你要消息还是要东西」。
+    greeting: 他把你引到最里面的位子：「先说好，出去之后我们不认识。」
+    stock:
+      - itemId: 因蒂斯密信
+      - itemId: 铜哨
+      - itemId: 符咒·灼烧
+      - itemId: 符咒·定身
+      - itemId: 主材料·灰雾结晶
+      - itemId: 辅助材料·银粉
+      - itemId: potion_seer_9
+        price: 900
+    note: 材料与魔药只在镇上有货 —— 这里卖的是「门路」，不是货架。

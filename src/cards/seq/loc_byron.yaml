@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「拜朗」（byron，危险度 3）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_byron
+name: 这里从不下雨
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:拜朗'
+effects:
+  - { dig: 2 }
+  - { cor: 1 }
+texts:
+  priv: |
+    拜朗已经很久没下雨了。
+    今天早上你听见了雷声 —— 很响，就在头顶。
+    **但一滴雨都没有。**
+    所有人都在往上看。天上什么都没有。
+  group: 拜朗昨天响了一阵雷，没下雨。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 抬头一起看
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你也抬头。天上什么都没有。
+      **而雷声还在** —— 一直在同一个位置，没有走。
+  - key: '2'
+    label: 伸手接一下
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你伸出手。手心是干的。
+      **而你手背上有东西落下来** —— 落下来就没了，什么都没留下。
+  - key: '3'
+    label: 去问当地人上次下雨是什么时候
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      他们说是十一年前。
+      **而他们说那年下的是黑雨** —— 说完就没人再接话了。

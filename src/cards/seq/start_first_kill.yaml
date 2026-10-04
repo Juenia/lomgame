@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `first_kill` → 后续卡 `chain_first_kill`
+id: start_first_kill
+name: 第一次
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { hp: -1 }
+  - { mad: 3 }
+  - { flag: first_kill }
+texts:
+  priv: |
+    你出手的时候没有想太多。
+    等你想的时候，他已经不动了。
+    **你在他旁边站了一会儿。**
+    街上没有人。你把手上的东西收起来，走了。
+  group: 那条巷子里昨天出过事，没有人报官。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 回头看一眼再走
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你回头看了。他还躺在那儿。
+      **而他的姿势变了** —— 刚才是仰着的，现在是侧着的。
+  - key: '2'
+    label: 直接走，不回头
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你走出巷子，拐了两个弯。
+      **而手上那点温度一直没退** —— 到第二天早上还在。
+  - key: '3'
+    label: 去查他是谁
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你查了三天。他是个外乡人。
+      **而他身上那张纸上写着你的名字** —— 那是他来找你的原因。

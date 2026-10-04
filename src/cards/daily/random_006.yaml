@@ -1,0 +1,34 @@
+id: random_006
+name: 从自己身上散发的气味
+trigger:
+  type: random
+  weight: 4
+  cond:
+    - cor>=40
+effects:
+  - { dig: 1 }
+  - { mad: 2 }
+  - { cor: 1 }
+texts:
+  priv: |
+    {{气味}}从你自己身上散发出来。
+    {{声音}}，而你听懂了它。
+  group: "有人身上有不该有的味道。"
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 闻清楚那是什么味
+    effects: [ { dig: 5, cor: 2, mad: 3 } ]
+    text: |
+      你闻了很久。那是旧纸和潮气的味道 —— 而你身上本来没有。
+  - key: '2'
+    label: 换衣服，洗个澡
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你洗了两遍。第二天早上味道又回来了。
+  - key: '3'
+    label: 顺着味道找源头
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你顺着找。味道的源头在你背后 —— 而背后没有人。

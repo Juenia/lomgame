@@ -1,0 +1,41 @@
+# M2.7.6：普通人专属事件卡（未入途径）。
+#
+# 口径（任务书 §5.5）：**描述模糊、信息少、压迫感强**。
+# 普通人不知道雾里是什么，只知道「不该待在这里」——
+# 同一张卡在入途径之后会被另一套卡替换掉（那个版本才有名字与解释）。
+#
+# cond: pathway:mortal —— 这一条同时是「普通人看不到 daily/random 池」的另一半：
+# 两个池子靠条件与命令层的硬过滤共同分开，任何一边漏了都不会互相串味。
+id: mortal_mirror
+name: 镜子里先低头的那个
+trigger:
+  type: random
+  weight: 9
+  cond: [ pathway:mortal ]
+effects:
+  - { mad: 2 }
+  - { cor: 1 }
+texts:
+  priv: |
+    洗手的时候你抬头看了一眼镜子。
+    镜子里的你比你先低下头。
+    你站着没动，等了一会儿。他也站着没动。
+  group: 有人在镜子前站了很久。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 等它先动
+    effects: [ { dig: 6, cor: 3, mad: 4 } ]
+    text: |
+      你站着不动。它也站着。过了很久，它先眨眼了。
+  - key: '2'
+    label: 自己先低头
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你低下了头。抬头再看的时候，镜子里那个是正常的。
+  - key: '3'
+    label: 把镜子盖起来
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你找了块布盖上。屋里安静了。

@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **三级链的第三段（终点）**。
+# 前置链：第一段设 `witness` → 第二段读它、设 `witness_spoke` → 本卡读 `witness_spoke`。
+# 本卡**不再设新 flag** —— 链到此为止。
+id: chain3_witness_spoke
+name: 他说完就走了
+trigger:
+  type: daily
+  weight: 10
+  cond:
+    - 'flag:witness_spoke'
+effects:
+  - { dig: 3 }
+  - { mad: 3 }
+texts:
+  priv: |
+    他后来又找过你一次。
+    说了很多，比上次多。
+    **说到最后他问：「你那天为什么在那儿？」**
+    你没有答。他也没有再问，站起来走了。
+  group: 有人在街上被一个陌生人问了一句话。
+daily_limit: 1

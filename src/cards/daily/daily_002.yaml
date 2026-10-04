@@ -1,0 +1,36 @@
+id: daily_002
+name: 没头没尾的话
+trigger:
+  type: daily
+  weight: 8
+  cond:
+    - flag:first_potion_taken
+  location:
+    - 廷根市
+effects:
+  - { dig: 3 }
+  - { mad: 2 }
+  - { item: 便士, n: 2 } # M2.5：货币单位改为便士，值不变
+texts:
+  priv: |
+    旧书店的老板多看了你一眼，说了一句没头没尾的话。
+    你把它记进日记，笔尖抖了一下。
+  group: 有人在廷根市的旧书店里留下了一句话。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 回去问老板那句话
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      他说他没说过 —— 一边说一边把书往架子后面推。
+  - key: '2'
+    label: 把日记那一页折起来
+    effects: [ { dig: 3 } ]
+    text: |
+      折痕很深，像折过很多次。
+  - key: '3'
+    label: 按那句话里提到的地方去看看
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      那地方是一间关了门的铺子，门缝里有光。

@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「沉船残骸」（pritz_sunken_hulk，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_pritz_sunken_hulk
+name: 钟在走
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:沉船残骸'
+effects:
+  - { dig: 3 }
+  - { mad: 2 }
+texts:
+  priv: |
+    船是斜的，你扶着舱壁往里走。
+    里面全是水，到膝盖。
+    船舱最里面挂着一口钟，一半泡在水里。
+    **它在走。** 摆很稳，一秒一下。而这条船沉了很多年。
+  group: 那艘沉船里昨晚有钟声，很远。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 走到钟跟前看
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你走到钟跟前。它还在走。
+      **而钟面上没有指针** —— 只有两个很小的洞。
+  - key: '2'
+    label: 把它停下来
+    effects: [ { dig: 7, hp: 2, cor: 3, mad: 4 } ]
+    text: |
+      你伸手按住了摆。它停了。
+      **而整条船响了一声** —— 从船底传上来，很长。
+  - key: '3'
+    label: 听它走满六十下
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你数到六十。一下不多，一下不少。
+      **而第六十下之后它没有停** —— 它接着走，只是慢了一拍。

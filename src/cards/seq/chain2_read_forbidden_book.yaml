@@ -1,0 +1,22 @@
+# 事件卡链（M2.87）—— **链的第二段**（三级链的中间那一环）。
+# 前置：设 flag `read_forbidden_book` 的那张卡
+# 自身：要 `flag:read_forbidden_book`，并**设出** `book_remembered`（供第三段读）
+id: chain2_read_forbidden_book
+name: 你又想起了那一段
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:read_forbidden_book'
+effects:
+  - { dig: 4 }
+  - { mad: 3 }
+  - { flag: book_remembered }
+texts:
+  priv: |
+    那一段话又回来了 —— 在你不想它的时候。
+    今天早上你洗碗的时候，**整段一字不差地过了一遍**。
+    你手里那只碗停了很久。
+    然后你把它擦干，放回了架子上。
+  group: 有人洗碗洗到一半停了很久。
+daily_limit: 1

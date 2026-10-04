@@ -1,0 +1,41 @@
+# M2.7.6：普通人专属事件卡（未入途径）。
+#
+# 口径（任务书 §5.5）：**描述模糊、信息少、压迫感强**。
+# 普通人不知道雾里是什么，只知道「不该待在这里」——
+# 同一张卡在入途径之后会被另一套卡替换掉（那个版本才有名字与解释）。
+#
+# cond: pathway:mortal —— 这一条同时是「普通人看不到 daily/random 池」的另一半：
+# 两个池子靠条件与命令层的硬过滤共同分开，任何一边漏了都不会互相串味。
+id: mortal_funeral
+name: 抬得太轻的棺
+trigger:
+  type: random
+  weight: 9
+  cond: [ pathway:mortal ]
+effects:
+  - { mad: 1 }
+  - { cor: 1 }
+texts:
+  priv: |
+    街角有人在办葬礼。
+    抬棺的人步子太轻了 —— 轻得不像里面装着人。
+    队伍里没有人哭，他们只是走，走得很齐。
+  group: 街角有一支很安静的队伍经过。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 跟着队伍走一段
+    effects: [ { dig: 5, cor: 2, mad: 3 } ]
+    text: |
+      你跟了一段。走到街口的时候棺木响了一声。
+  - key: '2'
+    label: 看清抬棺的是谁
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你看了。四个人 —— 而四个人的脚都没沾地。
+  - key: '3'
+    label: 让开路
+    effects: [ { dig: 3 } ]
+    text: |
+      你让开了。队伍静静过去了。

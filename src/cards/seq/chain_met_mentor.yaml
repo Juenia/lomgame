@@ -1,0 +1,24 @@
+# 事件卡链（M2.87）—— **后续卡**：只有触发过前置卡的人才抽得到。
+# 前置：daily_017 三句话（设 flag `met_mentor`）
+# 判据：`cond: flag:met_mentor`。
+#
+# ⚠️ 这一类此前**一条都没有**：全库 29 张卡设了 flag，而要求 flag 的卡是 **0 张** ——
+#    flag 设了就再没有人读，等于写了一半的链。这张是它的后半段。
+id: chain_met_mentor
+name: 第二次
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:met_mentor'
+effects:
+  - { dig: 3 }
+  - { mp: 1 }
+texts:
+  priv: |
+    那个人又出现了，还是那个位子。
+    这次他说了很多 —— 关于怎么走，关于别碰什么。
+    **你一直听着，没有插话。**
+    说到一半他停了，看了你一眼，然后走了。
+  group: 那家茶座最里面那个位子，这两天总有人坐。
+daily_limit: 1

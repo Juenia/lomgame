@@ -1,0 +1,40 @@
+# M2.7.6：普通人专属事件卡（未入途径）。
+#
+# 口径（任务书 §5.5）：**描述模糊、信息少、压迫感强**。
+# 普通人不知道雾里是什么，只知道「不该待在这里」——
+# 同一张卡在入途径之后会被另一套卡替换掉（那个版本才有名字与解释）。
+#
+# cond: pathway:mortal —— 这一条同时是「普通人看不到 daily/random 池」的另一半：
+# 两个池子靠条件与命令层的硬过滤共同分开，任何一边漏了都不会互相串味。
+id: mortal_knock
+name: 三下敲门声
+trigger:
+  type: random
+  weight: 9
+  cond: [ pathway:mortal ]
+effects:
+  - { mad: 2 }
+texts:
+  priv: |
+    有人在敲门。三下，停一会儿，再三下。
+    你透过猫眼看出去，走廊是空的。
+    敲门声又响了。这次是从屋里传来的。
+  group: 半夜有人敲门，走廊里没有人。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 开门
+    effects: [ { dig: 6, cor: 3, mad: 4 } ]
+    text: |
+      你开了门。走廊是空的 —— 而屋里的敲门声停了。
+  - key: '2'
+    label: 站在门后听
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你贴着门听。三下、停、三下 —— 而这次声音就在门板另一侧。
+  - key: '3'
+    label: 不理它，回床上躺下
+    effects: [ { dig: 3, mad: 1 } ]
+    text: |
+      你躺下了。敲声一直响到天亮。

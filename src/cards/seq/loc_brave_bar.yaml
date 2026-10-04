@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「勇敢者酒吧」（brave_bar，危险度 2）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_brave_bar
+name: 第三杯才算数
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:勇敢者酒吧'
+effects:
+  - { hp: 1 }
+  - { dig: 2 }
+texts:
+  priv: |
+    这里的规矩是要喝三杯才能进里间。
+    你喝完第二杯，老板把杯子收走了。
+    「第三杯不算，」他说，「**你刚才没喝。**」
+    你低头看，杯子是满的。
+  group: 勇敢者酒吧的老板昨天跟一个客人僵了很久。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 再要一杯，当着他的面喝
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你又要了一杯，当着他的面喝完了。
+      **他看了你很久** —— 然后让开了里间的门。
+  - key: '2'
+    label: 问他刚才那杯是怎么回事
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      他收着杯子没说话。
+      **过了一会儿他说：「你没喝，是它没让你喝。」**
+  - key: '3'
+    label: 不喝了，坐下看着里间
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你坐下，一直看着那扇门。
+      **而门后面有一次很轻的响** —— 像是有人把杯子放在了桌上。

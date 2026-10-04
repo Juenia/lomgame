@@ -1,0 +1,38 @@
+id: lost_005
+name: 叫你的那个声音
+# M2.1（方案 D）：原来挂着 party:size>=2，独狼玩家永远碰不到；改成独狼版，
+# 把「组队才有的失控场景」拆成同内容的 lost_007（保留队伍条件）。
+trigger:
+  type: random
+  weight: 6
+  cond:
+    - status:lost_control
+  cooldown_days: 2
+effects:
+  - { mad: -8 }
+  - { dig: 2 }
+  - { flag: found_way_back }
+texts:
+  priv: |
+    有人在叫你，一遍一遍，用的是你的名字。
+    你终于听懂了 —— 那声音是你自己的，从很早以前传过来的。
+    顺着它走回去，一路上摔了两次。
+  group: "有人从街上慢慢走回来了。"
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 顺着声音走回去
+    effects: [ { dig: 5, cor: 2, mad: 3 } ]
+    text: |
+      你往回走。声音越来越近，也越来越像你自己。
+  - key: '2'
+    label: 站住，不走了
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你站住了。声音还在叫，而你第一次听清它叫的是全名。
+  - key: '3'
+    label: 边走边数摔了几次
+    effects: [ { dig: 4, hp: 1, mad: 1 } ]
+    text: |
+      你数到第二次。第三次的时候你已经站在门口了。

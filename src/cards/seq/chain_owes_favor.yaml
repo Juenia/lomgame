@@ -1,0 +1,24 @@
+# 事件卡链（M2.87）—— **后续卡**：只有触发过前置卡的人才抽得到。
+# 前置：daily_022 / daily_025 / random_002（设 flag `owes_favor`）
+# 判据：`cond: flag:owes_favor`。
+#
+# ⚠️ 这一类此前**一条都没有**：全库 29 张卡设了 flag，而要求 flag 的卡是 **0 张** ——
+#    flag 设了就再没有人读，等于写了一半的链。这张是它的后半段。
+id: chain_owes_favor
+name: 他来讨了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:owes_favor'
+effects:
+  - { dig: 3 }
+  - { cor: 2 }
+texts:
+  priv: |
+    他来找你的时候，态度跟上次完全不一样。
+    「有件事，」他说，「只有你能办。」
+    **你欠他的。**
+    你点头了。他笑了一下，把地址给你了。
+  group: 有人昨天接了一桩不想接的事。
+daily_limit: 1

@@ -1,0 +1,41 @@
+# M2.7.6：普通人专属事件卡（未入途径）。
+#
+# 口径（任务书 §5.5）：**描述模糊、信息少、压迫感强**。
+# 普通人不知道雾里是什么，只知道「不该待在这里」——
+# 同一张卡在入途径之后会被另一套卡替换掉（那个版本才有名字与解释）。
+#
+# cond: pathway:mortal —— 这一条同时是「普通人看不到 daily/random 池」的另一半：
+# 两个池子靠条件与命令层的硬过滤共同分开，任何一边漏了都不会互相串味。
+id: mortal_clock
+name: 三点十七分
+trigger:
+  type: random
+  weight: 10
+  cond: [ pathway:mortal ]
+effects:
+  - { mad: 1 }
+  - { cor: 1 }
+texts:
+  priv: |
+    路过钟楼的时候你抬头看了一眼。
+    钟停在三点十七分。
+    你想起来，昨天路过的时候，也是这个时间。
+  group: 钟楼上的钟停了，没人去修。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 低头看自己的表
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你掏出表。它也在三点十七分。
+  - key: '2'
+    label: 记住这个时间
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你记住了。第二天路过的时候你还是抬了头。
+  - key: '3'
+    label: 站在下面等它走到三点十八
+    effects: [ { dig: 5, cor: 2, mad: 3 } ]
+    text: |
+      你等了很久。它没有动 —— 而街上的人换了一批。

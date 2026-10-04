@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **三级链的第三段（终点）**。
+# 前置链：第一段设 `blood` → 第二段读它、设 `blood_debt` → 本卡读 `blood_debt`。
+# 本卡**不再设新 flag** —— 链到此为止。
+id: chain3_blood_debt
+name: 那半步没有了
+trigger:
+  type: daily
+  weight: 10
+  cond:
+    - 'flag:blood_debt'
+effects:
+  - { hp: 2 }
+  - { mad: 2 }
+texts:
+  priv: |
+    那天他倒下了。
+    轮到你站那半步 —— 你站了。
+    **他醒过来之后什么都没说。**
+    但从那以后，他走路跟在你后面了。
+  group: 那两个人现在反过来了，一个在前一个在后。
+daily_limit: 1

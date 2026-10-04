@@ -1,0 +1,22 @@
+# 事件卡链（M2.87）—— **链的第二段**（三级链的中间那一环）。
+# 前置：设 flag `found_way_back` 的那张卡
+# 自身：要 `flag:found_way_back`，并**设出** `road_again`（供第三段读）
+id: chain2_found_way_back
+name: 第三次
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:found_way_back'
+effects:
+  - { dig: 3 }
+  - { cor: 2 }
+  - { flag: road_again }
+texts:
+  priv: |
+    你又去了一次，这次是白天。
+    **路还在**，而且比上次清楚。
+    走到一半你听见有人在叫你 —— 还是那个声音。
+    这次你答了。答完之后路没有了，你站在一条没去过的街上。
+  group: 有人在一条陌生的街上站着，说自己刚才是从家里出来的。
+daily_limit: 1

@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `won_the_bet` → 后续卡 `chain_won_the_bet`
+id: start_won_the_bet
+name: 赌赢了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { dig: 2 }
+  - { hp: 1 }
+  - { flag: won_the_bet }
+texts:
+  priv: |
+    你自己都没想明白是怎么赢的。
+    **最后一把，牌是自己来的。**
+    对面那个人把筹码推过来，手在抖。
+    你把钱收了。他现在看你的眼神不太一样。
+  group: 牌桌上有人连赢了一整晚，赢得很怪。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把筹码还给他一半
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你推回去一半。他愣了一下。
+      **而他没有收** —— 他说他输得起。
+  - key: '2'
+    label: 再赌一把
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      又开了一局。这次牌不是自己来的。
+      **而你还是赢了** —— 赢完之后你听见有人在你身后叹了口气。
+  - key: '3'
+    label: 问他刚才为什么手抖
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      他说是冷的。
+      **而那屋里很暖和** —— 你自己也在出汗。

@@ -1,0 +1,332 @@
+# 途径行为表（M2.85 世界演化）
+#
+# 用户拍板：「NPC 也要会做出符合自己途径的行为」——
+#
+#   在此之前，NPC 干的事只有三种：晋升、猎杀、化解灾厄，全是通用的，看不出他走的是哪条途径。
+#
+# 本表给 22 条途径各写了 2 个行为（共 44 条），效果归到 6 种能被验证的类型：
+#
+#   hunt      猎杀生物（减少生态种群）
+#   calm      化解灾厄 / 平息混乱（压灾厄）
+#
+#   tend      养育 / 补充（增加生态种群）
+#   foretell  占卜 / 预言（写下明天的苗头 → 世界事件）
+#
+#   observe   观察 / 洞察（发现世界事件）
+#   gather    搜寻 / 发现（带回东西 → 功绩）
+#
+# ⚠️ 本表是**项目设计**（原著给的是气质与能力，不是行为清单）；文案来自本表，数值是项目派生。
+meta:
+  source: M2.85 世界演化：**途径行为表**（用户拍板「NPC 也要会做出符合自己途径的行为」）
+  count: 44
+  effect_note: effect 只有 6 种（hunt / calm / tend / foretell / observe / gather）—— 它们是**能被验证的效果**：前两种已有实现，后四种写世界事件与功绩记录。故意不设更多种类：多一种效果就多一处没人验的代码。
+  layer_note: 本表是**项目设计**（原著只给了每条途径的气质与能力），不是原作数据；文案由本表提供，数值（weight / minSequence）是项目派生。
+pathway_deeds:
+  - id: seer_divine
+    pathway: seer
+    name: 占卜
+    text: "{name}摊开牌，看了一眼明天的天色 —— 他看到了什么，没说。"
+    effect: foretell
+    minSequence: 9
+    weight: 30
+  - id: seer_miracle
+    pathway: seer
+    name: 奇迹
+    text: "{name}做了一件本不该做得到的事，做完就走了。"
+    effect: gather
+    minSequence: 3
+    weight: 30
+  - id: war_guard
+    pathway: warrior
+    name: 巡边
+    text: "{name}沿着边界走了一整夜，把不该过来的东西挡了回去。"
+    effect: calm
+    minSequence: 9
+    weight: 30
+  - id: war_duel
+    pathway: warrior
+    name: 决斗
+    text: "{name}找上了比自己强的一方，然后赢了。"
+    effect: hunt
+    minSequence: 5
+    weight: 30
+  - id: sleep_watch
+    pathway: sleepless
+    name: 守夜
+    text: "{name}一夜没合眼。夜里出事的地方，他都在。"
+    effect: calm
+    minSequence: 9
+    weight: 30
+  - id: sleep_chase
+    pathway: sleepless
+    name: 追猎
+    text: "{name}追着一道黑影出了城，回来时手上带着东西。"
+    effect: hunt
+    minSequence: 6
+    weight: 30
+  - id: sail_voyage
+    pathway: sailor
+    name: 远航
+    text: "{name}出了海，带回一条还没人走过的水路。"
+    effect: gather
+    minSequence: 9
+    weight: 30
+  - id: sail_calmsea
+    pathway: sailor
+    name: 压浪
+    text: "{name}把那一带的风浪压了下去。"
+    effect: calm
+    minSequence: 5
+    weight: 30
+  - id: perf_craft
+    pathway: perfect
+    name: 造物
+    text: "{name}在工坊里待了三天，出来时手上多了一件不该存在的东西。"
+    effect: gather
+    minSequence: 7
+    weight: 30
+  - id: perf_refine
+    pathway: perfect
+    name: 精炼
+    text: "{name}把一堆废料炼成了能用的材料。"
+    effect: tend
+    minSequence: 5
+    weight: 30
+  - id: read_lore
+    pathway: reader
+    name: 研读
+    text: "{name}在故纸堆里翻出一段没人记得的记载。"
+    effect: gather
+    minSequence: 9
+    weight: 30
+  - id: read_decode
+    pathway: reader
+    name: 破译
+    text: "{name}把一页看不懂的东西读懂了 —— 读懂之后他沉默了很久。"
+    effect: observe
+    minSequence: 6
+    weight: 30
+  - id: mother_sow
+    pathway: mother
+    name: 播种
+    text: "{name}在荒地上撒了种，那片地竟然活了。"
+    effect: tend
+    minSequence: 9
+    weight: 30
+  - id: mother_nurture
+    pathway: mother
+    name: 养育
+    text: "{name}守着一窝幼崽过了整个冬天。"
+    effect: tend
+    minSequence: 5
+    weight: 30
+  - id: door_open
+    pathway: door
+    name: 开门
+    text: "{name}推开了一扇不存在的门，从另一头走出来。"
+    effect: gather
+    minSequence: 7
+    weight: 30
+  - id: door_travel
+    pathway: door
+    name: 传送
+    text: "{name}把什么人从一个地方送到了另一个地方。"
+    effect: tend
+    minSequence: 4
+    weight: 30
+  - id: sun_purify
+    pathway: sun
+    name: 净化
+    text: "{name}站在那里，把那一带的脏东西烧了个干净。"
+    effect: calm
+    minSequence: 9
+    weight: 30
+  - id: sun_shine
+    pathway: sun
+    name: 照耀
+    text: "{name}的光照到了不该被照到的地方。"
+    effect: observe
+    minSequence: 5
+    weight: 30
+  - id: corpse_mourn
+    pathway: corpse_collector
+    name: 收尸
+    text: "{name}把没人管的尸首一个个收了，埋了。"
+    effect: calm
+    minSequence: 9
+    weight: 30
+  - id: corpse_send
+    pathway: corpse_collector
+    name: 送葬
+    text: "{name}送走了一个已经不该再走的人。"
+    effect: gather
+    minSequence: 5
+    weight: 30
+  - id: error_steal
+    pathway: error
+    name: 偷窃
+    text: "{name}从某位手里拿走了一件东西 —— 那位到现在都不知道。"
+    effect: gather
+    minSequence: 8
+    weight: 30
+  - id: error_tamper
+    pathway: error
+    name: 篡改
+    text: "{name}改了某件事的记载，改得像是本来就这样。"
+    effect: observe
+    minSequence: 4
+    weight: 30
+  - id: mystery_peek
+    pathway: mystery_pryer
+    name: 窥秘
+    text: "{name}看了一眼不该看的东西，然后把眼睛闭了很久。"
+    effect: foretell
+    minSequence: 8
+    weight: 30
+  - id: mystery_hide
+    pathway: mystery_pryer
+    name: 藏匿
+    text: "{name}把某样东西藏到了一个没人找得到的地方。"
+    effect: calm
+    minSequence: 4
+    weight: 30
+  - id: spec_watch
+    pathway: spectator
+    name: 观察
+    text: "{name}在角落里坐了一整天，把每个人的习惯都记了下来。"
+    effect: observe
+    minSequence: 9
+    weight: 30
+  - id: spec_weave
+    pathway: spectator
+    name: 编织
+    text: "{name}给某个人织了一场梦，那个人信了。"
+    effect: foretell
+    minSequence: 5
+    weight: 30
+  - id: apo_brew
+    pathway: apothecary
+    name: 炼药
+    text: "{name}熬出一锅东西，闻着像药，也像毒。"
+    effect: tend
+    minSequence: 9
+    weight: 30
+  - id: apo_gather
+    pathway: apothecary
+    name: 采药
+    text: "{name}在月圆那晚出去采药，回来时篮子满了。"
+    effect: gather
+    minSequence: 6
+    weight: 30
+  - id: arb_judge
+    pathway: arbiter
+    name: 裁决
+    text: "{name}判了一桩没人敢判的案子。"
+    effect: calm
+    minSequence: 9
+    weight: 30
+  - id: arb_enforce
+    pathway: arbiter
+    name: 执法
+    text: "{name}把一条规矩重新按回了地上。"
+    effect: calm
+    minSequence: 5
+    weight: 30
+  - id: assi_strike
+    pathway: assassin
+    name: 暗杀
+    text: "{name}做完了一件事，没有留下痕迹。"
+    effect: hunt
+    minSequence: 8
+    weight: 30
+  - id: assi_curse
+    pathway: assassin
+    name: 咒杀
+    text: "{name}念了一段话，远处有人倒下了。"
+    effect: hunt
+    minSequence: 4
+    weight: 30
+  - id: crime_raid
+    pathway: criminal
+    name: 劫掠
+    text: "{name}劫了一处地方，走的时候还留了句话。"
+    effect: hunt
+    minSequence: 9
+    weight: 30
+  - id: crime_burn
+    pathway: criminal
+    name: 纵火
+    text: "{name}放了一把火，火光在城另一头都看得见。"
+    effect: observe
+    minSequence: 5
+    weight: 30
+  - id: hunt_track
+    pathway: hunter
+    name: 猎杀
+    text: "{name}在雾里追了三天，把那头东西拖了出来。"
+    effect: hunt
+    minSequence: 9
+    weight: 30
+  - id: hunt_array
+    pathway: hunter
+    name: 布阵
+    text: "{name}在要道上布了一个局，等着什么东西自己走进去。"
+    effect: calm
+    minSequence: 5
+    weight: 30
+  - id: law_rule
+    pathway: lawyer
+    name: 立法
+    text: "{name}改了一条规矩，从此那一带的人都得按他的说法来。"
+    effect: calm
+    minSequence: 7
+    weight: 30
+  - id: law_grab
+    pathway: lawyer
+    name: 夺权
+    text: "{name}从别人手里拿走了说话的位置。"
+    effect: gather
+    minSequence: 3
+    weight: 30
+  - id: mon_gamble
+    pathway: monster
+    name: 赌命
+    text: "{name}赌了一把，赌注是自己。"
+    effect: foretell
+    minSequence: 9
+    weight: 30
+  - id: mon_turnwheel
+    pathway: monster
+    name: 转轮
+    text: "{name}转动了那个轮子，然后有人的运气变了。"
+    effect: observe
+    minSequence: 4
+    weight: 30
+  - id: pris_bind
+    pathway: prisoner
+    name: 束缚
+    text: "{name}把什么东西捆住，捆了很多年。"
+    effect: calm
+    minSequence: 9
+    weight: 30
+  - id: pris_endure
+    pathway: prisoner
+    name: 忍受
+    text: "{name}扛下了一件本该让别人扛的事。"
+    effect: tend
+    minSequence: 5
+    weight: 30
+  - id: sec_ritual
+    pathway: secrets_supplicant
+    name: 仪式
+    text: "{name}做了一场没人看得懂的仪式，做完那片地安静了。"
+    effect: calm
+    minSequence: 7
+    weight: 30
+  - id: sec_blaspheme
+    pathway: secrets_supplicant
+    name: 亵渎
+    text: "{name}念了一段不该念的名字。念完之后，有东西应了他。"
+    effect: foretell
+    minSequence: 3
+    weight: 30

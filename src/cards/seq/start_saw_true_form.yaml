@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `saw_true_form` → 后续卡 `chain_saw_true_form`
+id: start_saw_true_form
+name: 看见了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { mad: 4 }
+  - { cor: 2 }
+  - { flag: saw_true_form }
+texts:
+  priv: |
+    那东西在你面前露出了本来的样子。
+    **只有一瞬。**
+    但你看见了 —— 而且你知道自己不该看见。
+    你站在原地，直到眼睛能重新对焦。
+  group: 有人昨天在那条街上站了很久，眼睛一直睁着。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 再往那个方向看一眼
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你又看了一眼。这次什么都没有。
+      **而你眼里那点东西一直在** —— 你看什么都带着它。
+  - key: '2'
+    label: 低头看看自己的手
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你低头看。手是抖的。
+      **而指甲的颜色比刚才深** —— 深了一点点，看不出来除非你盯着看。
+  - key: '3'
+    label: 转身走，把这件事忘掉
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你转身走了。走了两条街。
+      **而你没忘** —— 你只是学会了不去想它。

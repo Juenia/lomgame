@@ -1,0 +1,809 @@
+# 神明（M2.85 内容填充 P1）
+#
+# 数据来源：诡秘之主原作数据/04-神明与教会/ —— 七正神.yaml / 旧日与外神.yaml / 隐秘存在与邪神.yaml
+# 共 27 位：正神 7 + 支柱级旧日 4 + 隐秘存在与邪神 16。
+#
+# 读取点：`.图鉴 神明`（列表）与 `.图鉴 神明 <名号>`（详查）。
+# ⚠️ 不含任何项目自造内容：name / tier / godNameFull / essence 等全部是原文字段。
+meta:
+  source: 诡秘之主原作数据/04-神明与教会/（七正神.yaml + 旧日与外神.yaml + 隐秘存在与邪神.yaml）
+  count: 27
+  breakdown: 正神 7 / 支柱级旧日 4 / 隐秘存在与邪神 16
+  transform_note: 所有多段文本（尊名 / 本质 / 外貌 / 别名 / 象征）均由原作嵌套结构拍平成「一段一行」的字符串数组 —— 只做格式转换，未新增一个字的设定；pathways 用序列 0 称号与序列 9 称号反查项目途径 id，未映射的原样留在 pathwayNames。
+  fill_note: M2.85 内容填充 P1：全部字段来自原作数据，未做推测性补全。
+deities:
+  - id: night_empress
+    churchIds: [ night_goddess ]
+    name: 黑夜女神
+    nameEn: Amanises
+    category: 正神
+    tier: 序列0 真神（七大正神之一）
+    trueName: 阿曼妮西斯
+    pathways:
+      - sleepless
+    pathwayNames:
+      - 黑暗
+      - 不眠者途径
+    aliases:
+      - 黑夜女神
+      - 厄运女神（前身，第二纪为毁灭魔狼的附属神灵）
+      - 阿妈（书友称呼）
+    status: 存活（黑铁纪元仍为正神；后成为旧日"永恒之暗"）
+    godNameFull:
+      - 比星空更崇高，比永恒更久远的黑夜女神；绯红之主，隐秘之母；厄难与恐惧的女皇，安眠和寂静的领主。
+      - 神战后黑夜女神将红月相关权柄交给大地母神，'绯红之主'这一尊名被移除；教会祈祷手式由'画绯红之月'改为'点繁星'
+    divineKingdom: 深黯天国
+    symbols:
+      - 红月（限制，收缩，偏阴性）
+      - 纯银
+      - 周日
+    holyEmblem: 黑暗圣徽——深黑为底，璀璨点缀，簇拥着刚好一半的绯红之月
+    church: 黑夜女神教会
+    beliefOrgs: []
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://baike.baidu.com/item/黑夜女神教会/64493172
+    confidence: medium
+  - id: steam_machinery
+    churchIds: [ god_of_steam ]
+    name: 蒸汽与机械之神
+    nameEn: null
+    category: 正神
+    tier: 序列0 真神（七大正神之一）
+    trueName: 尤格斯·斯蒂亚诺
+    pathways:
+      - perfect
+    pathwayNames:
+      - 完美者
+      - 通识者途径
+    aliases:
+      - 工匠之神（旧名）
+      - 万机之神
+    status: 存活
+    godNameFull:
+      - 本质的化身；工匠的守护者；技术的光辉。
+    divineKingdom: 完美之地
+    symbols:
+      - 金星（和谐、平衡，偏阴性）
+      - 青铜
+      - 周四
+    holyEmblem: 三角圣徽——牢固的三角形里面填充着蒸汽、齿轮和杠杆等符号
+    church: 蒸汽与机械之神教会
+    beliefOrgs: []
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://baike.baidu.com/item/正神教会/24620899
+    confidence: medium
+  - id: storm_lord
+    churchIds: [ storm_lord ]
+    name: 风暴之主
+    nameEn: null
+    category: 正神
+    tier: 序列0 真神（七大正神之一）
+    trueName: 列奥德罗
+    pathways:
+      - sailor
+    pathwayNames:
+      - 暴君
+      - 水手途径
+    aliases:
+      - 风天使（第三纪为远古太阳神座下八大天使之王之一）
+    status: 存活
+    godNameFull:
+      - 空之王，海之皇，天灾君主，风暴之神！
+    divineKingdom: null
+    symbols:
+      - 橘星（扩张、幸运，偏阳性）
+      - 锡
+      - 周三
+    holyEmblem: 风暴圣徽——由狂风、海浪和雷霆符号构成
+    church: 风暴之主教会
+    beliefOrgs: []
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://baike.baidu.com/item/正神教会/24620899
+    confidence: medium
+  - id: eternal_sun
+    churchIds: [ eternal_blazing_sun ]
+    name: 永恒烈阳
+    nameEn: null
+    category: 正神
+    tier: 序列0 真神（七大正神之一）
+    trueName: 奥赛库斯
+    pathways:
+      - sun
+    pathwayNames:
+      - 太阳
+      - 歌颂者途径
+    aliases:
+      - 纯白天使（第三纪八大天使之王之一）
+    status: 存活（黑铁纪元神战中与知识与智慧之神开战，因战神陨落而败北）
+    godNameFull:
+      - 永恒烈阳；不灭之光，秩序化身；契约之神，商业守护者。
+    divineKingdom: null
+    symbols:
+      - 太阳（能量创造，纯阳性）
+      - 金
+      - 周二
+    holyEmblem: 太阳圣徽——节节线条簇拥的抽象太阳
+    church: 永恒烈阳教会
+    beliefOrgs: []
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://baike.baidu.com/item/永恒烈阳教会/63764290
+    confidence: medium
+  - id: knowledge_wisdom
+    churchIds: [ god_of_knowledge ]
+    name: 知识与智慧之神
+    nameEn: null
+    category: 正神
+    tier: 序列0 真神（七大正神之一）
+    trueName: 赫拉伯根
+    pathways:
+      - reader
+    pathwayNames:
+      - 白塔
+      - 阅读者途径
+    aliases:
+      - 智慧之龙（第二纪为'"空想之龙"安格尔威德的从神）'
+      - 智天使（第三纪八大天使之王之一）
+    status: 存活（后自毁，将唯一性与序列1特性归还造物主，疑似以教宗"赫拉贝格"身份复活）
+    godNameFull:
+      - 知识的力量；理性的力量；智慧之神！
+      - 知识之塔，理性化身，智慧之神，洞悉万物的学者。
+    divineKingdom: null
+    symbols:
+      - 蓝星（理性，交流，中性）
+      - 水银和黄铜
+      - 周六
+    holyEmblem: 知识与智慧圣徽——一本打开的书册和一只全知之眼
+    church: 知识与智慧之神教会
+    beliefOrgs: []
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://baike.baidu.com/item/正神教会/24620899
+    confidence: medium
+  - id: earth_mother
+    churchIds: [ earth_mother ]
+    name: 大地母神
+    nameEn: null
+    category: 正神
+    tier: 序列0 真神（七大正神之一）
+    trueName: 欧弥贝拉 / 莉莉丝
+    pathways:
+      - mother
+    pathwayNames:
+      - 母亲
+      - 耕种者途径
+    aliases:
+      - 血族始祖莉莉丝
+      - 丰收女神（被顶替的身份）
+      - 美之化身
+    status: 存活（《宿命之环》中因阻止堕落母神污染而要求黑夜女神令其陷入沉睡，某种程度相当于陨落）
+    godNameFull:
+      - 感谢你，生命的源泉！赞美你，万物的母亲！
+      - 生命教徒使用的赞词
+      - 独一无二的红月，生命与美丽的象征，所有灵性力量的母亲。
+      - 血族教徒使用的赞词
+    divineKingdom: null
+    symbols:
+      - 褐星（变化、接受、纯阴性）
+      - 铅
+      - 周一
+    holyEmblem: 生命圣徽——由麦穗、鲜花和泉水符号簇拥的一个简笔婴儿
+    church: 大地母神教会
+    beliefOrgs: []
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://zh.moegirl.org.cn/大地母神
+    confidence: medium_high
+  - id: war_god
+    churchIds: [ god_of_war ]
+    name: 战神
+    nameEn: null
+    category: 正神
+    tier: 序列0 真神（七大正神之一）
+    trueName: 巴德海尔
+    pathways:
+      - warrior
+    pathwayNames:
+      - 黄昏巨人
+      - 战士途径
+    aliases:
+      - 晨曦之神（第二纪为巨人王奥尔米尔的长子）
+    status: 已陨落（黑铁纪元神战中被黑夜女神与大地母神联手暗算），疑似留有复活后手
+    godNameFull:
+      - 力量与荣耀的象征，伟大的骑士之神；战争主宰，枪炮的庇佑者；万物的黄昏。
+    divineKingdom: null
+    symbols:
+      - 赤星（冲突，动力，偏阳性）
+      - 铁
+      - 周五
+    holyEmblem: 战神徽章——黄昏符号和剑型标志
+    church: 战神教会
+    beliefOrgs: []
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://zh.moegirl.org.cn/诡秘之主/神灵
+    confidence: medium_high
+  - id: lord_of_mysteries
+    name: 诡秘之主
+    nameEn: null
+    category: 支柱级旧日
+    tier: 支柱级旧日
+    trueName: null
+    pathways:
+      - seer
+      - door
+      - error
+    pathwayNames:
+      - 愚者
+      - 门
+      - 错误
+    aliases:
+      - 福生玄黄天尊
+    status: null
+    godNameFull:
+      - 诡秘之主；时空之王；命运道标；源堡化身；灵界支配者。
+      - 福生玄黄仙尊；福生玄黄天君；福生玄黄上帝；福生玄黄天尊。
+    divineKingdom: null
+    symbols:
+      - 源堡
+    holyEmblem: null
+    church: null
+    beliefOrgs:
+      - 愚人节
+      - 蓬莱
+    essence:
+      - 最初造物主（'原初'、'最初'）的一部分，祂分裂出来的不同人格之一的实体化
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://zh.moegirl.org.cn/诡秘之主/旧日
+    confidence: medium_high
+  - id: god_almighty
+    name: 上帝
+    nameEn: null
+    category: 支柱级旧日
+    tier: 支柱级旧日
+    trueName: null
+    pathways:
+      - spectator
+      - secrets_supplicant
+      - sun
+      - sailor
+      - reader
+    pathwayNames:
+      - 空想家
+      - 倒吊人
+      - 太阳
+      - 暴君
+      - 白塔
+    aliases:
+      - 原初上帝
+    status: null
+    godNameFull:
+      - 上帝；创造者；造物主；全知全能者；星界之主。
+    divineKingdom: null
+    symbols:
+      - 混沌海
+    holyEmblem: null
+    church: null
+    beliefOrgs: []
+    essence:
+      - 最初造物主（'原初'、'最初'）的一部分，祂分裂出来的不同人格之一的实体化
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://zh.moegirl.org.cn/诡秘之主/旧日
+    confidence: medium_high
+  - id: fallen_mother_goddess
+    name: 堕落母神
+    nameEn: null
+    category: 支柱级旧日
+    tier: 支柱级旧日（外神顶端）
+    trueName: null
+    pathways:
+      - apothecary
+      - mother
+    pathwayNames:
+      - 混沌原胎
+      - 世界
+      - 月亮
+      - 母亲
+    aliases: []
+    status: null
+    godNameFull:
+      - 堕落母神；邪恶之始；不灭者；污秽的母巢；现实世界的主宰。
+    divineKingdom: null
+    symbols:
+      - 母巢
+    holyEmblem: null
+    church: null
+    beliefOrgs:
+      - 圣母会（圣孕会）
+      - 五谷妈妈
+      - 唯灵会
+      - 伟大母亲
+      - 夜游会
+      - 树神教
+      - 神降学派
+      - 存在学派
+    essence:
+      - 祂是整个宇宙所有阴性力量的主宰，即使被分割出去了部分源质（即'母巢'），也依然是站在所有外神顶端的存在
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: null
+    confidence: null
+  - id: fourth_pillar
+    name: 第四支柱
+    nameEn: null
+    category: 支柱级旧日
+    tier: 支柱（尚未诞生）
+    trueName: null
+    pathways:
+      - hunter
+      - assassin
+      - warrior
+      - sleepless
+      - corpse_collector
+    pathwayNames:
+      - 红祭司
+      - 魔女
+      - 黄昏巨人
+      - 黑暗
+      - 死神
+    aliases: []
+    status: null
+    godNameFull: []
+    divineKingdom: null
+    symbols:
+      - 灾祸之城
+      - 永暗之河
+    holyEmblem: null
+    church: null
+    beliefOrgs: []
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://zh.moegirl.org.cn/诡秘之主/旧日
+    confidence: medium_high
+  - id: true_creator
+    name: 真实造物主
+    nameEn: null
+    category: 隐秘存在与邪神
+    tier: 序列0 真神
+    trueName: 格里沙
+    pathways:
+      - secrets_supplicant
+    pathwayNames:
+      - 倒吊人
+      - 秘祈人途径
+    aliases:
+      - 堕落造物主
+      - 倒吊人
+      - 真造（书友简称）
+      - 真实rap主（书友戏称，因祂不断发出呓语）
+    status: 存活；1352年前后与亚当初步融合，形成'亚当-真实造物主'融合形态，亚当占主导
+    godNameFull:
+      - 创造一切的主；阴影帷幕后的主宰；所有生灵的堕落自性。
+      - 创造一切的主；全知全能的神；阴影帷幕后的主宰；心灵世界的支配者；所有生灵的堕落自性。
+      - 与亚当融合一段时间后，二者共用的尊名中增加了'全知全能的神'和'心灵世界的支配者'两段
+    divineKingdom: null
+    symbols: []
+    holyEmblem: null
+    church: null
+    beliefOrgs:
+      - 极光会
+      - 铁血十字会
+      - 救赎蔷薇（追随阶段）
+    essence:
+      - 远古太阳神的人性面与陨落时极端情绪的化身（详见 远古太阳神 条目）
+      - 北大陆邪神，疯狂堕落，经常发出能使人发疯死亡的呓语
+      - 与七神不同，祂能干涉神弃之地；圣所位于神弃之地，并具有封印神弃之地的力量
+      - 对本途径掌控力极强，能够感应被自己污染的一切事物；秘祈人途径序列8'倾听者'常常发疯，原因便是听到了祂的呓语
+    appearance:
+      - 被锁链倒吊的独眼巨人、阴影帷幕后的眼睛
+      - 一个撑满了天空的十字架，上面用黑色铁钉（或古老木桩）钉着一个赤身裸体的男人，他两臂张开，双脚在上，头部如同吊坠般垂下，身体有着一道又一道的血渍
+    nature:
+      - 远古太阳神的人性面与陨落时极端情绪的化身（详见 远古太阳神 条目）
+      - 北大陆邪神，疯狂堕落，经常发出能使人发疯死亡的呓语
+      - 与七神不同，祂能干涉神弃之地；圣所位于神弃之地，并具有封印神弃之地的力量
+      - 对本途径掌控力极强，能够感应被自己污染的一切事物；秘祈人途径序列8'倾听者'常常发疯，原因便是听到了祂的呓语
+    relatedLocations:
+      - 神弃之地
+    source: https://zh.moegirl.org.cn/真实造物主
+    confidence: medium_high
+  - id: primordial_witch
+    name: 原初魔女
+    nameEn: null
+    category: 隐秘存在与邪神
+    tier: 序列0 真神
+    trueName: 奇克
+    pathways:
+      - assassin
+    pathwayNames:
+      - 魔女
+      - 刺客途径
+    aliases: []
+    status: 存活（第四纪末与死神掀起"苍白之灾"，被七神联合围攻受重创）
+    godNameFull:
+      - 所有灾难的源头；毁灭与末日的象征；执掌混沌的魔女；原初上帝的女身；镜中世界的最初造物主。
+    divineKingdom: null
+    symbols: []
+    holyEmblem: null
+    church: null
+    beliefOrgs:
+      - 魔女教派
+      - 灵知会（疑似马甲）
+    essence: []
+    appearance:
+      - 十几米高的女性，穿着白骨制成般的长裙，眼眸蔚蓝如同海洋，黑发像是有毒的巨蛇，顶端或直接长着蛇类的脑袋，或滚动着黑白分明的眼珠，周围的一切都因此变成石头，释放着各种各样的神秘学病原体
+    nature: []
+    relatedLocations: []
+    source: https://zh.moegirl.org.cn/诡秘之主/神灵
+    confidence: medium_high
+  - id: universe_dark_side
+    name: 宇宙暗面
+    nameEn: null
+    category: 隐秘存在与邪神
+    tier: 序列0 真神（"深渊"途径）
+    trueName: 法布提（恶魔君王）
+    pathways:
+      - criminal
+    pathwayNames:
+      - 深渊
+    aliases: []
+    status: 存活；存在感非常低，疑似被'欲望母树'侵蚀，已很久没再对现实世界施加影响
+    godNameFull: []
+    divineKingdom: null
+    symbols: []
+    holyEmblem: null
+    church: null
+    beliefOrgs:
+      - 拜血教
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://zh.moegirl.org.cn/诡秘之主/神灵
+    confidence: medium_high
+  - id: roselle_gustav
+    name: 罗塞尔·古斯塔夫
+    nameEn: null
+    category: 隐秘存在与邪神
+    tier: 序列0 真神（非正统信仰）
+    trueName: null
+    pathways:
+      - lawyer
+    pathwayNames:
+      - 黑皇帝
+    aliases: []
+    status: 已陨落（被永恒烈阳与蒸汽与机械之神联手击杀），留有复活后手；其复活企图被克莱恩与贝尔纳黛阻止
+    godNameFull: []
+    divineKingdom: null
+    symbols: []
+    holyEmblem: null
+    church: null
+    beliefOrgs: []
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: null
+    confidence: null
+  - id: death_god_salinger
+    name: 冥皇（死神）
+    nameEn: null
+    category: 隐秘存在与邪神
+    tier: 序列0 真神（第四纪"四皇"之一）
+    trueName: 萨林格尔
+    pathways:
+      - corpse_collector
+    pathwayNames:
+      - 死神
+    aliases: []
+    status: 已陨落（第四纪末与原初魔女掀起苍白之灾，被七神联合围攻而死；其陨落制造了隔断南北大陆的狂暴海）
+    godNameFull: []
+    divineKingdom: null
+    symbols: []
+    holyEmblem: null
+    church: null
+    beliefOrgs:
+      - 灵教团
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://zh.moegirl.org.cn/诡秘之主/神灵
+    confidence: medium_high
+  - id: black_emperor_solomon
+    name: '"黑皇帝"所罗门'
+    nameEn: null
+    category: 隐秘存在与邪神
+    tier: 序列0 真神（第四纪"四皇"之一）
+    trueName: null
+    pathways:
+      - lawyer
+    pathwayNames:
+      - 黑皇帝
+    aliases: []
+    status: 曾一度陨落，因'黑皇帝'途径的特殊性复活归来，最终在'四皇之战'中陨落
+    godNameFull: []
+    divineKingdom: null
+    symbols: []
+    holyEmblem: null
+    church: null
+    beliefOrgs: []
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://zh.moegirl.org.cn/诡秘之主/神灵
+    confidence: medium_high
+  - id: blood_emperor_tudor
+    name: '"血皇帝"亚利斯塔·图铎'
+    nameEn: null
+    category: 隐秘存在与邪神
+    tier: 序列0 真神（第四纪"四皇"之一）
+    trueName: null
+    pathways:
+      - hunter
+    pathwayNames:
+      - 红祭司
+    aliases: []
+    status: 已陨落（四皇之战）
+    godNameFull: []
+    divineKingdom: null
+    symbols: []
+    holyEmblem: null
+    church: null
+    beliefOrgs: []
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://zh.moegirl.org.cn/诡秘之主/神灵
+    confidence: medium_high
+  - id: night_emperor_trunsoest
+    name: '"夜皇"特伦索斯特'
+    nameEn: null
+    category: 隐秘存在与邪神
+    tier: 序列0 真神（第四纪"四皇"之一）
+    trueName: null
+    pathways:
+      - arbiter
+    pathwayNames:
+      - 审判者
+    aliases: []
+    status: 已陨落（四皇之战）
+    godNameFull: []
+    divineKingdom: null
+    symbols: []
+    holyEmblem: null
+    church: null
+    beliefOrgs: []
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://zh.moegirl.org.cn/诡秘之主/神灵
+    confidence: medium_high
+  - id: chained_god
+    name: 被缚之神
+    nameEn: null
+    category: 隐秘存在与邪神
+    tier: 天使之王（准神，非序列0）
+    trueName: null
+    pathways:
+      - prisoner
+    pathwayNames:
+      - 异种
+      - 囚犯途径
+      - 被缚者途径
+    aliases:
+      - 最惨天使之王（书友称呼）
+    status: 被欲望母树污染捕获，生不如死
+    godNameFull: []
+    divineKingdom: null
+    symbols: []
+    holyEmblem: null
+    church: null
+    beliefOrgs:
+      - 玫瑰学派
+    essence: []
+    appearance:
+      - 一个缠绕着发黄绷带的木乃伊；被欲望母树控制时表现为被数不清的棕褐色树枝刺穿、悬吊于半空，肚子高高鼓起，时而有某个位置凸起又瘪下，仿佛正在孕育新的生命，张合的嘴巴不停地惨叫着
+    nature: []
+    relatedLocations: []
+    source: null
+    confidence: null
+  - id: hidden_sage
+    name: 隐匿贤者
+    nameEn: null
+    category: 隐秘存在与邪神
+    tier: 准神（并非序列0真神）：本质是'隐者'途径'唯一性'活化
+    trueName: null
+    pathways:
+      - mystery_pryer
+    pathwayNames:
+      - 隐者
+      - 窥秘人途径
+    aliases:
+      - 隐匿的贤者
+    status: 《宿命之环》第七部第三十七章中被愚者克莱恩击杀
+    godNameFull: []
+    divineKingdom: null
+    symbols: []
+    holyEmblem: null
+    church: null
+    beliefOrgs:
+      - 摩斯苦修会
+    essence: []
+    appearance:
+      - 一道无法被绝大部分非凡者看见的'光芒'，没有实体，仿佛由一股又一股庞杂的信息组成，以虚幻的姿态洪流般移动
+    nature: []
+    relatedLocations: []
+    source: null
+    confidence: null
+  - id: ancient_sun_god
+    name: 远古太阳神
+    nameEn: null
+    category: 隐秘存在与邪神
+    tier: 准旧日（半个旧日；曾为序列0真神）
+    trueName: 格里沙（成神后姓名记为 格里沙·亚当）
+    pathways: []
+    pathwayNames: []
+    aliases:
+      - 白银城造物主
+      - 造物主
+      - 创造一切的主
+      - 全知全能的神
+      - 远太（书友简称）
+      - 白造（书友简称）
+    status: 已在'背叛之宴'中陨落；神性在亚当体内觉醒，与真实造物主正在互相融合以求完全复活
+    godNameFull:
+      - 创造一切的主啊；您是全知全能者；您是一切伟大的根源；您是开始，也是结束；您是众神之神；您是浩瀚星界的支配者。
+    divineKingdom: null
+    symbols: []
+    holyEmblem: null
+    church: null
+    beliefOrgs: []
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://zh.moegirl.org.cn/远古太阳神
+    confidence: medium_high
+  - id: mr_door_bethel
+    name: '"门"先生'
+    nameEn: null
+    category: 隐秘存在与邪神
+    tier: 天使之王（准神）
+    trueName: 伯特利·亚伯拉罕
+    pathways:
+      - door
+    pathwayNames:
+      - 学徒
+    aliases: []
+    status: 已死亡（死前自愿让阿蒙接受自己的非凡特性与唯一性）
+    godNameFull:
+      - 伟大的万门之门；无尽星空的领路者；所有神秘世界的钥匙。
+    divineKingdom: null
+    symbols: []
+    holyEmblem: null
+    church: null
+    beliefOrgs: []
+    essence: []
+    appearance:
+      - 看似中年，面容古板，头发呈虚空黑，参杂少量白发，有双涟漪层叠般的蔚蓝眼睛，整体形象如同民俗传说里的吸血鬼公爵
+    nature: []
+    relatedLocations: []
+    source: https://zh.moegirl.org.cn/伯特利·亚伯拉罕
+    confidence: medium_high
+  - id: sea_god_kavituva
+    name: '"海神"卡维图瓦'
+    nameEn: null
+    category: 隐秘存在与邪神
+    tier: 表为神灵，实为序列3半神
+    trueName: null
+    pathways: []
+    pathwayNames: []
+    aliases: []
+    status: 已消灭（死后非凡特性与蛇牙融合成为封印物'海神权杖'）
+    godNameFull: []
+    divineKingdom: null
+    symbols: []
+    holyEmblem: null
+    church: null
+    beliefOrgs:
+      - 海神教会
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://zh.moegirl.org.cn/诡秘之主/神灵
+    confidence: medium_high
+  - id: primordial_moon
+    name: 原始月亮
+    nameEn: null
+    category: 隐秘存在与邪神
+    tier: 存疑（未坐实）
+    trueName: null
+    pathways: []
+    pathwayNames: []
+    aliases: []
+    status: 存疑
+    godNameFull: []
+    divineKingdom: null
+    symbols: []
+    holyEmblem: null
+    church: null
+    beliefOrgs:
+      - 生命学派
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: null
+    confidence: null
+  - id: ancient_gods
+    name: 第二纪八古神
+    nameEn: null
+    category: 隐秘存在与邪神
+    tier: null
+    trueName: null
+    pathways: []
+    pathwayNames: []
+    aliases: []
+    status: null
+    godNameFull: []
+    divineKingdom: null
+    symbols: []
+    holyEmblem: null
+    church: null
+    beliefOrgs: []
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://zh.moegirl.org.cn/诡秘之主/神灵
+    confidence: medium_high
+  - id: quasi_old_ones
+    name: 准旧日
+    nameEn: null
+    category: 隐秘存在与邪神
+    tier: null
+    trueName: null
+    pathways: []
+    pathwayNames: []
+    aliases: []
+    status: null
+    godNameFull: []
+    divineKingdom: null
+    symbols: []
+    holyEmblem: null
+    church: null
+    beliefOrgs: []
+    essence: []
+    appearance: []
+    nature: []
+    relatedLocations: []
+    source: https://zh.moegirl.org.cn/诡秘之主/旧日
+    confidence: medium_high

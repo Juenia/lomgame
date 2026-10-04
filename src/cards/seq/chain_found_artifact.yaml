@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：捡到一件东西（设 flag `found_artifact`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_found_artifact
+name: 它开始发作
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:found_artifact'
+effects:
+  - { hp: -2 }
+  - { dig: 4 }
+texts:
+  priv: |
+    那天晚上它自己动了。
+    **只是一下。** 你把手伸进口袋按住它，它安静了。
+    第二天你做梦，梦里有个人在找东西。
+    醒来的时候你的手一直握着那个口袋。
+  group: 那个人这两天一直按着自己的口袋。
+daily_limit: 1

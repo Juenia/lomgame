@@ -1,0 +1,32 @@
+id: daily_021
+name: 还烫的余烬
+trigger:
+  type: daily
+  weight: 4
+  cond:
+    - seq<=8
+effects:
+  - { item: 主材料·战火余烬, n: 1 }
+  - { hp: -5 }
+texts:
+  priv: |
+    你从一处烧过的营地里扒出一撮余烬。它还是烫的，掌心起了一层泡。
+  group: 远处的火已经灭了很多天。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 先把手上的泡处理掉
+    effects: [ { hp: -1, dig: 2 } ]
+    text: |
+      你包好了。那点疼一直到晚上才消。
+  - key: '2'
+    label: 再扒一次，看底下有什么
+    effects: [ { dig: 6, hp: 2, cor: 2, mad: 2 } ]
+    text: |
+      你扒开了。底下还是烫的 —— 而火已经灭了很多天。
+  - key: '3'
+    label: 把余烬收好
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你装进了一个铁盒。盒子一直是温的。

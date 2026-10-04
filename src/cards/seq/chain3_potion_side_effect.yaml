@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **三级链的第三段（终点）**。
+# 前置链：第一段设 `potion_side` → 第二段读它、设 `potion_side_effect` → 本卡读 `potion_side_effect`。
+# 本卡**不再设新 flag** —— 链到此为止。
+id: chain3_potion_side_effect
+name: 门后面是什么
+trigger:
+  type: daily
+  weight: 10
+  cond:
+    - 'flag:potion_side_effect'
+effects:
+  - { cor: 3 }
+  - { mad: 3 }
+texts:
+  priv: |
+    你终于推开了那扇门。
+    **后面是一条街，和你梦里那条一模一样。**
+    街上有行人，走得很慢，没有人看你。
+    你退出来了。第二天晚上你还会梦见它。
+  group: 有人说自己天天梦见同一条街。
+daily_limit: 1

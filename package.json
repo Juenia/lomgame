@@ -1,0 +1,27 @@
+{
+  "name": "lord-of-mysteries-mvp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "《诡秘之主：群星低语》QQ文字游戏 MVP —— 闭环优先、纯函数判定、事件溯源、schema 先行、Adapter 隔离",
+  "_engines_note": "22.18 是**实测过**的下限，不是抄来的：这个项目直接跑 .ts（依赖 Node 的类型剥离，22.18 起默认可用，22.6—22.17 要 --experimental-strip-types），并用 node:sqlite（22.5 引入）。实测 Node 22.20.0 跑全量 1148 条测试全绿。",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "start": "node src/main.ts",
+    "test": "node --test \"test/**/*.test.ts\"",
+    "typecheck": "tsc --noEmit",
+    "cards:lint": "node src/cards/lint-cli.ts",
+    "coverage:ci": "node src/vplayer/cli.ts --players 20 --days 3 --seed smoke --no-strict --ci --json docs/W8-CI-shard-0.json --report-prefix W8-CI",
+    "coverage:ci:full": "node src/vplayer/cli.ts --players 200 --days 7 --seed vplayer-ci --no-strict --ci --ci-strict-cards --report-prefix W8-CI-full"
+  },
+  "dependencies": {
+    "yaml": "^2.8.1",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.2"
+  }
+}

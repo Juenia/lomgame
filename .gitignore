@@ -1,0 +1,47 @@
+# ===== 依赖与构建产物 =====
+node_modules/
+dist/
+# 角色卡出图产物（scripts/render-all-cards.ts 与 render-card-cli.ts 的默认输出）。
+# 属于可重跑的中间产物：给一份角色数据就能再画一遍，不该进版本控制。
+/build/
+
+# ===== 环境与本地配置 =====
+# .env 只存本机真值，绝不进版本控制（.env.local 之类的派生文件同理）。
+# 例外：.env.example 是**占位模板**，必须跟踪 —— 否则新人 clone 下来不知道该配哪些变量。
+.env
+.env.*
+!.env.example
+
+# ===== 日志 =====
+*.log
+
+# ===== 运行时数据库与备份 =====
+# 注意：必须以 / 开头锚定仓库根目录。
+# 旧写法 "data/" 会连 src/data/（locations.yaml 等源文件）一起忽略，是 M2.5 遗留的隐患。
+/data/
+/backups/
+*.db
+*.db-wal
+*.db-shm
+
+# ===== 虚拟玩家 / 回归跑批的原始行为日志 =====
+# 单文件可达 26MB，全量近 370MB，属于可重跑的中间产物，不进版本控制。
+# 报告类 .md 仍然跟踪。
+*.jsonl
+
+# ===== 归档的旧轮次产出 =====
+docs/archive-*
+
+# ===== 本机临时目录 =====
+# .harness-tmp/ 是 DSH 会话导出的临时产物；
+# m220-baseline/ 是 195MB 的整仓对照副本（含 node_modules 与 data/），只能在本地留存。
+.harness-tmp/
+/m220-baseline/
+
+# ===== 工具缓存 =====
+.dsh-vision-toolkit/
+
+# ===== 一键启动自动下载的便携版 Node =====
+# 启动脚本在 Node 缺失/过旧时会把便携版解压到这里（约 95MB）。
+# 它不是源码，也不能跨机器复用 —— 绝不能进版本控制。
+/.node/

@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **三级链的第三段（终点）**。
+# 前置链：第一段设 `mark` → 第二段读它、设 `mark_spreading` → 本卡读 `mark_spreading`。
+# 本卡**不再设新 flag** —— 链到此为止。
+id: chain3_mark_spreading
+name: 别人也能看见了
+trigger:
+  type: daily
+  weight: 10
+  cond:
+    - 'flag:mark_spreading'
+effects:
+  - { cor: 4 }
+  - { mad: 3 }
+texts:
+  priv: |
+    今天有人拉住了你的手腕。
+    「你这儿是什么？」他问。
+    **他自己看见了。** 你一直以为只有你看见。
+    你说没什么，是胎记。他松了手，但一直看。
+  group: 有人昨天在街上被人拉住手腕看了很久。
+daily_limit: 1

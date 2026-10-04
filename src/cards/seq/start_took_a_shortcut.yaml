@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `took_a_shortcut` → 后续卡 `chain_took_a_shortcut`
+id: start_took_a_shortcut
+name: 抄了近路
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { dig: 3 }
+  - { mad: 2 }
+  - { flag: took_a_shortcut }
+texts:
+  priv: |
+    那条巷子比外面看着短。
+    你走进去，走了大约两分钟。
+    **出来的时候天黑了。**
+    你回头看那条巷子。它还是那么短。
+  group: 有人说自己走一条巷子走了两个钟头。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 再走一次那条巷子
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你又走进去了。这次你数着步子。
+      **数到第七十步的时候** —— 你已经站在巷子另一头，而外面是半夜。
+  - key: '2'
+    label: 看看自己表上的时间
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你掏出表看。表停了。
+      **而它停的位置是两点十分** —— 你记得自己进去的时候是一点。
+  - key: '3'
+    label: 以后绕开那条巷子
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你再也没进去过。
+      **而那条巷子一直在** —— 每次路过你都会数一下它有多长。

@@ -1,0 +1,39 @@
+id: path_mother_004
+name: 它还在长
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:mother' ]
+  min_seq: 6
+  cooldown_days: 3
+effects:
+  - { dig: 6 }
+  - { mad: 1 }
+  - { item: 骨粉, n: 1 }
+texts:
+  priv: |
+    标本已经泡了三个月，今天你看它的时候，它比昨天大了一圈。
+    生物学家不害怕「活着」这件事，害怕的是**它活着而你不知道它靠什么活**。
+    你换了新的密封罐，在标签上添了一行字，写的是今天的日期和一个问号。
+  group: 架子上有个罐子发出一声轻响。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 换新罐子，记下日期和问号
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你换了罐子，在标签上添了一行。
+      **而旧罐子的内壁上** —— 有一圈很淡的痕。
+  - key: '2'
+    label: 弄明白它靠什么活着
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你守了两天两夜。它什么都没吃。
+      **而架子旁边那盆花枯了** —— 就在它旁边那一格。
+  - key: '3'
+    label: 把它处理掉
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你把它烧了。烧的时候有一股很甜的味道。
+      **而罐子烧不坏** —— 罐底那个东西的形状还留着。

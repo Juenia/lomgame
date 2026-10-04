@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `lost_control_once` → 后续卡 `chain_lost_control_once`
+id: start_lost_control_once
+name: 失控过一次
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { hp: -2 }
+  - { mad: 4 }
+  - { flag: lost_control_once }
+texts:
+  priv: |
+    你不记得那三分钟。
+    醒过来的时候，桌子翻了，墙上有印子，你的手在流血。
+    **屋里只有你一个人。你松了口气。**
+    然后你看见门口站着一个小孩，一直没走。
+  group: 那间屋子里昨天有动静，很响。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 走过去问那个小孩
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你走过去。他退了一步。
+      **然后他说：「你刚才不是这样的。」**
+  - key: '2'
+    label: 低头看自己流血的手
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你低头看。指节上的皮翻着。
+      **而伤口的方向不对** —— 像是往外撕的。
+  - key: '3'
+    label: 把门关上，装作没看见
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你关上门，去洗了手。
+      **而那个小孩一直在门外** —— 你听得见他的呼吸。

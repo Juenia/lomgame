@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **三级链的第三段（终点）**。
+# 前置链：第一段设 `book` → 第二段读它、设 `book_remembered` → 本卡读 `book_remembered`。
+# 本卡**不再设新 flag** —— 链到此为止。
+id: chain3_book_remembered
+name: 你开始背出来了
+trigger:
+  type: daily
+  weight: 10
+  cond:
+    - 'flag:book_remembered'
+effects:
+  - { mad: 4 }
+  - { dig: 3 }
+texts:
+  priv: |
+    那一段你已经能整段背下来了。
+    不是想背 —— 是它自己在念。
+    **今天你念出声了**，念到一半才发现屋里还有别人。
+    他问你刚才念的是什么。你说没什么。
+  group: 有人昨天在屋里自言自语了一段听不懂的话。
+daily_limit: 1

@@ -1,0 +1,38 @@
+id: path_reader_006
+name: 不必读完的那一本
+trigger:
+  type: daily
+  weight: 6
+  cond: [ 'pathway:reader' ]
+  min_seq: 3
+  cooldown_days: 5
+effects:
+  - { dig: 7 }
+  - { cor: 3 }
+texts:
+  priv: |
+    书摊开着，只差二十页。
+    你合上了它。
+    洞悉者与博学者的区别就在这里 —— **知道读下去会发生什么之后，选择不读**。你把书还回去的时候，管理员的脸色变了一下，因为他记得你刚才借的是另一本。
+  group: 图书馆的钟敲了一下，没人去数第几声。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把书还回去
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你还回去了。他接过去的时候手停了一下。
+      **而他一直在看封面** —— 像是想确认什么。
+  - key: '2'
+    label: 回去拿自己刚才借的那本
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你回去找。架子上那本还在。
+      **而借书卡上写的是你的名字** —— 日期是今天，而时间是三个钟头后。
+  - key: '3'
+    label: 问管理员他为什么变脸
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你问了。他说他记错了。
+      **而他一直没敢看你手里那本书** —— 他的眼睛一直在往别处瞟。

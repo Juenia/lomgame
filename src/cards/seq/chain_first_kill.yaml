@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：第一次（设 flag `first_kill`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_first_kill
+name: 你记得他的脸
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:first_kill'
+effects:
+  - { mad: 3 }
+  - { dig: 3 }
+texts:
+  priv: |
+    你不想记，但你记得。
+    **记得他倒下之前看你的那一眼。**
+    这几天你在街上看见好几个人长得像他。
+    你知道不是。但每次都会停一下。
+  group: 那个人最近总在街上停下来盯着陌生人看。
+daily_limit: 1

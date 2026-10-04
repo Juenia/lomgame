@@ -1,0 +1,22 @@
+# 事件卡链（M2.87）—— **链的第二段**（三级链的中间那一环）。
+# 前置：设 flag `dream_touched` 的那张卡
+# 自身：要 `flag:dream_touched`，并**设出** `dream_shared`（供第三段读）
+id: chain2_dream_touched
+name: 他也做了同一个梦
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:dream_touched'
+effects:
+  - { mad: 3 }
+  - { dig: 2 }
+  - { flag: dream_shared }
+texts:
+  priv: |
+    你把那件事跟他说了。
+    他说完前半句，你自己接了后半句 —— **一字不差**。
+    你们在同一个地方停下来，看着对方。
+    「你也梦见了，」他说。你点头了。
+  group: 这两个人昨天在茶馆里同时说了一样的话。
+daily_limit: 1

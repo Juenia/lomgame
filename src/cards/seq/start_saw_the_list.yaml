@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `saw_the_list` → 后续卡 `chain_saw_the_list`
+id: start_saw_the_list
+name: 看到了一份名单
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { dig: 4 }
+  - { cor: 2 }
+  - { flag: saw_the_list }
+texts:
+  priv: |
+    名单上有十几个名字，你认识其中两个。
+    **你自己的名字在最后一个。**
+    前面那些名字旁边都画了勾。
+    你没有动那张纸。你把它放回去了，放得很正。
+  group: 有人在档案室里翻到一份名单，看了一会儿就走了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把名单上的名字记下来
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你记了三个。
+      **而第三个记完之后** —— 你想不起第一个是什么了。
+  - key: '2'
+    label: 去查那两个你认识的人
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你去找了他们。一个搬走了。
+      **另一个还在** —— 而他说他最近老做梦，梦见有人在点名。
+  - key: '3'
+    label: 什么都不做，以后不再去那间档案室
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你没再去。
+      **而半个月后有人来问你** —— 问她那天在档案室见过什么。

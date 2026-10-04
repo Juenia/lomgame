@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「黑荆棘修道院」（blackthorn_abbey，危险度 2）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_blackthorn_abbey
+name: 荆棘是自己长的
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:黑荆棘修道院'
+effects:
+  - { dig: 2 }
+  - { cor: 1 }
+texts:
+  priv: |
+    修道院墙上的荆棘一直有，大家都说是当年种的。
+    你凑近看了一次。
+    **它们是从墙里面长出来的** —— 根在石头缝里。
+    你退开的时候手背被划了一下。
+  group: 那座修道院的荆棘越长越厚，谁也没去修剪过。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把手背上的口子按住
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你按住口子。血出得很慢。
+      **而口子比划痕宽** —— 像是从里面裂开的。
+  - key: '2'
+    label: 顺着根往墙里看
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你贴着石缝往里看。里面是黑的。
+      **而黑的地方在动** —— 很慢，像有什么在呼吸。
+  - key: '3'
+    label: 问修女这些荆棘什么时候种的
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      她说没种过。
+      **她说她小时候这些就在了** —— 而她今年六十。

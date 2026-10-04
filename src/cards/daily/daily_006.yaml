@@ -1,0 +1,33 @@
+id: daily_006
+name: 配比
+trigger:
+  type: daily
+  weight: 6
+  cond: []
+effects:
+  - { dig: 2 }
+  - { item: 辅助材料·银粉, n: 1 }
+  - { item: 辅助材料·圣盐, n: 1 }
+texts:
+  priv: |
+    你把银粉与圣盐按顺序铺开，分量差一点就不对。
+    做完这一步，手心的汗才慢慢退下去。
+  group: 有人在桌上摆开了两小堆粉末。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把两堆粉末收好
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你分开收进两个小瓶，贴上记号。
+  - key: '2'
+    label: 重配一次，这次故意差一点
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      粉末没有反应 —— 而你听见了一声很轻的响，像是有人在门外停了一下。
+  - key: '3'
+    label: 记下这次的配比
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你写下了分量和顺序。写到一半，笔尖断了一次。

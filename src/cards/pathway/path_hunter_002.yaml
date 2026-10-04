@@ -1,0 +1,37 @@
+id: path_hunter_002
+name: 火很听话
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:hunter' ]
+  min_seq: 4
+effects:
+  - { dig: 6 }
+  - { mad: 1 }
+texts:
+  priv: |
+    你划了三次火柴都没着。
+    第四次它着了，而且烧得很稳 —— 稳得像有人替你护着。
+    你盯着那点火看了很久，直到它烧到了你的指节。
+  group: 有人在空地上生了火，火堆一整夜没灭。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把火收起来
+    effects: [ { dig: 3 } ]
+    text: |
+      你踩灭了它。指尖有点麻。
+      **而那块地还是热的** —— 热了一整夜。
+  - key: '2'
+    label: 让它一直烧着
+    effects: [ { dig: 5, cor: 1, mad: 1 } ]
+    text: |
+      你没管它，走开了。第二天它还在烧。
+      **而柴是湿的** —— 湿柴不该烧成这样。
+  - key: '3'
+    label: 低头看自己的指节
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你摊开手。指节上有一小块白。
+      **不疼** —— 按下去也不疼。

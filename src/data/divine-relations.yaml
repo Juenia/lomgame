@@ -1,0 +1,83 @@
+# 神与神的关系网（M2.169）—— 神明阴谋的依据
+#
+# 为什么需要这张表：M2.169 的阴谋要回答「**谁能对谁下手**」。
+# 没有它，世界级阴谋就会随机发生在一个毫无缘由的目标身上 —— 那不是神，那是掷骰子。
+#
+# 三种边：
+#   ally   盟友     —— 可以联手（神战中那两位就是这么做的）
+#   rival  水火不容 —— 可以对下手（无向：两边都能下手）
+#   covet  觊觎其位 —— **邪神对正神**的那一条。⚠️ **有向**：a 觊觎 b
+#
+# ⚠️ 两端的 id 是**途径 id**（与 divine-thrones.yaml 的 pathway 同一口径），不是教会 id。
+# ⚠️ 每条都要有 id（唯一）与 source —— 一条途径会出现在好几条边里，所以 `a` 不能当主键。
+meta:
+  source: 诡秘之主原作数据/04-神明与教会/七正神.yaml + 06-历史/世界大事年表.md
+  count: 9
+  layer_note: 关系是【原作】直出（「长期结盟」「水火不容」「联手暗算」都是原文）；covet 那一组是【设计】—— 原作没写祂们具体觊觎谁，但写了祂们是隐秘存在。
+  covet_note: ⚠️ covet 边**有方向**：写在前面的 a 觊觎后面的 b。反过来不成立（那一位另有打算）。
+divine_relations:
+  # ==== 黑铁纪元神战那一局（原作里真实发生过的一次神级阴谋）====
+  - id: sleepless-mother-ally
+    a: sleepless
+    b: mother
+    kind: ally
+    since: 黑铁纪元
+    note: 长期结盟；神战中联手暗算战神，黑夜女神归还月亮权柄
+    source: 七正神.yaml:115/377
+  - id: sleepless-warrior-rival
+    a: sleepless
+    b: warrior
+    kind: rival
+    since: 黑铁纪元
+    note: 黑夜女神教会与战神教会水火不容；战神陨落后黑夜教会彻底控制战神教会
+    source: 七正神.yaml:112/420
+  - id: mother-warrior-rival
+    a: mother
+    b: warrior
+    kind: rival
+    since: 黑铁纪元
+    note: 神战初期似站在战神一边，战争末期与黑夜女神联手杀死战神
+    source: 七正神.yaml:383
+  - id: warrior-perfect-ally
+    a: warrior
+    b: perfect
+    kind: ally
+    since: 黑铁纪元
+    note: 黑铁纪元神战中与战神、蒸汽与机械之神结盟
+    source: 七正神.yaml:279
+  - id: perfect-reader-rival
+    a: perfect
+    b: reader
+    kind: rival
+    since: 黑铁纪元
+    note: 神战中与知识与智慧之神开战；因战神陨落而败北
+    source: 七正神.yaml:223
+  # ==== 邪神的觊觎（用户点名的那一种：针对正神）====
+  - id: secrets-supplicant-sun-covet
+    a: secrets_supplicant
+    b: sun
+    kind: covet
+    since: 第三纪
+    note: 真实造物主是远古太阳神的人性面 —— 祂盯着的是太阳那个位置
+    source: 世界大事年表.md:122
+  - id: assassin-apothecary-covet
+    a: assassin
+    b: apothecary
+    kind: covet
+    since: 第四纪
+    note: 原初魔女与月亮途径的纠葛（原作里魔女与血族同源）
+    source: 隐秘存在与邪神.yaml
+  - id: criminal-lawyer-covet
+    a: criminal
+    b: lawyer
+    kind: covet
+    since: 第二纪
+    note: 宇宙暗面（恶魔君王法布提）退回深渊之后，盯着秩序那一侧的位置
+    source: 世界大事年表.md:87
+  - id: apothecary-mother-covet
+    a: apothecary
+    b: mother
+    kind: covet
+    since: 第三纪
+    note: 堕落母神与大地母神同出一系 —— 那一位要的是「母亲」那个位置
+    source: 旧日与外神.yaml

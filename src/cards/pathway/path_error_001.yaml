@@ -1,0 +1,37 @@
+id: path_error_001
+name: 两次一样的下午
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:error' ]
+  min_seq: 9
+effects:
+  - { dig: 4 }
+  - { mad: 1 }
+texts:
+  priv: |
+    你确信这个下午已经过过一次 —— 茶凉的角度、窗外的车声，一模一样。
+    第二次你没有站起来。
+    「错误」这一途的人最先学会的不是偷，是认出重复。
+  group: 钟敲了两次同一刻，第二次没人抬头。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 第二次坐着不动
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      第二次你没有站起来。茶凉的角度和上一遍一样。
+      **而窗外的车声晚了一息** —— 就一息。
+  - key: '2'
+    label: 故意做一件不一样的事
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你把茶泼了。这一下之后，那个下午断了。
+      **而断的地方** —— 你听见了一声像是胶带撕开的响。
+  - key: '3'
+    label: 抬头看看那口钟
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你抬头看。钟指着三点一刻。
+      **而它刚才敲的是三点** —— 你数过两遍。

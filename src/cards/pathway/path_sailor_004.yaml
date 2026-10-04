@@ -1,0 +1,38 @@
+id: path_sailor_004
+name: 灾难之前的那口气
+trigger:
+  type: daily
+  weight: 6
+  cond: [ 'pathway:sailor' ]
+  min_seq: 4
+  cooldown_days: 5
+effects:
+  - { dig: 7 }
+  - { mad: 3 }
+texts:
+  priv: |
+    云压得很低，低到能看见里面的纹路。
+    灾难主祭不制造灾难，**只是提前知道它要来，并且不跑**。
+    你站在原地，把那口气吸满。周围的人开始往岸上跑，只有你迎着风走 —— 走的时候你在数：还有几步。
+  group: 天色忽然暗了半边，快得不像自然。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 迎着风走，数着步
+    effects: [ { dig: 6, hp: 2, cor: 2 } ]
+    text: |
+      你迎着风走。数到第七步的时候风到了。
+      **而你站住了** —— 站住的地方正好是数到第七步的地方。
+  - key: '2'
+    label: 回头喊那些人快跑
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你喊了。他们跑得更快。
+      **而有一个回头看了你一眼** —— 那一眼里不是谢。
+  - key: '3'
+    label: 站着不动，等它来
+    effects: [ { dig: 7, hp: 3, cor: 4, mad: 3 } ]
+    text: |
+      你没跑。灾难来的时候你站着。
+      **它从你身上过去了** —— 而你连衣服都没湿。

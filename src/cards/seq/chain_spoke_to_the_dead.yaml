@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：问了死人（设 flag `spoke_to_the_dead`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_spoke_to_the_dead
+name: 他还在答
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:spoke_to_the_dead'
+effects:
+  - { cor: 3 }
+  - { dig: 3 }
+texts:
+  priv: |
+    从那以后你问什么他都会答。
+    开始你只问正事。
+    **后来你连小事也问。**
+    今天你问了一件根本不需要问的事 —— 然后你自己停下来了。
+  group: 有人最近做什么事之前都要先愣一下。
+daily_limit: 1

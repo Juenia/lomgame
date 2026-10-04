@@ -1,0 +1,35 @@
+id: random_003
+name: 昨天梦到的名字
+trigger:
+  type: random
+  weight: 5
+  cond:
+    - dig>=30
+  location:
+    - 墓园小径
+effects:
+  - { dig: 2 }
+  - { mad: 1 }
+texts:
+  priv: |
+    {{地点}}上只有{{声音}}。
+    你读了几块碑，发现有一个名字你昨天刚梦到过。
+  group: "{{声音}}"
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把那块碑读完整
+    effects: [ { dig: 5, cor: 2, mad: 3 } ]
+    text: |
+      你读完了。碑上还有一行小字，写的是日期 —— 而那个日期还没到。
+  - key: '2'
+    label: 记下碑的位置
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你记住了是第几排。第二天再去，那一块碑不见了。
+  - key: '3'
+    label: 去查那个名字
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你查了。那是个活人 —— 而他昨天刚搬来这条街。

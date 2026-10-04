@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：先到的人（设 flag `found_a_body`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_found_a_body
+name: 你在梦里认出他了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:found_a_body'
+effects:
+  - { mad: 4 }
+  - { dig: 2 }
+texts:
+  priv: |
+    你梦见那条巷子。
+    和那天一样，只是这次你走得更近。
+    **你看清了他的脸。**
+    那张脸你认识 —— 是今天早上给你递过报纸的人。
+  group: 有人在街上盯着报童看了很久。
+daily_limit: 1

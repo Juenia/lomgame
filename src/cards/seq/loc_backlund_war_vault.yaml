@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「封存的军械库」（backlund_war_vault，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_backlund_war_vault
+name: 封条是完整的
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:封存的军械库'
+effects:
+  - { dig: 4 }
+  - { mad: 2 }
+texts:
+  priv: |
+    门上的封条是完整的，绳子、火漆、日期，都对。
+    你推开门。
+    **里面所有的枪都上了膛。** 一排一排，扳机都是扣下的位置。
+    你把门关上，重新贴了封条 —— 贴得跟原来一样。
+  group: 那座军械库昨天有人进去过，封条却没动。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 再推门进去看第二遍
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你又进去了。枪还是那样。
+      **而最里面那一排多了一把** —— 你刚才数的是二十四把。
+  - key: '2'
+    label: 把封条揭下来看看
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你揭下来看。火漆是旧的。
+      **而日期被人改过** —— 改得很细，改的是一个数字。
+  - key: '3'
+    label: 去问是谁在管这里
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你去问了。他们说这里已经封了七年。
+      **而钥匙一直挂在值班室的钉子上** —— 谁都能拿。

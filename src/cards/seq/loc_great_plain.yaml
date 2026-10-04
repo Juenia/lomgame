@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「大平原」（great_plain，危险度 3）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_great_plain
+name: 很远的地方有烟
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:大平原'
+effects:
+  - { dig: 2 }
+  - { hp: 1 }
+texts:
+  priv: |
+    大平原上没有遮挡，你能看见很远。
+    天边有一道烟，很细，是直的。
+    **没有火会烧成那样。**
+    你看了一会儿。烟一直在，位置没变过。
+  group: 大平原上那道烟已经冒了三天，没有人去看。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 朝那道烟走过去
+    effects: [ { dig: 7, hp: 2, cor: 3, mad: 3 } ]
+    text: |
+      你走了两个钟头。烟一直在前面。
+      **而它没有变大** —— 走了那么远，还是那么细。
+  - key: '2'
+    label: 在原地记下它的方向
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你用远处的两棵树做参照，记了下来。
+      **第二天再看** —— 烟还在，而参照物少了一棵。
+  - key: '3'
+    label: 等到天黑看它还在不在
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你等到天黑。烟还在。
+      **而天黑之后它亮了一点** —— 很淡的光，像有人在那边点了什么。

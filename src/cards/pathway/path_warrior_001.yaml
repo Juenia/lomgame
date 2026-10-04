@@ -1,0 +1,37 @@
+id: path_warrior_001
+name: 三百次挥砍
+trigger:
+  type: daily
+  weight: 9
+  cond: [ 'pathway:warrior' ]
+  min_seq: 9
+effects:
+  - { dig: 4 }
+  - { hp: -3 }
+texts:
+  priv: |
+    木桩上有一百道旧痕，你今天又添了三道。
+    战士的路不在招式上 —— 在于**别人收手的时候你还在挥**。
+    掌心的茧裂开又结上，你数到第三百下才停。停下来的时候，你听见自己的心跳比刚才慢了一拍。
+  group: 院子里传来规律的钝响，一声接一声。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 再挥一百下
+    effects: [ { dig: 6, hp: 2, cor: 2 } ]
+    text: |
+      你又挥了一百下。掌心的茧又裂了。
+      **而这次裂开之后没有流血** —— 底下已经是一层新的。
+  - key: '2'
+    label: 停下来听自己的心跳
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你站着听。心跳比刚才慢一拍。
+      **而慢下来的那一拍** —— 你数了三遍才确认没数错。
+  - key: '3'
+    label: 看看木桩上那百道旧痕
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你看了。一百道痕深浅不一。
+      **而最近的那几道最深** —— 深得像是有人拿别的东西砍的。

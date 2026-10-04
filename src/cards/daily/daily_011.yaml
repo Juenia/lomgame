@@ -1,0 +1,31 @@
+id: daily_011
+name: 重新淬火
+trigger:
+  type: daily
+  weight: 6
+  cond: []
+effects:
+  - { item: 淬火匕首, n: 1 }
+  - { mp: -2 }
+texts:
+  priv: |
+    你给匕首重新淬了一次火。铁腥味让你清醒，也让你想起自己并不擅长这个。
+  group: 打铁声从巷子深处传出来。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 再淬一次
+    effects: [ { dig: 3, hp: 1 } ]
+    text: |
+      火星溅到手背上。你没有躲。
+  - key: '2'
+    label: 看看刀口
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      刀口很亮。亮得比你淬出来的该有的亮。
+  - key: '3'
+    label: 问巷子里的人刚才是什么声音
+    effects: [ { dig: 5, cor: 2, mad: 1 } ]
+    text: |
+      他说他没听见。而他手里的锤子还举着。

@@ -1,0 +1,37 @@
+id: path_door_002
+name: 钥匙对不上的那把锁
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:door' ]
+  min_seq: 5
+effects:
+  - { dig: 6 }
+  - { mp: -3 }
+texts:
+  priv: |
+    钥匙插进去，转了半圈，停住。
+    你换了个角度，它开了 —— 但门后面不是这个房间该有的样子。
+    「门」这一途的人不撬锁，他们让锁觉得自己本来就该开。
+  group: 某户人家的门在半夜自己开了一条缝。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把门带上，装作没开过
+    effects: [ { dig: 3 } ]
+    text: |
+      你把门带上了，钥匙在手里。
+      **而它比刚才烫** —— 烫得像刚从锁里出来。
+  - key: '2'
+    label: 走进去看看后面是什么
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你走进去。里面是一间没有窗的屋子。
+      **而屋里摆着的东西** —— 是你自己家里的那几件。
+  - key: '3'
+    label: 再开一次，这次记住角度
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你又开了半圈，这次慢慢来。
+      **而它还是在同一个地方停住** —— 那个角度你记住了。

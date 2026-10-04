@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：失控过一次（设 flag `lost_control_once`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_lost_control_once
+name: 别人开始躲你
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:lost_control_once'
+effects:
+  - { cor: 3 }
+  - { mad: 2 }
+texts:
+  priv: |
+    你去常去的那个摊子，摊主说今天卖完了。
+    你去了第二家，也说卖完了。
+    **第三家干脆把门关了。**
+    你站在街上，看了看自己的手。
+  group: 街上那几个摊子这两天关得特别早。
+daily_limit: 1

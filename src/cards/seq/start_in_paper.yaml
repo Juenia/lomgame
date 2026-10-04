@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `in_paper` → 后续卡 `chain_in_paper`
+id: start_in_paper
+name: 上了报纸
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { dig: 2 }
+  - { cor: 2 }
+  - { flag: in_paper }
+texts:
+  priv: |
+    那张报纸的第三版上有一小段，提到了你。
+    **名字写错了一个字。**
+    但地址是对的。
+    你把那张报纸买了下来，剩下的几份也买了。
+  group: 有人把报摊上同一期的报纸全买了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 去查那个名字是谁写错的
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你去了报馆。他们说稿子是从外面来的。
+      **而送稿的人留下了一个地址** —— 那个地址是你家。
+  - key: '2'
+    label: 把剩下的报纸都买光
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你跑了六个报摊。买光了。
+      **而第二天又出了一期** —— 上面提到了同一件事，名字这次是对的。
+  - key: '3'
+    label: 什么都不做，把报纸收起来
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你把它夹进了一本书里。
+      **半个月后你翻到那一页** —— 那一小段不见了。

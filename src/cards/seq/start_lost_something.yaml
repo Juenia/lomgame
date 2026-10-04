@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `lost_something` → 后续卡 `chain_lost_something`
+id: start_lost_something
+name: 丢了一件东西
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { dig: 2 }
+  - { mad: 2 }
+  - { flag: lost_something }
+texts:
+  priv: |
+    那东西不大，也不值钱。
+    **但它是那个人给你的。**
+    你回去找了三遍，都没有。
+    第三遍的时候你在路边坐下来，坐了很久。
+  group: 有人在路边坐了很久，一直在看地上。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 回去找第四遍
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你又找了一遍。还是没有。
+      **而这次你在路边看见了一样东西** —— 不是那件，是别的。
+  - key: '2'
+    label: 去找那个人，告诉他丢了
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你去了。他没说什么。
+      **而他从抽屉里拿出了一个一样的** —— 他说他还有。
+  - key: '3'
+    label: 站起来，不再找了
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你站起来走了。
+      **走了很远之后** —— 你摸了摸口袋，它在那儿。

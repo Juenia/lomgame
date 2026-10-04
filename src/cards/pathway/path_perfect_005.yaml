@@ -1,0 +1,38 @@
+id: path_perfect_005
+name: 配平
+trigger:
+  type: daily
+  weight: 6
+  cond: [ 'pathway:perfect' ]
+  min_seq: 4
+  cooldown_days: 4
+effects:
+  - { dig: 7 }
+  - { cor: 2 }
+texts:
+  priv: |
+    坩埚里的液体先是发红，然后忽然安静下来，变成一种说不上颜色的颜色。
+    炼金术师的规矩：**不改比例，改顺序**。
+    你把它分成两份。一份留在原地，一份带走了。你没有告诉任何人你为什么带走那一份。
+  group: 有一股微微发甜的味道散开，很快没了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把带走的那份藏起来
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你把它藏在书架后面。
+      **第二天去拿** —— 瓶子是热的。
+  - key: '2'
+    label: 回去看留下的那一份
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你回去了。那半份还在坩埚里。
+      **而它的颜色变了** —— 变成了你带走那半份的颜色。
+  - key: '3'
+    label: 把两份合回去
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你把它倒了回去。两份碰到一起的时候没有声音。
+      **而坩埚里的东西少了** —— 少得能看出来。

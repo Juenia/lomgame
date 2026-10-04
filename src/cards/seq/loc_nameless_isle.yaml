@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「无名小岛」（nameless_isle，危险度 3）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_nameless_isle
+name: 岛上有座房子
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:无名小岛'
+effects:
+  - { dig: 4 }
+  - { cor: 2 }
+texts:
+  priv: |
+    这座岛在海图上没有名字。
+    你上去的时候以为只有石头。
+    **岛中间有一座房子** —— 有门，有窗，烟囱是冷的。
+    你走到门口。门没有锁。
+  group: 那片海上有一座没名字的岛，岛上有人见过房子。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 推门进去
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你推门进去。屋里很干净，桌上有一杯水。
+      **水是温的** —— 而这座岛上没有人。
+  - key: '2'
+    label: 绕着房子走一圈
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你走了一圈。窗都关着。
+      **而每一扇窗的高度都一样** —— 连位置都对称。
+  - key: '3'
+    label: 敲门
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你敲了三下。没有人应。
+      **而门从里面被拉开了** —— 拉开一条缝，然后停住。

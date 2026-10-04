@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `missed_the_boat` → 后续卡 `chain_missed_the_boat`
+id: start_missed_the_boat
+name: 没赶上那班船
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { dig: 2 }
+  - { mad: 1 }
+  - { flag: missed_the_boat }
+texts:
+  priv: |
+    你到码头的时候船刚走。
+    你看着它出港，站了一会儿。
+    **第二天你听说那条船没回来。**
+    你在码头上坐了很久，看着海。
+  group: 那条船出海没回来，有人在码头坐了一天。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 去查那条船上的都是谁
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你查了。名单上有十一个人。
+      **而第十二个位置是空的** —— 那里本来该是你的名字。
+  - key: '2'
+    label: 把船票留着
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你把票收进了内袋。
+      **而第二天再看** —— 票上的日期变了，变成了明天。
+  - key: '3'
+    label: 明天再去码头看看
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你第二天去了。码头很空。
+      **而检票的人还站在那儿** —— 他说他在等下一班。

@@ -1,0 +1,34 @@
+id: daily_003
+name: 过简的仪式
+trigger:
+  type: random
+  weight: 5
+  cond:
+    # 状态卡（消化度够高才会遇到）：不绑地点，否则探索抽卡按 location.events 取交集时会被漏掉
+    - dig>=20
+effects:
+  - { dig: 1 }
+  - { mp: -5 }
+texts:
+  priv: |
+    你在{{地点}}尝试了一个过于简单的仪式。
+    {{动静}}，它成功了，但消耗比预想中多。
+  group: "{{动静}}"
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把多消耗的那部分补回来
+    effects: [ { dig: 3, hp: 1 } ]
+    text: |
+      你睡了一整天。醒来的时候手还是软的。
+  - key: '2'
+    label: 再来一次，这次按原样做
+    effects: [ { dig: 5, cor: 2, mad: 1 } ]
+    text: |
+      这次没有省。做完之后屋里那股味道散得很快。
+  - key: '3'
+    label: 把这套简化步骤记下来
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你写在了本子最后一页。写完把本子合上了。

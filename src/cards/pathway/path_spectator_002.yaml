@@ -1,0 +1,37 @@
+id: path_spectator_002
+name: 梦里多了一个人
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:spectator' ]
+  min_seq: 4
+effects:
+  - { dig: 6 }
+  - { mad: 2 }
+texts:
+  priv: |
+    梦里你在自己的屋子里，屋里有三个人。
+    你数了两遍，还是三个 —— 而这座屋子只住了你。
+    醒来之后你没有点灯，坐了很久。
+  group: 天还没亮，有人已经坐在窗边了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 在梦里再数一遍
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你又数了一遍。这次是四个。
+      **而多出来的那个** —— 站在你刚才站的位置。
+  - key: '2'
+    label: 醒着等天亮
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你坐着等。天慢慢亮了。
+      **而屋里的椅子一直是热的** —— 三把都是。
+  - key: '3'
+    label: 再睡回去，看他们还在不在
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你躺回去了。屋里还是三个人。
+      **而这次他们都在看你** —— 一起转的头。

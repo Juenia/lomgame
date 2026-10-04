@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `saw_own_death` → 后续卡 `chain_saw_own_death`
+id: start_saw_own_death
+name: 看见了自己的结局
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { mad: 4 }
+  - { dig: 3 }
+  - { flag: saw_own_death }
+texts:
+  priv: |
+    占卜的结果很明确。
+    **日期、地点、还有谁在旁边。**
+    你把牌收起来，又摊了一次。
+    还是一样。你第三次摊牌的时候，手在抖。
+  group: 有人昨天在桌上摊了三次牌，次次一样。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 第四次摊牌
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你又摊了一次。还是一样的。
+      **而这次多了一样** —— 牌堆底下压着一张，从来没有翻出来过。
+  - key: '2'
+    label: 把牌收起来，不再看
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你收了起来，锁进抽屉。
+      **而那个日期一直记着** —— 你数日子的时候会绕开它。
+  - key: '3'
+    label: 按那个日期去查那个地方
+    effects: [ { dig: 6, cor: 3, mad: 4 } ]
+    text: |
+      你去了。那地方是一间空屋。
+      **而屋里有一把椅子** —— 摆的位置正好是牌上画的那个位置。

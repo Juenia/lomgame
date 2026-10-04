@@ -1,0 +1,35 @@
+id: random_002
+name: 算清了
+trigger:
+  type: random
+  weight: 6
+  cond:
+    - flag:owes_favor
+  location:
+    - 老码头
+effects:
+  - { dig: 1 }
+  - { item: 便士, n: 2 } # M2.5：货币单位改为便士，值不变
+texts:
+  priv: |
+    {{人影}}在你前面停下，把一小卷钱塞过来。
+    他说上次的事算清了，{{收获}}。
+  group: "{{人影}}"
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把钱收下
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你收下了。他的手很凉。
+  - key: '2'
+    label: 问他上次的事是什么
+    effects: [ { dig: 5, cor: 2, mad: 3 } ]
+    text: |
+      他说你忘了也好。说完他就走了。
+  - key: '3'
+    label: 把钱还回去
+    effects: [ { dig: 3, mad: -1 } ]
+    text: |
+      你推了回去。他看了你很久，然后把钱收了。

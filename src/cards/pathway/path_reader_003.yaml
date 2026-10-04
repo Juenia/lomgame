@@ -1,0 +1,38 @@
+id: path_reader_003
+name: 问对的那一句
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:reader' ]
+  min_seq: 7
+  cooldown_days: 3
+effects:
+  - { dig: 6 }
+  - { flag: watched_by_unknown }
+texts:
+  priv: |
+    你没有问他昨天晚上在哪 —— 你问他**昨天晚上几点回的家**。
+    他答了。答完之后他自己愣住了，因为他昨晚根本没回家。
+    侦探的本事不在问题里，在**他答完之后那张脸上**。你合上本子，注意到街对面有个人也在看着这边。
+  group: 街上有人停下脚步，又走了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 回头找街对面那个人
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你追过去了。街上没有那个人。
+      **而你在刚才他站的地方** —— 捡到了半张撕下来的纸角。
+  - key: '2'
+    label: 把他答错的地方记下来
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你记在本子上，写了两行。
+      **写完你才发现** —— 你这个本子上已经有三个同样的错法。
+  - key: '3'
+    label: 再问一句，换个问法
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你换了个问法。这次他答得很快。
+      **而答案和刚才那句对不上** —— 差了整整一个钟头。

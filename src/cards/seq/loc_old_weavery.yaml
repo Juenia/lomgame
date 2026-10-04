@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「旧织造厂」（old_weavery，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_old_weavery
+name: 只有一根线
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:旧织造厂'
+effects:
+  - { dig: 4 }
+  - { mad: 2 }
+texts:
+  priv: |
+    厂房里满地是线，缠着机器、缠着柱子、缠着窗框。
+    你随手捡起一根，顺着它往前找。
+    找了很远，绕了三个来回。
+    **所有的线都是同一根。** 你手里这个头，就是最早那个头。
+  group: 那间厂房里的线，绕了一整栋楼。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 顺着线一直找下去
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你顺着线走。走了三个来回。
+      **而每个来回的最后** —— 线都绕回你手里这一根。
+  - key: '2'
+    label: 把线绕回机器上
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你把它绕了回去。机器转了一下。
+      **而它转的方向是反的** —— 线越绕越多。
+  - key: '3'
+    label: 看看这根线的另一头在谁手里
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你顺着线看过去。线的另一头在门外。
+      **而门外面是走廊** —— 走廊的尽头有一扇窗，窗上贴着东西。

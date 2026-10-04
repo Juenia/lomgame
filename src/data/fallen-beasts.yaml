@@ -1,0 +1,961 @@
+# 堕落生物（M2.167）—— 人堕落之后**长成了什么**
+#
+# 用户口径：「NPC 堕落了应该堕落成非凡生物，会袭击人，教会组织等正神的组织会去清理堕落者。」
+#
+# ## 这张表与另外两张表的分工（不许有第二份清单）
+#
+#   src/cards/lost-control.yaml 的 forms    **形态**：这个途径的人失控之后长成什么样（44 条：22 途径 × 2）
+#   src/data/creatures.yaml                 **自然物种**：灰雾游魂、时序蠕虫 —— 它们本来就活在那儿
+#   src/data/fallen-beasts.yaml（本表）      **由人变成的东西**：形态 → 它的强度 / 掉落 / 行为 / 感知
+#
+# ⚠️ 本表**不重复**形态清单：只写 formId 引用 forms 里的那一条，
+#    途径 / 形态名 / min_seq 全部从那里派生。两份清单的下场是**安静地少读一半**（AGENTS §3.1）。
+#
+# ## 数值口径
+#
+#   baseSequence  变成生物之后的强度（越小越强）。运行时取 min(本人序列, 本值) ——
+#                 序列 4 的人堕落，比序列 9 的人堕落更难缠。
+#   baseHp        血量（与 creatures.yaml 同一量纲：25—220）
+#   drops         【原作】怪物是魔药材料的来源（怪物与异变.yaml 第四节口径澄清）——
+#                 所以掉落取该途径**最容易做的那份配方**的主材料（低序列材料，玩家拿得到）
+#
+# ## 感知五层（perception）必填 —— 语义见 domain/creature/perception.ts
+#
+#   blur        普通人看到的（他连那是什么都不知道）
+#   silhouette  弱 1—2 级时看到的轮廓
+#   full        同级时看清了是什么
+#   advantage   强 1—2 级（占上风，看得出破绽）
+#   essence     强 3 级以上（看透它的本质）
+#
+# ⚠️ 五层都要写：schema 要求全填 —— 少一层不是「降级显示」，是**加载期报错**。
+#
+meta:
+  source: 设计依据见 docs/M2.167-堕落者-设计与原作依据.md（每条 source 字段指向具体条目）
+  count: 44
+  form_note: formId 必须能在 src/cards/lost-control.yaml 的 forms 里找到（加载器交叉校验）
+  name_note: 生物的显示名 = **形态名**（从 forms 派生）+「他原本是谁」由运行时拼 —— 本表不写名字
+fallen_beasts:
+  - formId: seer_foreseer
+    baseSequence: 8
+    baseHp: 34
+    drops:
+      - { itemId: 主材料·灰雾结晶, chance: 0.28 }
+    behaviors:
+      - stalk: { trigger: always, chance: 0.4 }
+      - stare: { trigger: night, chance: 0.25 }
+    battle:
+      damage: [8, 15]
+      hit: 0.5
+      special: gaze
+      specialName: 窥视
+    perception:
+      blur: 街角站着一个人，从刚才起就没动过。
+      silhouette: 一个穿大衣的人形，头微微歪着 —— 不像在等人，像在瞄什么。
+      full: 那张脸还是人的脸，但眼睛比正常的多了一处，长在太阳穴上，正对着你。
+      advantage: 它看见的东西比它自己多。你绕到它视线的死角，它有半秒不知道你在哪。
+      essence: 一个看见太多的人塌成了一件观测器。它不再思考，只是在看。
+    flavor: 它一直在看，而你找不到它在看哪里。
+    source: 原作「失控即异变」+「窥视者」形态（lost-control.yaml）
+  - formId: warrior_bloodrage
+    baseSequence: 8
+    baseHp: 42
+    drops:
+      - { itemId: 主材料·战火余烬, chance: 0.26 }
+    behaviors:
+      - hunt: { trigger: always, chance: 0.4 }
+      - howl: { trigger: night, chance: 0.2 }
+    battle:
+      damage: [12, 20]
+      hit: 0.4
+      special: maul
+      specialName: 撕开
+    perception:
+      blur: 巷子里有很重的铁锈味，还有人在喘。
+      silhouette: 一个很高的影子在墙边来回走，动作很大，像在跟谁打。
+      full: 它浑身上下都是自己划出来的口子，血一直在流，而它看起来越来越有精神。
+      advantage: 它的节奏是乱的 —— 只要你不跟它硬碰，它会自己撞上墙。
+      essence: 一个再也压不住暴力的人，把暴力转向了自己，然后停不下来。
+    flavor: 血越多，它越清醒。
+    source: 原作「不完整神话生物形态自带疯狂」+「血怒者」形态
+  - formId: sleepless_dreamer
+    baseSequence: 8
+    baseHp: 36
+    drops:
+      - { itemId: 主材料·夜之瞳, chance: 0.27 }
+    behaviors:
+      - chant: { trigger: always, chance: 0.3 }
+      - lurk: { trigger: night, chance: 0.25 }
+    battle:
+      damage: [8, 15]
+      hit: 0.5
+      special: whisper
+      specialName: 梦呓
+    perception:
+      blur: 有个人在雾里慢慢走，走得很慢，像是没睡醒。
+      silhouette: 一个人形，头低着，脚下的步子比平常人慢一半。
+      full: 他闭着眼，但走得很稳；你叫他，他朝你转过来，眼睛还是闭着的。
+      advantage: 他分不清梦和现实 —— 你退开两步，他就跟着梦走开了。
+      essence: 一个再也没醒过的人，把梦带进了白天。
+    flavor: 他在梦里，而梦在街上走。
+    source: 原作「序列 4 起极易失控」+「梦中人」形态
+  - formId: sailor_drowned
+    baseSequence: 8
+    baseHp: 38
+    drops:
+      - { itemId: 主材料·海盐结晶, chance: 0.27 }
+    behaviors:
+      - drag: { trigger: always, chance: 0.35 }
+      - vanish: { trigger: night, chance: 0.2 }
+    battle:
+      damage: [12, 20]
+      hit: 0.4
+      special: chill
+      specialName: 没顶
+    perception:
+      blur: 那股水腥味是从一个人身上来的，可他身上明明是干的。
+      silhouette: 一个人形，肩膀一高一低，走路的姿势像在蹚水。
+      full: 他的衣服干着，头发却一直在滴水；他张嘴的时候，喉咙里有水声。
+      advantage: 他在陆地上也以为自己在水里 —— 他够不到你，除非你靠得很近。
+      essence: 一个一直在往下沉的人，把整条街当成了海底。
+    flavor: 他还在往下沉，而这条街上没有水。
+    source: 原作「不完整形态自带疯狂」+「溺者」形态
+  - formId: perfect_disassembler
+    baseSequence: 8
+    baseHp: 40
+    drops:
+      - { itemId: 主材料·校准之芯, chance: 0.26 }
+    behaviors:
+      - lurk: { trigger: always, chance: 0.3 }
+      - charge: { trigger: threatened, chance: 0.3 }
+    battle:
+      damage: [12, 20]
+      hit: 0.4
+      special: maul
+      specialName: 拆解
+    perception:
+      blur: 那边有金属刮擦的声音，一下一下的，很规律。
+      silhouette: 一个人蹲着，手里拿着什么，一直在拆什么东西。
+      full: 他在拆自己的左手，已经拆到手腕了，拆下来的部分摆得很整齐。
+      advantage: 他拆得很专注 —— 你从他背后过去，他不会抬头。
+      essence: 一个停不下来的人，把「拆开看看」用在了自己身上。
+    flavor: 他想知道里面是什么，包括他自己。
+    source: 原作「主动展现形态但极易失控」+「拆解者」形态
+  - formId: reader_recorder
+    baseSequence: 8
+    baseHp: 32
+    drops:
+      - { itemId: 主材料·褪色书页, chance: 0.29 }
+    behaviors:
+      - record: { trigger: always, chance: 0.35 }
+      - stare: { trigger: always, chance: 0.2 }
+    battle:
+      damage: [8, 15]
+      hit: 0.5
+      special: gaze
+      specialName: 记录
+    perception:
+      blur: 有人坐在台阶上写字，写了很久，纸换了好几张。
+      silhouette: 一个人形，低着头，手一直在动。
+      full: 他在写今天这条街上发生的每一件事 —— 包括你还没做的那些。
+      advantage: 他的笔比他的眼睛快 —— 你不动，他就不会抬头。
+      essence: 一个把一切都写下来的人，最后把自己也写进去了。
+    flavor: 他记下的东西里，有一行是你。
+    source: 原作「知识灌输：撑不住就会失控」+「记述者」形态
+  - formId: mother_rooted
+    baseSequence: 8
+    baseHp: 44
+    drops:
+      - { itemId: 主材料·新生之芽, chance: 0.25 }
+    behaviors:
+      - lurk: { trigger: always, chance: 0.4 }
+      - drag: { trigger: hungry, chance: 0.3 }
+    battle:
+      damage: [12, 20]
+      hit: 0.4
+      special: bone_dust
+      specialName: 花粉
+    perception:
+      blur: 街边那个人站了很久了，久到路过的人都绕开他走。
+      silhouette: 一个人形，脚底下好像有什么东西铺开了。
+      full: 他的脚已经和地面长在一起，暗红色的根须顺着砖缝往外爬。
+      advantage: 他拔不出来 —— 你退到街上，他就只能伸着那些须。
+      essence: 一个再也不想挪动的人，把自己种进了这座城。
+    flavor: 他不打算拔出来。
+    source: 原作「序列 4 起获得神性、极易失控」+「生根者」形态
+  - formId: door_low_穿门者
+    baseSequence: 8
+    baseHp: 36
+    drops:
+      - { itemId: 主材料·噬宝石虫, chance: 0.26 }
+    behaviors:
+      - vanish: { trigger: always, chance: 0.4 }
+      - mimic: { trigger: night, chance: 0.2 }
+    battle:
+      damage: [8, 15]
+      hit: 0.5
+      special: mirror
+      specialName: 半身
+    perception:
+      blur: 刚才那个路口站着的人，一转头就不见了。
+      silhouette: 一个人形，站在两扇门之间，半个身子像是嵌在墙里。
+      full: 他的一半在这个巷子里，另一半在别处 —— 你看得见他，但抓不到他。
+      advantage: 他每次穿过去都要喘一口气 —— 那半秒他在哪儿都不在。
+      essence: 一个永远站在两扇门之间的人，已经不做选择，只是穿过。
+    flavor: 他从一扇门进来，从另一扇门出去，哪一扇都不是他的。
+    source: 原作「转途径者形态混合」+「穿门者」形态
+  - formId: sun_low_灼烧者
+    baseSequence: 8
+    baseHp: 38
+    drops:
+      - { itemId: 主材料·海妖之石一块/歌唱葵一朵, chance: 0.24 }
+    behaviors:
+      - charge: { trigger: always, chance: 0.35 }
+      - stare: { trigger: always, chance: 0.2 }
+    battle:
+      damage: [12, 20]
+      hit: 0.4
+      special: freeze
+      specialName: 灼目
+    perception:
+      blur: 那边亮得不正常，像是有人举着一盏太亮的灯。
+      silhouette: 一个人形，周身发白，看不清细节。
+      full: 光是从他皮肤下面出来的。他走过的地方，墙皮在起泡。
+      advantage: 太亮了，亮到他自己看不见外面 —— 你站在影子里就是安全的。
+      essence: 一个拦不住自己发光的人，正在把自己烧掉。
+    flavor: 他走过之后，墙上留下人形的焦痕。
+    source: 原作「序列 2 成为真正的神话生物」+「灼烧者」形态
+  - formId: corpse_collector_low_僵者
+    baseSequence: 8
+    baseHp: 46
+    drops:
+      - { itemId: 主材料·风干的成年黑斑青蛙, chance: 0.25 }
+    behaviors:
+      - wait: { trigger: always, chance: 0.4 }
+      - guard: { trigger: threatened, chance: 0.3 }
+    battle:
+      damage: [12, 20]
+      hit: 0.4
+      special: maul
+      specialName: 尸手
+    perception:
+      blur: 有个人靠墙站着，姿势很别扭，从早上起就没换过。
+      silhouette: 一个人形，光是站着，几乎不动。
+      full: 他还有呼吸，但动作慢得像隔着一层水；刀砍上去，他连头都不转。
+      advantage: 他反应得太慢了 —— 你打三下，他可能才抬手一次。
+      essence: 一个已经不太动的人，只是还没停下来。
+    flavor: 他还没有死，但他已经不太动了。
+    source: 原作「不死者晋升失败必然诞生尸王」+「僵者」形态
+  - formId: error_low_错位者
+    baseSequence: 8
+    baseHp: 34
+    drops:
+      - { itemId: 主材料·血斑黑蚊一只, chance: 0.27 }
+    behaviors:
+      - vanish: { trigger: always, chance: 0.35 }
+      - mimic: { trigger: always, chance: 0.2 }
+    battle:
+      damage: [8, 15]
+      hit: 0.5
+      special: mirror
+      specialName: 错位
+    perception:
+      blur: 那边有个人的位置看着不对，说不上哪里不对。
+      silhouette: 一个人形，站在墙的左边 —— 可你刚才明明看见他在右边。
+      full: 他站在一个他不在的位置上：你看得见他，但伸出手去，手会从他身上穿过去。
+      advantage: 他每次错位都要重新找自己在哪 —— 那一下他是实的。
+      essence: 一个站错了地方的错误，正在等一个能容纳它的位置。
+    flavor: 他站在一个他不在的位置上。
+    source: 原作「不完整形态自带疯狂」+「错位者」形态
+  - formId: mystery_pryer_low_窥星者
+    baseSequence: 8
+    baseHp: 34
+    drops:
+      - { itemId: 主材料·噩梦邪眼的角膜, chance: 0.25 }
+    behaviors:
+      - stare: { trigger: night, chance: 0.4 }
+      - lurk: { trigger: always, chance: 0.25 }
+    battle:
+      damage: [8, 15]
+      hit: 0.5
+      special: gaze
+      specialName: 仰望
+    perception:
+      blur: 那栋楼的天台上站着一个人，头仰得很高。
+      silhouette: 一个人形，脸朝着天，脖子折成了不该有的角度。
+      full: 他一直在看天，脖子已经折过去了；眼睛不眨，也没有焦距。
+      advantage: 他只在看天 —— 你只要不进他头顶那片天空，他就不会低头。
+      essence: 一个抬头看太久的人，脖子再也放不下来，只能一直看。
+    flavor: 他看得太久，星星开始回看他。
+    source: 原作「不完整形态自带疯狂」+「窥星者」形态
+  - formId: spectator_low_空心者
+    baseSequence: 8
+    baseHp: 33
+    drops:
+      - { itemId: 主材料·一对成年曼哈尔鱼的眼睛, chance: 0.25 }
+    behaviors:
+      - mimic: { trigger: always, chance: 0.35 }
+      - lurk: { trigger: always, chance: 0.25 }
+    battle:
+      damage: [8, 15]
+      hit: 0.5
+      special: mimic
+      specialName: 学样
+    perception:
+      blur: 有个人站在原地，像在等谁，可他的动作慢了半拍。
+      silhouette: 一个人形，正对着你，胸口那一块看起来像是空的。
+      full: 他学着你做每一个动作，慢半拍；你停下，他还在做上一个。
+      advantage: 他只是在模仿，不知道为什么要模仿 —— 你先做个假动作，他就跟错了。
+      essence: 一个看着自己做事的人，看着看着把自己看空了。
+    flavor: 他学你，但不知道为什么要学。
+    source: 原作「观众途径的龙化是例外」+「空心者」形态
+  - formId: apothecary_low_血渴者
+    baseSequence: 8
+    baseHp: 37
+    drops:
+      - { itemId: 主材料·成年独角飞马的角, chance: 0.24 }
+    behaviors:
+      - hunt: { trigger: hungry, chance: 0.45 }
+      - drag: { trigger: always, chance: 0.25 }
+    battle:
+      damage: [12, 20]
+      hit: 0.4
+      special: maul
+      specialName: 啃咬
+    perception:
+      blur: 空气里有股甜腥味，是从那边飘过来的。
+      silhouette: 一个人形，蹲着，低着头，嘴边的颜色不太对。
+      full: 他刚咬开自己的手腕，正在喝；抬头看你的那一眼很礼貌。
+      advantage: 他渴极了，动作却很慢 —— 因为他舍不得洒。
+      essence: 一个渴的不是水的人，最后只能喝自己。
+    flavor: 他渴的东西不是水。
+    source: 原作「血族 / 人造吸血鬼」材料链 +「血渴者」形态
+  - formId: arbiter_low_律令者
+    baseSequence: 8
+    baseHp: 39
+    drops:
+      - { itemId: 主材料·白鬃狩猎者的面部皮肤（外形类雄狮）, chance: 0.23 }
+    behaviors:
+      - chant: { trigger: always, chance: 0.35 }
+      - guard: { trigger: threatened, chance: 0.3 }
+    battle:
+      damage: [8, 15]
+      hit: 0.5
+      special: whisper
+      specialName: 判词
+    perception:
+      blur: 那边有人在说话，一句一句的，很有条理，但没有人在听。
+      silhouette: 一个人形，站得很直，嘴一直在动。
+      full: 他在宣布规矩 —— 而他说的每一句，你都会想做。
+      advantage: 他一次只能说一条 —— 你在他两条规矩之间动手，他就来不及。
+      essence: 一个说什么都成真的人，最后被自己说的那些框住了。
+    flavor: 他说的每一句都成了必须遵守的东西。
+    source: 原作「序列 4 起极易失控」+「律令者」形态
+  - formId: assassin_low_魅影
+    baseSequence: 8
+    baseHp: 31
+    drops:
+      - { itemId: 主材料·阴影毒花的根须, chance: 0.27 }
+    behaviors:
+      - stalk: { trigger: always, chance: 0.45 }
+      - vanish: { trigger: threatened, chance: 0.35 }
+    battle:
+      damage: [8, 15]
+      hit: 0.5
+      special: freeze
+      specialName: 无声
+    perception:
+      blur: 你总觉得背后有人，但回头什么也没有。
+      silhouette: 墙上那片阴影比别处厚一点，形状像个人。
+      full: 他就在那儿 —— 只是没有声音，连呼吸都没有。
+      advantage: 他不发出声音，可他也不会打没准备的人 —— 你先转身，他就得重新找位置。
+      essence: 一个走路没有声音的人，最后连自己都听不见自己了。
+    flavor: 他走路没有声音，连他自己都听不见。
+    source: 原作「魔女途径」材料链 +「魅影」形态
+  - formId: criminal_low_堕落者
+    baseSequence: 8
+    baseHp: 41
+    drops:
+      - { itemId: 主材料·“凶蛮之犬”的脑袋, chance: 0.26 }
+    behaviors:
+      - hunt: { trigger: always, chance: 0.4 }
+      - howl: { trigger: night, chance: 0.25 }
+    battle:
+      damage: [12, 20]
+      hit: 0.4
+      special: whisper
+      specialName: 地底的低语
+    perception:
+      blur: 有人在很低的地方说话，可那儿明明是平地。
+      silhouette: 一个人形，背对着你，肩膀在动，像在听什么。
+      full: 他弯着腰在听地底下的声音；你走近，他慢慢转过头，笑着说他也听见了。
+      advantage: 他一直在听那个声音 —— 你打断他，他会先愣一下。
+      essence: 一个听见了深渊并且觉得它说得对的人。
+    flavor: 有东西在很低的地方跟他说话，而他开始觉得它说得对。
+    source: 原作「深渊入口腐蚀一切、让所有生灵堕落」+「堕落者」形态
+  - formId: hunter_low_燃者
+    baseSequence: 8
+    baseHp: 38
+    drops:
+      - { itemId: 主材料·血腥红栗, chance: 0.26 }
+    behaviors:
+      - charge: { trigger: always, chance: 0.35 }
+      - hunt: { trigger: hungry, chance: 0.3 }
+    battle:
+      damage: [12, 20]
+      hit: 0.4
+      special: maul
+      specialName: 焦手
+    perception:
+      blur: 那边有火光，可这条街上不该有人生火。
+      silhouette: 一个人形，手里举着什么亮的东西，正在往墙上凑。
+      full: 他手里那团火不烫手 —— 他把手伸进去，再拿出来，手还是好的。
+      advantage: 他只想看东西烧起来 —— 你给他一个更值得烧的，他会转过去。
+      essence: 一个手里有火、并且想看看别的东西烧起来是什么样的人。
+    flavor: 他手里有火，而他想看看别的东西烧起来的样子。
+    source: 原作「不完整形态疯狂随能力深化」+「燃者」形态
+  - formId: lawyer_low_签约者
+    baseSequence: 8
+    baseHp: 35
+    drops:
+      - { itemId: 主材料·“智慧果”一枚, chance: 0.25 }
+    behaviors:
+      - chant: { trigger: always, chance: 0.35 }
+      - mimic: { trigger: always, chance: 0.2 }
+    battle:
+      damage: [8, 15]
+      hit: 0.5
+      special: whisper
+      specialName: 条款
+    perception:
+      blur: 有人递给你一张纸，没有说话。
+      silhouette: 一个人形，伸着手，手里捏着一张纸。
+      full: 他把纸递过来，纸上写着你的名字，还有一行你看不懂的条款。
+      advantage: 他只会递，不会强迫 —— 你不接，他就一直举着。
+      essence: 一个签了太多东西的人，已经记不清哪一条绑着他自己。
+    flavor: 你签了太多东西，已经记不清哪一条绑着你自己。
+    source: 原作「黑皇帝途径」材料链 +「签约者」形态
+  - formId: monster_low_赌徒
+    baseSequence: 8
+    baseHp: 36
+    drops:
+      - { itemId: 主材料·彩色鲤鱼的尾巴, chance: 0.26 }
+    behaviors:
+      - stalk: { trigger: always, chance: 0.35 }
+      - stare: { trigger: always, chance: 0.25 }
+    battle:
+      damage: [8, 15]
+      hit: 0.5
+      special: freeze
+      specialName: 手气
+    perception:
+      blur: 你在猜硬币，猜了三次，三次都对 —— 而你并没有在猜。
+      silhouette: 一个人形，站在几步之外，一直在看你。
+      full: 他在看你身上的运气：只要他站在你旁边，你就会一直赢，一直赢下去。
+      advantage: 他不能碰你，只能看着你 —— 你走开，他就跟不上了。
+      essence: 一个每一把都赢、并且越来越怕下一把的人。
+    flavor: 他押的每一把都赢，而他越来越怕下一把。
+    source: 原作「命运之轮途径」材料链 +「赌徒」形态
+  - formId: prisoner_low_锁者
+    baseSequence: 8
+    baseHp: 43
+    drops:
+      - { itemId: 主材料·沉默之石, chance: 0.25 }
+    behaviors:
+      - guard: { trigger: always, chance: 0.35 }
+      - drag: { trigger: threatened, chance: 0.3 }
+    battle:
+      damage: [12, 20]
+      hit: 0.4
+      special: maul
+      specialName: 绞锁
+    perception:
+      blur: 有人跪在地上，抱着自己的胳膊，一直在发抖。
+      silhouette: 一个人形，缩着，像是被什么东西从里面撑着。
+      full: 他身上没有锁，但皮肤下面有东西在往外顶，一下一下的。
+      advantage: 他要一直用力压住里面的东西 —— 你这时动手，他腾不出手。
+      essence: 一个身体里有东西在往外挣、而外面什么都没有的人。
+    flavor: 他身体里有东西在往外挣，而外面没有锁。
+    source: 原作「被缚者途径」称号链 +「锁者」形态
+  - formId: secrets_supplicant_low_负者
+    baseSequence: 8
+    baseHp: 40
+    drops:
+      - { itemId: 主材料·会唱歌的黑蘑菇一朵, chance: 0.24 }
+    behaviors:
+      - lurk: { trigger: always, chance: 0.4 }
+      - chant: { trigger: night, chance: 0.25 }
+    battle:
+      damage: [12, 20]
+      hit: 0.4
+      special: bone_dust
+      specialName: 重负
+    perception:
+      blur: 有个人背很驼，走得很慢，像背着什么很重的东西。
+      silhouette: 一个人形，弯着腰，背上什么也没有。
+      full: 他背上什么都没有，可他的腰就是直不起来；走近他，你会觉得自己也想弯腰。
+      advantage: 他背的东西不是物理的 —— 你不想那些事，他就压不住你。
+      essence: 一个替别人扛着东西、并且一直没有放下打算的人。
+    flavor: 他替别人扛着的东西越来越重，而他没有放下的打算。
+    source: 原作「倒吊人途径」称号链 +「负者」形态
+  - formId: seer_double
+    baseSequence: 5
+    baseHp: 100
+    drops:
+      - { itemId: 主材料·无面之皮, chance: 0.22 }
+    behaviors:
+      - mimic: { trigger: always, chance: 0.4 }
+      - stare: { trigger: always, chance: 0.25 }
+    battle:
+      damage: [20, 34]
+      hit: 0.6
+      special: mimic
+      specialName: 多出一个你
+    perception:
+      blur: 你数了两遍，街上有两个一样的人。
+      silhouette: 两个人形，肩并着肩，动作一模一样 —— 只是其中一个慢半拍。
+      full: 他们同时转过来看你，其中一个比你早开口半秒。
+      advantage: 两个不是一个 —— 你打中的那个会在别处重新出现。
+      essence: 一个看见自己太多的人，把自己分成了两份，然后忘了哪一份是原本的。
+    flavor: 你分不清哪一个先动。
+    source: 原作「失控即异变」+「双身者」形态（min_seq 5）
+  - formId: warrior_painless
+    baseSequence: 4
+    baseHp: 130
+    drops:
+      - { itemId: 主材料·不折之钢, chance: 0.2 }
+    behaviors:
+      - hunt: { trigger: always, chance: 0.45 }
+      - charge: { trigger: threatened, chance: 0.35 }
+    battle:
+      damage: [30, 46]
+      hit: 0.55
+      special: maul
+      specialName: 无痛
+    perception:
+      blur: 那边有东西在往前走，走得很稳，撞到墙也不停。
+      silhouette: 一个人形，身上开了好几个口子，脚步一点没乱。
+      full: 它已经感觉不到疼了：你砍中它，它连头都不低，继续往前走。
+      advantage: 它不知道自己伤到哪一步 —— 你拖时间，它会先把自己耗干。
+      essence: 一个再也感觉不到疼的人，于是也不知道什么时候该停。
+    flavor: 它不知道自己伤到了哪一步。
+    source: 原作「不完整形态自带疯狂随能力深化」+「无痛者」形态（min_seq 4）
+  - formId: sleepless_longnight
+    baseSequence: 4
+    baseHp: 135
+    drops:
+      - { itemId: 主材料·无梦之眠, chance: 0.2 }
+    behaviors:
+      - lurk: { trigger: night, chance: 0.45 }
+      - stare: { trigger: always, chance: 0.3 }
+    battle:
+      damage: [28, 44]
+      hit: 0.55
+      special: freeze
+      specialName: 不知第几夜
+    perception:
+      blur: 天已经亮了很久，可这段街还是暗的。
+      silhouette: 一个人形，站在暗里，你盯着看久了会觉得天没亮过。
+      full: 它没有眼睛，因为它已经不需要闭眼了 —— 而它周围的夜不会散。
+      advantage: 它的夜是有限的 —— 你退到光里，那边就够不着。
+      essence: 一个想不起上一次闭眼的人，把那一夜拉长到了现在。
+    flavor: 他已经想不起上一次闭眼是什么时候。
+    source: 原作「序列 4 起获得神性、极易失控」+「长夜者」形态（min_seq 4）
+  - formId: sailor_stormthroat
+    baseSequence: 5
+    baseHp: 105
+    drops:
+      - { itemId: 主材料·深海的回声, chance: 0.21 }
+    behaviors:
+      - howl: { trigger: always, chance: 0.4 }
+      - chant: { trigger: night, chance: 0.25 }
+    battle:
+      damage: [22, 38]
+      hit: 0.6
+      special: whisper
+      specialName: 风里的话
+    perception:
+      blur: 风声不对 —— 它像是从一个人的嘴里出来的。
+      silhouette: 一个人形，张着嘴，风从喉咙里往外走。
+      full: 它说话的时候有风出来，说的不是它想说的那些。
+      advantage: 它控制不住那张嘴 —— 你等它说完一口气，那半秒它是安静的。
+      essence: 一个喉咙里灌满了风的人，风借他的嘴说了别人的话。
+    flavor: 它说话的时候有风从喉咙里出来。
+    source: 原作「不完整形态自带疯狂」+「风暴喉」形态（min_seq 5）
+  - formId: perfect_perpetual
+    baseSequence: 5
+    baseHp: 110
+    drops:
+      - { itemId: 主材料·拆解之匙, chance: 0.21 }
+    behaviors:
+      - charge: { trigger: always, chance: 0.45 }
+      - hunt: { trigger: hungry, chance: 0.3 }
+    battle:
+      damage: [24, 40]
+      hit: 0.58
+      special: maul
+      specialName: 永动
+    perception:
+      blur: 有金属声一直在响，一下接一下，从来没停过。
+      silhouette: 一个人形，手脚都在动，动的不是一件事。
+      full: 它停不下来 —— 不是不想，是身体里的某样东西还在转。
+      advantage: 它转得太久了，齿轮之间有半秒的空隙 —— 那半秒它打不到你。
+      essence: 一个停不下来的人，最后成了那台机器里的一个零件。
+    flavor: 它停不下来 —— 不是不想。
+    source: 原作「主动展现形态但极易失控」+「恒动者」形态（min_seq 5）
+  - formId: reader_seer
+    baseSequence: 4
+    baseHp: 120
+    drops:
+      - { itemId: 主材料·边注残卷, chance: 0.2 }
+    behaviors:
+      - gaze: { trigger: always, chance: 0.4 }
+      - record: { trigger: always, chance: 0.25 }
+    battle:
+      damage: [26, 42]
+      hit: 0.6
+      special: gaze
+      specialName: 注脚
+    perception:
+      blur: 你走过那条街，忽然觉得自己身上多了一行字。
+      silhouette: 一个人形站在尽头，什么都没做，只是一直在看。
+      full: 它看得太清楚了：清楚到能看见你身上那行注脚 —— 而你能感觉到它在读。
+      advantage: 它读得太细，慢了一个呼吸 —— 那个呼吸里你是安全的。
+      essence: 一个看得太清楚的人，最后只剩下「看」这一件事。
+    flavor: 你看得太清楚了，清楚到能看见每个人身上那行注脚。
+    source: 原作「序列 2 成为真正的神话生物」+「洞悉者」形态（min_seq 4）
+  - formId: mother_fertile
+    baseSequence: 4
+    baseHp: 125
+    drops:
+      - { itemId: 主材料·常青之根, chance: 0.2 }
+    behaviors:
+      - lurk: { trigger: always, chance: 0.4 }
+      - drag: { trigger: hungry, chance: 0.35 }
+    battle:
+      damage: [26, 40]
+      hit: 0.58
+      special: bone_dust
+      specialName: 生长
+    perception:
+      blur: 那条巷子的砖缝里全在冒芽，密得不正常。
+      silhouette: 一个人形，站在那里，脚边的东西长得比别处快。
+      full: 有什么在它身体里长大，长得很有耐心 —— 而它周围的活物也在长，长歪了。
+      advantage: 它长得太满了 —— 你退开，它的东西够不到那么远。
+      essence: 一个被什么东西住进去的人，那东西不急，它有的是时间。
+    flavor: 有什么在你身体里长大，长得很有耐心。
+    source: 原作「序列 4 起获得神性」+「丰饶者」形态（min_seq 4）
+  - formId: door_high_迷途者
+    baseSequence: 5
+    baseHp: 100
+    drops:
+      - { itemId: 主材料·完整的阿斯曼之脑一个, chance: 0.19 }
+    behaviors:
+      - vanish: { trigger: always, chance: 0.45 }
+      - mimic: { trigger: threatened, chance: 0.3 }
+    battle:
+      damage: [20, 34]
+      hit: 0.62
+      special: mirror
+      specialName: 门后
+    perception:
+      blur: 这条街上的门比昨天多了两扇。
+      silhouette: 一个人形，在一扇门前面站了很久，像是在找什么。
+      full: 它在门与门之间走了太久，已经不记得要找哪个房间 —— 每一扇它都要推开看看。
+      advantage: 它每次推门都要停一下 —— 那一下它背对着你。
+      essence: 一个在门之间迷路的人，最后自己也变成了一扇门。
+    flavor: 它已经不记得要找哪个房间了。
+    source: 原作「转途径者形态混合」+「迷途者」形态（min_seq 5）
+  - formId: sun_high_圣痕者
+    baseSequence: 5
+    baseHp: 105
+    drops:
+      - { itemId: 主材料·光辉契灵树的果实一枚, chance: 0.19 }
+    behaviors:
+      - stare: { trigger: always, chance: 0.45 }
+      - charge: { trigger: threatened, chance: 0.3 }
+    battle:
+      damage: [22, 36]
+      hit: 0.6
+      special: gaze
+      specialName: 圣痕
+    perception:
+      blur: 有光从那边过来，不是太阳的光。
+      silhouette: 一个人形，身上有几处发亮的印记，光就是从那几处出来的。
+      full: 那些印记是它自己长出来的，按上去很烫 —— 而它一直在看着那些印记。
+      advantage: 它在数自己身上的印记 —— 数的时候它不动。
+      essence: 一个被光选中又被光烧穿的人，光还留在原地。
+    flavor: 它身上多了几处发亮的印记，按上去很烫。
+    source: 原作「序列 2 成为真正的神话生物」+「圣痕者」形态（min_seq 5）
+  - formId: corpse_collector_high_引路人
+    baseSequence: 4
+    baseHp: 115
+    drops:
+      - { itemId: 主材料·苍白巫妖的魂体, chance: 0.2 }
+    behaviors:
+      - lurk: { trigger: always, chance: 0.4 }
+      - drag: { trigger: always, chance: 0.3 }
+    battle:
+      damage: [26, 42]
+      hit: 0.58
+      special: bone_dust
+      specialName: 跟随
+    perception:
+      blur: 你回头，身后跟着一串东西，它们不说话。
+      silhouette: 一个人形在前面走，后面跟着几个半透明的影子。
+      full: 它身后跟着一串东西 —— 都是它带过的，而它还在往前走，想再带几个。
+      advantage: 那些影子跟不上它 —— 你绕开它走，影子不会跟过来。
+      essence: 一个在替死人引路的人，最后忘了自己也是要死的。
+    flavor: 它身后跟着一串东西，它们不说话。
+    source: 原作「不死者晋升失败必然诞生尸王」+「引路人」形态（min_seq 4）
+  - formId: error_high_悖论者
+    baseSequence: 5
+    baseHp: 100
+    drops:
+      - { itemId: 主材料·水晶线虫一条, chance: 0.2 }
+    behaviors:
+      - vanish: { trigger: always, chance: 0.4 }
+      - mimic: { trigger: always, chance: 0.3 }
+    battle:
+      damage: [20, 36]
+      hit: 0.62
+      special: mirror
+      specialName: 两个都是
+    perception:
+      blur: 你看见一个人，同时看见他刚刚走掉。
+      silhouette: 一个人形站在原地，而另一个他从街那头走远。
+      full: 它既是站在这里的那一个，也是刚刚走掉的那一个 —— 两个都在，你只能打一个。
+      advantage: 两个里只有一个是实的 —— 打错那个，它两个都会笑。
+      essence: 一个把自己绕进去的人，成了两条互相否定的路。
+    flavor: 它既是站在这里的那个，也是刚刚走掉的那个。
+    source: 原作「不完整形态自带疯狂」+「悖论者」形态（min_seq 5）
+  - formId: mystery_pryer_high_藏秘者
+    baseSequence: 4
+    baseHp: 120
+    drops:
+      - { itemId: 主材料·纸妖的虚幻之眼, chance: 0.2 }
+    behaviors:
+      - lurk: { trigger: always, chance: 0.4 }
+      - chant: { trigger: night, chance: 0.3 }
+    battle:
+      damage: [26, 42]
+      hit: 0.58
+      special: whisper
+      specialName: 不该说的
+    perception:
+      blur: 你忽然不想把自己知道的那件事说出来了。
+      silhouette: 一个人形站在暗处，什么都没拿，可你觉得它在护着什么。
+      full: 它知道的东西太多了，多到必须往外藏 —— 包括你刚想到的那一件。
+      advantage: 它藏着的东西太多，撑得很满 —— 你逼它说一句，它得分神去拦。
+      essence: 一个知道得太多的人，最后把一切都吞回了肚子里。
+    flavor: 你知道的东西太多了，多到你开始把它们往外藏。
+    source: 原作「知识灌输：撑不住就会失控」+「藏秘者」形态（min_seq 4）
+  - formId: spectator_high_织梦者
+    baseSequence: 4
+    baseHp: 115
+    drops:
+      - { itemId: 主材料·成年七彩蜥龙的完整脑垂体, chance: 0.19 }
+    behaviors:
+      - mimic: { trigger: always, chance: 0.4 }
+      - lurk: { trigger: night, chance: 0.35 }
+    battle:
+      damage: [26, 40]
+      hit: 0.58
+      special: mimic
+      specialName: 入梦
+    perception:
+      blur: 你忽然不确定刚才那一段是不是真的发生过。
+      silhouette: 一个人形，站在街口，什么都没做，而街上的人都在走神。
+      full: 它把这条街织进了一个梦里 —— 你分不清现在是谁的梦，而所有人都还没醒。
+      advantage: 梦要有人看着才稳 —— 它一转头看别处，你这里就松一下。
+      essence: 一个织梦的人，最后分不清自己织的是谁的梦。
+    flavor: 你分不清现在是谁的梦，而所有人都还没醒。
+    source: 原作「观众途径的龙化是例外」+「织梦者」形态（min_seq 4）
+  - formId: apothecary_high_药人
+    baseSequence: 4
+    baseHp: 125
+    drops:
+      - { itemId: 主材料·渴血兽的心脏, chance: 0.2 }
+    behaviors:
+      - lurk: { trigger: always, chance: 0.4 }
+      - drag: { trigger: hungry, chance: 0.35 }
+    battle:
+      damage: [26, 40]
+      hit: 0.6
+      special: bone_dust
+      specialName: 药味
+    perception:
+      blur: 那条巷子里的味道很甜，甜得让人站不稳。
+      silhouette: 一个人形，皮肤下面在渗着什么，亮晶晶的。
+      full: 它身上每一处都在往外渗着药味 —— 而它觉得这样很好，还朝你伸手。
+      advantage: 它渗出来的东西就是它自己 —— 你退到上风口就闻不到了。
+      essence: 一个把自己配成了药的人，还在等人来喝。
+    flavor: 你身上每一处都在往外渗着药味，而你觉得这样很好。
+    source: 原作「月亮途径的人造吸血鬼」材料链 +「药人」形态（min_seq 4）
+  - formId: arbiter_high_罪囚
+    baseSequence: 4
+    baseHp: 120
+    drops:
+      - { itemId: 主材料·黑域领主的头皮（类似精灵的超凡生物）, chance: 0.19 }
+    behaviors:
+      - gaze: { trigger: always, chance: 0.4 }
+      - guard: { trigger: threatened, chance: 0.3 }
+    battle:
+      damage: [26, 42]
+      hit: 0.6
+      special: freeze
+      specialName: 判决
+    perception:
+      blur: 你走上那条街，忽然觉得自己做错了什么。
+      silhouette: 一个人形跪在街心，低着头，像在等谁宣判。
+      full: 它给自己定了罪，然后开始执行判决 —— 而你一站到它面前，判决就变成对你的。
+      advantage: 它执行的是自己定的那条 —— 你不认那条罪，它就困在原地。
+      essence: 一个把自己判了刑的人，成了自己的牢房。
+    flavor: 它给自己定了罪，然后开始执行判决。
+    source: 原作「序列 4 起获得神性」+「罪囚」形态（min_seq 4）
+  - formId: assassin_high_无面
+    baseSequence: 5
+    baseHp: 95
+    drops:
+      - { itemId: 主材料·魅欲.女妖的眼睛一对, chance: 0.2 }
+    behaviors:
+      - vanish: { trigger: always, chance: 0.4 }
+      - mimic: { trigger: threatened, chance: 0.35 }
+    battle:
+      damage: [20, 34]
+      hit: 0.65
+      special: mimic
+      specialName: 换脸
+    perception:
+      blur: 刚才那个跟你搭话的人，脸好像不对。
+      silhouette: 一个人形，脸是模糊的，像还没决定好长什么样。
+      full: 它摸自己的脸，摸到的是一张还没决定好的脸 —— 它会先照着你长。
+      advantage: 它照着你长的时候是慢的 —— 那几秒它还没你的长相。
+      essence: 一个没有脸的人，只能借别人的。
+    flavor: 它摸了摸自己的脸，摸到的是一张还没决定好的脸。
+    source: 原作「魔女途径」材料链 +「无面」形态（min_seq 5）
+  - formId: criminal_high_欲望体
+    baseSequence: 4
+    baseHp: 130
+    drops:
+      - { itemId: 主材料·“红眼邪豹”的舌头, chance: 0.19 }
+    behaviors:
+      - hunt: { trigger: hungry, chance: 0.5 }
+      - drag: { trigger: always, chance: 0.3 }
+    battle:
+      damage: [28, 44]
+      hit: 0.58
+      special: whisper
+      specialName: 要
+    perception:
+      blur: 你忽然特别想要一样东西，想要得站不住。
+      silhouette: 一团人形的轮廓，看不出五官，只是往前。
+      full: 它现在想要的东西比昨天多，而且更具体 —— 而它经过的人也会开始想要。
+      advantage: 它想要的太多，反而慢 —— 它得先挑一个。
+      essence: 一个欲望被放大到没有边的人，成了欲望本身。
+    flavor: 它现在想要的东西，比昨天多，而且更具体。
+    source: 原作「深渊入口腐蚀一切」+「欲望体」形态（min_seq 4）
+  - formId: hunter_high_猎手
+    baseSequence: 4
+    baseHp: 125
+    drops:
+      - { itemId: 主材料·人身狮的大脑, chance: 0.2 }
+    behaviors:
+      - stalk: { trigger: always, chance: 0.5 }
+      - hunt: { trigger: always, chance: 0.35 }
+    battle:
+      damage: [30, 46]
+      hit: 0.58
+      special: maul
+      specialName: 盯上
+    perception:
+      blur: 你走了三条街，那个脚步一直在。
+      silhouette: 一个人形，不紧不慢地跟在后面，保持着同一个距离。
+      full: 它已经忘了自己在追什么，只记得要追 —— 而它挑上的是你。
+      advantage: 它挑上谁就不会换 —— 你拐进人多的地方，它就只盯着你一个。
+      essence: 一个追了太久的人，最后只剩下追这件事。
+    flavor: 它在追一样东西，追了很久，已经忘了那是什么。
+    source: 原作「红祭司途径」材料链 +「猎手」形态（min_seq 4）
+  - formId: lawyer_high_腐化者
+    baseSequence: 4
+    baseHp: 120
+    drops:
+      - { itemId: 主材料·腐烂尸花一朵, chance: 0.19 }
+    behaviors:
+      - chant: { trigger: always, chance: 0.4 }
+      - mimic: { trigger: always, chance: 0.25 }
+    battle:
+      damage: [26, 40]
+      hit: 0.6
+      special: whisper
+      specialName: 条款
+    perception:
+      blur: 你随口应了一声，然后发现自己答应了什么。
+      silhouette: 一个人形站在门边，说得很慢，每一句都像在念一段条款。
+      full: 它说的每一句话都开始有约束力，包括它自己不想说的那些。
+      advantage: 它也被自己束缚着 —— 你让它多承诺一句，它就多背一条。
+      essence: 一个靠说话活下来的人，最后被自己说过的每一句绑住。
+    flavor: 它说的每一句话都开始有约束力，包括它不想说的那些。
+    source: 原作「黑皇帝途径」材料链 +「腐化者」形态（min_seq 4）
+  - formId: monster_high_概率体
+    baseSequence: 4
+    baseHp: 115
+    drops:
+      - { itemId: 主材料·蓝斑火鸟的心脏, chance: 0.2 }
+    behaviors:
+      - stare: { trigger: always, chance: 0.45 }
+      - vanish: { trigger: threatened, chance: 0.3 }
+    battle:
+      damage: [26, 42]
+      hit: 0.6
+      special: freeze
+      specialName: 巧合
+    perception:
+      blur: 这一路上所有的巧合都连在了一起，密得不像巧合。
+      silhouette: 一个人形，看不出在做什么，而它周围的事都不太对。
+      full: 它身边的小概率事件连成了一串 —— 你出的每一刀都偏了半寸。
+      advantage: 它的运气要一直用 —— 你多打几次，总有一次它接不上。
+      essence: 一个把运气耗尽的人，成了概率本身。
+    flavor: 它身边的小概率事件已经连成了一串，密得不像巧合。
+    source: 原作「命运之轮途径」材料链 +「概率体」形态（min_seq 4）
+  - formId: prisoner_high_疯月
+    baseSequence: 4
+    baseHp: 140
+    drops:
+      - { itemId: 主材料·“狼人”的獠牙, chance: 0.2 }
+    behaviors:
+      - hunt: { trigger: night, chance: 0.5 }
+      - howl: { trigger: night, chance: 0.35 }
+    battle:
+      damage: [30, 48]
+      hit: 0.55
+      special: maul
+      specialName: 月下
+    perception:
+      blur: 月亮升起来之后，那条街上一直有东西在动。
+      silhouette: 一个很大的影子，四肢着地，比人宽出一圈。
+      full: 它在月亮升起来的时候不再是白天那个人 —— 而现在月亮还在天上。
+      advantage: 天一亮它就会缩回去 —— 你拖到那时候，它就慢了。
+      essence: 一个被月亮拿住的人，白天和夜里是两个人，而夜里那个不认识白天。
+    flavor: 月亮升起来的时候，它不再是白天的那个人。
+    source: 原作「被缚者途径」称号链（狼人 / 活尸）+「疯月」形态（min_seq 4）
+  - formId: secrets_supplicant_high_牧者
+    baseSequence: 4
+    baseHp: 120
+    drops:
+      - { itemId: 主材料·不死肉菌一朵, chance: 0.19 }
+    behaviors:
+      - gaze: { trigger: always, chance: 0.45 }
+      - chant: { trigger: night, chance: 0.3 }
+    battle:
+      damage: [26, 42]
+      hit: 0.58
+      special: gaze
+      specialName: 听
+    perception:
+      blur: 你还没开口，那边就有人先点了头。
+      silhouette: 一个人形，安安静静地站着，脸朝着你这边。
+      full: 它听得见所有人没说出口的那部分 —— 你心里刚起的那句，它已经接上了。
+      advantage: 它接的话太多，会串 —— 你同时想两件事，它会答错。
+      essence: 一个什么都听得见的人，最后成了别人的嘴。
+    flavor: 它开始听得见所有人没说出口的那部分。
+    source: 原作「倒吊人途径」称号链 +「牧者」形态（min_seq 4）

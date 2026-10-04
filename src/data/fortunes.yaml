@@ -1,0 +1,217 @@
+# 奇遇表（M2.85）
+#
+# 共 20 条。
+#
+# 用户问「没有奇遇吗？」—— 之前确实没有：.探索 只有「捡到材料 / 非凡掉落 / 灾厄」，
+#
+# 全是「你捡到了什么」，没有「你碰上了什么」。
+#
+# 奇遇与掉落的区别就在这里：掉落给资源，奇遇**给一段事** ——
+#
+# 可能给东西，也可能只给你一个念头、一段记忆、一个该记住的名字。
+#
+# 文本化用自原作的两类素材：封印物的来历（如「一位通灵者照着镜子诡异自杀」）与城市怪谈的口吻。
+#
+# 触发率 0.8% —— 与「非凡物品不是大白菜」同一个口径。
+meta:
+  source: M2.85：**奇遇**（用户问「没有奇遇吗？」）
+  count: 20
+  note: ⚠️ 用户问得对：这一版之前**没有任何奇遇** —— .探索 只有「捡到材料 / 非凡掉落 / 灾厄」三种掷骰，全是捡东西。
+  how: 奇遇不是掉落：掉落是「你捡到了资源」，奇遇是「你碰上的一件事」—— 它可能给东西，也可能只给你一个念头、一段记忆、一个该记住的名字。
+  evidence: 文本从原作的两类素材化用：**封印物的来历**（36 条，如「一位通灵者照着镜子诡异自杀」）与**城市里的怪谈口吻**。地点名取自真实的 locations.yaml。
+  rate_note: 触发率刻意很低（0.8%）—— 用户刚拍板过「非凡物品不是大白菜」，奇遇同样不该是日常。
+fortunes:
+  - id: fortune_mirror
+    kind: witness
+    title: 不该照的镜子
+    weight: 8
+    text: 拐角有家关着门的旧货铺，橱窗里立着一面镜子。你走过去的时候，镜子里有一个长发的女人在哭 —— 而你背后没有人。
+    effect:
+      mad: 3
+      note: 你记住了那张脸。
+    location: 廷根市
+  - id: fortune_coin
+    kind: find
+    title: 捡到一枚硬币
+    weight: 6
+    text: 石板缝里卡着一枚硬币。它比便士重，边缘刻着一圈你看不懂的花纹 —— 而且它朝上的那一面，图案不是你转过来时的样子。
+    effect:
+      itemId: 便士
+      quantity: 3
+      note: 值不了几个钱，但那圈花纹你记住了。
+    location: 黑荆棘修道院
+  - id: fortune_whisper
+    kind: witness
+    title: 雾里有人叫你的名字
+    weight: 10
+    text: 雾里有人叫了你的名字，用的是你小时候的称呼。你回头 —— 雾很厚，但那声「嗯」还在往后退。
+    effect:
+      mad: 2
+      cor: 1
+      note: 你没有答应。
+    location: 断崖灯塔
+  - id: fortune_reader
+    kind: meet
+    title: 街边的占卜师
+    weight: 12
+    text: 一个戴着兜帽的人拦住你，说你的「线」最近打了一个结。他没要钱，只把你左手翻过来看了很久，然后放开了。
+    effect:
+      affinity: 8
+      note: 你记住了他袖口上的图案。
+    location: 拜朗
+  - id: fortune_door
+    kind: omen
+    title: 一扇不该在的门
+    weight: 6
+    text: 你常走的这条巷子里，多了一扇门。门牌号是这一带没有的数字。你没有推 —— 但走回来的时候，那面墙还是墙。
+    effect:
+      dig: 1
+      note: 你把它记下来了。
+    location: 幽灵船墓地
+  - id: fortune_cat
+    kind: meet
+    title: 跟着你走的猫
+    weight: 14
+    text: 一只黑猫跟着你走了两条街。你停下它就停下，你走它就跟着 —— 直到你拐进有人来往的地方，它才转身走了。
+    effect:
+      affinity: 3
+      note: 街坊说这猫只跟「干净」的人。
+    location: 地下蒸汽管网
+  - id: fortune_song
+    kind: witness
+    title: 半夜的歌声
+    weight: 9
+    text: 夜里你听见有人在唱歌，调子很旧，词听不清。第二天你问了一圈，没人说自己唱过 —— 但两个人都说，他们也听见了。
+    effect:
+      mad: 1
+      note: 你把它记成了三段调子。
+    location: 旧织造厂
+  - id: fortune_dog
+    kind: mishap
+    title: 凶狗
+    weight: 10
+    text: 一条没主的狗冲你扑过来。你躲开了，但袖口被撕开一道口子 —— 它的牙缝里有别的东西。
+    effect:
+      hp: -6
+      note: 牙缝里那点东西，你没敢细看。
+    location: 沉舰战礁
+  - id: fortune_debt
+    kind: mishap
+    title: 被认错的人
+    weight: 8
+    text: 一个人抓住你的胳膊，喊了一个不是你名字的名字。他看清你的脸之后松了手，什么也没说就走了。
+    effect:
+      mad: 2
+      note: 他喊的那个名字，你好像在哪儿见过。
+    location: 未录之库
+  - id: fortune_gift
+    kind: find
+    title: 门口放着一包东西
+    weight: 5
+    text: 你住的地方门口放着一个布包，没有字条。里面是几枚钱和一小段烧过的绳子 —— 绳子上系着一个结，结的系法你没见过。
+    effect:
+      itemId: 便士
+      quantity: 8
+      note: 有人知道你住哪。
+    location: 康纳特市城区
+  - id: fortune_peddler
+    kind: meet
+    title: 走街的货郎
+    weight: 11
+    text: 货郎的担子上挂着些乱七八糟的东西。你多看了两眼，他忽然压低声音说：「你要找的不是这些。」然后就挑起担子走了。
+    effect:
+      affinity: 5
+      note: 他没让你看担子底下那一层。
+    location: 奥米尔城区
+  - id: fortune_bell
+    kind: omen
+    title: 半夜的钟声
+    weight: 7
+    text: 你没听过这座城市的钟在半夜响。它响了十三下。第二天问别人，谁都说没响过。
+    effect:
+      dig: 1
+      mad: 1
+      note: 第十三个人是谁，没人回答。
+    location: 新月城城区
+  - id: fortune_umbrella
+    kind: find
+    title: 遗落的伞
+    weight: 9
+    text: 雨停之后，长椅下留着一把收好的伞。伞骨是黑的，握把上刻着一行小字 —— 认不出是哪国的字。
+    #
+    # ⚠️ M2.87 全量验收抓到的：原来写的是 `itemId: 便士 / quantity: 0` ——
+    # **给 0 个便士等于什么也没给**，而正文写着「你把字抄下来了」。
+    # 文案与效果对不上，玩家读到一句有意义的话、世界却没有任何变化。
+    #
+    # 改成 `dig: 1`：与同类文案的三条一致（「一扇不该在的门」「雨里的账本」
+    # 「不灭的提灯」都是「记下来了」→ dig +1）。**抄下来的是见闻，不是钱。**
+    effect:
+      note: 你把字抄下来了。
+      dig: 1
+    location: 海浪教堂
+  - id: fortune_child
+    kind: witness
+    title: 数数的孩子
+    weight: 8
+    text: 一个孩子在数路灯。你听了一会儿 —— 他数到的数字比这条街上的灯多。他数完最后一下，抬起头看了你一眼。
+    effect:
+      mad: 2
+      note: 他数到的最后一个数字是「零」。
+    location: 神战遗迹
+  - id: fortune_flow
+    kind: mishap
+    title: 水流的方向
+    weight: 6
+    text: 路边的排水沟里，水在往高处流。你看了一会儿，水停了，然后按正常的方向继续流下去。
+    effect:
+      mad: 3
+      cor: 1
+      note: 你确定你刚才没看错。
+    location: 弗萨克高原
+  - id: fortune_tea
+    kind: meet
+    title: 请你喝茶的人
+    weight: 10
+    text: 一位上了年纪的太太请你进屋喝杯茶，说是「这个点还在外面走的人不多了」。茶是好茶，她没问你叫什么。
+    effect:
+      affinity: 6
+      hp: 4
+      note: 临走时她说：「下次别一个人走夜路。」
+    location: 星星高原
+  - id: fortune_ledger
+    kind: find
+    title: 雨里的账本
+    weight: 5
+    text: 一页淋湿的账本贴在墙上。上面的字迹被泡花了，只剩下一列名字 —— 其中一个，和你的名字只差一个字。
+    effect:
+      note: 你把那页揭下来了。
+      dig: 1
+    location: 西大陆
+  - id: fortune_stairs
+    kind: omen
+    title: 多出来的一级台阶
+    weight: 7
+    text: 你上楼梯的时候数了一下。这次的级数比平时多一。你没敢回头看那一级在哪。
+    effect:
+      mad: 1
+      cor: 1
+      note: 从此你上楼都不数了。
+    location: 深渊入口
+  - id: fortune_lantern
+    kind: witness
+    title: 不灭的提灯
+    weight: 7
+    text: 巷口挂着一盏提灯。风很大，火苗一动不动。你走近的时候，它朝着你这边偏了一下。
+    effect:
+      dig: 1
+      note: 你记住了这盏灯挂在哪。
+    location: 迷雾小镇
+  - id: fortune_stranger
+    kind: meet
+    title: 同路的陌生人
+    weight: 13
+    text: 有个陌生人和你同路走了一段。他不说话，只是在你该拐弯的时候放慢了半步 —— 像是知道你要往哪走。
+    effect:
+      affinity: 7
+      note: 分开的时候他朝你点了点头。
+    location: 枫林

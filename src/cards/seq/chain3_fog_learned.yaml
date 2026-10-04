@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **三级链的第三段（终点）**。
+# 前置链：第一段设 `fog` → 第二段读它、设 `fog_learned` → 本卡读 `fog_learned`。
+# 本卡**不再设新 flag** —— 链到此为止。
+id: chain3_fog_learned
+name: 雾里有东西在等你
+trigger:
+  type: daily
+  weight: 10
+  cond:
+    - 'flag:fog_learned'
+effects:
+  - { dig: 4 }
+  - { cor: 3 }
+texts:
+  priv: |
+    那层雾现在跟着你进屋子。
+    **屋里的角落也会起雾**，很薄，一直在。
+    今天你在雾里看见了一个轮廓，站在门边。
+    你没有过去。它也没有过来。
+  group: 那户人家屋里总是潮的，墙角有霉。
+daily_limit: 1

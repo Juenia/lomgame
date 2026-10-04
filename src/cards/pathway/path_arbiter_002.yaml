@@ -1,0 +1,37 @@
+id: path_arbiter_002
+name: 一条不存在的法条
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:arbiter' ]
+  min_seq: 4
+effects:
+  - { dig: 6 }
+  - { mad: 2 }
+texts:
+  priv: |
+    你念了一条规矩，念得很慢。
+    周围的人都停下了 —— 那条规矩并不存在于任何法典里，但他们听懂了。
+    仲裁庭的人不制定法律，他们只是**让一句话变得有重量**。
+  group: 街上所有人都停了一瞬，像在等什么。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把那条规矩收回
+    effects: [ { dig: 3 } ]
+    text: |
+      你收了。街上重新动了起来。
+      **而有三个人还站在原处** —— 他们比刚才站得直。
+  - key: '2'
+    label: 再念一条，这次长一点
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你多念了两句。这次连马车都停了。
+      **而车夫坐在上面** —— 一动不动，像在等一个信号。
+  - key: '3'
+    label: 去仲裁庭查有没有这条
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你翻了半个钟头。没有。
+      **而在最旧的那一卷末尾** —— 有人用铅笔写过一行很像的话。

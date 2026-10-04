@@ -1,0 +1,33 @@
+id: daily_001
+name: 夜香草
+trigger:
+  type: daily
+  weight: 10
+  cond: []
+effects:
+  - { dig: 2 }
+  - { cor: 1 }
+  - { item: 夜香草, n: 1 }
+texts:
+  priv: |
+    你在雾气弥漫的清晨醒来，枕边放着一小束夜香草。
+    你按途径的方式整理它，指尖残留的苦味让灵性微微发烫。
+  group: 雾里有东西被惊动了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把花收进标本册
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      苦味留在指尖上，一整天都没散。
+  - key: '2'
+    label: 顺着雾里那点动静找过去
+    effects: [ { dig: 5, cor: 1, mad: 1 } ]
+    text: |
+      雾很厚。你走了十几步就停了 —— 那里什么都没有。
+  - key: '3'
+    label: 把花插进窗口的水瓶
+    effects: [ { dig: 2, dp: 1 } ]
+    text: |
+      第二天它开了。而屋里没有风。

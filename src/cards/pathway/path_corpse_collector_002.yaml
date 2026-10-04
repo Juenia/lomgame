@@ -1,0 +1,37 @@
+id: path_corpse_collector_002
+name: 他还想说一句
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:corpse_collector' ]
+  min_seq: 4
+effects:
+  - { dig: 6 }
+  - { cor: 2 }
+texts:
+  priv: |
+    尸体不会说话，但有些话堵在那里。
+    你俯下身，听了一会儿，替他把那句说完了。
+    说完之后，屋子里那股一直不肯散的味道终于淡了。
+  group: 停着尸体的屋子里，灯芯忽然亮了一下。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 替他把那句说完
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你说完了。屋里安静下来。
+      **而你不知道那句话是替谁说的** —— 你说完之后自己也想不起来。
+  - key: '2'
+    label: 俯下身再听一会儿
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你又听了一会儿。这次听到的不是话。
+      **是一段调子** —— 很短，反复了三遍。
+  - key: '3'
+    label: 把灯芯挑亮一点
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你挑了挑灯芯。屋里亮了。
+      **而亮起来之后那张脸看得更清楚了** —— 你本来可以不看的。

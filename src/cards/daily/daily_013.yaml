@@ -1,0 +1,35 @@
+id: daily_013
+name: 一页残纸
+trigger:
+  type: daily
+  weight: 6
+  cond: []
+  location:
+    - 蒸汽车站
+effects:
+  - { dig: 1 }
+  - { item: 旧日记残页, n: 1 }
+  - { flag: keeps_diary }
+texts:
+  priv: |
+    蒸汽车站的信使塞给你一页残纸，说寄件人不肯留名。
+    上面的字迹和你自己的很像。
+  group: 蒸汽车站有人递出了一页纸。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 去找那个信使
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你回去了。站台上的人说他今天没来。
+  - key: '2'
+    label: 把残纸上的字对着自己的笔迹看
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      很像。连那个习惯性的拖笔都一样。
+  - key: '3'
+    label: 把纸烧了
+    effects: [ { dig: 4, mad: -1 } ]
+    text: |
+      灰是白的。而你记住的那几个字还在。

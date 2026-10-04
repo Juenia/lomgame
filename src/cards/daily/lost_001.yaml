@@ -1,0 +1,38 @@
+id: lost_001
+name: 认错的人
+# M2.1（方案 D）：原来挂着 party:size>=2，独狼玩家永远碰不到；改成独狼版，
+# 把「组队才有的失控场景」拆成同内容的 lost_006（保留队伍条件）。
+trigger:
+  type: random
+  weight: 8
+  cond:
+    - status:lost_control
+  cooldown_days: 2
+effects:
+  - { hp: -8 }
+  - { mad: 3 }
+  - { flag: marked_by_witness }
+texts:
+  priv: |
+    你朝巷口的人挥了手。
+    等你认出那不是谁的时候，他已经退到了三步外，脸上多了一道口子。
+    {{声音}}，而你分不清是谁在喘。
+  group: "巷口有人倒吸了一口气。"
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把他扶起来
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你伸手扶他。他躲开了，自己站了起来。
+  - key: '2'
+    label: 退开，不说话
+    effects: [ { dig: 3, mad: 1 } ]
+    text: |
+      你退了两步。他捂着脸上的口子走了，走得很快。
+  - key: '3'
+    label: 看看自己手上是什么
+    effects: [ { dig: 5, cor: 2, mad: 3 } ]
+    text: |
+      你低头。指缝里有一点红，而你的手是干净的。

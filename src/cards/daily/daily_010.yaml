@@ -1,0 +1,32 @@
+id: daily_010
+name: 安神药
+trigger:
+  type: daily
+  weight: 8
+  cond:
+    - mad>=40
+effects:
+  - { mad: -5 }
+  - { mp: 5 }
+texts:
+  priv: |
+    你服下一剂安神药，把耳朵里的声音按回原处。它们还在，但退得远了些。
+  group: 有人今晚睡得很沉。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 躺下睡
+    effects: [ { dig: 3, mad: -2 } ]
+    text: |
+      你睡得很沉。醒来的时候耳朵里安静了。
+  - key: '2'
+    label: 再加一剂
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      声音退得更远了 —— 远到你开始想念它们。
+  - key: '3'
+    label: 把药瓶收好，先不睡
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你坐到了天亮。声音一直在原处。

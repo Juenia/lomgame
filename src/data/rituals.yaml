@@ -1,0 +1,153 @@
+# 晋升仪式档位（M2.76）
+#
+# ## 为什么有这张表
+#
+# 在这之前，仪式只有**一套**阶段表：3 关（布置 0.8 / 引导 0.7 / 融合走公式），
+# 参数写死在 NUMERIC.ritual 里。于是序列 9 和序列 3 的玩家做的是同一件事，
+# 只差公式里那一项 −0.05 × (9 − 序列)。
+#
+# 设计书给的难度杠杆不是 DIG，是**仪式配置与时间预算**（docs/M2.28-全链路框架.md:154-175）：
+# 「越往上越不能取巧」要落成**更多关、更多前置条件、更重的失败**，不是再加一个乘数。
+#
+# ## 兼容口径（决定了这次改动的风险）
+#
+# rite_novice（序列 9—7）的阶段与参数**逐位等于**原来的硬编码值 ——
+# 低序列玩家的行为一个字节都不变，既有用例与跑批读数不受影响。差异只从序列 6 起。
+#
+# ## 怎么加一档 / 加一关
+#
+# 一个档位 = 下面的一段；阶段是**列表**，加一关不用改判定层（它按列表循环）。
+#   base: null         = 融合关，成功率由 preview.ts 的公式算（那里才有全部输入）
+#   fuse_penalty       = 这一关失败时给融合关叠的惩罚（负数）
+#   interrupts: true   = 这一关失败就把仪式打散（只有布置类的关会这样）
+#   material_loss      = 打散时损失的材料比例
+#
+# ⚠️ 档位的区间必须**覆盖 9—0 不留缺口** —— 缺失由 ritualProfileFor 当场抛错（K19）。
+rituals:
+  # ---------------- 入门：序列 9—7（与 M2.5 的硬编码逐位一致） ----------------
+  - id: rite_novice
+    name: 入门仪式
+    min_seq: 9
+    max_seq: 7
+    witness_min: 0
+    fuse_penalty: 0
+    note: 三关。一个人也能做，坟场或修道院更容易成。
+    stages:
+      - id: setup
+        label: 布置
+        base: 0.8
+        fuse_penalty: 0
+        interrupts: true
+        material_loss: 0.3
+        ok_note: 布置：阵脚扎稳了。
+        fail_note: 布置：材料摆错了一处，仪式散了。
+      - id: guide
+        label: 引导
+        base: 0.7
+        fuse_penalty: -0.2
+        interrupts: false
+        material_loss: 0
+        ok_note: 引导：气机顺着走。
+        fail_note: 引导：有点不稳，但撑住了。
+      - id: fuse
+        label: 融合
+        base: null
+        fuse_penalty: 0
+        interrupts: false
+        material_loss: 0.5
+        ok_note: 融合：魔药找到了它要找的位置。
+        fail_note: 融合：药性反噬，你被掀了出去。
+
+  # ---------------- 进阶：序列 6—4（多一关「结障」，且必须有人见证） ----------------
+  - id: rite_adept
+    name: 进阶仪式
+    min_seq: 6
+    max_seq: 4
+    # 到这一档，「一个人躲起来偷偷升」不再成立 —— 结障那一关需要另一个人稳住外圈
+    witness_min: 1
+    fuse_penalty: -0.05
+    note: 四关。结障要有人替你压住外圈，独狼做不了。
+    stages:
+      - id: setup
+        label: 布置
+        base: 0.78
+        fuse_penalty: 0
+        interrupts: true
+        material_loss: 0.3
+        ok_note: 布置：圈画得很慢，但一笔没断。
+        fail_note: 布置：有一笔收早了，整圈的气从那里漏了出去。
+      - id: ward
+        label: 结障
+        base: 0.7
+        fuse_penalty: -0.15
+        interrupts: false
+        material_loss: 0
+        ok_note: 结障：外圈稳住了，外面听不见里面。
+        fail_note: 结障：外圈没压住 —— 漏出去的那点动静，已经够了。
+      - id: guide
+        label: 引导
+        base: 0.65
+        fuse_penalty: -0.2
+        interrupts: false
+        material_loss: 0
+        ok_note: 引导：气机贴着你的手走。
+        fail_note: 引导：晃了一下。它还在，但它记住了你的手不稳。
+      - id: fuse
+        label: 融合
+        base: null
+        fuse_penalty: 0
+        interrupts: false
+        material_loss: 0.5
+        ok_note: 融合：它进去了，而且没有回头。
+        fail_note: 融合：反噬从里往外烧。你听见自己骨头里有东西在退回去。
+
+  # ---------------- 半神：序列 3—0（五关，两处见证，融合另扣一成） ----------------
+  - id: rite_demigod
+    name: 半神仪式
+    min_seq: 3
+    max_seq: 0
+    # 半神那一档的失败不是「重伤」——它会在你身上留下东西，而见证人是唯一能作证的人
+    witness_min: 2
+    fuse_penalty: -0.1
+    note: 五关，至少要两个见证人。到这一档，失败的代价会跟着你走很久。
+    stages:
+      - id: setup
+        label: 布置
+        base: 0.75
+        fuse_penalty: 0
+        interrupts: true
+        material_loss: 0.35
+        ok_note: 布置：地面认了这个圈。
+        fail_note: 布置：地不认。它把画好的东西原样退了回来。
+      - id: ward
+        label: 结障
+        base: 0.68
+        fuse_penalty: -0.15
+        interrupts: false
+        material_loss: 0
+        ok_note: 结障：两层，一层朝外，一层朝里。
+        fail_note: 结障：朝里的那一层先破了。
+      - id: guide
+        label: 引导
+        base: 0.62
+        fuse_penalty: -0.2
+        interrupts: false
+        material_loss: 0
+        ok_note: 引导：它开始跟着你走，而不是你跟着它。
+        fail_note: 引导：它比你先到了地方，然后停下来等你。
+      - id: seal
+        label: 封印
+        base: 0.6
+        fuse_penalty: -0.25
+        interrupts: false
+        material_loss: 0
+        ok_note: 封印：名字被念完了，而且念对了。
+        fail_note: 封印：念到最后一个音的时候，你发现那不是你的声音。
+      - id: fuse
+        label: 融合
+        base: null
+        fuse_penalty: 0
+        interrupts: false
+        material_loss: 0.5
+        ok_note: 融合：它坐进了它该坐的位置，整个房间安静了一瞬。
+        fail_note: 融合：反噬。你成了它这一夜唯一没吃掉、却也没放走的东西。

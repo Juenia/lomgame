@@ -1,0 +1,22 @@
+# 事件卡链（M2.87）—— **链的第二段**（三级链的中间那一环）。
+# 前置：设 flag `met_mentor` 的那张卡
+# 自身：要 `flag:met_mentor`，并**设出** `mentor_gone`（供第三段读）
+id: chain2_met_mentor
+name: 他不来了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:met_mentor'
+effects:
+  - { dig: 3 }
+  - { mad: 1 }
+  - { flag: mentor_gone }
+texts:
+  priv: |
+    那个位子空了三天。
+    第四天来了个陌生人，坐在同一个位子。
+    **他看了你一眼，什么也没说。**
+    你也没有过去。你知道那个人不是他。
+  group: 那家茶座最里面那个位子换人了。
+daily_limit: 1

@@ -1,0 +1,38 @@
+id: path_sailor_002
+name: 风暴眼里的静
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:sailor' ]
+  min_seq: 8
+  cooldown_days: 3
+effects:
+  - { dig: 6 }
+  - { cor: 1 }
+texts:
+  priv: |
+    船进了风暴，然后忽然安静下来 —— 静得能听见有人在很远的地方唱歌。
+    老水手说这时候最危险：**风暴眼不是避难所，是它在看你**。
+    你站在那片静里，第一次觉得海是有脾气的，而它此刻正在决定要不要留下你。
+  group: 窗外的雨忽然停了，一滴都没有了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 站在静里把那首歌听完
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你站着听。歌一直在很远的地方。
+      **听到最后你发现它不是从远处来的** —— 是从你脚底下。
+  - key: '2'
+    label: 转身回舱里去
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你回了舱里，把门关上。
+      **而歌声还在** —— 隔着舱壁，一点都不小。
+  - key: '3'
+    label: 跟着那调子哼一句
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你哼了一句。海面动了一下。
+      **然后风暴回来了** —— 回来的第一阵风，方向是朝着岸的。

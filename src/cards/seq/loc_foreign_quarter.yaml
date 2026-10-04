@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「异邦人街区」（foreign_quarter，危险度 3）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_foreign_quarter
+name: 没有人懂的话
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:异邦人街区'
+effects:
+  - { dig: 3 }
+  - { mad: 1 }
+texts:
+  priv: |
+    这一带的人说什么话的都有。
+    巷子里有个老头在念一段东西，念得很慢。
+    **你听懂了几个词** —— 但你从没学过这种话。
+    老头念完看了你一眼，笑了一下，走了。
+  group: 异邦人街区那个老头昨天跟一个陌生人笑了一下。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 追上那个老头
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你追上去了。他走得不快。
+      **而你追到巷口的时候** —— 街上只有你一个人，两条街都是空的。
+  - key: '2'
+    label: 把那几个词记下来
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你记在本子上，按发音写的。
+      **第二天再看** —— 你写下来的那些字母自己排成了一个词。
+  - key: '3'
+    label: 自己念一遍
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你照着他念了一遍。巷子里静了一下。
+      **而巷子深处有人在应** —— 应的是最后两个字。

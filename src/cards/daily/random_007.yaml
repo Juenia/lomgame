@@ -1,0 +1,35 @@
+id: random_007
+name: 一起搬完的那批货
+trigger:
+  type: random
+  weight: 4
+  cond:
+    - party:size>=2
+  location:
+    - 老码头
+effects:
+  - { dig: 2 }
+  - { dp: 1 }
+texts:
+  priv: |
+    {{人影}}朝你点头，示意跟上来。
+    两个人一起搬完那批货，谁都没问箱子里是什么，{{收获}}。
+  group: "码头上有两个人一起抬了一只箱子。"
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 搬完之后跟他走
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你跟他走了一段。他在一个路口拐弯，回头冲你点了一下头。
+  - key: '2'
+    label: 记下箱子的重量
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你掂了掂。很沉 —— 而抬起来的时候它像是空的。
+  - key: '3'
+    label: 问他箱子里是什么
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      他说不知道。他说没人问过这个。

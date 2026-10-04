@@ -1,0 +1,37 @@
+id: path_sailor_001
+name: 甲板上的盐
+trigger:
+  type: daily
+  weight: 9
+  cond: [ 'pathway:sailor' ]
+  min_seq: 9
+effects:
+  - { dig: 4 }
+  - { hp: 3 }
+texts:
+  priv: |
+    你在甲板上站了一夜，天亮时衣服上结了一层白霜似的盐。
+    水手的第一课是**站稳** —— 不是对抗船，是跟着它一起晃。
+    你把手伸进风里，风从指缝穿过去的时候有一点点阻力，像有人在拉你的袖子。
+  group: 桅杆上的绳索响了一整夜，节奏很稳。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把衣服上的盐抖掉
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你抖了抖。盐落了一地。
+      **而甲板上已经有一层** —— 昨天夜里没有别人上来。
+  - key: '2'
+    label: 把手再伸进风里
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你又伸出手。那股拉劲还在。
+      **而这次它拉的方向** —— 不是船头，是船尾。
+  - key: '3'
+    label: 顺着那股拉劲走一步
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你走了一步。风忽然停了。
+      **而你站着的地方** —— 甲板上那一小块是干的。

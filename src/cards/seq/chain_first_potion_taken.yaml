@@ -1,0 +1,24 @@
+# 事件卡链（M2.87）—— **后续卡**：只有触发过前置卡的人才抽得到。
+# 前置：daily_002 没头没尾的话（设 flag `first_potion_taken`）
+# 判据：`cond: flag:first_potion_taken`。
+#
+# ⚠️ 这一类此前**一条都没有**：全库 29 张卡设了 flag，而要求 flag 的卡是 **0 张** ——
+#    flag 设了就再没有人读，等于写了一半的链。这张是它的后半段。
+id: chain_first_potion_taken
+name: 喝过之后
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:first_potion_taken'
+effects:
+  - { dig: 3 }
+  - { mad: 1 }
+texts:
+  priv: |
+    那瓶东西你已经喝下去了。
+    过了几天，你发现自己**能听见别人说话之前的那半秒**。
+    不是听见内容，是听见他要开口。
+    你没有跟任何人说。有些事说了就不灵了。
+  group: 有人最近总是先一步回头。
+daily_limit: 1

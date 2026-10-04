@@ -1,0 +1,22 @@
+# 事件卡链（M2.87）—— **链的第二段**（三级链的中间那一环）。
+# 前置：设 flag `first_potion_taken` 的那张卡
+# 自身：要 `flag:first_potion_taken`，并**设出** `potion_side_effect`（供第三段读）
+id: chain2_first_potion_taken
+name: 那瓶东西的后劲
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:first_potion_taken'
+effects:
+  - { hp: -2 }
+  - { dig: 2 }
+  - { flag: potion_side_effect }
+texts:
+  priv: |
+    半个月之后你开始做梦。
+    梦里都是同一条街，你在街上走，走不到头。
+    **走到第七天晚上，你在梦里看见了那扇门。**
+    你没有推。你站在门口等天亮。
+  group: 有人这半个月一直睡不好。
+daily_limit: 1

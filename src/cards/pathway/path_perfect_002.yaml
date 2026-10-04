@@ -1,0 +1,37 @@
+id: path_perfect_002
+name: 地层里的那一层
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:perfect' ]
+  min_seq: 8
+effects:
+  - { dig: 5 }
+  - { item: 骨粉, n: 1 }
+texts:
+  priv: |
+    你在断崖上找到一层灰白色的沉积，厚薄不均。
+    考古学家挖的不是东西，是**时间压出来的顺序**。
+    你刮下一小撮收进袋里 —— 这一层比上面那层老，比下面那层新。中间的那件事，就发生在两层之间。
+  group: 崖下滚落几块碎石，砸进水里。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把这撮灰带回去分析
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你装好带回去。灰很细，匀得很反常。
+      **而它比一般的灰轻** —— 轻到袋子像是空的。
+  - key: '2'
+    label: 往下挖，看看下面那层
+    effects: [ { dig: 6, hp: 1, cor: 2 } ]
+    text: |
+      你往下挖。下面是硬的。
+      **而硬层上有几道划痕** —— 走向很整齐，像被人擦过。
+  - key: '3'
+    label: 去问这崖是谁的地
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你问了。是教会的地。
+      **而他们说这几年一直没人来** —— 你脚下那条路却是新踩的。

@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「无终工坊」（endless_workshop，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_endless_workshop
+name: 走到天黑
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:无终工坊'
+effects:
+  - { hp: -3 }
+  - { dig: 3 }
+texts:
+  priv: |
+    你进去的时候是早上。
+    车间一个连着一个，每个都一样：一样的机器、一样的窗、一样的光。
+    **走到天黑你还在里面。**
+    你原路返回，走了两个钟头才出来。出来的时候是第二天早上。
+  group: 有人在那个工坊里走了一天一夜。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 在墙上做个记号再走
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你在墙上划了一道，接着走。
+      **走了一个钟头之后** —— 那道记号在下一间车间的墙上。
+  - key: '2'
+    label: 推开其中一扇窗
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你推开了窗。窗外还是车间。
+      **而窗框上有一道划痕** —— 和你刚才划的那道一样。
+  - key: '3'
+    label: 原地坐下，不走了
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你坐下了。机器一直在响。
+      **坐了很久之后** —— 你发现响的不是机器，是你自己的心跳。

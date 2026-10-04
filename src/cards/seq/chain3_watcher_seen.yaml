@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **三级链的第三段（终点）**。
+# 前置链：第一段设 `watcher` → 第二段读它、设 `watcher_seen` → 本卡读 `watcher_seen`。
+# 本卡**不再设新 flag** —— 链到此为止。
+id: chain3_watcher_seen
+name: 换成他躲你了
+trigger:
+  type: daily
+  weight: 10
+  cond:
+    - 'flag:watcher_seen'
+effects:
+  - { dig: 3 }
+  - { cor: 3 }
+texts:
+  priv: |
+    从那天对上眼之后，那扇窗就没开过。
+    你等了三天。
+    **第四天窗开了 —— 里面是空的。**
+    窗帘平平地挂着，一丝风都没有。
+  group: 对面那栋楼那户人家搬走了，走得很急。
+daily_limit: 1

@@ -1,0 +1,24 @@
+# 事件卡链（M2.87）—— **后续卡**：只有触发过前置卡的人才抽得到。
+# 前置：daily_005 更稠的雾 / mortal_fog 贴着水面的雾（设 flag `touched_fog`）
+# 判据：`cond: flag:touched_fog`。
+#
+# ⚠️ 这一类此前**一条都没有**：全库 29 张卡设了 flag，而要求 flag 的卡是 **0 张** ——
+#    flag 设了就再没有人读，等于写了一半的链。这张是它的后半段。
+id: chain_touched_fog
+name: 雾认得你了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:touched_fog'
+effects:
+  - { dig: 3 }
+  - { cor: 1 }
+texts:
+  priv: |
+    那天的雾你碰过一次。
+    今天你走进雾里，**它让开了** —— 很窄的一条路，正好够一个人。
+    你顺着走。走到尽头是你要去的地方。
+    你回头看了一眼。雾合上了。
+  group: 那条巷子的雾今天薄了一块，正好一个人宽。
+daily_limit: 1

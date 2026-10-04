@@ -1,0 +1,15 @@
+{
+  "name": "lom-bridge-api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "《诡秘之主：群星低语》无适配器版：不连任何平台，只开一个 API 给 BEE / Koishi 等上游框架对接",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "start": "node src/main.ts",
+    "test": "node --test \"test/**/*.test.ts\"",
+    "typecheck": "node ../node_modules/typescript/bin/tsc -p tsconfig.json"
+  }
+}

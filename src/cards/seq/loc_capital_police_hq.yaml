@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「首都警察厅总部」（capital_police_hq，危险度 2）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_capital_police_hq
+name: 第九个案卷
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:首都警察厅总部'
+effects:
+  - { dig: 3 }
+  - { cor: 1 }
+texts:
+  priv: |
+    桌上摞着九个案卷，前八个都结了。
+    第九个没有名字，只有日期。
+    你把它抽出来，**里面只有一张纸**。
+    纸上画着一个圆，圆的中间是空的。
+  group: 首都警察厅有一摞案卷，第九个一直没人动。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 去查那个日期
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你查了。那天厅里没有记录。
+      **而那天值班的人** —— 三年前就调走了，档案里也没写去哪。
+  - key: '2'
+    label: 把那张纸拿走
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你把它折好收进内袋。
+      **第二天再翻那摞案卷** —— 第九个还在，里面还是那张纸。
+  - key: '3'
+    label: 问管案卷的人
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你去问了。他说那一摞不许动。
+      **而他说这话的时候** —— 他一直在数前面八个。

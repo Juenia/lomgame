@@ -1,0 +1,22 @@
+# 事件卡链（M2.87）—— **链的第二段**（三级链的中间那一环）。
+# 前置：设 flag `rescued_by_party` 的那张卡
+# 自身：要 `flag:rescued_by_party`，并**设出** `blood_debt`（供第三段读）
+id: chain2_rescued_by_party
+name: 他记着
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:rescued_by_party'
+effects:
+  - { hp: 2 }
+  - { dig: 2 }
+  - { flag: blood_debt }
+texts:
+  priv: |
+    那件事之后他什么都没提。
+    但每次有危险，他都站在你前面半步。
+    **半步。** 不多不少。
+    你说过一次不用，他没接话，下次还是那样。
+  group: 那两个人这几天一直一起走，一前一后。
+daily_limit: 1

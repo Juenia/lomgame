@@ -1,0 +1,38 @@
+id: path_perfect_006
+name: 数错的那颗星
+trigger:
+  type: daily
+  weight: 6
+  cond: [ 'pathway:perfect' ]
+  min_seq: 3
+  cooldown_days: 5
+effects:
+  - { dig: 7 }
+  - { mad: 2 }
+texts:
+  priv: |
+    你按老图对了一遍，猎户座少了腰带上的第二颗。
+    你揉了揉眼，它还在，只是位置偏了半度。
+    天文学家最先发现的从来不是新星，是**旧星站错了地方**。你把这一笔记进册子，写上日期 —— 写到一半你停住了：这行字的墨迹，干得比该干的快。
+  group: 夜里有人抬头看了很久，然后低下头走开了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把日期写完
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你写完了日期。墨已经干了。
+      **而那一行的颜色比上面的深** —— 深得像写了很多年。
+  - key: '2'
+    label: 再对一遍老图
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      你又对了一遍。这次差的不是半度。
+      **是一度** —— 它在动，动得很慢。
+  - key: '3'
+    label: 看看那行字为什么干得快
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你凑近看。纸是干的，墨也干。
+      **而纸的边缘发脆** —— 脆得像被晒过很久，可册子一直在屋里。

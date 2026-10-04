@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：说了一个谎（设 flag `told_a_lie`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_told_a_lie
+name: 谎变大了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:told_a_lie'
+effects:
+  - { cor: 3 }
+  - { dig: 2 }
+texts:
+  priv: |
+    有人来问的时候，你又撒了一个谎去圆前一个。
+    然后第三个。
+    **现在要圆它，得做一件真的坏事。**
+    你在屋里坐着，想了很久。
+  group: 那个人最近在躲着某个人走。
+daily_limit: 1

@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「废弃铸造厂」（backlund_forge，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_backlund_forge
+name: 炉子是凉的
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:废弃铸造厂'
+effects:
+  - { hp: 3 }
+  - { dig: 2 }
+texts:
+  priv: |
+    铸造厂的炉子已经冷了三十年。
+    你伸手摸了一下 —— 是凉的。
+    **但里面有东西在敲。** 一下，又一下，很匀。
+    你贴着炉壁听了很久。敲的位置一直在变。
+  group: 那座废弃的铸造厂里，昨天有人在敲东西。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 贴着炉壁听下去
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你听了一刻钟。敲声一直很匀。
+      **而匀得没有一次偏差** —— 人敲不出这种匀。
+  - key: '2'
+    label: 敲回去
+    effects: [ { dig: 7, cor: 4, mad: 4 } ]
+    text: |
+      你在炉壁上敲了三下。里面停了。
+      **停了很久** —— 然后敲回了三下，位置在另一边。
+  - key: '3'
+    label: 记下敲的位置
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你在炉壁上做了三个记号。
+      **第二天再来** —— 记号还在，而敲声移到了记号外面。

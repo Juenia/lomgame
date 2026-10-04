@@ -1,0 +1,207 @@
+# 文明势力（M2.59）—— 让「哪个势力反应」这个问题能被回答。
+#
+# ## 为什么需要这一层
+#
+# 在这之前，项目里有两张互不相干的「势力」：
+#
+#   factions 表（M2.6）   4 行：警察厅 / 教会 / 黑帮 / 无主。
+#                         每行只有一串地点 id —— 它回答的是「这块地归谁管」，
+#                         是通缉系统的地基，但**势力自己没有任何状态、目标和反应**。
+#   factions.yaml（M2.7.6）44 家「引导势力」—— 谁会来找你、让你替他做什么。
+#                         那是**入途径的引导**，不是势力实体。
+#
+# 于是世界事件里那类 faction 事件（type: faction）从 M2.4 起就是一个空壳：
+# domain/world/events.ts 的 factionEvents() 恒返回空数组，注释写着「等 M2.6 的势力表落地」——
+# 而 M2.6 落地的是领地，不是势力。
+#
+# 这一层补的就是那个空壳：**势力是一个有目标、有资源、会反应的实体。**
+#
+# ## 与现有 4 家的关系：不是替换，是加厚
+#
+# 下面每一家的 id 都沿用 factions 表里已经存在的 id（police / church / gang），
+# 所以通缉链路（wanted_states.faction_id）一个字都不用改。
+# 新增的是：目标、资源、态度、以及势力之间的关系。
+#
+# 警告：none（无主）**不在这里** —— 它的语义是「没有任何人管」，
+#    给它写目标与资源等于把「没有势力」变成一个势力。它仍然在 factions 表里，
+#    仍然是安全区，这里只是不给它实体。
+#
+# ## 七个正神教会为什么也在这里
+#
+# churches.yaml 里那 7 家是**信仰**（谁能给你途径、教你技能）。
+# 但在这个世界里，教会同时是**世俗力量**：有自己的地盘、自己的猎魔队、
+# 自己盯着的东西。所以它们各有一行 —— 而地盘不在这里再写一遍，
+# 由区域（region）绑定：黑夜女神的教会在鲁恩，风暴之主在海上。
+#
+# ## 字段说明
+#
+#   type         police / church / gang / royal —— 决定它对事件怎么反应
+#   home_region  它的主场区域（regions.yaml 的 id）；不写 = 无处不在
+#   goals        长期目标。**反应引擎按它算「这件事与它有多相关」**
+#   resources    资源（人力 / 财力 / 神秘侧力量），0—1；影响它能投入多少
+#   stance       对玩家的默认态度 hostile / watchful / neutral / friendly
+#   relations    与其他势力的关系：ally / hostile / debt
+#
+# 警告：stance 与 relations 是**默认值**，会被运行时状态覆盖
+#    （power_relations 表记「谁欠谁」「谁跟谁翻脸了」）。
+
+powers:
+
+  - id: police
+    name: 警察厅
+    type: police
+    description: 鲁恩王国的秩序机器。它不管世界出了什么事，只管街上有没有出事。
+    home_region: loen
+    # 通缉后追捕最积极（M2.6 已定的口径）
+    stance: hostile
+    goals: [ 维持秩序, 压制恐慌, 缉捕通缉犯 ]
+    resources:
+      manpower: 0.8
+      wealth: 0.5
+      mystic: 0.1
+    relations:
+      - { to: church, kind: ally }
+      - { to: gang, kind: hostile }
+
+  - id: church
+    name: 教会
+    type: church
+    description: 正神在人间的机构。它管的是「不该存在的东西」，手段是净化。
+    home_region: loen
+    # 通缉后可净化惩罚（M2.7 已定的口径）
+    stance: watchful
+    goals: [ 净化污染, 封锁异端, 维持信仰 ]
+    resources:
+      manpower: 0.6
+      wealth: 0.7
+      mystic: 0.8
+    relations:
+      - { to: police, kind: ally }
+      - { to: gang, kind: hostile }
+
+  - id: gang
+    name: 黑帮
+    type: gang
+    description: 管不住的地方长出来的东西。它对世界大事唯一的兴趣是能不能赚钱。
+    home_region: loen
+    # 通缉后可贿赂（M2.7 已定的口径）
+    stance: neutral
+    goals: [ 扩张地盘, 走私牟利, 躲避清剿 ]
+    resources:
+      manpower: 0.7
+      wealth: 0.4
+      mystic: 0.2
+    relations:
+      - { to: police, kind: hostile }
+      - { to: church, kind: hostile }
+
+  - id: night_goddess
+    name: 黑夜女神教会
+    type: church
+    description: 在鲁恩势力最深的一家。它的人夜里不睡，专门盯着别人不看的东西。
+    home_region: loen
+    stance: watchful
+    goals: [ 守护黑夜, 收容失控者, 压制灵界渗透 ]
+    resources:
+      manpower: 0.7
+      wealth: 0.6
+      mystic: 0.9
+    relations:
+      - { to: god_of_war, kind: ally }
+
+  - id: god_of_war
+    name: 战神教会
+    type: church
+    description: 军人信的神。它的猎魔队是七家里最像军队的一支。
+    home_region: loen
+    stance: watchful
+    goals: [ 讨伐异端, 扩张教权, 镇压灾厄 ]
+    resources:
+      manpower: 0.9
+      wealth: 0.5
+      mystic: 0.6
+    relations:
+      - { to: night_goddess, kind: ally }
+      - { to: storm_lord, kind: debt }
+
+  - id: storm_lord
+    name: 风暴之主教会
+    type: church
+    description: 海上的人信它。港口与航线上，它的话比王国的话管用。
+    home_region: sunia
+    stance: neutral
+    goals: [ 守护航路, 清剿海怪, 垄断海运 ]
+    resources:
+      manpower: 0.6
+      wealth: 0.8
+      mystic: 0.8
+    relations:
+      - { to: god_of_war, kind: debt }
+
+  - id: god_of_steam
+    name: 蒸汽与机械之神教会
+    type: church
+    description: 工厂与铁路的神。它把非凡当成一门可以标准化的手艺。
+    home_region: loen
+    stance: neutral
+    goals: [ 推进工业, 标准化非凡材料, 压制失控事故 ]
+    resources:
+      manpower: 0.5
+      wealth: 0.9
+      mystic: 0.5
+    relations: []
+
+  - id: god_of_knowledge
+    name: 知识与智慧之神教会
+    type: church
+    description: 图书馆与学者的神。它收集的秘密比它说出来的多得多。
+    home_region: loen
+    stance: neutral
+    goals: [ 收集知识, 封存危险记录, 阻止错误传播 ]
+    resources:
+      manpower: 0.4
+      wealth: 0.6
+      mystic: 0.7
+    relations: []
+
+  - id: earth_mother
+    name: 大地母神教会
+    type: church
+    description: 南大陆的神。它管的是长出来的东西，以及长歪了的东西。
+    home_region: south
+    stance: neutral
+    goals: [ 守护丰收, 抑制污染扩散, 照料变异者 ]
+    resources:
+      manpower: 0.6
+      wealth: 0.3
+      mystic: 0.7
+    relations: []
+
+  - id: eternal_blazing_sun
+    name: 永恒烈阳教会
+    type: church
+    description: 因蒂斯的国教。它烧掉的东西比它救下的多。
+    home_region: intez
+    stance: hostile
+    goals: [ 焚烧异端, 扩张信仰, 净化污染 ]
+    resources:
+      manpower: 0.8
+      wealth: 0.6
+      mystic: 0.7
+    relations:
+      - { to: night_goddess, kind: hostile }
+
+  - id: crown
+    name: 王室
+    type: royal
+    description: 鲁恩的王室。它对非凡世界的态度是「知道得越少越好，但必须由我掌握」。
+    home_region: loen
+    stance: neutral
+    goals: [ 维持统治, 压制教会势力, 封锁真相 ]
+    resources:
+      manpower: 0.9
+      wealth: 1.0
+      mystic: 0.3
+    relations:
+      - { to: night_goddess, kind: hostile }
+      - { to: police, kind: ally }

@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `saved_a_stranger` → 后续卡 `chain_saved_a_stranger`
+id: start_saved_a_stranger
+name: 救了一个不认识的人
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { hp: -1 }
+  - { dig: 2 }
+  - { flag: saved_a_stranger }
+texts:
+  priv: |
+    你把他从水里拖上来的时候，他已经不喘了。
+    你按了很久。**他咳了一声。**
+    他看了你一眼，说了句谢谢，走了。
+    你连他叫什么都不知道。
+  group: 码头那边昨天有人落水，被捞上来了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 去查他是谁
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你查了。码头上没人认识他。
+      **而他上岸的时候没有脚印** —— 你后来才想起来这件事。
+  - key: '2'
+    label: 记住他那句谢谢
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你记住了。他说的谢谢很短。
+      **而你听着不像谢** —— 更像是在确认什么。
+  - key: '3'
+    label: 下次再有人落水，不管
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      半个月后又有人落水。你站在岸上没动。
+      **而那个人自己浮上来了** —— 浮上来之后，他朝你这边看了一眼。

@@ -1,0 +1,22 @@
+# 事件卡链（M2.87）—— **链的第二段**（三级链的中间那一环）。
+# 前置：设 flag `marked_by_entity` 的那张卡
+# 自身：要 `flag:marked_by_entity`，并**设出** `mark_spreading`（供第三段读）
+id: chain2_marked_by_entity
+name: 记号长大了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:marked_by_entity'
+effects:
+  - { cor: 3 }
+  - { mad: 2 }
+  - { flag: mark_spreading }
+texts:
+  priv: |
+    那块浅色的地方比以前大了一圈。
+    **形状也变了** —— 现在能看出是个什么东西的轮廓。
+    你用布缠过，第二天布上是空的。
+    你不再缠了。
+  group: 那个人这半个月连睡觉都穿着长袖。
+daily_limit: 1

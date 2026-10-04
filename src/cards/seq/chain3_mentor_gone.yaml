@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **三级链的第三段（终点）**。
+# 前置链：第一段设 `mentor` → 第二段读它、设 `mentor_gone` → 本卡读 `mentor_gone`。
+# 本卡**不再设新 flag** —— 链到此为止。
+id: chain3_mentor_gone
+name: 他留了一句话
+trigger:
+  type: daily
+  weight: 10
+  cond:
+    - 'flag:mentor_gone'
+effects:
+  - { dig: 3 }
+  - { mad: 2 }
+texts:
+  priv: |
+    那个陌生人第三次来的时候，留了一样东西。
+    一张纸条，上面写着一句话。
+    **那句话是那个人以前说过的第一句。**
+    你把纸条收起来了。你没有再去找那个位子。
+  group: 那家茶座最里面那个位子上坐的人每天都在换。
+daily_limit: 1

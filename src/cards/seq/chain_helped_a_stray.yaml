@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：喂了一只野猫（设 flag `helped_a_stray`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_helped_a_stray
+name: 它带东西来了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:helped_a_stray'
+effects:
+  - { dig: 3 }
+  - { cor: 1 }
+texts:
+  priv: |
+    第三天它又来了。
+    嘴里叼着一样东西，放在你脚边。
+    **是一枚扣子。** 很旧，但擦得很亮。
+    你把扣子收起来了。它看着你，然后走了。
+  group: 有人在门口捡到一枚很旧的扣子，一直留着。
+daily_limit: 1

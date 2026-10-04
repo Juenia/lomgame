@@ -1,0 +1,1227 @@
+# 组织与势力（M2.85 内容填充 P1）
+#
+# 数据来源：诡秘之主原作数据/07-组织与势力/ —— 世俗势力.yaml / 隐秘组织.yaml
+# 共 49 条：鲁恩机构 6 + 军队与政治 3 + 贵族家族 14 + 商会 2 + 地下势力 2 + 隐秘组织 22。
+#
+# 读取点：`.图鉴 组织`（按分类列出）与 `.图鉴 组织 <名字>`（详查）。
+# ⚠️ nations 数组（国家政体 / 首都 / 货币 / 国教）不属于组织，留给 P2 地理批次。
+# ⚠️ 未映射的原作字段收在 note 里（保留原键名），便于日后拆成正式字段。
+meta:
+  source: 诡秘之主原作数据/07-组织与势力/（世俗势力.yaml + 隐秘组织.yaml）
+  count: 49
+  breakdown: 鲁恩机构 6 / 军队与政治 3 / 贵族家族 14 / 商会 2 / 地下势力 2 / 隐秘组织 22
+  transform_note: 跨数组合并，用 category 区分；doctrine/structure/members/note 等由嵌套结构拍平成「一段一行」；**未映射到字段的原作键统一收进 note（保留键名）**，保证原作内容一字不丢；military 三条原文没有名称字段，name 用 id 保真（不硬造名字）；sources 只留 URL。
+  fill_note: M2.85 内容填充 P1：全部来自原作数据，未做推测性补全；nations 数组（国家政体）留给 P2 地理。
+organizations:
+  - id: parliament
+    name: 议会
+    nameEn: null
+    category: 鲁恩机构
+    nation: null
+    era: null
+    nature: null
+    structure:
+      - 上院（上议院）
+      - 下院（下议院）
+      - 对选举者有财产限制
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note:
+      - parties：保守党；新党
+      - cabinet：议会和内阁；政府成员由上下议院任命
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/鲁恩王国
+    source: https://zh.moegirl.org.cn/鲁恩王国
+    confidence: medium_high
+  - id: royal_family
+    name: 鲁恩王室
+    nameEn: null
+    category: 鲁恩机构
+    nation: null
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames:
+      - 审判者（百度百科记作"仲裁人"途径）
+    playerRelation: null
+    emblem: 一把竖直向下、柄部是红宝石皇冠的'审判之剑'徽章
+    note:
+      - family：奥古斯都家族
+      - residence：贝克兰德的索德拉克宫
+      - religion：风暴之主
+      - constraint：根据正神教会与各国王室签订的三大契约，国王最高只能到序列5；王室家族内的半神和天使也很少担任公职，避免出现在公众面前
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/鲁恩王国
+    source: https://zh.moegirl.org.cn/鲁恩王国
+    confidence: medium_high
+  - id: police_system
+    name: 鲁恩王国警察系统
+    nameEn: null
+    category: 鲁恩机构
+    nation: null
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: 双剑交叉、簇拥王冠
+    note:
+      - founded：1333~1334年建立；前身是治安官
+      - hierarchy：最顶端：警务大臣、首席警务秘书；其下：各个警察厅的总监、副总监、助理总监；中层：警司、督察；最底部：警长、警员
+      - uniform：黑色有白格的制服配皮靴，加镶嵌着纹章的软帽；肩部有黑白交错为底的肩章。肩章图案代表警察等级：银制六角星为督查级（一颗见习督查、两颗督查、三颗高级督查）；三个V型标签代表资深警长
+      - extraordinary_integration：教会的非凡者小队正式成员在警察系统中属于督查级，薪水由教会和郡警察厅各承担一半。值夜者队伍中，序列9的队员为见习督查，序列8的队员为督查，队长（需要序列7）为高级督查
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/鲁恩王国
+    source: https://zh.moegirl.org.cn/鲁恩王国
+    confidence: medium_high
+  - id: mi9
+    name: 军情九处
+    nameEn: null
+    category: 鲁恩机构
+    nation: null
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: 官方势力；'审判'休·迪尔查同时是塔罗会成员，是主角与官方的重要接口
+    emblem: null
+    note:
+      - type：情报机构（亦承担国内非凡事务管理）
+      - functions：对抗外国非凡者的渗透；管理国内非凡事务
+      - special_body：异常事务法庭；专门处理非凡者案件
+      - headquarters：贝克兰德西区贝洛托街；一栋看起来毫不起眼的三层小楼，门口没有任何标识，只简单地挂了一个写着'9'的门牌。核心部分和封印物管理区域在地底，上方主要是文职人员
+      - real_world_model：英国的军情六处
+      - known_members：休·迪尔查（处长，塔罗会'审判'）
+      - parent：鲁恩军方
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/鲁恩王国
+      - https://zh.moegirl.org.cn/塔罗会
+    source: null
+    confidence: null
+  - id: education_bodies
+    name: 教育机构
+    nameEn: null
+    category: 鲁恩机构
+    nation: null
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members:
+      - 中低等教育委员会
+      - 1340年代鲁恩王国颁布《初等教育法》，建立中低等教育委员会，在收编不少教会学校的前提下建立了众多公立初等学校
+      - 王国高等教育委员会
+      - 在讲师、副教授、教授三级体系里加入资深副教授
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note: []
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/鲁恩王国
+    source: https://zh.moegirl.org.cn/鲁恩王国
+    confidence: medium_high
+  - id: ad_hoc_bodies
+    name: 专门委员会与法案（1349年前后）
+    nameEn: null
+    category: 鲁恩机构
+    nation: null
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members:
+      - 大气污染调查委员会
+      - 1349年9月上下院决定成立，设立单独的碱业检察官职位
+      - 《政府雇员统一考试法案》
+      - 克莱恩通过奥黛丽推动，得到国王和首相认同并在上院下院通过
+      - 《谷物法案》
+      - 1349年乔治三世废除；核心内容是保护本国农产品价格
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note: []
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/鲁恩王国
+    source: https://zh.moegirl.org.cn/鲁恩王国
+    confidence: medium_high
+  - id: loen_armed_forces
+    name: loen_armed_forces
+    nameEn: null
+    category: 军队与政治
+    nation: 鲁恩王国
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames:
+      - 军方和皇室相同，主要掌握'仲裁人'（审判者）途径
+    playerRelation: null
+    emblem: null
+    note:
+      - branches：皇家陆军；皇家海军；飞空艇编队
+      - intelligence：军情九处
+      - officer_note：达到上校职阶的准高层大概率是非凡者，很可能属于中序列
+      - royal_navy：两来源对皇家海军舰队编成记载不同，建议游戏内不写死；苏尼亚舰队；迪西舰队；间海舰队；迪西舰队；中苏尼亚海舰队；普利兹港的橡树岛；罗思德群岛东北方向的奥拉维岛；以风帆战列舰为主；1349年新增一艘划时代的铁甲舰'普利兹号'（长101米，宽21米，主装甲带厚457毫米，排水量10060吨，前后共四门305毫米主炮，6门速射炮、12门6磅炮、18门六管机枪、4具鱼雷发射管，航速16节）；王室、贵族居多；将军中出身望族或与王室、贵族有密切联系的至少占80%，剩余20%也基本集中在准将和少将层次
+      - world_war：1350年弗萨克帝国空袭贝克兰德与普利兹港，鲁恩对弗萨克宣战，世界大战爆发；鲁恩最终获胜但损失惨重
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/鲁恩王国
+    source: https://zh.moegirl.org.cn/鲁恩王国
+    confidence: medium_high
+  - id: intis_military
+    name: intis_military
+    nameEn: null
+    category: 军队与政治
+    nation: 因蒂斯共和国
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames:
+      - 因蒂斯共和国的军队主要掌握着猎人途径，而因蒂斯情报部门掌握着占卜家途径
+    playerRelation: null
+    emblem: null
+    note:
+      - intelligence_body：因蒂斯情报和国土安全委员会；这是因蒂斯共和国在超凡领域最官方的组织。他们一直热衷于扩张自身权利
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/因蒂斯共和国
+    source: https://zh.moegirl.org.cn/因蒂斯共和国
+    confidence: medium_high
+  - id: intis_politics
+    name: intis_politics
+    nameEn: null
+    category: 军队与政治
+    nation: 因蒂斯共和国
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note:
+      - legislature：国民公会（国会）
+      - parties：国家党（执政）；开明党；变革党；皇帝党（崇拜罗塞尔的复辟者）；烧炭党
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/因蒂斯共和国
+    source: https://zh.moegirl.org.cn/因蒂斯共和国
+    confidence: medium_high
+  - id: augustus
+    name: 奥古斯都家族
+    nameEn: null
+    category: 贵族家族
+    nation: 鲁恩王国
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members:
+      - 乔治三世
+      - 哥温顿二世
+      - 埃德萨克·奥古斯都王子
+    pathways: []
+    pathwayNames:
+      - 审判者（仲裁人）
+    playerRelation: null
+    emblem: 审判之剑
+    note:
+      - 第四纪末特伦索斯特帝国夜皇陨落后，由七位正统神灵默许，四大家族瓜分了特伦索斯特帝国形成北大陆四大国，其中奥古斯都家族建立了鲁恩王国
+      - rank：王室
+    disputed: null
+    sources: []
+    source: null
+    confidence: medium_high
+  - id: hall
+    name: 霍尔家族
+    nameEn: null
+    category: 贵族家族
+    nation: 鲁恩王国
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members:
+      - 奥黛丽·霍尔（塔罗会'正义'，心理炼金会评议团委员'傲慢'）
+      - 霍尔伯爵
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note:
+      - fief：东切斯特郡（首府斯托恩城），封地的城堡和庄园位于此郡
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/鲁恩王国
+    source: https://zh.moegirl.org.cn/鲁恩王国
+    confidence: medium_high
+  - id: negan
+    name: 尼根家族
+    nameEn: null
+    category: 贵族家族
+    nation: 鲁恩王国
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members:
+      - 帕拉斯·尼根公爵
+      - 保守党的主要支持者，被'飓风中将'齐林格斯刺杀（未遂/相关事件）
+      - 阿古希德·尼根勋爵
+      - 现任首相，保守党
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note: []
+    disputed: null
+    sources: []
+    source: null
+    confidence: medium_high
+  - id: dill
+    name: 迪尔家族
+    nameEn: null
+    category: 贵族家族
+    nation: 鲁恩王国
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members:
+      - 休·迪尔查（军情九处处长，塔罗会'审判'）
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note:
+      - 东塔克郡是休的家乡，可能是迪尔家族原有封地所在
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/鲁恩王国
+    source: https://zh.moegirl.org.cn/鲁恩王国
+    confidence: medium_high
+  - id: solen
+    name: 索伦家族
+    nameEn: null
+    category: 贵族家族
+    nation: 因蒂斯
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note:
+      - 因蒂斯王国时期的王室；罗塞尔·古斯塔夫在查拉图帮助下推翻索伦家族建立共和国；罗塞尔时期受残酷打击，实力下降，改目标为争夺议席，并暗中影响国家情报部门和少量军队
+    disputed: null
+    sources: []
+    source: null
+    confidence: medium_high
+  - id: einhorn
+    name: 艾因霍恩家族
+    nameEn: null
+    category: 贵族家族
+    nation: 弗萨克帝国
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note:
+      - rank：王室（第四纪创立弗萨克帝国）
+    disputed: null
+    sources: []
+    source: null
+    confidence: medium_high
+  - id: castia
+    name: 卡斯蒂亚家族
+    nameEn: null
+    category: 贵族家族
+    nation: 费内波特王国
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note:
+      - 第四纪末由大地母神与知识与智慧之神扶持建立费内波特王国
+      - rank：王室
+    disputed: null
+    sources: []
+    source: null
+    confidence: medium_high
+  - id: abraham
+    name: 亚伯拉罕家族
+    nameEn: null
+    category: 贵族家族
+    nation: null
+    era: 第四纪起
+    nature: null
+    structure: []
+    doctrine: []
+    members:
+      - 伯特利·亚伯拉罕（门先生）
+      - 维尔杜·加西亚·亚伯拉罕
+      - 佛尔思·沃尔（弟子）
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note:
+      - 在'黑皇帝'所罗门死后，他们是图铎王朝的主要支持者；先祖为'门'先生伯特利·亚伯拉罕；家族成员在血月期间听到呓语，大部分低序列非凡者因此失控，导致家族地位下降（书友称'满门忠烈'）
+      - rank：第四纪最顶尖的大贵族之一
+    disputed: null
+    sources: []
+    source: null
+    confidence: medium_high
+  - id: zaratu
+    name: 查拉图家族
+    nameEn: null
+    category: 贵族家族
+    nation: null
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note:
+      - 所罗门帝国的贵族家族；建立密修会；老查拉图、小查拉图
+    disputed: null
+    sources: []
+    source: null
+    confidence: medium_high
+  - id: antigonus
+    name: 安提哥努斯家族
+    nameEn: null
+    category: 贵族家族
+    nation: null
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note:
+      - 其遗留物品是密修会长期追寻的目标；家族笔记是第一部的重要线索
+    disputed: null
+    sources: []
+    source: null
+    confidence: medium_high
+  - id: tamara
+    name: 塔玛拉家族
+    nameEn: null
+    category: 贵族家族
+    nation: null
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note:
+      - 萌娘百科'隐秘组织'条目提到'学徒'途径被广泛认为与亚伯拉罕、塔玛拉家族有关
+    disputed: null
+    sources: []
+    source: null
+    confidence: medium_high
+  - id: jacob_sorai
+    name: 雅各家族 / 索罗亚斯德家族
+    nameEn: null
+    category: 贵族家族
+    nation: null
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note:
+      - "'偷盗者'（错误）途径的后裔家族，共同建立命运隐士会；帕列斯·索罗亚斯德为序列1天使"
+    disputed: null
+    sources: []
+    source: null
+    confidence: medium_high
+  - id: agues
+    name: 艾格斯家族
+    nameEn: null
+    category: 贵族家族
+    nation: null
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note:
+      - 死神后裔家族；阿兹克·艾格斯；希雅·帕伦克·艾格斯（灵教团皇室派首领，自称'苍白女皇'）
+    disputed: null
+    sources: []
+    source: null
+    confidence: medium_high
+  - id: demon_families
+    name: 三大恶魔家族
+    nameEn: null
+    category: 贵族家族
+    nation: null
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members:
+      - 诺斯家族
+      - 安德雷拉德家族
+      - 贝利亚家族
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note:
+      - 拜血教内部三大恶魔家族鼎足而立，先祖均接受过来自深渊的馈赠；贝利亚和安德雷拉德家族近几十年沦为诺斯家族附庸
+    disputed: null
+    sources: []
+    source: null
+    confidence: medium
+  - id: fool_pharmaceutical
+    name: 愚者药品公司
+    nameEn: null
+    category: 商会
+    nation: null
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note:
+      - 由'月亮'埃姆林·怀特及血族们经营，是塔罗会的合作组织之一
+    disputed: null
+    sources:
+      - https://baike.baidu.com/item/塔罗会
+    source: https://baike.baidu.com/item/塔罗会
+    confidence: medium
+  - id: industry_context
+    name: 工业与商业环境（非具体组织）
+    nameEn: null
+    category: 商会
+    nation: null
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note:
+      - notes：鲁恩王国工业和经济实力都超过弗萨克帝国不少，在南大陆、苏尼亚海均有殖民地；废除《谷物法案》后，土地贵族影响力被削弱，利好资本家和中产阶级；破产农夫进入城市抢夺工作岗位，劳工阶层薪水下滑；贝克兰德大雾霾事件后，乔治三世为安抚三大教会以及工厂主、银行家们做出让步；因蒂斯：进入特里尔市场的商品会被收取入市税；受战争影响政府取消了全部食物的入市税；烈酒、葡萄酒、香槟酒的税率最高；百度百科提到鲁恩的'永动机公司'等企业名未在萌娘百科条目中出现，本文件不采信
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/鲁恩王国
+    source: https://zh.moegirl.org.cn/鲁恩王国
+    confidence: medium_high
+  - id: pirates
+    name: 海盗势力（海上诸王与将军）
+    nameEn: null
+    category: 地下势力
+    nation: null
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members:
+      - 五海之王 纳斯特
+      - 据说继承了所罗门帝国的部分遗产
+      - 不死之王 阿加里图
+      - 传闻喝过苏尼亚海深处的'不老泉'泉水
+      - 地狱上将 路德维尔
+      - 旗舰'黑色郁金香号'；后被克莱恩转化为秘偶
+      - 冰山中将 艾德雯娜·爱德华兹
+      - 旗舰'黄金梦想号'
+      - 飓风中将 齐林格斯
+      - 曾试图刺杀尼根公爵，被阿兹克·艾格斯击杀
+      - 钢铁 麦维提
+      - 海盗
+      - 星星女王 嘉德丽雅
+      - 前海盗将军，现海盗王者；塔罗会'隐者'
+    pathways: []
+    pathwayNames: []
+    playerRelation: 主角以'格尔曼·斯帕罗'（疯狂冒险家）身份活动于海上，与海盗势力频繁互动
+    emblem: null
+    note:
+      - 原著中海上势力以'海盗将军'与'王者'为层级；以下名称均可在萌娘百科条目中查证
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/世界地理
+      - https://zh.moegirl.org.cn/塔罗会
+    source: null
+    confidence: medium_high
+  - id: becland_underworld
+    name: 贝克兰德地下势力
+    nameEn: null
+    category: 地下势力
+    nation: null
+    era: null
+    nature: null
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: null
+    emblem: null
+    note:
+      - status：部分存疑
+      - verified_items：人口贩子卡平（被克莱恩以'侠盗黑皇帝'身份击杀）；地下交易市场与高利贷业务（百度百科'代罚者'词条提及，可信度较低）
+      - unverified：具体帮派名称：本文件未在萌娘百科、百度百科的任何可抓取词条中找到可核实的贝克兰德帮派名称，故不列出
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/塔罗会
+      - https://baike.baidu.com/item/代罚者/64779535
+    source: null
+    confidence: null
+  - id: great_white_brotherhood
+    name: 净光兄弟会
+    nameEn: Great White Brotherhood
+    category: 隐秘组织
+    nation: null
+    era: 第二纪（萌娘百科归档）；百度百科归档于第五纪
+    nature: 秘密知识传授组织
+    structure: []
+    doctrine:
+      - 在神秘学领域，许多密契仪式指向的目标其实就是覆盖于灵界高处的七道净光，通过与它们秘密的契合获得一定的知识，所以不少神秘学专家称呼那七道净光为'师父'或'老师'
+      - 那七道净光拉着不少灵界生物，成立了专门教导人知识的秘密组织，净光兄弟会
+      - 百度百科补充：其主宰七道净光时常进入现实世界、化为人类教导相应知识，第五纪以来各领域的导师级人物有不少是它们的化身
+    members:
+      - 七道净光（非初代七光）及其下属灵界生物
+    pathways: []
+    pathwayNames: []
+    playerRelation: 无直接冲突记载
+    emblem: null
+    note: []
+    disputed: 纪元归属分歧：萌娘百科列在'第二纪隐秘组织'，百度百科列在'第五纪'
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/隐秘组织
+      - https://baike.baidu.com/item/隐秘组织/24620903
+    source: null
+    confidence: null
+  - id: rose_redemption
+    name: 救赎蔷薇
+    nameEn: Rose Redemption
+    category: 隐秘组织
+    nation: null
+    era: 第三纪
+    nature: 由神灵与天使之王组成的刺杀同盟
+    structure: []
+    doctrine:
+      - 真实目的是阻止'原初'从远古太阳神体内复活
+      - 远古太阳神本人的默许下被暗天使召集
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: 第三纪历史组织，第一部的时代已不存在
+    emblem: null
+    note:
+      - founders：萨斯利尔（暗天使）；黑夜女神 阿曼妮西斯
+      - meeting_place：巨人王庭（据巨人王庭壁画，萨斯利尔与黑夜女神的座位分别位于最上首的左侧和右侧）
+      - seating：奥赛库斯；列奥德罗；赫拉伯根；梅迪奇；乌洛琉斯；战神巴德海尔；大地母神欧弥贝拉（此时已被莉莉丝顶替）；亡灵之神萨林格尔；灵物之神托尔兹纳
+      - aftermath：远古太阳神陨落、大灾变后，救赎蔷薇转而追随真实造物主，由梅迪奇和乌洛琉斯领导，其余成员都离开了组织
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/隐秘组织
+      - https://baike.baidu.com/item/救赎蔷薇
+    source: null
+    confidence: null
+  - id: twilight_hermit_order
+    name: 黄昏隐士会
+    nameEn: Twilight Hermit Order
+    category: 隐秘组织
+    nation: null
+    era: 第三纪
+    nature: 由天使之王亚当创建的隐秘组织
+    structure: []
+    doctrine:
+      - 掌握第二块亵渎石板，因此掌握全部二十二条非凡途径，但规定成员只能选择其中几条，加入时已经是非凡者的除外
+      - 认为人总是在一点点失去自我，直到'睡着'，因此必须努力地观察、记得自己，凭借这种行为和各种知识获得净化，以应对最终的末日
+      - 信仰最初的那位造物主，即远古太阳神，认为祂并没有真正的死亡；等到黄昏、一切的终结出现，祂将从沉眠里醒来，让所有都归于自身，并开创新的世界和历史
+      - 非常敌视真实造物主，会用各种表现堕落和邪恶的词语描述祂
+      - 百度百科补充：倾向让成员选择暴君、白塔、太阳途径；'时代'本身就是最初那位造物主的一部分，只有'时代'发展得符合预期，他才能从中汲取力量复活
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: 与主角克莱恩多次交锋与合作（亚当为远古太阳神的神性面）
+    emblem: null
+    note:
+      - founder：亚当
+      - recruitment：亚当通过一个连通大陆东西两岸的真实梦境来召集成员
+      - secrecy_rule：没得到允许的情况下，一旦对外界提及那个组织的名称，就立刻会被察觉——哪怕写在纸上，哪怕用新发明的语言也不行
+      - known_members：赫密斯；罗塞尔大帝
+      - mode_of_action：成员会按照自己的意愿推动重大事件的发生、塑造历史的潮流；除此之外大多安静旁观，也许几十年几百年都不会有一次行动或委托；崇尚隐秘，尽量不采用激烈手段
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/隐秘组织
+      - https://baike.baidu.com/item/隐秘组织/24620903
+    source: null
+    confidence: null
+  - id: secret_order
+    name: 密修会
+    nameEn: Secret Order
+    category: 隐秘组织
+    nation: null
+    era: 第四纪
+    nature: 古老隐秘组织，活动频率最低
+    structure: []
+    doctrine:
+      - 作为所有隐秘组织里活动频率最低的组织，最不被他人了解，出现时总是在追寻着安提哥努斯家族遗留的物品
+    members: []
+    pathways: []
+    pathwayNames:
+      - 占卜家（序列0为"愚者"）
+    playerRelation: 敌对/竞争（争夺安提哥努斯家族笔记与相关遗物）
+    emblem: null
+    note:
+      - founder：查拉图（所罗门帝国的贵族家族）
+      - relations：与因蒂斯官方存在合作关系，部分成员会加入官方机构，比如对外安全总局
+      - known_members：安托万（因蒂斯对外安全总局情报机构主管）；无面人；燕尾服小丑；瑞金斯；老查拉图；小查拉图
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/隐秘组织
+      - https://baike.baidu.com/item/密修会
+    source: null
+    confidence: null
+  - id: demoness_sect
+    name: 魔女教派
+    nameEn: Demoness Sect
+    category: 隐秘组织
+    nation: null
+    era: 第四纪（当时又称"魔女家族"）
+    nature: 邪神信徒组织
+    structure: []
+    doctrine:
+      - 认为原初魔女才是造物主真正的继承者，是自混沌中孕育、从造物主体内诞生的'最初者'，也必将是结束一切的'最终者'
+      - 魔女们往往以散播灾难为使命
+    members: []
+    pathways: []
+    pathwayNames:
+      - 魔女（序列9为"刺客"）
+    playerRelation: 敌对（贝克兰德大雾霾事件的参与者之一）
+    emblem: null
+    note:
+      - deity：原初魔女（奇克）
+      - organization：彼时成员稀少，靠血脉繁衍来维持；为获得'原初魔女'的恩赐、向祂靠近，高层都是从男性变为魔女的女性；教派的高层全部以颜色为代号，如'白之圣女'、'黑之圣女'
+      - known_members：特莉丝（最初加入的是灵知会）
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/隐秘组织
+      - https://baike.baidu.com/item/魔女教派
+    source: null
+    confidence: null
+  - id: blood_sanctify_sect
+    name: 拜血教
+    nameEn: Blood Sanctify Sect
+    category: 隐秘组织
+    nation: null
+    era: 第四纪
+    nature: 因崇拜恶魔而形成的松散联盟
+    structure: []
+    doctrine:
+      - 崇拜'宇宙暗面'，认为祂是深渊的主宰，是必将侵蚀和腐化整个现实世界、整个广袤宇宙的灭世者
+      - 执着于传播恶魔信仰，制造了很多起血案
+      - 序列7及以上非凡者会显现恶魔化特质
+    members: []
+    pathways: []
+    pathwayNames:
+      - 罪犯（序列0为"深渊"）
+    playerRelation: 敌对（长期与黑夜女神教会敌对）
+    emblem: null
+    note:
+      - deity：宇宙暗面（深渊的主宰）
+      - internal_structure：诺斯、安德雷拉德和贝利亚三大恶魔家族鼎足而立、彼此互不统属，他们的先祖都曾经接受过来自深渊的馈赠；从一千年前开始，贝利亚和安德雷拉德家族逐渐衰弱，近几十年成为了诺斯家族的附庸
+      - lore：第二纪之后'深渊'销声匿迹，活跃在现实的恶魔们绝大部分来源于拜血教
+      - known_members：杰森·贝利亚（序列5欲望使徒）
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/隐秘组织
+      - https://baike.baidu.com/item/拜血教
+    source: null
+    confidence: null
+  - id: moses_ascetic_order
+    name: 摩斯苦修会
+    nameEn: Moses Ascetic Order
+    category: 隐秘组织
+    nation: null
+    era: 第四纪（最早的隐秘组织之一）
+    nature: 由观看过第二块亵渎石板的人类创建的苦修组织，后堕落为邪恶组织
+    structure: []
+    doctrine:
+      - 信仰一位叫做隐匿贤者的非人格化的神灵，或者说一种理念、一种自然法则。比如万物皆数，隐匿贤者就是灵数的化身；比如知识至上，隐匿贤者就是知识本身
+      - 认为人死后会不断转世
+      - 组织成员用苦修来对抗失控、化解魔药残余的影响，并严格守秘，坚持道德和戒律以及对知识的追求
+      - 凡是入会者，在成为'窥秘人'后都要禁语五年、学会静默，以便修行和提高专注
+      - 提出了'为所欲为，但勿伤害'的'窥秘人'格言；'巫师'这个词汇也是从这个组织流传出来的
+    members: []
+    pathways: []
+    pathwayNames:
+      - 窥秘人（序列0为"隐者"）
+    playerRelation: 与主角为敌（'隐者'嘉德丽雅即受隐匿贤者知识灌输而濒临失控）
+    emblem: null
+    note:
+      - founders：包括斯蒂亚诺（即后来的蒸汽与机械之神）在内的几位观看了第二块亵渎石板的人类
+      - deity：隐匿贤者
+      - history：早期的摩斯苦修会是一个非常受人尊敬的组织，和各大教会的关系都很良好；在'隐匿贤者'活化、变为人格化的邪神后，摩斯苦修会堕落为了邪恶组织；高层在受隐匿贤者影响的同时，也逐渐摸索出一整套相对安全的'倾听'办法
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/隐秘组织
+      - https://baike.baidu.com/item/摩斯苦修会
+    source: null
+    confidence: null
+  - id: numinous_episcopate
+    name: 灵教团
+    nameEn: Numinous Episcopate
+    category: 隐秘组织
+    nation: null
+    era: 第五纪（原死神教会）
+    nature: 最早是某些死神后裔试图复活死神而建立的隐秘组织
+    structure: []
+    doctrine:
+      - 认为人是身、心、灵的统一体，所以人不应该只注重物质，还要重视精神的灵性的提升
+      - 主张人可以利用密契和直观感悟接触神圣、接触死亡，了解感官之外的世界，强调魔法仪式
+    members: []
+    pathways:
+      - corpse_collector
+    pathwayNames:
+      - 死神
+    playerRelation: 曾与主角为敌；'人造死神'计划被黑夜女神截取权柄
+    emblem: null
+    note:
+      - branches：皇室派（内部最强大的分支）：以神的后裔为核心，创建了多个组织；首领为希雅·帕伦克·艾格斯，自称'苍白女皇'，疑似天使且执掌着神的重要遗物；另有五位圣徒；人造死神派：试图活化唯一性，实行'人造死神'计划；安眠派、冥界派：其余较弱分支；下辖组织：永生会、东拜朗复国会、黑骷髅党
+      - lore：灵教团在'复活死神'还是'人造死神'上出现了分裂；灵教团在贝克兰德的人员分成多个小组，彼此互不知晓，只和南大陆的指定人员联系，没有总负责人；中层广泛使用信使；在南大陆被殖民后险些灭亡，但也因此传到了北大陆
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/隐秘组织
+      - https://baike.baidu.com/item/隐秘组织/24620903
+    source: null
+    confidence: null
+  - id: life_school
+    name: 生命学派
+    nameEn: Life School of Thought
+    category: 隐秘组织
+    nation: null
+    era: 第五纪初期
+    nature: 由命运信仰者与原始月亮崇拜者勉强糅合而成的联盟
+    structure: []
+    doctrine:
+      - 将世界划分为三层：物质世界、灵性世界、绝对理型世界（永恒不变的真理）
+      - 擅长占星，主张用酒、音乐、芳香和光来调和灵魂，消除不利星象带来的影响
+      - 认为灾难和疾病是人与自然或人心灵层面失去平衡导致
+      - 非凡特性就是绝对理性世界某些事物在物质世界、灵魂世界的投影，所以特性不灭，只会重组
+      - 相信命运，以超然者、绝对理性者自居的非凡者与崇拜原始月亮、探求生命与灵性本质的信徒在第五纪初期七大教会的庞大压力下组成了联盟
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: 与主角友善（克莱恩收获威尔·昂赛汀的友谊，后者多次出手相助）
+    emblem: null
+    note:
+      - pathways：怪物（命运之轮）；完整；药师（月亮）；不完整
+      - organization：以师徒传承的形式隐秘发展；高层存在一个长老会，协调不同派系的争夺，现在叫'命运议会'，共有七位议员；议长：威尔·昂赛汀
+      - internal_conflict：因为威尔·昂赛汀的存在，内部一直没出什么大的问题，对原始月亮的崇拜始终被局限和固定于象征意义上；随着威尔·昂赛汀失踪，这一进程被打断，原始月亮的信仰者们迅速变得狂热，与代表命运的派系出现分裂，爆发激烈冲突；此事被玫瑰学派利用，生命学派受到不小伤害；百度百科补充：议长威尔·昂赛汀重启后内部发生分裂，月亮途径的非凡者加入了玫瑰学派，并开始追杀命运之轮途径的成员
+      - known_members：威尔·昂赛汀（水银天使、议长）
+    disputed: 途径名称分歧：萌娘百科记作'怪物'途径与不完整的'药师'途径；百度百科记作'命运之轮'途径与不完整的'月亮'途径。二者实为同一途径的不同序列命名（序列9名 vs 序列0名），不构成实质冲突
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/隐秘组织
+      - https://baike.baidu.com/item/生命学派
+    source: null
+    confidence: null
+  - id: rose_school
+    name: 玫瑰学派
+    nameEn: Rose School of Thought
+    category: 隐秘组织
+    nation: null
+    era: 第五纪初期（成型于狂暴海的风浪隔断南北大陆之后）
+    nature: 南大陆起源的宗教性组织，现已分裂
+    structure: []
+    doctrine:
+      - 认为魔法是通过自身意志改变事情的科学与艺术，这需要建立起一套宗教性的仪式系统，而秩序、法律也是仪式的一种
+      - 最初的玫瑰学派崇尚节制，建立起了一套宗教性的仪式系统，包括法律，正式成员都过着清苦低欲的生活
+    members: []
+    pathways: []
+    pathwayNames:
+      - 囚犯（异种 / 被缚者）
+    playerRelation: 节制派为盟友（莎伦为塔罗会'节制'、马里奇为'宝剑骑士'）；放纵派为敌人
+    emblem: null
+    note:
+      - deity：被缚之神（后期部分高层宣称其为欲望母树的化身）
+      - origin_region：南大陆 高地王国；帕斯王国（帕斯河谷、星星高原）
+      - history：源头可追溯到大灾变之前，最早可以追溯至异种王；第五纪开始，随着死神的陨落，艾格斯家族逐渐丧失对星星高原、帕斯河谷的掌控，这些地方出现了针对拜朗帝国统治的反抗浪潮。在这个过程中'被缚之神'出现，'玫瑰学派'诞生；北大陆诸国入侵之前，他们在帕斯河谷和星星高原上，是与死神教会并列的正统组织；南北大陆通航后，玫瑰学派在北大陆殖民时代被七神教会重创，但也随之传播到了北大陆
+      - branches：放纵派；节制派
+      - sub_orgs：天体教派
+      - relations：七神教会憎恶'真实造物主''原初魔女''宇宙暗面'等邪神，但却更加仇视'原始月亮'和'欲望母树'；极光会、魔女教派、拜血教、摩斯苦修会都不喜欢玫瑰学派
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/隐秘组织
+      - https://baike.baidu.com/item/玫瑰学派
+    source: null
+    confidence: null
+  - id: theosophy_order
+    name: 灵知会
+    nameEn: Theosophy Order
+    category: 隐秘组织
+    nation: null
+    era: 黑铁纪元初期
+    nature: 疑似魔女教派的分支/马甲
+    structure: []
+    doctrine:
+      - 认为精神才是人的本质，肉体只是束缚精神的牢笼，人会为恶是因为肉体
+      - 得通过'灵知'获得'知识'，从肉体中解脱；其后还要通过星体的层层考验，脱离物质的世界，回归最纯净最真实的自我，得到永恒的救赎
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: 敌对（与魔女教派关系密切）
+    emblem: null
+    note:
+      - pathways：内部较为常见；被广泛认为与亚伯拉罕、塔玛拉家族有关；很少出现；被认为与魔女教派有关
+      - practice：许多极端成员以消灭他人肉体为目标，制造了不少血色浓郁的案件
+    disputed: 百度百科记作'其成员多为门途径非凡者，少部分为魔女途径非凡者，实际上是魔女教派的马甲'，与萌娘百科'疑似分支'一致
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/隐秘组织
+      - https://baike.baidu.com/item/隐秘组织/24620903
+    source: null
+    confidence: null
+  - id: hermits_of_fate
+    name: 命运隐士会
+    nameEn: null
+    category: 隐秘组织
+    nation: null
+    era: 第五纪
+    nature: 由特定家族后裔与同途径非凡者建立的隐秘组织
+    structure: []
+    doctrine: []
+    members:
+      - 成员自称'命运的隐士'
+    pathways: []
+    pathwayNames: []
+    playerRelation: 与主角合作（时之天使帕列斯·索罗亚斯德相关）
+    emblem: null
+    note:
+      - founders：雅各和索罗亚斯德的后裔，以及其他'偷盗者'（序列0为'错误'）途径的非凡者
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/隐秘组织
+      - https://baike.baidu.com/item/隐秘组织/24620903
+    source: null
+    confidence: null
+  - id: aurora_order
+    name: 极光会
+    nameEn: Aurora Order
+    category: 隐秘组织
+    nation: null
+    era: 近一两百年内出现的新生组织
+    nature: 恐怖组织 / 邪神教会
+    structure: []
+    doctrine:
+      - 认为造物主无处不在，会展现在万事万物之中，包括人本身，所以万物皆有神性，神性丰厚到一定程度为天使
+      - 目前所谓的七神只不过是非常强大的天使
+      - 以各种天使为召唤的目标，相信人生是一场精神的旅行，因此一边研究自然、了解神性的展现，一边修持精神、发觉自身神性，并与更多神性合而为一，得到解脱，永恒存在
+    members:
+      - 因为信仰真实造物主，倒吊人途径的'倾听者'都是疯子，哪怕平时表现得很正常，也必然是隐藏的疯子
+    pathways: []
+    pathwayNames:
+      - 秘祈人（序列0为"倒吊人"）
+    playerRelation: 敌对（多次试图使真实造物主神降，均被克莱恩破坏）
+    emblem: null
+    note:
+      - deity：真实造物主
+      - symbol：倒吊的巨人
+      - organization：有圣者和二十二个神使，神使以字母为代号（原文被提及的有 A先生（已故）、D女士、K先生、X先生（已故）、Z先生）；神使最少也是序列7的非凡者，最强有序列5，都相当善于隐蔽自身；死一位神使会有新的神使代替；天使加0级封印物有两到三个
+      - behavior：喜欢制造到处都是血肉的场景，然后在媒体上宣布'极光会对此负责'；一直在针对风暴之主教会、永恒烈阳教会、知识与智慧之神教会，后来则针对邪神信徒；名声足够差，其情况已被报纸杂志反复讲了多遍，甚至成为许多小说的恐怖元素和经典反派。这让官方势力在处理事件时偶尔会'推锅'给极光会
+    disputed: 圣者人数：《诡秘之主》中为五位圣者（百度百科），萌娘百科记作'七位圣者'（含《宿命之环》时期），百度百科亦称《宿命之环》中已有7位圣者
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/隐秘组织
+      - https://baike.baidu.com/item/极光会
+    source: null
+    confidence: null
+  - id: psychology_alchemists
+    name: 心理炼金会
+    nameEn: Psychology Alchemists
+    category: 隐秘组织
+    nation: null
+    era: 近一两百年才出现的新生组织
+    nature: 学术型隐秘组织，结构松散
+    structure: []
+    doctrine:
+      - 将人的意识比喻为海上的小岛：藏于海底的部分是个人潜意识；周围海洋是集体潜意识；天空属于灵性世界
+      - 认为心灵拥有众多的秘密，弄清楚心灵的奥秘可以挖掘潜藏于意识深处的力量，并能影响甚至掌握别人的心灵
+      - 达到这种程度后，前方就是集体潜意识汇聚的海洋——即所有生物的心灵世界，它与灵界有着隐晦而奇妙的联系
+      - 信奉非人格化的存在，认为人的精神可以衍化一切；高层对最初的造物主有某种较为原始的崇拜
+    members: []
+    pathways: []
+    pathwayNames:
+      - 观众（序列0为"空想家"）
+    playerRelation: 盟友/合作（'正义'奥黛丽·霍尔为其评议团委员'傲慢'）
+    emblem: null
+    note:
+      - organization：高层存在评议团，会员晋升圣者后可加入评议团成为评议团委员，分别以七张人格面具之一作为外号；同时可以申请执掌一件'1'级封印物；委员代号来源于第三纪远古太阳神的圣典；遇到危险时，委员可以选择说出亚当的真名以求助；每一名委员负责某个城市，连带周围区域；评议团开会时使用的教堂位于心灵城市'伊甸园'
+      - committee_by_city：暴怒先生；赫密斯；伦堡首都 艾萨拉；傲慢小姐；奥黛丽·霍尔；鲁恩王国 贝克兰德大区；色欲先生；因蒂斯首都 特里尔；贪婪女士；弗萨克首都 圣密隆；懒惰小姐；费内波特首都 费内波特城；嫉妒先生；因蒂斯共和国 第利斯城；暴食先生；鲁恩王国 康斯顿城
+      - history：最初只是一个爱好者的研讨会，他们都相信心灵拥有无穷的力量和无穷的神奇；后来得到了一份藏宝图，找到了赫密斯留下的遗迹。遗迹资料表明赫密斯是一位心灵领域的神秘学大师，他研究的对象是第二纪统治着天空的巨龙（心灵一族的巨龙）；发现遗迹标志着组织建立；慢慢有了规章，蜕变为真正的隐秘组织，但结构和关系依然相当松散
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/隐秘组织
+      - https://baike.baidu.com/item/心理炼金会
+    source: null
+    confidence: null
+  - id: element_dawn
+    name: 要素黎明
+    nameEn: Element Dawn
+    category: 隐秘组织
+    nation: null
+    era: 近一两百年内诞生的新生隐秘组织
+    nature: null
+    structure: []
+    doctrine:
+      - 糅合了神秘学各个流派的要素，有一套属于自己的理论，成员都擅长施法，掌握着诸多古老的巫术
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: 盟友/合作（'隐者'嘉德丽雅与其关系密切，克莱恩与贝尔纳黛建立合作）
+    emblem: null
+    note:
+      - founder：贝尔纳黛·古斯塔夫（罗塞尔大帝长女，"神秘女王"）
+      - pathways：隐者（窥秘人）；命运之轮
+      - goals：寻找复活罗塞尔的方法、调查其陨落真相
+      - relations：一直在对抗'摩斯苦修会'；值夜者档案将其归入第三类隐秘组织（与极光会、铁血十字会等并列）
+      - known_members：贝尔纳黛·古斯塔夫
+      - name_correction：任务清单中写作'元素黎明'，原著名为'要素黎明'
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/隐秘组织
+      - https://baike.baidu.com/item/要素黎明
+    source: null
+    confidence: null
+  - id: iron_blood_cross
+    name: 铁血十字会
+    nameEn: Iron and Blood Cross Order
+    category: 隐秘组织
+    nation: null
+    era: 第五纪（新生组织）
+    nature: 信奉真实造物主的激进组织
+    structure: []
+    doctrine:
+      - 理念：超凡现世，凌驾于普通人之上
+      - 他们希望改变社会，改变世界，让超凡不再隐秘，显于所有人眼中，成为真正的统治者
+    members: []
+    pathways: []
+    pathwayNames:
+      - 猎人（序列0为"红祭司"）
+    playerRelation: 敌对（邪神信徒组织）
+    emblem: null
+    note:
+      - deity：真实造物主
+      - name_correction：任务清单中写作'铁十字'，原著名为'铁血十字会'
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/隐秘组织
+      - https://baike.baidu.com/item/隐秘组织/24620903
+    source: null
+    confidence: null
+  - id: tarot_club
+    name: 塔罗会
+    nameEn: Tarot Club
+    category: 隐秘组织
+    nation: null
+    era: 第五纪（1349年6月28日成立）
+    nature: 线上/灰雾之上的秘密结社，首领为神灵
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: 主角组织（玩家阵营的天然归属）
+    emblem: null
+    note:
+      - founder：克莱恩·莫雷蒂（代号'愚者'）
+      - namer：奥黛丽·霍尔（代号为'正义'）
+      - meeting_place：源质'源堡'的延伸和外显区域（灰雾之上）的一座巨大宫殿；穹顶正下方有一张古老斑驳的青铜长桌，左右两侧各10张高背椅，前后各1张，共22个座位，每张椅背勾勒出不与现实对应的奇怪星座
+      - meeting_time：鲁恩时间每周一下午三点（'愚者'沉眠后改为每月的第一个周一下午，且'愚者'和'世界'缺席）
+      - principle：等价交换；由'愚者'见证及估价
+      - signature：成员在执行行动后往往会在现场洒下一副塔罗牌，并将代表自己的那一张置于最醒目的位置
+      - membership：萌娘百科：不计'愚者'共10人（'塔罗会'条目）；'隐秘组织'条目记作9人。百度百科：核心成员最初10位，后增至12名；愚者；克莱恩·莫雷蒂；占卜家/学徒/偷盗者三途径旧日；原名周明瑞，第一纪元以前的旧日遗民；创业期邪神；正义；奥黛丽·霍尔；观众（半神）；鲁恩王国霍尔家族千金，心理炼金会评议团委员'傲慢'；倒吊人；阿尔杰·威尔逊；水手（半神）；前风暴教会主教，后离开并在海神教会担任教皇；太阳；戴里克·伯格；歌颂者（半神）；罗思德群岛新白银城长老，愚者教会大主教；世界；格尔曼·斯帕罗；（'愚者'的小号）；闻名五海的疯狂冒险家；兼任贝克兰德富商道恩·唐泰斯；魔术师；佛尔思·沃尔；学徒（天使）；著名作家，亚伯拉罕家族的弟子；月亮；埃姆林·怀特；药师（半神）；血族伯爵，大地母神教会高级执事；隐者；嘉德丽雅；窥秘人（半神）；前海盗将军，现海盗王者'星星女王'，摩斯苦修会成员；星星；伦纳德·米切尔；不眠者（半神）；黑夜女神教会高级执事；审判；休·迪尔查；仲裁人（半神）；鲁恩王国军情九处处长；萌娘百科'塔罗会'条目列于大阿卡那牌；萌娘百科'塔罗会'条目列于大阿卡那牌；不到23人，是大阿卡那各自培养的手下；小阿卡那只知道自己直属的大阿卡那；权杖七；卢米安·李；猎人/舞蹈家双途径非凡者；魔术师；圣杯二；芙兰卡·罗兰；刺客；审判；宝剑骑士；马里奇；囚犯；隐者；圣杯七；切莉娅·贝洛；刺客；审判；宝剑四；安东尼·瑞德；观众；正义；编外效力者
+      - relations：后期塔罗会与所有除摩斯苦修会、魔女教派（含灵知会部分）、玫瑰学派纵欲派及其他外神信徒的组织以外的教会、组织均为合作关系
+    disputed: 大阿卡那人数：萌娘百科'隐秘组织'条目写'不计愚者共9人'，'塔罗会'条目写'前者共10人'；百度百科写'最初10位，后增至12名'。三个数字不同，建议游戏内以名单为准、不写死数字
+    sources:
+      - https://zh.moegirl.org.cn/塔罗会
+      - https://zh.moegirl.org.cn/诡秘之主/隐秘组织
+      - https://baike.baidu.com/item/塔罗会
+    source: null
+    confidence: null
+  - id: curly_haired_baboons
+    name: 卷毛狒狒研究会
+    nameEn: Curly-Haired Baboons Research Society
+    category: 隐秘组织
+    nation: null
+    era: 第五纪
+    nature: 一群回不去故乡的人（旧日遗民/穿越者）建立的互助组织
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: 主角（周明瑞）所属圈层；《宿命之环》中与'战车''女皇'合作
+    emblem: null
+    note:
+      - activity：日常靠书信沟通，分享知识，解决问题，定时会有小规模的聚会或是靠信使等方式交流；成员不全是非凡者，但有的聚会普通人无法参加；部分成员潜伏在官方组织里（反之亦然）；在组织里大家都使用代号，不暴露真名，写信时强调是笔名，免得被官方发现
+      - naming：原本想定一个更有档次的名字，但考虑到日常会写信、太显眼的名称会引来某些势力的关注，最终取名'卷毛狒狒研究会'
+      - sub_groups：学院；愚人节
+      - leadership：会长；甘道夫；组织的发起者之一；副会长；麻瓜；奥萝尔·李
+      - count_note：萌娘百科：一共一名会长和五名副会长；百度百科：共有五位副会长
+    disputed: null
+    sources:
+      - https://zh.moegirl.org.cn/诡秘之主/隐秘组织
+      - https://baike.baidu.com/item/隐秘组织/24620903
+    source: null
+    confidence: null
+  - id: divination_club
+    name: 占卜俱乐部
+    nameEn: null
+    category: 隐秘组织
+    nation: null
+    era: 第五纪
+    nature: 位于鲁恩王国贝克兰德豪尔斯街区的占卜爱好者俱乐部
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: 主角早期接触的普通人/低序列圈子
+    emblem: null
+    note:
+      - known_members：格拉西斯；常佩戴单片眼镜；曾向克莱恩·莫雷蒂寻求占卜咨询；自那次占卜后未再出现于俱乐部
+      - name_correction：任务清单中写作'占卜家俱乐部'，可查证的原著名称为'占卜俱乐部'
+    disputed: 该组织的完整设定（成员数、性质、是否有非凡者背景）在可查来源中信息很少；仅百度百科'格拉西斯'词条明确其为'占卜俱乐部会员'
+    sources:
+      - https://baike.baidu.com/item/格拉西斯/65032970
+    source: https://baike.baidu.com/item/格拉西斯/65032970
+    confidence: low
+  - id: celestial_sect
+    name: 天体教派
+    nameEn: null
+    category: 隐秘组织
+    nation: null
+    era: 第五纪
+    nature: 信奉欲望母树的教派
+    structure: []
+    doctrine: []
+    members: []
+    pathways:
+      - prisoner
+    pathwayNames:
+      - 被缚者
+    playerRelation: 敌对
+    emblem: null
+    note:
+      - fate：被鲁恩将军艾弥留斯清剿
+    disputed: null
+    sources:
+      - https://baike.baidu.com/item/隐秘组织/24620903
+    source: https://baike.baidu.com/item/隐秘组织/24620903
+    confidence: medium
+  - id: sea_god_church
+    name: 海神教会
+    nameEn: null
+    category: 隐秘组织
+    nation: null
+    era: 第五纪
+    nature: 原为信仰海神卡维图瓦的教会；在卡维图瓦死后被克莱恩掌控
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: 主角势力（'愚者'顶替海神身份后接盘）
+    emblem: null
+    note:
+      - status：当前为罗思德群岛新政府承认的教会，信仰愚者及其从神海神
+    disputed: null
+    sources:
+      - https://baike.baidu.com/item/隐秘组织/24620903
+    source: https://baike.baidu.com/item/隐秘组织/24620903
+    confidence: medium
+  - id: fool_church
+    name: 愚者教会
+    nameEn: null
+    category: 隐秘组织
+    nation: null
+    era: 第五纪（1352年建立）
+    nature: 信仰愚者的教会，下属海神教会
+    structure: []
+    doctrine: []
+    members: []
+    pathways: []
+    pathwayNames: []
+    playerRelation: 主角势力
+    emblem: null
+    note:
+      - founding：1352年二月，克莱恩将白银城和月城人民转移出神弃之地、安置于罗思德群岛拜亚姆，建立新城以及愚者教会
+    disputed: null
+    sources:
+      - https://baike.baidu.com/item/隐秘组织/24620903
+      - https://zh.moegirl.org.cn/塔罗会
+    source: null
+    confidence: null

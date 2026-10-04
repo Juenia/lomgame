@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **三级链的第三段（终点）**。
+# 前置链：第一段设 `church_task` → 第二段读它、设 `church_task_done` → 本卡读 `church_task_done`。
+# 本卡**不再设新 flag** —— 链到此为止。
+id: chain3_church_task_done
+name: 匣子满了
+trigger:
+  type: daily
+  weight: 10
+  cond:
+    - 'flag:church_task_done'
+effects:
+  - { dig: 3 }
+  - { cor: 2 }
+texts:
+  priv: |
+    那个匣子满了。
+    你看着他们把它抬走，换了一个新的。
+    **新的匣子和旧的一模一样，连划痕的位置都一样。**
+    你看了很久。抬匣子的人已经在催你了。
+  group: 教堂里那个匣子昨天换了一个，看着跟原来那个一样。
+daily_limit: 1

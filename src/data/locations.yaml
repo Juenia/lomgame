@@ -1,0 +1,4505 @@
+# 地点：序列区间 / 危险度 / 掉落表 / 可触发事件卡
+# loot: itemId 权重 minQty maxQty bindType（bound 绑定 / unbound 非绑定）
+# events: 该地点可触发的事件卡 id（与事件引擎的 cond 再取交集）
+#
+# M2.1（方案 E）：每个地点额外挂了 2 张 lost_* 失控卡。它们带 cond: status:lost_control，
+# 引擎在 cond 过滤阶段就把它们剔掉 —— 普通日卡池完全不受影响（不稀释），
+# 只有真正处在失控状态的角色探索到这里时，池子才变成「普通卡 + 2 张 lost_*」。
+# 依据（实测失控日探索频次，200×14 首轮）：灰雾之上 0.96/天（普通日的 3.3 倍）、老码头 0.34、
+# 无光地下室 0.33、黑荆棘修道院 0.29、贝克兰德 0.29…而失控日 .扮演 只有 0.26/天 ——
+# lost_* 原先只挂在 .扮演 暴露通道上，等于挂在玩家失控当天几乎不用的那条路上。详见 docs/M2-交付说明.md 第五节。
+# min_seq 数字越小要求越高：9 = 新号可进，8/7 = 晋升后开放
+# adjacent（M2.2）：相邻地点 id，天气按这张图在 2 小时后同步（双向都要写，扩散时两边都看）
+#
+# M2.5 追加：掉落表里的货币 id 从「金镑」改成「便士」——值一个都没改，
+# 改的是单位解释（8 现在是 8 便士，不是 8 金镑）。详见 docs/M2.5-货币交付说明.md。
+locations:
+
+  - id: tingen
+    name: 廷根市
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 夜香草, weight: 15, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 便士, weight: 9, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 潮湿的火柴, weight: 3, minQty: 1, maxQty: 2, bindType: unbound }
+      - { itemId: 旧日记残页, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.76：本城开放途径**全部序列（9—2）**的魔药材料产出点。
+      # 落在这里是因为它的 min_seq 最大（= 要求最低），任何序列的玩家都到得了 ——
+      # 落在 min_seq 小的地点会让低序列玩家拿不到高序列材料（link-check 会拦）。
+      - { itemId: 主材料·灰雾结晶, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·银粉, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·牵线之心, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·定数之结, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命途之梭, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·月长石粉, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·无面之皮, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·无面之镜, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命运之线, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·既视之环, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·夜之瞳, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·彼岸之尘, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·织梦之丝, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·不熄之灯, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·无梦之眠, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·长夜之露, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·梦境之核, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·永夜之幕, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·噩梦邪眼的角膜, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·受诅水晶, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·噩梦邪眼的脓液, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·受诅水晶的伴生物, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·记载他人秘密的纸1张, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·迷迭香精油, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·铁臂兽人（可能是不同种族的野兽变化而来，共同点是前臂粗壮，仿佛铁铸）的脊椎, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·四眼绿龟的心脏, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·铁臂兽人的血液, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·四眼绿龟的背壳粉末, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·尖利指甲, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·捕蝇花汁液, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·鹿头兽人的角, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·灰鸟祖母的眼珠, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·鹿头兽人的血液, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·灰鸟祖母的羽毛, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·逝者的眼睛, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·前代巫师笔记, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·树人祭司的树心, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·纸妖的虚幻之眼, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·树人祭司的汁液, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·纸妖的灰烬, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·序列高于“卷轴教授”者所制卷轴1张, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·纸根草纯露, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·星纹邪怪的大脑, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命运水晶, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星纹邪怪的脓水, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·命运水晶的污染物, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·较完整星图, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·颂星花精油, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·秘法妖精的头皮, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·邪神之眼的瞳仁, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·秘法妖精的眼泪, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·邪神之眼的灰液, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·涉及神秘学事件的遗迹之物1件, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·自身所创的巫师秘药1份（任何效果都可以）, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“星空仰望者”的眼珠（外在是畸形的、眼睛凸出成柱的鱼类）, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·树人大祭司的星屑外皮, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·树人大祭司的汁液, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“星空仰望者”的脑液, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·正确率高于错误率的预言集1本, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·命运异常者的头发9根（每根的来源都不同）, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“贤者”非凡特性1份或者（“幻想古妖”的结晶，“头脑漫游者”的触须）, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“幻想古妖”的血液130毫升/“贤者”的血液, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“头脑漫游者”的虚质光点9个/信息洪流遗留光点, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·流传范围很广、称颂自身事迹的歌谣, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·汇聚上万真诚祝福的物品, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·会唱歌的黑蘑菇一朵, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·深黯蝙蝠一只, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·红葡萄酒, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·于教堂内供奉过的蜡烛一截, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·任意毒蘑菇一朵, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·马鞭草粉末, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·厄运黑猫的耳朵, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·地穴爬行者的心脏（类似穿山甲的超凡生物）, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·面包一份, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·厄运黑猫的心脏, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·海棠花精油, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·阴影蠕虫一条, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·血眼黑山羊的独角, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·他人之血, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·血眼黑山羊的尾巴, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·亵渎过某间教堂的物品（种类不限）, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·野玫瑰纯露, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·不死肉菌一朵, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·复仇之影最大的碎片, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·自身之血, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·不死肉菌的伴生藤蔓一截, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·复仇之影残留的粉末, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·肉桂, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·血色稻草人的结晶, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·牧群看守者的大脑（形象类似猴子）, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·牧群看守者的血液, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·血色稻草人的秸秆, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·至少抽打过一百人的皮鞭一根, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·金盏花香膏, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·阴影骑士残留的幕布, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·格里格尔的血肉凝聚体（格里格尔是一种超凡生物的名称，又叫血色巨人）, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·格里格尔的影痕, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·阴影骑士的黑液, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·所有仪式对象每人一滴血液, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·香蜂草精油, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·牧群之主的头颅, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·格里格尔首领的心脏, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·牧群之主的血液, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·格里格尔首领的眼眸, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·封印着100个灵魂的石头一颗, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·茴香, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·影王的脓液, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·血肉君主的结晶, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·影王残留的粉末, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·血肉君王的血100毫升、肉, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·自身制造的、超过一百年的、与堕落相关的传说一份（写在纸上）, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_001, daily_013, daily_016, lost_005, lost_003 ]
+    adjacent: [ mist_street, steam_station, candle_bookstore, konstun_center, enmat_center, storn_center, beldan_center, limon_center, connate_center, banshee_port_center, damir_port_center, ramd_town_center, vinia_town_center, st_selena_cathedral, saint_number_church, river_and_sea_church, blackthorn_security, wild_heart_bar, hound_tavern, saint_miron_center, fennepot_city_center, aisara_center, byam_center, new_silver_city_center, new_moon_city_center, silver_city_center, moon_city_center, sea_wave_church, fool_church_byam ]
+
+  - id: mist_street
+    name: 迷雾街区
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 辅助材料·银粉, weight: 14, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 便士, weight: 7, minQty: 1, maxQty: 2, bindType: unbound }
+      - { itemId: 黑纱手套, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·灰雾结晶, weight: 20, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_005, daily_030, random_001, lost_002, lost_005 ]
+    adjacent: [ tingen, old_dock, graveyard_path, st_selena_cathedral, saint_number_church, river_and_sea_church, blackthorn_security, wild_heart_bar, hound_tavern ]
+
+  - id: old_dock
+    name: 老码头
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 2, maxQty: 4, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 12, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 铜哨, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·战火余烬, weight: 20, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_022, daily_012, random_002, random_007, lost_002, lost_003 ]
+    adjacent: [ mist_street, backlund, sealed_archive, dark_cellar ]
+
+  - id: candle_bookstore
+    name: 烛火书店
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 旧日记残页, weight: 5, minQty: 1, maxQty: 2, bindType: unbound }
+      - { itemId: 辅助材料·月长石粉, weight: 9, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 辅助材料·银粉, weight: 10, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 苦艾酒, weight: 5, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 无名者骨牌, weight: 1, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_019, daily_002, random_005, lost_001, lost_004 ]
+    adjacent: [ tingen, graveyard_path ]
+
+  - id: graveyard_path
+    name: 墓园小径
+    min_seq: 9
+    max_seq: 0
+    danger: 3
+    loot:
+      - { itemId: 夜香草, weight: 11, minQty: 1, maxQty: 3, bindType: bound }
+      - { itemId: 无名者骨牌, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·夜之瞳, weight: 20, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 5, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_009, daily_021, random_003, random_008, lost_003, lost_005 ]
+    adjacent: [ mist_street, candle_bookstore, blackthorn_abbey ]
+
+  - id: steam_station
+    name: 蒸汽车站
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 9, minQty: 2, maxQty: 5, bindType: unbound }
+      - { itemId: 潮湿的火柴, weight: 3, minQty: 1, maxQty: 2, bindType: unbound }
+      - { itemId: 旧日记残页, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·银粉, weight: 5, minQty: 1, maxQty: 1, bindType: bound }
+    events: [ daily_013, daily_027, lost_003, lost_005 ]
+    adjacent: [ tingen, backlund ]
+
+  - id: dark_cellar
+    name: 无光地下室
+    min_seq: 9
+    max_seq: 0
+    danger: 4
+    loot:
+      - { itemId: 主材料·灰雾结晶, weight: 5, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 9, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 淬火匕首, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 4, minQty: 1, maxQty: 3, bindType: unbound }
+    events: [ daily_015, daily_028, lost_001, lost_003 ]
+    adjacent: [ sealed_archive, old_dock ]
+
+  - id: blackthorn_abbey
+    name: 黑荆棘修道院
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 辅助材料·圣盐, weight: 12, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 教会徽记, weight: 2, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 旧日记残页, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·战火余烬, weight: 20, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_017, daily_014, lost_005, lost_002 ]
+    adjacent: [ graveyard_path, above_grey_fog, fog_chapel ]
+
+  - id: above_grey_fog
+    name: 灰雾之上
+    min_seq: 8
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·灰雾结晶, weight: 7, minQty: 1, maxQty: 2, bindType: unbound }
+      - { itemId: 主材料·夜之瞳, weight: 5, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.12：序列 8 配方的材料（廷根传承 愚者 / 不眠者）
+      - { itemId: 主材料·命运之线, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·梦境之核, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 6, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 无名者骨牌, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 3, minQty: 3, maxQty: 8, bindType: unbound }
+    events: [ daily_008, daily_028, lost_002, lost_004 ]
+    adjacent:
+      - spirit_world
+      - blackthorn_abbey
+      - sealed_archive
+      - fog_chapel
+      - grey_loom
+      - house_of_deja_vu
+
+  - id: backlund
+    name: 贝克兰德
+    min_seq: 9
+    max_seq: 0
+    danger: 3
+    loot:
+      # M2.33：本地点新增序列 7 的产出点（每味 weight 4，与 M2.26/M2.29 同手法）。
+      #   稀释已算：本地点总权重 57 → 61，既有 6 条各相对降 7%（常青之根 / 地脉之心 各 7.0% → 6.6%）。
+      #   ⚠️ 加条目会让既有材料**相对降** —— 这是 M2.20 §五 的坑，数字就地记在这里，别只写在 docs 里。
+      - { itemId: 主材料·牧者之铃, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·银粉, weight: 12, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 便士, weight: 8, minQty: 2, maxQty: 6, bindType: unbound }
+      - { itemId: 辅助材料·月长石粉, weight: 9, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 主材料·灰雾结晶, weight: 20, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·常青之根, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·地脉之心, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.76：本城开放途径**全部序列（9—2）**的魔药材料产出点。
+      # 落在这里是因为它的 min_seq 最大（= 要求最低），任何序列的玩家都到得了 ——
+      # 落在 min_seq 小的地点会让低序列玩家拿不到高序列材料（link-check 会拦）。
+      - { itemId: 主材料·战火余烬, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·断刃残片, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·不坠之旗, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·常胜之印, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·不折之钢, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·断刃之心, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·破晓碎片, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·陷阵之甲, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·牵线之心, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·定数之结, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命途之梭, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·无面之皮, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·无面之镜, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命运之线, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·既视之环, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·校准之芯, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·齿轮之心, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·万机之心, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·自合之匣, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·不歇之摆, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·拆解之匙, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·机械之枢, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·永动之轮, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·噬宝石虫, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·幻象晶石, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·羊须草纯露, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·古井之水, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·从尸体上长出的任意花朵一朵, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·被灵界生物污染的泥土, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·食灵者的胃袋, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·深海枪鱼的血液, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·鹅耳枥制作的精油, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·线球草粉末, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·盛开的红栗花一朵, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·纯水, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·拉瓦章鱼的血液结晶, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·陨星水晶, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·铁线莲粉末, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·枯萎的葡萄藤一截, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·任意一种章鱼的眼球一对, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·烈酒, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·完整的阿斯曼之脑一个, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·古老怨灵的诅咒物, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·超过二十二年历史的日记三页, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·水银, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·忍冬精油, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·海水、湖水、冰川水各, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·西斯库恩魔虫一条, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·无影魔狼的心脏一颗, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·被困鬼魂残留的粉末, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·香蜂草粉末, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·用灵性血液绘制的星图一副, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·无影魔狼的血液, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·金色不死鸟的眼睛（或者西斯库恩魔虫首领一条，安卡之门的基座）, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·西斯库恩魔虫的巢穴, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·安卡之门的余烬（前两样可以用金色不死鸟的羽毛代替）, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·胡桃一颗, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·刚映照过星空的湖水, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·游荡之皮, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·迷雾窥探者遗留的结晶, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·游荡之皮的脓液, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·迷雾窥探者的眼皮, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·白芥子9粒, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·源于仪式场地的星之水, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·活化的虚空, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·异度捕猎者的大脑（或者紫色不死鸟的眼睛）, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星之虫一条, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·时之虫一条, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·灵体之虫一条, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·一对成年曼哈尔鱼的眼睛, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·羊角黑鱼的血液, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·秋水仙精华, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·牛齿芍药粉末, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·瓣精灵花, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·成年七彩蜥龙的完整脑垂体, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·法尔斯曼兔的脊髓液, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·栗树芽孢, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·龙牙草粉末, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·纯白精灵花3瓣, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·镜龙的眼睛一对, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·长者之树的果实, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·镜龙血液, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·长者之树的树皮粉末, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·毛地黄（又名狐狸手套）精油, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·婴儿胎毛, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·黑狩巨蜥的脊髓液60毫升和迷幻风铃树的果实一颗，或青年心灵巨龙的完整脑垂体, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·青年心灵巨龙的血液80毫升（或者黑狩巨蜥的血液80毫升）, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·青年心灵巨龙的鳞片3片（或者迷幻风铃树的树皮3块）, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·颠茄果实, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·放置于自身房间超过三个月的镜子1面, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·梦境捕手的心脏一颗和心灵幻影的结晶一枚，或一条成年心灵巨龙的完整大脑, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·成年心灵巨龙的血液100毫升或者（梦境捕手的血液90毫升）, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·成年心灵巨龙的鳞片3片（或者心灵幻影遗留的粉尘3克）, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·灰白色龙息草, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·树人的叶子, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·一条老年心灵巨龙的完整大脑/树人导师的结晶之心, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·老年心灵巨龙的血液, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·树人导师的金色树叶三片, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·七个不同人类或类人生物因强烈情绪产生的泪水各自一滴, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·树人之王的结晶之心或者迷梦巨龙的完整大脑, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·树人之王的汁液100毫升或者迷梦巨龙的血液, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·因噩梦死亡或疯狂的十三个智慧生物的毛发各九根, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·树苗一株, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·梦魇草汁液, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·艾瑞霍格或者其他古老心灵巨龙的苍白心脏，或者“洞察者”非凡特性, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·古老心灵巨龙或“洞察者”血液, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·自我编织出来的真实身份, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·人心深处最恶劣最恐怖的漆黑之花, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·太阳神鸟的羽毛一根（非尾羽）, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“智慧果”一枚, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·迷宫鹦鹉的舌头, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·迷宫鹦鹉的血液, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·黑橄榄一个, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·柏树皮精油, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·白茉莉一朵, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·狂化草一株, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·大地犀牛的实心独角结晶, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·深纹胡桃一个, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·香蜂草一株, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·杨树皮浸泡出的纯露, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“哭泣婴儿”花一朵, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·怪脸大麻结晶, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·金色曼陀罗汁液, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·黑色曼陀罗汁液, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·迷幻草精油, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·红葡萄酒, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·人脸狒狒的鼻子, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·腐烂尸花一朵, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·人脸狒狒的血液, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·灰琥珀香水, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·水果烈酒, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·铅粉, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·妖精火花（有自我意识）, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“森林之子”的脑袋（头部有畸形之角形似冠冕的深绿近黑狒狒）, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“森林之子”的血液, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·雪松纯露, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·连续背叛者的耳朵1个（至少有过两次背叛经历）, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·鸡蛋花, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·林地巨妖的眼珠（外形为人化的四臂黑色狒狒）, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·猫脸鬼影的舌头（人形）, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·林地巨妖的血液, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·猫脸鬼影的指甲, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·山茶花精油, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·堕落者的毛发, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·黑山君主（外型为六臂巨大狒狒）的心脏, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·狂野人猿的尾巴, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·黑山君主的血液, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·狂野人猿的牙齿, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·黄金, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·死于仪式异变者的脸皮9张, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“熵之公爵”非凡特性1份或者所罗门的指节, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“熵之公爵”的血液, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·真实有效的王国或帝国戒严令, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“平衡者”或相应事物的污染物, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·夜光宝石, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_005, daily_012, lost_004, lost_001 ]
+    # M2.7：贝克兰德的四个新地点挂进来（相邻关系必须双向声明，有测试守着）
+    adjacent: [ old_dock, steam_station, backlund_bridge, backlund_slum, st_samuel_cathedral, st_shillan_cathedral, harvest_church, mi9, capital_police_hq, brave_bar ]
+
+  - id: sealed_archive
+    name: 封存档案室
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 旧日记残页, weight: 5, minQty: 1, maxQty: 2, bindType: unbound }
+      - { itemId: 辅助材料·月长石粉, weight: 9, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 辅助材料·银粉, weight: 8, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 主材料·夜之瞳, weight: 20, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_024, daily_002, random_004, lost_001, lost_004 ]
+    adjacent: [ old_dock, dark_cellar, above_grey_fog ]
+
+  # ==================================================================
+  # M2.7 追加：四座新城市 + 一片海域，共 20 个地点
+  #
+  # 为什么这些地点的 min_seq 有 9 也有 8/7：
+  #   min_seq = 9 的地点会自动进入 CI 的「新号可达地点」硬门
+  #   （src/vplayer/coverage.ts 的 starterLocations），20×3 那一轮**必须每个都有人走到**。
+  #   所以每座城市只把「城区 + 一两个当日可达的点」设成 9，
+  #   更深、更危险的地方（灯塔、地下墓穴、走私者洞窟、遗迹）留给序列 8/7 —— 
+  #   它们既是「晋升后才有得玩」的奖励，也不会把短轮 CI 逼红。
+  #
+  # 事件卡：本轮**不新增卡片**（M2.8 做区域专属卡）。
+  #   新地点挂的是内容表里**不限定地点**的那批（daily_* 大多数、random_006、全部 lost_*），
+  #   所以抽卡逻辑与老地点完全一致；挂了限定其它地点的卡只会永远抽不到，这里没有这么写。
+  # ==================================================================
+
+  # ---------------- 普利兹港（鲁恩王国 · 港口，不眠者 / 战士） ----------------
+  - id: pritz
+    name: 普利兹港
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 2, maxQty: 5, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 9, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 潮湿的火柴, weight: 4, minQty: 1, maxQty: 2, bindType: unbound }
+      - { itemId: 主材料·战火余烬, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.18（E1 加量）：序列 8 玩家的探索里普利兹港占 5.5%（Top 4），是「热门但还不是原产地」的那一个。
+      # ⚠️ 加的是**梦境之核（不眠者）与破晓碎片（战士）**，不是任务书初拟的「梦境之核 + 命运之线」——
+      # 实测普利兹港的途径分布是 sleepless 37 / warrior 18 / **seer 只有 3**（data/pritz-pathways.mjs），
+      # 给 3 个人加愚者的主材料意义极小。
+      - { itemId: 主材料·梦境之核, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·破晓碎片, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.76：本城开放途径**全部序列（9—2）**的魔药材料产出点。
+      # 落在这里是因为它的 min_seq 最大（= 要求最低），任何序列的玩家都到得了 ——
+      # 落在 min_seq 小的地点会让低序列玩家拿不到高序列材料（link-check 会拦）。
+      - { itemId: 主材料·夜之瞳, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·月长石粉, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·彼岸之尘, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·银粉, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·织梦之丝, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·不熄之灯, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·无梦之眠, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·长夜之露, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·永夜之幕, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·断刃残片, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·不坠之旗, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·常胜之印, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·不折之钢, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·断刃之心, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·陷阵之甲, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·海盐结晶, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·祭海之贝, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·压舱之石, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·怒潮之角, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·深海的回声, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·潮汐之骨, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·深潮之珠, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·操舵之盘, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·阴影毒花的根须, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·蛇身怪鸟的黑羽, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·浓醋, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·阴影毒花的花瓣三片, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·毛茛精油, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·活蜘蛛一只, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·魔喉蜜䴕的心脏, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·黑暗潜伏者的毒囊, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·魔喉蜜䴕的鸣管, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·蓝色曼陀罗汁液, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·水蕨草粉末, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·胡桃, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·纯水, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·黑渊魔鱼的全部血液, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·玛瑙孔雀的蛋, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·金色曼陀罗汁液, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·阴影蜥蜴的鳞片三枚, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·水仙花汁液, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·魅欲.女妖的眼睛一对, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·成年寡妇巨蛛的丝腺一个, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·黑色曼陀罗汁液, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·魅欲.女妖残留的全部毛发, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·费内波特苍蝇碾成的粉末, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·真正的木乃伊骨灰, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·花面蝙蝠的头部, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·双尾黑蛇的胆囊, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·花面蝙蝠的血液, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·重病人类的血液, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·双尾黑蛇的尾尖, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·蓝臻尤加利精油, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·瘟疫母蛇的毒囊, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·银色猎杀者的结晶, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·瘟疫母蛇的胆汁, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·银色猎杀者的碎片三块, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·新鲜的榭寄生一枝, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·分别死于不同瘟疫的七个死者的血液各, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·镜神之心一颗, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·蛇发女妖的眼睛一对, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·镜神碎片九枚, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·蛇发女妖血液, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·年份超过五百年的、有对应镜后区域的古董镜子一面, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·溺死者肺部的水, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·莉莉丝的头发或者某位“灾难魔女”的非凡特性, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·丰饶大地之土, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·每年第一场洪水之雨, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·镜中世界碎片一块（非特殊镜中世界碎片）, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·灾难死者之诅咒一万份（目标位格越高，所需数量越少）, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·血腥红栗, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·活化沼泽的结晶, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·红葡萄酒, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·红栗花一朵（可以是标本，也可替换成相应精油10滴）, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·白杨的树叶粉末, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·罗勒, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·恶臭花群的根茎, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·尖齿鹦鹉的舌头, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·蒸馏酒, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·忍冬花纯露, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·葡萄藤粉末, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·火蝾螈的腺体, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·岩浆精灵的核心, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·火蝾螈的血液, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·岩浆辉石粉末, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·红冠凤仙草粉末, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·圣星百合纯露, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·狩猎黑蛛的复眼, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·人身狮的大脑, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·狩猎黑蛛的毒腺一个, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·人身狮的血液, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·琥珀粉末, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·白橡树果实两颗, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·灰暗魔狼的前爪, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·丛林狩猎者的舌头, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·灰暗魔狼的血液, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·丛林狩猎者的尖牙两颗, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·彩髯角蜥的毒液, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·鹅耳枥精油, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·岩浆巨人的核心, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·灾难之石, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·滚烫岩浆, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·灾难之石污染的草木粉末, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·大型战场上被士兵血液渗透的泥土, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·橡树果实一枚, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·双相人马之心, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·战争彗星的星核, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·双向人马的血液, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·战争彗星的碎片, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·血色图铎鸢尾, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·烈焰巨树的树皮, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·天气巨人的颅骨, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·云雾水母的核心, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·死于不同极端天气的死者血液各, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·天气巨人的头发, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·云雾水母的结晶, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·被雷劈过的树木枝芽一截, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·一个地区每年第一场雪所化之水, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·彩色鲤鱼的尾巴, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·银色四叶草一朵, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·浑浊的河水, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·普通四叶草, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·沟酸浆纯露, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·幸运符一块（序列9非凡者就可以制作的那种）, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·自身血液, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·橘光石一枚, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·幼年独角兽的结晶, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·幼年独角兽的血液, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·蛇鳞10片（以白色、银色为佳）, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·白栗花精油, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·柠檬草, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·铁锈, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·好运之花一朵, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·银眼怪蛇的眼珠, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·银眼怪蛇的血液, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·好运之花生长的泥土, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·三天内捡到的金币或银币一枚, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·水银, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·蓝斑火鸟的心脏, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·独眼白牛的蛇尾, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·独眼白牛的血液, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·蓝斑火鸟的羽毛三根, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·龙胆草纯露, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·染上过他人之血的黑曜石一块, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·神佑水晶一块, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·红焰树人的树心, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·红焰树人的汁液, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·神佑水晶的附着物, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·白芥子, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·甜栗花精油, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·源自他人的幸运, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·四耳巨猿的大脑, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·成年独角兽的角, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·成年独角兽的血液, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·四耳巨猿的耳朵一只, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·用盐制净化法处理过的海蓝水晶一块, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·金橙一颗, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·灾厄不死鸟的结晶核, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·噩运白蛇的胆, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·噩运白蛇的毒液, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·灾厄不死鸟的血液, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“观众”高位者（至少序列2）制作的“安抚”符咒一块或能达到类似效果的东西, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·来自噩运或灾厄幸存者的书面感谢九份, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命运灰虎的独角或者蛇鳞树人长老的心脏或者“先知”非凡特性一份, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·命运灰虎的血液100毫升或蛇鳞树人长老的汁液100毫升或对应天使的血液100毫升（三选一）, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·已应验的重要启示一条（应验前已记录在石碑或纸张上）, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·灵界七光之一的祝福，积攒超过百年的幸运, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_010, daily_014, daily_020, lost_001, lost_004 ]
+    # M2.95：加上埃斯科森港的城区（它只与这里通船）。
+    # ⚠️ 邻接是**双向**的：那边写了 pritz，这边就必须写回去，否则「相邻关系必须双向」会红。
+    adjacent: [ pritz_harbor, fish_market, oak_island_base, warrior_and_sea_bar, escosen_port_center ]
+
+  - id: pritz_harbor
+    name: 潮汐码头
+    min_seq: 9
+    max_seq: 0
+    danger: 3
+    loot:
+      # M2.33：本地点新增序列 7 的产出点（每味 weight 4，与 M2.26/M2.29 同手法）。
+      #   稀释已算：本地点总权重 68 → 72，既有 11 条各相对降 6%（海盐结晶 / 潮汐之骨 / 祭海之贝 / 深海的回声 各 5.9% → 5.6%）。
+      #   ⚠️ 加条目会让既有材料**相对降** —— 这是 M2.20 §五 的坑，数字就地记在这里，别只写在 docs 里。
+      - { itemId: 主材料·深潮之珠, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 10, minQty: 2, maxQty: 4, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 10, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 铜哨, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·夜之瞳, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.8 前置 2：普利兹港的不眠者玩家原本卡死在月长石粉上 ——
+      # 本地唯一的产出点是断崖灯塔（min_seq 8），普通人去不了。
+      # 码头是搬运散货的地方，出散装粉末合情合理；这一条把本地的不眠者配方补成全可达。
+      - { itemId: 辅助材料·月长石粉, weight: 9, minQty: 1, maxQty: 1, bindType: bound }
+      # M2.18 E1：8→7 的主材料（梦境之核 / 破晓碎片 / 命运之线）原本只在四个 min_seq=8 的地点产出，
+      # 而序列 8 的玩家把八成探索花在潮汐码头这样的练级地 —— **DIG 与材料在争同一份探索次数**。
+      # 这一条把材料放进他们**真的花时间**的地方（序列 8 的探索里潮汐码头占 15.1%，排第一）。
+      # 依据：docs/M2.18-E1补取证.md（49 人全部只缺 1 种材料，E1 只需补一种就能救一批）。
+      - { itemId: 主材料·梦境之核, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·破晓碎片, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.19：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·海盐结晶, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·深海的回声, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·祭海之贝, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29 任务 3：sailor 序列 8 的主材料（M2.30 事故重建补漏）。
+      - { itemId: 主材料·潮汐之骨, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_011, daily_018, daily_023, random_006, lost_002 ]
+    adjacent: [ pritz, smugglers_cave, oak_island_base, warrior_and_sea_bar ]
+
+  - id: fish_market
+    name: 咸鱼市场
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 12, minQty: 2, maxQty: 6, bindType: unbound }
+      - { itemId: 夜香草, weight: 8, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 苦艾酒, weight: 6, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 旧日记残页, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_016, daily_025, daily_029, lost_003 ]
+    adjacent: [ pritz, lighthouse ]
+
+  - id: lighthouse
+    name: 断崖灯塔
+    min_seq: 8
+    max_seq: 0
+    danger: 4
+    loot:
+      # M2.33：本地点新增序列 7 的产出点（每味 weight 4，与 M2.26/M2.29 同手法）。
+      #   稀释已算：本地点总权重 41 → 45，既有 8 条各相对降 9%（拆解之匙 / 万机之心 各 9.8% → 8.9%）。
+      #   ⚠️ 加条目会让既有材料**相对降** —— 这是 M2.20 §五 的坑，数字就地记在这里，别只写在 docs 里。
+      - { itemId: 主材料·机械之枢, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·月长石粉, weight: 9, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 主材料·灰雾结晶, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.12：序列 8 配方的材料（普利兹港传承 不眠者 / 战士）
+      - { itemId: 主材料·梦境之核, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·破晓碎片, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 无名者骨牌, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 4, minQty: 2, maxQty: 5, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·拆解之匙, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·万机之心, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_021, daily_027, daily_030, random_006, lost_005 ]
+    adjacent: [ fish_market, smugglers_cave, tide_cavern, pritz_battle_reef ]
+
+  - id: smugglers_cave
+    name: 走私者洞窟
+    min_seq: 7
+    max_seq: 0
+    danger: 4
+    loot:
+      # M2.33：本地点新增序列 7 的产出点（每味 weight 4，与 M2.26/M2.29 同手法）。
+      #   稀释已算：本地点总权重 40 → 44，既有 7 条各相对降 9%（夜之瞳 20.0% → 18.2%、无梦之眠 / 彼岸之尘 各 10.0% → 9.1%）。
+      #   ⚠️ 加条目会让既有材料**相对降** —— 这是 M2.20 §五 的坑，数字就地记在这里，别只写在 docs 里。
+      - { itemId: 主材料·长夜之露, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 淬火匕首, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·银粉, weight: 9, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 主材料·夜之瞳, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 海盐结晶, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+      - { itemId: 便士, weight: 6, minQty: 3, maxQty: 8, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·无梦之眠, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·彼岸之尘, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.39 批次 B：sleepless 的序列 4 主材料。
+      #   稀释已算：本地点总权重 44 → 46，既有 8 条各相对降 4%（彼岸之尘 / 无梦之眠 各 9.1% → 8.7%）。
+      - { itemId: 主材料·织梦之丝, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.39 批次 B：sailor 的序列 4 主材料。
+      #   稀释已算：本地点总权重 46 → 48，既有 9 条各相对降 4%。
+      - { itemId: 主材料·压舱之石, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_024, daily_026, daily_028, lost_006, lost_007 ]
+    adjacent: [ pritz_harbor, lighthouse, tide_cavern, pritz_sunken_hulk ]
+
+  # ---------------- 特里尔（因蒂斯 · 情报网络，愚者 / 战士） ----------------
+  - id: trier
+    name: 特里尔
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 2, maxQty: 5, bindType: unbound }
+      - { itemId: 旧日记残页, weight: 6, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·银粉, weight: 8, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 主材料·灰雾结晶, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.76：本城开放途径**全部序列（9—2）**的魔药材料产出点。
+      # 落在这里是因为它的 min_seq 最大（= 要求最低），任何序列的玩家都到得了 ——
+      # 落在 min_seq 小的地点会让低序列玩家拿不到高序列材料（link-check 会拦）。
+      - { itemId: 主材料·牵线之心, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·定数之结, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命途之梭, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·月长石粉, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·无面之皮, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·无面之镜, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命运之线, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·既视之环, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·战火余烬, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·断刃残片, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·不坠之旗, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·常胜之印, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·不折之钢, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·断刃之心, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·破晓碎片, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·陷阵之甲, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·褪色书页, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·无名手稿, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·百科之钥, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·总目之册, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·通晓之印, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·边注残卷, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·解读之墨, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·全知之页, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·结晶太阳花一朵/一只成年火石鸟的尾羽/纵火鸟的尾羽, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·海妖之石一块/歌唱葵一朵, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·红葡萄酒, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·仲夏草一根, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·七月酒汁液五滴, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·精灵暗叶一片, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·光辉石一块/炽白之魂的粉末, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·镜猬的血液/熔浆巨怪之心, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·金边太阳花一朵, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·附子汁液三滴, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·来自太阳信仰的物品一件, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·黎明雄鸡的红冠一朵, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·光辉契灵树的果实一枚, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·黎明雄鸡的血, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“太阳”精油, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·金手柑粉末, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·凝固的熔浆, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·长者之树的根茎结晶, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·契灵鸟的尾羽, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·光辉契灵树的汁液, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·白边太阳花一朵, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·水蕨汁液, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·黎明雄鸡之王的红冠, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·纯白光辉石一块, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·迷迭香, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·金手柑汁液, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·岩水, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·黎明雄鸡之王的血液, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“太阳”神血一滴，或成年太阳神鸟的三根尾羽加上神圣光辉石一块, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·太阳神鸟的血液, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·神圣光辉石伴生液, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·变异金手柑汁液, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·岩浆之心粉末, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·炽光巨人的脑袋，或者太阳神鸟之王的深黑尾羽+万物礼赞者的雄蕊——外形是巨花的怪物, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·炽光巨人的血液, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·万物礼赞者的花瓣, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·记录自身正义的笔记一份, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·清晨、中午、傍晚的阳光各一缕（想到办法搜集）, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·炽光巨人首领的心脏或“逐光者”非凡特性, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·炽光巨人首领的眼珠一对, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·血液300毫升（这两样可用“逐光者”的部位取代）, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·自身虔诚抄录的赞美太阳的典籍一册, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·堕落的神职者血液9种, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·血斑黑蚊一只, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·食烛之灵的核心, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·他人之血, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·来源于不同人的指甲碎片九个, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·蓝宝石一颗, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·马鞭草粉末, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·人面笼草一朵, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·迷魂虫群的幼虫一条, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·纯水, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·他人眼泪, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·青金石一颗, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·白栗香膏, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·狮身人的大脑, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·迷魂虫群的成虫一条, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·狮身人的血液, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·迷魂虫群遗留的黏液, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·月长石一颗, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·野玫瑰一朵, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·自身设计的密码一套（写于纸上）, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·水晶线虫一条, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·披袍幽魂的附着物, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·刚偷来的美酒, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·披袍幽魂的残留粉末, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·黄水晶一颗, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·落叶松精油, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·火种一个, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·食梦鼠的心脏一颗, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·堕落之气的灵, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·食梦鼠的血液, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·失去灵性的堕落之气, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·天青石一颗, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·薰衣草纯露, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·因理想破碎而流下的他人眼泪, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·夺魂怪死后的结晶, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·傀儡邪虫一条, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·夺魂怪的血液, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·傀儡邪虫的分泌物, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·紫水晶一枚, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·樱桃李汁液, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·被囚禁的灵魂一个, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·沼泽巨人的双掌, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·亵渎祭司的核心, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·沼泽巨人的血液, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·亵渎祭司的菌毯, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·黄金, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·水堇纯露, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·因晋升者误导而死去的九个灵界怨灵, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·王庭祭祀死后的结晶（注，王庭指巨人王庭），或者夺魂怪之王的竖眼，或者别的“命运木马”的非凡特性, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·古老之河的河水, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·灵之虫一条, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星之虫一条, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·大量被认为是真实的虚假历史（记录在纸上）, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·白鬃狩猎者的面部皮肤（外形类雄狮）, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·皇冠猎隼的三根尾羽, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·白鬃狩猎者的血液, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·皇冠猎隼的鸟爪一只, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·绿橄榄, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·恐惧魔虫的眼睛一对, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·银白战熊的右掌, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·银白战熊的血液, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·恐惧魔虫的汁液, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·治安官或类似职务的任命文书1份（不需要是自己的）, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·沟酸浆精油, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·闪纹黑蛇的角, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·湖中之灵的粉尘, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·闪纹黑蛇的血液, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·湖中之灵的伴生物, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·被闪电劈焦的木头, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·电气石, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·黑域领主的头皮（类似精灵的超凡生物）, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·异纹巨虎的尾巴, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·黑域领主的血液, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·异纹巨虎的牙齿两颗, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·在审判庭使用超过10年的法槌1柄, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·黄色“不凋花”, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·金属巨猿的心脏, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·复仇石灵的额刺, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·金属巨猿的脓液, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·复仇石灵的剥落物, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·黑色羔羊的尾巴, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·莳萝精油, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·铜表邪灵的结晶, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·面具精灵的石牙, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·面具精灵的血液, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·铜表邪灵的锈迹沉淀物, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·当前国度主要法典原本1部, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·曼德拉草纯露, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·铜色精灵的手掌, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·自然卫士的舌头（一种类人的、金色猿猴状的、以严格维护所在区域自然秩序为使命的超凡生物）, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·自然卫士的血液, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·铜色精灵的头发, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·自身猎杀的半神尸体1块（不需要全部尸骸）, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·吊死过至少千名罪犯的绞刑架木屑, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“律法之神”（精灵王的从神之一）的非凡特性，或者“驮岛之龟”的非凡特性，或者“平衡者”非凡特性, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·对应“平衡者”的天使、从神的血液, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·只会赞美太阳的物品1件, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·诱人堕落的心灵深渊气息1缕, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·源于“熵之公爵”或相应事物的污染物, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_010, daily_012, daily_021, lost_002, lost_005 ]
+    adjacent: [ intel_cafe, foreign_quarter, bigorre_center, daliege_center, aumir_center, koldur_center ]
+
+  - id: intel_cafe
+    name: 情报咖啡馆
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 旧日记残页, weight: 10, minQty: 1, maxQty: 2, bindType: unbound }
+      - { itemId: 因蒂斯密信, weight: 5, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 8, minQty: 1, maxQty: 4, bindType: unbound }
+      - { itemId: 苦艾酒, weight: 6, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 无名者骨牌, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_014, daily_018, daily_026, random_006, lost_001 ]
+    adjacent: [ trier, ironworks ]
+
+  - id: ironworks
+    name: 铁工厂
+    min_seq: 9
+    max_seq: 0
+    danger: 3
+    loot:
+      - { itemId: 主材料·战火余烬, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 8, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 淬火匕首, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 6, minQty: 2, maxQty: 4, bindType: unbound }
+    events: [ daily_011, daily_023, daily_028, lost_003 ]
+    adjacent: [ intel_cafe, catacombs, deep_catacombs, iron_loom, trier_war_crypt ]
+
+  - id: foreign_quarter
+    name: 异邦人街区
+    min_seq: 9
+    max_seq: 0
+    danger: 3
+    loot:
+      - { itemId: 便士, weight: 9, minQty: 2, maxQty: 5, bindType: unbound }
+      - { itemId: 黑纱手套, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·月长石粉, weight: 8, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 夜香草, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      # M2.26-2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·褪色书页, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.26-2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·无名手稿, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_016, daily_020, daily_030, random_006, lost_004 ]
+    adjacent: [ trier, catacombs ]
+
+  - id: catacombs
+    name: 地下墓穴
+    min_seq: 8
+    max_seq: 0
+    danger: 5
+    loot:
+      # M2.33：本地点新增序列 7 的产出点（每味 weight 4，与 M2.26/M2.29 同手法）。
+      #   稀释已算：本地点总权重 45 → 49，既有 9 条各相对降 8%（边注残卷 / 百科之钥 各 8.9% → 8.2%）。
+      #   ⚠️ 加条目会让既有材料**相对降** —— 这是 M2.20 §五 的坑，数字就地记在这里，别只写在 docs 里。
+      - { itemId: 主材料·解读之墨, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·夜之瞳, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 无名者骨牌, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      # M2.12：序列 8 配方的材料（特里尔传承 愚者 / 战士）
+      - { itemId: 主材料·命运之线, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·破晓碎片, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 6, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 便士, weight: 3, minQty: 3, maxQty: 8, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·边注残卷, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·百科之钥, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_024, daily_027, daily_029, lost_006, lost_007 ]
+    adjacent: [ ironworks, foreign_quarter, deep_catacombs, trier_ossuary, trier_war_crypt ]
+
+  # ---------------- 拜朗（南大陆 · 神秘学重镇，不眠者 / 愚者） ----------------
+  - id: byron
+    name: 拜朗
+    min_seq: 9
+    max_seq: 0
+    danger: 3
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 2, maxQty: 4, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 9, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 主材料·战火余烬, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 旧日记残页, weight: 5, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.76：本城开放途径**全部序列（9—2）**的魔药材料产出点。
+      # 落在这里是因为它的 min_seq 最大（= 要求最低），任何序列的玩家都到得了 ——
+      # 落在 min_seq 小的地点会让低序列玩家拿不到高序列材料（link-check 会拦）。
+      - { itemId: 主材料·夜之瞳, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·月长石粉, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·彼岸之尘, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·银粉, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·织梦之丝, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·不熄之灯, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·无梦之眠, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·长夜之露, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·梦境之核, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·永夜之幕, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·灰雾结晶, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·牵线之心, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·定数之结, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命途之梭, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·无面之皮, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·无面之镜, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命运之线, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·既视之环, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·地脉之心, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·留种之荚, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·生养之泉, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·常青之根, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·新生之芽, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·沃土之核, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·牧者之铃, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·轮回之种, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·风干的成年黑斑青蛙, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·布套人的结晶, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·反复蒸馏提纯过的烈酒, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·黑斑青蛙的黏液, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·黑色百合花的纯露, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·使用过的裹尸袋一个, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·告死乌鸦的眼珠, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·墓园血玫瑰一朵, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·纯酒精, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·告死乌鸦的羽毛三根, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·墓园血玫瑰的叶子五片, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·尸香精油, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·幽灵怪猫的前爪, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·灵界水晶的一块, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·幽灵怪猫的血液, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·被灵界水晶污染的泥土, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·死于恶灵附身之人的脑浆, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·自然灵祝福过的叶子一片, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·死亡之影, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·苍白巫妖的魂体, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·亡者的腐烂液体, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·苍白巫妖的碎骨, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·死亡之影寄居之物, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·徘徊的幽灵一个, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·冥界巡游者的颅骨, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·万臂幽魂遗留的晶核, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·被死亡气息侵染的水液, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·冥界巡游者的烂肉一块, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·万臂幽魂残存的粉末, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·深红彼岸花精油, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·腐烂羽蛇的胆囊, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·永生之蝉的遗蜕, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·腐烂羽蛇的体液, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·永生之蝉栖息之树的树皮, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·永暗石一个, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·苍白彼岸花一朵, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·冥河仆役的脓液之核或者成年羽蛇的大脑, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·自身的血液, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·冥河仆役的脓液9滴或者成年羽蛇的羽毛, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·来自冥界深处的亡灵一个, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·开在自身腐烂血肉上的花朵一朵, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·古老羽蛇的头骨或者某位死亡执政官的非凡特性, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·古老羽蛇的体液, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·曾经埋葬过自己的棺柩一副, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·象征过王权的冠冕一顶, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·冥界深处的苍白之物一个, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·成年独角飞马的角, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·皇冠水母的毒液结晶, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·成年独角飞马的血液, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·皇冠水母的触须, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·砷粉, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·黑莨菪的根茎, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·精灵之泉的髓质结晶, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·大王剑花的果实, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·精灵之泉的泉水, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·大王剑花的花, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·野茄提炼的汁液, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·动物尸油, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·渴血兽的心脏, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·红头蝙蝠的翅膀, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·渴血兽的血液, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·红头蝙蝠的牙齿3颗（这两个可同等替换成血族或人造吸血鬼对应的部位）, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·长耳兔的绒毛, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·木樨花纯露, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·巨怪智者的大脑, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·黑暗蝙蝠的翅膀, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·巨怪智者的血液, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·黑暗蝙蝠的绒毛7根（这两个可同等替换成血族或人造吸血鬼对应的部位）, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·六月雪制成的精油, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·自身发明的一种药剂, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·崇月邪怪的血液结晶, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·长者蝙蝠的翅膀, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·崇月邪怪的心脏, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·长者蝙蝠的眼睛（这两个可同等替换成血族或人造吸血鬼对应的部位）, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·被血月照耀过七次（每次至少一刻钟）的水, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·深红礼赞（一种花朵）制成的纯露, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·精灵之泉的意识核, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·巫术暗灵的粉尘聚合体, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·精灵之泉的金色泉水100毫升(对应序列的血族或人造吸血鬼的血液100毫升）, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·巫术暗灵的污染物10克（(对应序列的血族或人造吸血鬼的头发10根或指甲三片）, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·月亮花精油, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·黑暗类生物的胚胎, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·血族侯爵的非凡特性或是对应序列人造吸血鬼的“遗产”, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·血族侯爵或是对应序列人造吸血鬼的血液, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·被“源堡”灰雾气息侵染过的物品1件, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·血族侯爵或是对应序列人造吸血鬼的指甲, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·属于自身的“月亮纸人”一个, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·血族公爵的非凡特性或是对应序列人造吸血鬼的“遗产”, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·母亲制作的护身符1块（若母亲已经过世，可由空想产物或历史投影代替，当然，概念上的母亲和广义上的母亲也可以满足条件）, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·自身创造的血裔的头发, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·血族公爵或对应序列人造吸血鬼的血液, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·橡树种子, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“凶蛮之犬”的脑袋, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“杀人黑鸦”的晶羽, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“凶蛮之犬”的血液, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“杀人黑鸦”的血液, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·犯罪所得1件, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·被害者的眼泪, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“鼠群之主”的尸骸, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“无皮血猫”的心脏, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“鼠群之主”的血液, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“无皮血猫”的血液, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·自身谋害的第一个同种族者的心脏1个（或类似器官）, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·双生花纯露, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“食人秃鹫”的喙, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“暗影之蛇”的尖牙, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“食人秃鹫”的血液, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“暗影之蛇”的血液, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·亲手所杀之人的完整外皮1张, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·遇害者的内脏7组, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“红眼邪豹”的舌头, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“岩浆之魔”的独角, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“红眼邪豹”的血液, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“岩浆之魔”的熔融之液, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·黑百合精华, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·被父母杀死的婴儿遗留手指, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“魅魔”之皮, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“痛苦之子”的眼睛, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“魅魔”的血液, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“痛苦之子”的血液, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·纯白罂粟花, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·智慧生物的脑垂体9种, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“大恶魔”的血晶, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“欲魔”的生殖器官, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“欲魔”的血液, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“大恶魔”的黑色心脏一颗（大恶魔不止一颗心脏）, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·真神教会的供奉圣徽, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·非凡者的心脏, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“言魔”的大脑, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“心灵之妖”的魂石, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“言魔”的体液, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“心灵之妖”的诅咒附着物1件, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·心灵大海的原生物, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·绝望者的泪瓶九个（分属不同的绝望者）, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“鲜血大公”非凡特性1份或（“恶魔王子”的脑袋，“双蛇主君”的心脏）, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“鲜血大公”的血液1000毫升或（“恶魔王子”的酸血500毫升，“双蛇主君”的毒血500毫升）, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·不同种族不同位格不同身份者的血液49种, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·真神之血, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·沉默之石, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·伪人的血液之源, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·肮脏的水, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·沉默之石的伴生物, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·伪人的头发, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·雪松精油, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·变形怪的大脑, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·食人之犬的舌头, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·自己的鲜血, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·变形怪的脸皮, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·食人之犬的唾液, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·晒干的香橙皮（从一颗香橙上完整剥下来）, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“狼人”的獠牙, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“狼人”的血液, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“狼人”的黑毛, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·人类的内脏, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·被诅咒的物品1件, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“活尸”的心脏, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·活人的鲜血, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“活尸”的血肉, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“活尸”的眼珠, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·月亮花, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“怨魂”的意识晶石, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“怨魂”的血液100毫升或被“怨魂”污染产生的阴冷之水, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“怨魂”遗留的粉尘, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·镜子1面, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·人类或超凡生物的灵魂, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“木偶”的眼珠, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·死于诅咒者的血液, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“木偶”的发丝, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“木偶”穿过的衣物1件或经常使用的物品1件, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·囚禁至死者的镣铐或类似物品1件, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“诅咒之物”的喉管, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“诅咒之物”污染过的疯狂之水, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“诅咒之物”诅咒过的事物1个（已死去也符合条件）, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·完整的羊皮或兔子皮1张, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·有锚点寄托的自身雕像1尊, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·“古代邪物”的精神集合体, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·“古代邪物”常用物品1件, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·古老年代的尸骨, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·还未完全消除的恶毒诅咒1个（延绵的年代越久，效果越好）, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·有束缚含义的建筑雕塑, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_012, daily_014, daily_025, lost_001, lost_007 ]
+    adjacent:
+      - south_continent
+      - sun_temple
+
+  - id: bone_market
+    name: 骨市
+    min_seq: 9
+    max_seq: 0
+    danger: 4
+    loot:
+      - { itemId: 无名者骨牌, weight: 5, minQty: 1, maxQty: 2, bindType: unbound }
+      - { itemId: 骨粉, weight: 8, minQty: 1, maxQty: 2, bindType: unbound }
+      - { itemId: 主材料·夜之瞳, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·银粉, weight: 8, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 便士, weight: 6, minQty: 2, maxQty: 5, bindType: unbound }
+      # M2.8 前置 2：拜朗的不眠者玩家原本卡死在月长石粉上 ——
+      # 本地唯一的产出点是疫病营地（min_seq 8），普通人去不了。
+      # 南大陆的市场本就是材料流通的节点，骨市卖矿粉不算突兀。
+      - { itemId: 辅助材料·月长石粉, weight: 9, minQty: 1, maxQty: 1, bindType: bound }
+      # M2.26-3：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·沃土之核, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_010, daily_018, daily_028, random_006, lost_006 ]
+    adjacent:
+      - south_continent
+      - plague_camp
+
+  - id: sun_temple
+    name: 太阳神殿
+    min_seq: 9
+    max_seq: 0
+    danger: 3
+    loot:
+      - { itemId: 辅助材料·圣盐, weight: 12, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 教会徽记, weight: 2, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 主材料·灰雾结晶, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 5, minQty: 2, maxQty: 4, bindType: unbound }
+      # M2.26-3：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·新生之芽, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_011, daily_020, daily_027, lost_002 ]
+    adjacent: [ byron, jungle_ruins ]
+
+  - id: plague_camp
+    name: 疫病营地
+    min_seq: 8
+    max_seq: 0
+    danger: 4
+    loot:
+      # M2.33：本地点新增序列 7 的产出点（每味 weight 4，与 M2.26/M2.29 同手法）。
+      #   稀释已算：本地点总权重 47 → 51，既有 9 条各相对降 8%（常青之根 / 地脉之心 各 8.5% → 7.8%）。
+      #   ⚠️ 加条目会让既有材料**相对降** —— 这是 M2.20 §五 的坑，数字就地记在这里，别只写在 docs 里。
+      - { itemId: 主材料·牧者之铃, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 夜香草, weight: 9, minQty: 1, maxQty: 3, bindType: bound }
+      - { itemId: 辅助材料·月长石粉, weight: 8, minQty: 1, maxQty: 1, bindType: bound }
+      # M2.12：序列 8 配方的材料（拜朗传承 不眠者 / 愚者）
+      - { itemId: 主材料·梦境之核, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命运之线, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 6, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 安神药剂, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 4, minQty: 1, maxQty: 3, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·常青之根, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·地脉之心, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.39 批次 B：mother 的序列 3 主材料（weight 3 —— 比序列 4 那一味再稀一档）。
+      #   稀释已算：本地点总权重 51 → 54，既有 11 条各相对降 6%。
+      - { itemId: 主材料·生养之泉, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_016, daily_023, daily_030, lost_005 ]
+    adjacent: [ bone_market, jungle_ruins, plague_pit, bone_shuttle ]
+
+  - id: jungle_ruins
+    name: 丛林遗迹
+    min_seq: 8
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·灰雾结晶, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·夜之瞳, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 无名者骨牌, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 骨粉, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+      - { itemId: 便士, weight: 3, minQty: 3, maxQty: 8, bindType: unbound }
+    events: [ daily_021, daily_024, daily_026, random_006, lost_003, lost_006 ]
+    adjacent: [ sun_temple, plague_camp, plague_pit ]
+
+  # ---------------- 苏尼亚海（海域，只能被「到达」） ----------------
+  # 全部 min_seq: 8：出海不是新号干的事，所以这五个地点一个都不在 CI 的
+  # 「新号可达地点」硬门里（20×3 那一轮不要求覆盖它们，见 coverage.ts 的 starterLocations）。
+  - id: storm_cape
+    name: 风暴角
+    min_seq: 8
+    max_seq: 0
+    danger: 4
+    loot:
+      - { itemId: 便士, weight: 8, minQty: 2, maxQty: 5, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 8, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 主材料·战火余烬, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 铜哨, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 海盐结晶, weight: 6, minQty: 1, maxQty: 3, bindType: unbound }
+      # M2.76：本城开放途径**全部序列（9—2）**的魔药材料产出点。
+      # 落在这里是因为它的 min_seq 最大（= 要求最低），任何序列的玩家都到得了 ——
+      # 落在 min_seq 小的地点会让低序列玩家拿不到高序列材料（link-check 会拦）。
+      - { itemId: 主材料·海盐结晶, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·祭海之贝, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·银粉, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·压舱之石, weight: 11, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·月长石粉, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·怒潮之角, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·深海的回声, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·潮汐之骨, weight: 7, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·深潮之珠, weight: 14, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·操舵之盘, weight: 13, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 12, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_010, daily_021, daily_028, lost_002 ]
+    adjacent: [ coral_reef, mirage_bay, divine_war_ruins ]
+
+  - id: coral_reef
+    name: 珊瑚暗礁
+    min_seq: 8
+    max_seq: 0
+    danger: 3
+    loot:
+      - { itemId: 辅助材料·月长石粉, weight: 10, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 夜香草, weight: 8, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 主材料·灰雾结晶, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 6, minQty: 1, maxQty: 4, bindType: unbound }
+    events: [ daily_012, daily_024, daily_029, random_006, lost_004 ]
+    adjacent: [ storm_cape, nameless_isle, divine_war_ruins, sunia_sea ]
+
+  - id: ghost_graveyard
+    name: 幽灵船墓地
+    min_seq: 8
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 无名者骨牌, weight: 5, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·夜之瞳, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 旧日记残页, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+      - { itemId: 便士, weight: 4, minQty: 3, maxQty: 8, bindType: unbound }
+    events: [ daily_014, daily_026, daily_030, lost_005, lost_007 ]
+    adjacent: [ nameless_isle, mirage_bay ]
+
+  - id: nameless_isle
+    name: 无名小岛
+    min_seq: 8
+    max_seq: 0
+    danger: 3
+    loot:
+      - { itemId: 夜香草, weight: 10, minQty: 1, maxQty: 3, bindType: bound }
+      - { itemId: 辅助材料·银粉, weight: 8, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 潮湿的火柴, weight: 5, minQty: 1, maxQty: 2, bindType: unbound }
+      - { itemId: 主材料·战火余烬, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_016, daily_020, daily_025, lost_001 ]
+    adjacent: [ coral_reef, ghost_graveyard ]
+
+  - id: mirage_bay
+    name: 蜃景湾
+    min_seq: 8
+    max_seq: 0
+    danger: 4
+    loot:
+      - { itemId: 主材料·灰雾结晶, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·月长石粉, weight: 8, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 苦艾酒, weight: 5, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 海盐结晶, weight: 5, minQty: 1, maxQty: 2, bindType: unbound }
+      - { itemId: 便士, weight: 5, minQty: 2, maxQty: 6, bindType: unbound }
+    events: [ daily_018, daily_023, daily_027, random_006, lost_003 ]
+    adjacent: [ storm_cape, ghost_graveyard ]
+
+  # ---------------- 贝克兰德（鲁恩王国 · 首都，战士 / 愚者） ----------------
+  # 注意：原有 11 个地点里的 tingen / backlund 两条**本来就是城市名**。
+  # M2.7 把它们各自当成所在城市的「城区地点」：
+  #   - backlund 是贝克兰德城的 center（下面这五个都绕着它）；
+  #   - tingen 是廷根城的 center，而迷雾街区 / 老码头 / 墓园小径等九个地点**全部归廷根城**。
+  # 为什么这么分：那九个地点在 M2.2 的天气扩散图里本来就是围着 tingen 连成一片的
+  # （见各自的 adjacent），把它们拆到两座城市会让「廷根都会区」这个概念凭空断成两半。
+  # 副作用是好的：现有实例测试里所有的 .探索 老码头 之类**一个都不用改**。
+  - id: backlund_bridge
+    name: 大桥区
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      # M2.33：本地点新增序列 7 的产出点（每味 weight 4，与 M2.26/M2.29 同手法）。
+      #   稀释已算：本地点总权重 36 → 40，既有 6 条各相对降 10%（深海的回声 / 祭海之贝 / 银粉 各 11.1%/22.2% → 10.0%/20.0%）。
+      #   ⚠️ 加条目会让既有材料**相对降** —— 这是 M2.20 §五 的坑，数字就地记在这里，别只写在 docs 里。
+      - { itemId: 主材料·深潮之珠, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 11, minQty: 2, maxQty: 6, bindType: unbound }
+      - { itemId: 旧日记残页, weight: 5, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·银粉, weight: 8, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 潮湿的火柴, weight: 4, minQty: 1, maxQty: 2, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·深海的回声, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·祭海之贝, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_013, daily_027, lost_003 ]
+    adjacent: [ backlund, backlund_theatre, st_samuel_cathedral, st_shillan_cathedral, harvest_church, mi9, capital_police_hq, brave_bar ]
+
+  - id: backlund_theatre
+    name: 皇家剧院
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      # M2.33：本地点新增序列 7 的产出点（每味 weight 4，与 M2.26/M2.29 同手法）。
+      #   稀释已算：本地点总权重 35 → 39，既有 6 条各相对降 10%（边注残卷 / 百科之钥 各 11.4% → 10.3%）。
+      #   ⚠️ 加条目会让既有材料**相对降** —— 这是 M2.20 §五 的坑，数字就地记在这里，别只写在 docs 里。
+      - { itemId: 主材料·解读之墨, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 9, minQty: 2, maxQty: 5, bindType: unbound }
+      - { itemId: 黑纱手套, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·月长石粉, weight: 9, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 苦艾酒, weight: 5, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·边注残卷, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·百科之钥, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_019, daily_002, random_006, lost_004 ]
+    adjacent: [ backlund_bridge, backlund_cathedral ]
+
+  - id: backlund_slum
+    name: 东区贫民窟
+    min_seq: 9
+    max_seq: 0
+    danger: 3
+    loot:
+      # M2.33：本地点新增序列 7 的产出点（每味 weight 4，与 M2.26/M2.29 同手法）。
+      #   稀释已算：本地点总权重 50 → 54，既有 9 条各相对降 7%（战火余烬 20.0% → 18.5%、无梦之眠 / 彼岸之尘 各 8.0% → 7.4%）。
+      #   ⚠️ 加条目会让既有材料**相对降** —— 这是 M2.20 §五 的坑，数字就地记在这里，别只写在 docs 里。
+      - { itemId: 主材料·长夜之露, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 10, minQty: 2, maxQty: 5, bindType: unbound }
+      - { itemId: 淬火匕首, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 夜香草, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 主材料·战火余烬, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.18 E1：与潮汐码头同一条理由（见那份注释）——把 8→7 的主材料放进序列 8 玩家真的去的地方。
+      # 东区贫民窟在序列 8 的探索里占 7.6%（第 3 名）。
+      # 梦境之核在这里再放一条：缺它的人最多（23 人 vs 13 / 13）。
+      - { itemId: 主材料·梦境之核, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命运之线, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.26-1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·校准之芯, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·无梦之眠, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·彼岸之尘, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_015, daily_022, lost_001 ]
+    adjacent: [ backlund, backlund_underground, rusted_gallery, backlund_forge ]
+
+  - id: backlund_cathedral
+    name: 圣塞琳娜大教堂
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      # M2.33：本地点新增序列 7 的产出点（每味 weight 4，与 M2.26/M2.29 同手法）。
+      #   稀释已算：本地点总权重 37 → 41，既有 6 条各相对降 10%（拆解之匙 / 万机之心 各 10.8% → 9.8%）。
+      #   ⚠️ 加条目会让既有材料**相对降** —— 这是 M2.20 §五 的坑，数字就地记在这里，别只写在 docs 里。
+      - { itemId: 主材料·机械之枢, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 12, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 教会徽记, weight: 2, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 旧日记残页, weight: 5, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·灰雾结晶, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·拆解之匙, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·万机之心, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_017, daily_009, lost_002 ]
+    adjacent: [ backlund_theatre, backlund_underground, backlund_war_vault ]
+
+  - id: backlund_underground
+    name: 地下蒸汽管网
+    min_seq: 8
+    max_seq: 0
+    danger: 4
+    loot:
+      # M2.33：本地点新增序列 7 的产出点（每味 weight 4，与 M2.26/M2.29 同手法）。
+      #   稀释已算：本地点总权重 50 → 54，既有 10 条各相对降 7%（不折之钢 / 断刃残片 / 齿轮之心 / 破晓碎片 各 8.0% → 7.4%）。
+      #   ⚠️ 加条目会让既有材料**相对降** —— 这是 M2.20 §五 的坑，数字就地记在这里，别只写在 docs 里。
+      - { itemId: 主材料·断刃之心, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·灰雾结晶, weight: 9, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·银粉, weight: 8, minQty: 1, maxQty: 2, bindType: bound }
+      # M2.12：序列 8 配方的材料（贝克兰德传承 战士 / 愚者）
+      - { itemId: 主材料·破晓碎片, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命运之线, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 6, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 铜哨, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 4, minQty: 2, maxQty: 6, bindType: unbound }
+      # M2.26-1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·齿轮之心, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·不折之钢, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·断刃残片, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_024, daily_028, random_006, lost_005 ]
+    adjacent: [ backlund_slum, backlund_cathedral, rusted_gallery, old_weavery, backlund_works, backlund_furnace ]
+  # ---------------- M2.12：五座城市的序列 7 门槛地点 ----------------
+  #
+  # 为什么要有它们（三件事叠在一起）：
+  #   1. **序列 7 的猎场**：min_seq 7 意味着只有序列 7 及以上的人进得去（玩家的序列号 ≤ min_seq）。
+  #      那里的生物是序列 8 的 —— 序列 7 的玩家打它们，正好落在感知分层的 advantage 层。
+  #      M2.8 起 advantage 在跑批里几乎见不到，根因是当时玩家最高只有序列 9：
+  #      序列 9 打序列 8 是「弱 1 级」，看到的是 silhouette，不是 advantage。
+  #   2. **序列 8 配方的材料在这里也有产出**（主材料 + 星尘粉），让「升到序列 7」闭环。
+  #   3. 每座城市各一个，所以不管玩家出生在哪，他升到序列 7 之后都有地方可去。
+  #
+  # ⚠️ 材料**同时**在 min_seq 8 的地点有产出 —— 这不是重复，是必须的：
+  # 序列 8 的人进不了 min_seq 7 的地点（8 > 7），只放在这里会让链路死锁。
+  # loader 的「配方材料地理可达性」校验按配方自己的序列查，正是为了挡住这种写错。
+  - id: fog_chapel
+    name: 雾中礼拜堂
+    min_seq: 7
+    max_seq: 0
+    danger: 4
+    loot:
+      # M2.33：本地点新增序列 7 的产出点（每味 weight 4，与 M2.26/M2.29 同手法）。
+      #   稀释已算：本地点总权重 38 → 46，既有 8 条各相对降 17%（无面之皮 / 牵线之心 / 无梦之眠 / 彼岸之尘 各 10.5% → 8.7%）。
+      #   ⚠️ 加条目会让既有材料**相对降** —— 这是 M2.20 §五 的坑，数字就地记在这里，别只写在 docs 里。
+      - { itemId: 主材料·无面之镜, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·长夜之露, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命运之线, weight: 6, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 主材料·灰雾结晶, weight: 5, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 4, minQty: 2, maxQty: 6, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·无面之皮, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·无梦之眠, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·牵线之心, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·彼岸之尘, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.39 批次 B：sleepless 的两味。
+      #   稀释已算：本地点总权重 46 → 50，既有 10 条各相对降 8%（无面之镜 / 牵线之心 等各 8.7% → 8.0%）。
+      #   ⚠️ 加条目会让既有材料**相对降** —— 这是 M2.20 §五 的坑，数字就地记在这里，别只写在 docs 里。
+      - { itemId: 主材料·织梦之丝, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·不熄之灯, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ seq7_001, seq7_002, daily_013, lost_003 ]
+    adjacent: [ blackthorn_abbey, above_grey_fog, grey_loom ]
+
+  - id: rusted_gallery
+    name: 锈蚀回廊
+    min_seq: 7
+    max_seq: 0
+    danger: 4
+    loot:
+      # M2.33：本地点新增序列 7 的产出点（每味 weight 4，与 M2.26/M2.29 同手法）。
+      #   稀释已算：本地点总权重 26 → 30，既有 6 条各相对降 13%（破晓碎片 23.1% → 20.0%、无面之皮 / 牵线之心 各 15.4% → 13.3%）。
+      #   ⚠️ 加条目会让既有材料**相对降** —— 这是 M2.20 §五 的坑，数字就地记在这里，别只写在 docs 里。
+      - { itemId: 主材料·无面之镜, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·破晓碎片, weight: 6, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·战火余烬, weight: 5, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 淬火匕首, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 4, minQty: 2, maxQty: 6, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·无面之皮, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·牵线之心, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ seq7_003, daily_024, random_006, lost_005 ]
+    adjacent: [ backlund_underground, backlund_slum, old_weavery, backlund_forge, backlund_war_vault, backlund_works, backlund_furnace ]
+
+  - id: tide_cavern
+    name: 潮汐石窟
+    min_seq: 7
+    max_seq: 0
+    danger: 5
+    loot:
+      # M2.33：本地点新增序列 7 的产出点（每味 weight 4，与 M2.26/M2.29 同手法）。
+      #   稀释已算：本地点总权重 30 → 34，既有 6 条各相对降 12%（不折之钢 / 断刃残片 各 13.3% → 11.8%）。
+      #   ⚠️ 加条目会让既有材料**相对降** —— 这是 M2.20 §五 的坑，数字就地记在这里，别只写在 docs 里。
+      - { itemId: 主材料·断刃之心, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·梦境之核, weight: 6, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·月长石粉, weight: 7, minQty: 1, maxQty: 1, bindType: bound }
+      - { itemId: 海盐结晶, weight: 5, minQty: 1, maxQty: 2, bindType: unbound }
+      - { itemId: 便士, weight: 4, minQty: 3, maxQty: 8, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·不折之钢, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·断刃残片, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.39 批次 B：sleepless 的序列 3 主材料。
+      #   稀释已算：本地点总权重 34 → 36，既有 7 条各相对降 6%（不折之钢 / 断刃残片 各 11.8% → 11.1%）。
+      - { itemId: 主材料·不熄之灯, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.39 批次 B：sailor 的序列 3 主材料。
+      #   稀释已算：本地点总权重 36 → 38，既有 8 条各相对降 5%。
+      - { itemId: 主材料·怒潮之角, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.39 批次 B：perfect 的序列 4 主材料在这里**再放一个跨城副本点**（K17 由 backlund_works 满足，
+      #   这一条只是让「水手 / 完美者同城竞争」在这座石窟里真的成立）。
+      #   稀释已算：本地点总权重 38 → 42，既有 9 条各相对降 10%。
+      - { itemId: 主材料·自合之匣, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ seq7_004, daily_030, random_006, lost_005 ]
+    adjacent: [ smugglers_cave, lighthouse, pritz_sunken_hulk, pritz_battle_reef ]
+
+  - id: deep_catacombs
+    name: 墓窟深处
+    min_seq: 7
+    max_seq: 0
+    danger: 5
+    loot:
+      # M2.33：本地点新增序列 7 的产出点（每味 weight 4，与 M2.26/M2.29 同手法）。
+      #   稀释已算：本地点总权重 37 → 45，既有 8 条各相对降 18%（无面之皮 / 牵线之心 / 不折之钢 / 断刃残片 各 10.8% → 8.9%）。
+      #   ⚠️ 加条目会让既有材料**相对降** —— 这是 M2.20 §五 的坑，数字就地记在这里，别只写在 docs 里。
+      - { itemId: 主材料·无面之镜, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·断刃之心, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命运之线, weight: 5, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·破晓碎片, weight: 5, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 便士, weight: 4, minQty: 3, maxQty: 8, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·无面之皮, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·不折之钢, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·牵线之心, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·断刃残片, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.39 批次 B：reader 的两味。
+      #   稀释已算：本地点总权重 45 → 53，既有 10 条各相对降 15%（无面之镜 / 断刃之心 等各 8.9% → 7.5%）。
+      #   ⚠️ 加条目会让既有材料**相对降** —— 这是 M2.20 §五 的坑，数字就地记在这里，别只写在 docs 里。
+      - { itemId: 主材料·总目之册, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·通晓之印, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ seq7_005, daily_029, lost_006, lost_007 ]
+    adjacent: [ catacombs, ironworks, iron_loom, trier_ossuary ]
+
+  - id: plague_pit
+    name: 疫病坑
+    min_seq: 7
+    max_seq: 0
+    danger: 4
+    loot:
+      # M2.33：本地点新增序列 7 的产出点（每味 weight 4，与 M2.26/M2.29 同手法）。
+      #   稀释已算：本地点总权重 37 → 45，既有 8 条各相对降 18%（无面之皮 / 牵线之心 / 无梦之眠 / 彼岸之尘 各 10.8% → 8.9%）。
+      #   ⚠️ 加条目会让既有材料**相对降** —— 这是 M2.20 §五 的坑，数字就地记在这里，别只写在 docs 里。
+      - { itemId: 主材料·无面之镜, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·长夜之露, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·梦境之核, weight: 5, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命运之线, weight: 5, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 便士, weight: 4, minQty: 2, maxQty: 6, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·无面之皮, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A1：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·无梦之眠, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·牵线之心, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.29-A2：本地点新增产出点（M2.30 事故重建，权重 4）。
+      - { itemId: 主材料·彼岸之尘, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.39 批次 B：sleepless 的两味。
+      #   稀释已算：本地点总权重 45 → 49，既有 10 条各相对降 8%（彼岸之尘 / 牵线之心 等各 8.9% → 8.2%）。
+      - { itemId: 主材料·织梦之丝, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·不熄之灯, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      # M2.39 批次 B：mother 的序列 4 主材料（weight 4 —— 母亲的主材料沿既有档，不减半）。
+      #   稀释已算：本地点总权重 49 → 53，既有 12 条各相对降 8%。
+      - { itemId: 主材料·留种之荚, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ seq7_006, daily_023, lost_005 ]
+    adjacent: [ plague_camp, jungle_ruins, bone_shuttle, renewing_terrace ]
+
+  # ================= M2.39 批次 B：序列 4、3 的深层产出点 =================
+  #
+  # ## 为什么是「新增」而不是「下沉」
+  # 把既有地点的 min_seq 从 7 改成 5，会让 seer_6 / seer_7 的主材料**当年就违规**
+  # （K17 要求 location.min_seq >= recipe.seq，5 >= 6 为假）⇒ 只能新增一层，不能下沉。
+  #
+  # ## 为什么 min_seq 取 5 而不是 4
+  # min_seq 的语义是「序列 ≤ 5 的人进得去」。取 4 会把序列 5 的玩家挡在外面 ——
+  # 他们没法先行囤货／卖钱，在 200 人规模的批里会把材料锁死在一个极小的人口上（K13 的形状）。
+  # 5 是「更深、但仍然可交易」的那一档。
+  #
+  # ## danger 取 5（各途径设计稿写 6）
+  # ⚠️ schema 的上限就是 5（domain/explore/location.ts 的 danger 是 int 0—5），
+  #    写 6 会让 parseLocation 直接失败、loadContent 报 error、服务端起不来。
+  #    全库 41 个地点的 danger 都在 0—5，5 已经是既有的最高档。
+  #
+  # ## loot 权重（每地点总权重 45）
+  # seer 两味主材料是 2 / 1 ⇒ 命中率 2/45 = 4.4%、1/45 = 2.2%，
+  # 相对序列 5 的 4/46 = 8.7% 正好「权重减半再减半」（设计稿 §4.3 的稀有度杠杆）。
+  # 其余 42 点由辅料三味 + 灰雾结晶 + 便士填；后续途径落地时**从这些填充里让出权重**，
+  # 保持每个地点的总权重不涨 —— 否则先落地的途径会被后面的途径稀释（M2.20 §五 的坑）。
+  #
+  # ⚠️ adjacent 必须**双向声明**（test/weather.test.ts 守着）：新地点指向谁，
+  #    谁就要指回来。下面四处的对面（fog_chapel / above_grey_fog / rusted_gallery /
+  #    backlund_underground / deep_catacombs / ironworks / plague_pit / plague_camp）已同批加好。
+  - id: grey_loom
+    name: 灰雾织坊
+    min_seq: 5
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·定数之结, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命途之梭, weight: 1, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·银粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·月长石粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 主材料·灰雾结晶, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 15, minQty: 3, maxQty: 9, bindType: unbound }
+    events: [ daily_013, lost_003 ]
+    adjacent: [ fog_chapel, above_grey_fog, house_of_deja_vu ]
+
+  - id: old_weavery
+    name: 旧织造厂
+    min_seq: 5
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·定数之结, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命途之梭, weight: 1, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·银粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·月长石粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 主材料·灰雾结晶, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 15, minQty: 3, maxQty: 9, bindType: unbound }
+    events: [ daily_013, lost_003 ]
+    adjacent: [ rusted_gallery, backlund_underground ]
+
+  - id: iron_loom
+    name: 铁线工坊
+    min_seq: 5
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·定数之结, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命途之梭, weight: 1, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·银粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·月长石粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 主材料·灰雾结晶, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 15, minQty: 3, maxQty: 9, bindType: unbound }
+    events: [ daily_013, lost_003 ]
+    adjacent: [ deep_catacombs, ironworks, unrecorded_vault ]
+
+  - id: bone_shuttle
+    name: 骨梭地窖
+    min_seq: 5
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·定数之结, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命途之梭, weight: 1, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·银粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·月长石粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 主材料·灰雾结晶, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 15, minQty: 3, maxQty: 9, bindType: unbound }
+    events: [ daily_013, lost_003 ]
+    adjacent: [ plague_pit, plague_camp, renewing_terrace ]
+
+  # ================= M2.39 批次 B：战士（warrior）序列 4、3 的产出点 =================
+  #
+  # 传承城市 = backlund / pritz / trier（cities.yaml 的 pathways 字段），所以每座城市各两层：
+  #   序列 4 的 min_seq 6、序列 3 的 min_seq 5（后者更深一档人口，对应更稀的主材料）。
+  # danger 取 5 是 schema 上限（设计稿写 6 会被 parseLocation 直接拒掉）。
+  #
+  # ## 权重（每地点总权重 60）
+  # 不坠之旗 3/60 = 5.0%、常胜之印 2/60 = 3.3% —— 与设计稿 §4.1 的目标命中率一致。
+  # 其余 53—58 点由辅料三味 + 灰雾结晶 + 战火余烬 + 便士填（都是既有物品，新地点是新表，不动既有地点的权重）。
+  #
+  # ## adjacent 双向
+  # 对面九处（rusted_gallery / backlund_slum / backlund_cathedral / smugglers_cave /
+  # tide_cavern / lighthouse / deep_catacombs / catacombs / ironworks）已同批加好。
+  - id: backlund_forge
+    name: 废弃铸造厂
+    min_seq: 6
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·不坠之旗, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      # 辅料三味：warrior 的传承城市含 pritz，而 pritz 没有星尘粉 —— 所以这三味是银粉 / 月长石粉 / 圣盐。
+      - { itemId: 辅助材料·银粉, weight: 8, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·月长石粉, weight: 8, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·圣盐, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 主材料·灰雾结晶, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·战火余烬, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 14, minQty: 3, maxQty: 9, bindType: unbound }
+    events: [ daily_013, lost_003 ]
+    adjacent: [ rusted_gallery, backlund_slum ]
+
+  - id: pritz_sunken_hulk
+    name: 沉船残骸
+    min_seq: 6
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·不坠之旗, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      # 辅料三味：warrior 的传承城市含 pritz，而 pritz 没有星尘粉 —— 所以这三味是银粉 / 月长石粉 / 圣盐。
+      - { itemId: 辅助材料·银粉, weight: 8, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·月长石粉, weight: 8, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·圣盐, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 主材料·灰雾结晶, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·战火余烬, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 14, minQty: 3, maxQty: 9, bindType: unbound }
+    events: [ daily_013, lost_003 ]
+    adjacent: [ smugglers_cave, tide_cavern, windless_cape ]
+
+  - id: trier_ossuary
+    name: 白骨圣堂
+    min_seq: 6
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·不坠之旗, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      # 辅料三味：warrior 的传承城市含 pritz，而 pritz 没有星尘粉 —— 所以这三味是银粉 / 月长石粉 / 圣盐。
+      - { itemId: 辅助材料·银粉, weight: 8, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·月长石粉, weight: 8, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·圣盐, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 主材料·灰雾结晶, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·战火余烬, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 14, minQty: 3, maxQty: 9, bindType: unbound }
+    events: [ daily_013, lost_003 ]
+    adjacent: [ deep_catacombs, catacombs ]
+
+  - id: backlund_war_vault
+    name: 封存的军械库
+    min_seq: 5
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·常胜之印, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      # 辅料三味：warrior 的传承城市含 pritz，而 pritz 没有星尘粉 —— 所以这三味是银粉 / 月长石粉 / 圣盐。
+      - { itemId: 辅助材料·银粉, weight: 8, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·月长石粉, weight: 8, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·圣盐, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 主材料·灰雾结晶, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·战火余烬, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 15, minQty: 3, maxQty: 9, bindType: unbound }
+    events: [ daily_013, lost_003 ]
+    adjacent: [ rusted_gallery, backlund_cathedral ]
+
+  - id: pritz_battle_reef
+    name: 沉舰战礁
+    min_seq: 5
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·常胜之印, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      # 辅料三味：warrior 的传承城市含 pritz，而 pritz 没有星尘粉 —— 所以这三味是银粉 / 月长石粉 / 圣盐。
+      - { itemId: 辅助材料·银粉, weight: 8, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·月长石粉, weight: 8, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·圣盐, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 主材料·灰雾结晶, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·战火余烬, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 15, minQty: 3, maxQty: 9, bindType: unbound }
+    events: [ daily_013, lost_003 ]
+    adjacent: [ tide_cavern, lighthouse, windless_cape ]
+
+  - id: trier_war_crypt
+    name: 战殁者墓室
+    min_seq: 5
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·常胜之印, weight: 2, minQty: 1, maxQty: 1, bindType: unbound }
+      # 辅料三味：warrior 的传承城市含 pritz，而 pritz 没有星尘粉 —— 所以这三味是银粉 / 月长石粉 / 圣盐。
+      - { itemId: 辅助材料·银粉, weight: 8, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·月长石粉, weight: 8, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·圣盐, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 主材料·灰雾结晶, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·战火余烬, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 15, minQty: 3, maxQty: 9, bindType: unbound }
+    events: [ daily_013, lost_003 ]
+    adjacent: [ catacombs, ironworks, unrecorded_vault ]
+
+  # ================= M2.39 批次 B：完美者（perfect）序列 4、3 的产出点 =================
+  #
+  # 传承城市只有 backlund 一座 ⇒ 两个新地点都在那里：停摆车间（序列 4）与熄火炉膛（序列 3）。
+  # danger 5 = 现有最严档（tide_cavern / deep_catacombs 都在这一档），不抬上限。
+  #
+  # ## 权重（总权重 54 / 58，与设计稿一致）
+  # 主材料各 weight 4 ⇒ 4/54 = 7.4% 与 4/58 = 6.9%（现状序列 5 是 4/41 = 9.8%）。
+  # 其余 50 / 54 点由辅料三味 + 灰雾结晶 + 命运之线 + 便士填 —— 都是既有物品。
+  #
+  # ## adjacent 双向
+  # 对面两处（rusted_gallery / backlund_underground）已同批加好。
+  - id: backlund_works
+    name: 停摆车间
+    min_seq: 4
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·自合之匣, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·圣盐, weight: 8, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·月长石粉, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 主材料·灰雾结晶, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命运之线, weight: 8, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 10, minQty: 3, maxQty: 9, bindType: unbound }
+    events: [ daily_016, lost_003 ]
+    adjacent: [ rusted_gallery, backlund_underground, endless_workshop ]
+
+  - id: backlund_furnace
+    name: 熄火炉膛
+    min_seq: 3
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·不歇之摆, weight: 4, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·圣盐, weight: 8, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·月长石粉, weight: 7, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 主材料·灰雾结晶, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·命运之线, weight: 10, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 便士, weight: 12, minQty: 3, maxQty: 9, bindType: unbound }
+    events: [ daily_016, lost_003 ]
+    adjacent: [ rusted_gallery, backlund_underground, endless_workshop ]
+
+  # ================= M2.43 批次 C：min_seq 2 的 5 个产地 =================
+  # 为什么是 5 个而不是 7 个：产出点必须落在**传承城市**里，而城市是共享的 ——
+  #   tingen(seer+sleepless) / backlund(warrior+seer+perfect) / pritz(sleepless+warrior+sailor)
+  #   / trier(seer+warrior+reader) / byron(sleepless+seer+mother) ⇒ 七条途径正好全覆盖。
+  # ⚠️ 四味辅料在这里**全部**出现，是本轮被 loader 逼出来的：批次 C 的配方用满四味，而
+  #    圣盐在 tingen/byron、星尘粉在 pritz 都没有 min_seq ≤ 7 的产出点 —— 第 2 项按城市逐条查，
+  #    缺一味就是一条 error。把四味都放在最深的一档，比在九座老地点里各补一味更干净。
+  # ⚠️ danger 取 5（schema 上限）、max_seq: 0、events 非空、adjacent **双向**（test/weather.test.ts 守着）。
+
+  - id: house_of_deja_vu
+    name: 梦回之宅
+    min_seq: 2
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·既视之环, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·永夜之幕, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·银粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·月长石粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·星尘粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 便士, weight: 12, minQty: 4, maxQty: 12, bindType: unbound }
+    events: [ daily_030, lost_005 ]
+    adjacent: [ above_grey_fog, grey_loom ]
+
+  - id: endless_workshop
+    name: 无终工坊
+    min_seq: 2
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·陷阵之甲, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·既视之环, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·永动之轮, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·银粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·月长石粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·星尘粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 便士, weight: 12, minQty: 4, maxQty: 12, bindType: unbound }
+    events: [ daily_016, lost_003 ]
+    adjacent: [ backlund_furnace, backlund_works ]
+
+  - id: windless_cape
+    name: 无风之角
+    min_seq: 2
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·永夜之幕, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·陷阵之甲, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·操舵之盘, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·银粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·月长石粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·星尘粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 便士, weight: 12, minQty: 4, maxQty: 12, bindType: unbound }
+    events: [ daily_022, random_007 ]
+    adjacent: [ pritz_battle_reef, pritz_sunken_hulk ]
+
+  - id: unrecorded_vault
+    name: 未录之库
+    min_seq: 2
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·既视之环, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·陷阵之甲, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·全知之页, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·银粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·月长石粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·星尘粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 便士, weight: 12, minQty: 4, maxQty: 12, bindType: unbound }
+    events: [ daily_019, lost_002 ]
+    adjacent: [ iron_loom, trier_war_crypt ]
+
+  - id: renewing_terrace
+    name: 再生的田垄
+    min_seq: 2
+    max_seq: 0
+    danger: 5
+    loot:
+      - { itemId: 主材料·永夜之幕, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·既视之环, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 主材料·轮回之种, weight: 3, minQty: 1, maxQty: 1, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·银粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·月长石粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 辅助材料·星尘粉, weight: 6, minQty: 1, maxQty: 2, bindType: bound }
+      - { itemId: 便士, weight: 12, minQty: 4, maxQty: 12, bindType: unbound }
+    events: [ daily_009, random_003 ]
+    adjacent: [ bone_shuttle, plague_pit ]
+
+  # M2.85 内容填充 P2：康斯顿城 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=city）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: konstun_center
+    name: 康斯顿城城区
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_008, daily_007, daily_006 ]
+    adjacent: [ tingen ]
+
+  # M2.85 内容填充 P2：恩马特港 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=port）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: enmat_center
+    name: 恩马特港城区
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·银粉, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_029, daily_028, daily_027 ]
+    adjacent: [ tingen ]
+
+  # M2.85 内容填充 P2：斯托恩城 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=city）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: storn_center
+    name: 斯托恩城城区
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·月长石粉, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_026, daily_025, daily_024 ]
+    adjacent: [ tingen ]
+
+  # M2.85 内容填充 P2：贝尔丹市 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=city）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: beldan_center
+    name: 贝尔丹市城区
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_004, daily_003, daily_002 ]
+    adjacent: [ tingen ]
+
+  # M2.85 内容填充 P2：利蒙市 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=city）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: limon_center
+    name: 利蒙市城区
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“凶蛮之犬”的血液, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_009, daily_008, daily_007 ]
+    adjacent: [ tingen ]
+
+  # M2.85 内容填充 P2：康纳特市 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=city）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: connate_center
+    name: 康纳特市城区
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“古代邪物”常用物品1件, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_028, daily_027, daily_026 ]
+    adjacent: [ tingen ]
+
+  # M2.85 内容填充 P2：班西港 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=port）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: banshee_port_center
+    name: 班西港城区
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“大恶魔”的黑色心脏一颗（大恶魔不止一颗心脏）, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_018, daily_017, daily_016 ]
+    adjacent: [ tingen ]
+
+  # M2.85 内容填充 P2：达米尔港 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=port）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: damir_port_center
+    name: 达米尔港城区
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“太阳”精油, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_011, daily_010, daily_009 ]
+    adjacent: [ tingen ]
+
+  # M2.85 内容填充 P2：拉姆德镇 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=town）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: ramd_town_center
+    name: 拉姆德镇城区
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“头脑漫游者”的虚质光点9个/信息洪流遗留光点, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_015, daily_014, daily_013 ]
+    adjacent: [ tingen ]
+
+  # M2.85 内容填充 P2：维尼亚镇 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=town）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: vinia_town_center
+    name: 维尼亚镇城区
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“岩浆之魔”的熔融之液, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_018, daily_017, daily_016 ]
+    adjacent: [ tingen ]
+
+  # M2.85 内容填充 P2：比戈尔 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=city）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: bigorre_center
+    name: 比戈尔城区
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“平衡者”或相应事物的污染物, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_014, daily_013, daily_012 ]
+    adjacent: [ trier ]
+
+  # M2.85 内容填充 P2：达列日 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=city）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: daliege_center
+    name: 达列日城区
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“幻想古妖”的血液130毫升/“贤者”的血液, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_029, daily_028, daily_027 ]
+    adjacent: [ trier ]
+
+  # M2.85 内容填充 P2：奥米尔 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=city）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: aumir_center
+    name: 奥米尔城区
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“心灵之妖”的诅咒附着物1件, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_028, daily_027, daily_026 ]
+    adjacent: [ trier ]
+
+  # M2.85 内容填充 P2：科尔杜村 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=village）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: koldur_center
+    name: 科尔杜村城区
+    min_seq: 9
+    max_seq: 0
+    danger: 0
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“怨魂”的血液100毫升或被“怨魂”污染产生的阴冷之水, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_001, daily_030, daily_029 ]
+    adjacent: [ trier ]
+
+  # M2.85 内容填充 P2：圣密隆 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=capital）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: saint_miron_center
+    name: 圣密隆城区
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“怨魂”遗留的粉尘, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_017, daily_016, daily_015 ]
+    adjacent: [ tingen ]
+
+  # M2.85 内容填充 P2：费内波特城 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=capital）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: fennepot_city_center
+    name: 费内波特城城区
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“无皮血猫”的血液, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_017, daily_016, daily_015 ]
+    adjacent: [ tingen ]
+
+  # M2.85 内容填充 P2：艾萨拉 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=capital）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: aisara_center
+    name: 艾萨拉城区
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“星空仰望者”的脑液, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_025, daily_024, daily_023 ]
+    adjacent: [ tingen ]
+
+  # M2.85 内容填充 P2：拜亚姆 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=city）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: byam_center
+    name: 拜亚姆城区
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“暗影之蛇”的血液, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_009, daily_008, daily_007 ]
+    adjacent: [ tingen ]
+
+  # M2.85 内容填充 P2：新白银城 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=city）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: new_silver_city_center
+    name: 新白银城城区
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“木偶”的发丝, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_018, daily_017, daily_016 ]
+    adjacent: [ tingen ]
+
+  # M2.85 内容填充 P2：新月城 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=city）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: new_moon_city_center
+    name: 新月城城区
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“木偶”穿过的衣物1件或经常使用的物品1件, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_026, daily_025, daily_024 ]
+    adjacent: [ tingen ]
+
+  # M2.85 内容填充 P2：白银城 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=city）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: silver_city_center
+    name: 白银城城区
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“杀人黑鸦”的血液, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_005, daily_004, daily_003 ]
+    adjacent: [ tingen ]
+
+  # M2.85 内容填充 P2：月城 的落脚点（源：诡秘之主原作数据/05-地理/城市.yaml，原作 type=city）
+  # ⚠️ loot 是**项目派生**（原作城市没有掉落数据）：便士必给 + 1 种辅助材料；danger ≥3 再给 1 种主材料
+  - id: moon_city_center
+    name: 月城城区
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“森林之子”的血液, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_011, daily_010, daily_009 ]
+    adjacent: [ tingen ]
+
+  # M2.85 内容填充 P2：圣赛缪尔教堂（源：诡秘之主原作数据/05-地理/地点.yaml，原作 type=church）
+  # ⚠️ loot 是**项目派生**（原作地点没有掉落数据）
+  - id: st_samuel_cathedral
+    name: 圣赛缪尔教堂
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 8, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_008, daily_007, daily_006 ]
+    adjacent: [ backlund, backlund_bridge ]
+    name_note: 世界历史条目与城市条目中均有「圣赛缪尔」，部分章节亦作「赛缪尔教堂」
+    place_type: church
+    deity: 黑夜女神
+    country: 鲁恩王国
+    role: 黑夜女神教会贝克兰德教区总部
+    notable_events:
+      - 克莱恩曾借“道恩·唐泰斯”身份接近此教堂，摸清内部看守者的执勤规律，以盗窃安提哥努斯家族笔记
+      - 克莱恩成功潜入圣赛缪尔教堂，但在成功前一刻被封印物 0-17（黑夜女神）“隐秘”，进入迷雾小镇
+      - 克莱恩在此偶遇伦纳德·米切尔，被寄生在伦纳德身上的帕列斯·索罗亚斯德感应到“古老（源堡）的气息”
+    status: 现存
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：圣赛琳娜教堂（源：诡秘之主原作数据/05-地理/地点.yaml，原作 type=church）
+  # ⚠️ loot 是**项目派生**（原作地点没有掉落数据）
+  - id: st_selena_cathedral
+    name: 圣赛琳娜教堂
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 8, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_007, daily_006, daily_005 ]
+    adjacent: [ tingen, mist_street ]
+    name_note: ''
+    place_type: church
+    deity: 黑夜女神
+    country: 鲁恩王国
+    role: 黑夜女神教会的廷根市总部
+    notable_events: []
+    status: 现存
+    sources: []
+    confidence: 中高（建筑位置来自 S7 个人整理，标中；“圣赛琳娜”其人来自 S2，中高）
+
+  # M2.85 内容填充 P2：圣希尔兰教堂（源：诡秘之主原作数据/05-地理/地点.yaml，原作 type=church）
+  # ⚠️ loot 是**项目派生**（原作地点没有掉落数据）
+  - id: st_shillan_cathedral
+    name: 圣希尔兰教堂
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 8, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_026, daily_025, daily_024 ]
+    adjacent: [ backlund, backlund_bridge ]
+    name_note: ''
+    place_type: church
+    deity: 蒸汽与机械之神
+    country: 鲁恩王国
+    role: 蒸汽与机械之神教会贝克兰德教区总部
+    notable_events: []
+    status: 现存
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：丰收教堂（源：诡秘之主原作数据/05-地理/地点.yaml，原作 type=church）
+  # ⚠️ loot 是**项目派生**（原作地点没有掉落数据）
+  - id: harvest_church
+    name: 丰收教堂
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 8, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_013, daily_012, daily_011 ]
+    adjacent: [ backlund, backlund_bridge ]
+    name_note: ''
+    place_type: church
+    deity: ''
+    country: 鲁恩王国
+    role: ''
+    notable_events: []
+    status: 现存
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：海浪教堂（源：诡秘之主原作数据/05-地理/地点.yaml，原作 type=church）
+  # ⚠️ loot 是**项目派生**（原作地点没有掉落数据）
+  - id: sea_wave_church
+    name: 海浪教堂
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 8, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_027, daily_026, daily_025 ]
+    adjacent: [ tingen ]
+    name_note: ''
+    place_type: church
+    deity: 风暴之主
+    country: 鲁恩王国殖民地（东拜朗）
+    role: ''
+    notable_events: []
+    status: 现存
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：圣数教堂（源：诡秘之主原作数据/05-地理/地点.yaml，原作 type=church）
+  # ⚠️ loot 是**项目派生**（原作地点没有掉落数据）
+  - id: saint_number_church
+    name: 圣数教堂
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 8, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_029, daily_028, daily_027 ]
+    adjacent: [ tingen, mist_street ]
+    name_note: ''
+    place_type: church
+    deity: 蒸汽与机械之神
+    country: 鲁恩王国
+    role: 蒸汽与机械之神教会的廷根市总部
+    notable_events: []
+    status: 现存
+    sources: []
+    confidence: 中
+
+  # M2.85 内容填充 P2：河与海教堂（源：诡秘之主原作数据/05-地理/地点.yaml，原作 type=church）
+  # ⚠️ loot 是**项目派生**（原作地点没有掉落数据）
+  - id: river_and_sea_church
+    name: 河与海教堂
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 8, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_020, daily_019, daily_018 ]
+    adjacent: [ tingen, mist_street ]
+    name_note: ''
+    place_type: church
+    deity: 风暴之主
+    country: 鲁恩王国
+    role: 风暴之主教会的廷根市总部
+    notable_events: []
+    status: 现存
+    sources: []
+    confidence: 中
+
+  # M2.85 内容填充 P2：黑荆棘安保公司（源：诡秘之主原作数据/05-地理/地点.yaml，原作 type=organization_site）
+  # ⚠️ loot 是**项目派生**（原作地点没有掉落数据）
+  - id: blackthorn_security
+    name: 黑荆棘安保公司
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 便士, weight: 8, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_027, daily_026, daily_025 ]
+    adjacent: [ tingen, mist_street ]
+    name_note: 本项目既有数据中另有地点 id「blackthorn_abbey / 黑荆棘修道院」，二者**不是同一处**，勿混
+    place_type: organization_site
+    deity: ''
+    country: 鲁恩王国
+    role: ''
+    notable_events: []
+    status: 现存
+    sources: []
+    confidence: 中高（地址来自 S7，标中）
+
+  # M2.85 内容填充 P2：军情九处（源：诡秘之主原作数据/05-地理/地点.yaml，原作 type=government_site）
+  # ⚠️ loot 是**项目派生**（原作地点没有掉落数据）
+  - id: mi9
+    name: 军情九处
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 便士, weight: 8, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·银粉, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_003, daily_002, daily_001 ]
+    adjacent: [ backlund, backlund_bridge ]
+    name_note: ''
+    place_type: government_site
+    deity: ''
+    country: 鲁恩王国
+    role: ''
+    notable_events: []
+    status: 现存
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：首都警察厅总部（源：诡秘之主原作数据/05-地理/地点.yaml，原作 type=government_site）
+  # ⚠️ loot 是**项目派生**（原作地点没有掉落数据）
+  - id: capital_police_hq
+    name: 首都警察厅总部
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 便士, weight: 8, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·月长石粉, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_003, daily_002, daily_001 ]
+    adjacent: [ backlund, backlund_bridge ]
+    name_note: ''
+    place_type: government_site
+    deity: ''
+    country: 鲁恩王国
+    role: ''
+    notable_events: []
+    status: 现存
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：橡树岛皇家海军基地（源：诡秘之主原作数据/05-地理/地点.yaml，原作 type=military_site）
+  # ⚠️ loot 是**项目派生**（原作地点没有掉落数据）
+  - id: oak_island_base
+    name: 橡树岛皇家海军基地
+    min_seq: 9
+    max_seq: 0
+    danger: 3
+    loot:
+      - { itemId: 便士, weight: 8, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·星尘粉, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+      - { itemId: 主材料·灰雾结晶, weight: 2, minQty: 1, maxQty: 1, bindType: bound }
+    events: [ daily_001, daily_030, daily_029 ]
+    adjacent: [ pritz, pritz_harbor ]
+    name_note: ''
+    place_type: military_site
+    deity: ''
+    country: 鲁恩王国
+    role: ''
+    notable_events:
+      - 1350 年 10 月遭弗萨克苏尼亚海舰队袭击
+    status: 现存
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：神战遗迹（源：诡秘之主原作数据/05-地理/地点.yaml，原作 type=ruin）
+  # ⚠️ loot 是**项目派生**（原作地点没有掉落数据）
+  - id: divine_war_ruins
+    corruption_source: true
+    name: 神战遗迹
+    min_seq: 9
+    max_seq: 0
+    danger: 3
+    loot:
+      - { itemId: 便士, weight: 8, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“凶蛮之犬”的血液, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+      - { itemId: 主材料·战火余烬, weight: 2, minQty: 1, maxQty: 1, bindType: bound }
+    events: [ daily_020, daily_019, daily_018 ]
+    adjacent: [ storm_cape, coral_reef ]
+    name_note: ''
+    place_type: ruin
+    deity: ''
+    country: ''
+    role: ''
+    notable_events: []
+    status: 现存
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：愚者教会（拜亚姆）（源：诡秘之主原作数据/05-地理/地点.yaml，原作 type=church）
+  # ⚠️ loot 是**项目派生**（原作地点没有掉落数据）
+  - id: fool_church_byam
+    name: 愚者教会（拜亚姆）
+    min_seq: 9
+    max_seq: 0
+    danger: 1
+    loot:
+      - { itemId: 便士, weight: 8, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_002, daily_001, daily_030 ]
+    adjacent: [ tingen ]
+    name_note: ''
+    place_type: church
+    deity: 愚者
+    country: ''
+    role: ''
+    notable_events: []
+    status: 1352 年 2 月 25 日开始组建
+    sources: []
+    confidence: 中高（就“愚者教会”而言）
+
+  # M2.85 内容填充 P2：勇敢者酒吧（源：诡秘之主原作数据/05-地理/地点.yaml，原作 type=）
+  # ⚠️ loot 是**项目派生**（原作地点没有掉落数据）
+  - id: brave_bar
+    name: 勇敢者酒吧
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 便士, weight: 8, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“古代邪物”常用物品1件, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_020, daily_019, daily_018 ]
+    adjacent: [ backlund, backlund_bridge ]
+    name_note: ''
+    place_type: ''
+    deity: ''
+    country: 鲁恩王国
+    role: ''
+    notable_events: []
+    status: 现存
+    sources: []
+    confidence: 中高
+
+  # M2.85 内容填充 P2：狂野之心酒吧（源：诡秘之主原作数据/05-地理/地点.yaml，原作 type=）
+  # ⚠️ loot 是**项目派生**（原作地点没有掉落数据）
+  - id: wild_heart_bar
+    name: 狂野之心酒吧
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 便士, weight: 8, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“大恶魔”的黑色心脏一颗（大恶魔不止一颗心脏）, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_017, daily_016, daily_015 ]
+    adjacent: [ tingen, mist_street ]
+    name_note: ''
+    place_type: ''
+    deity: ''
+    country: 鲁恩王国
+    role: ''
+    notable_events: []
+    status: 现存
+    sources: []
+    confidence: 中
+
+  # M2.85 内容填充 P2：猎犬酒馆（源：诡秘之主原作数据/05-地理/地点.yaml，原作 type=）
+  # ⚠️ loot 是**项目派生**（原作地点没有掉落数据）
+  - id: hound_tavern
+    name: 猎犬酒馆
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 便士, weight: 8, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“太阳”精油, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_009, daily_008, daily_007 ]
+    adjacent: [ tingen, mist_street ]
+    name_note: ''
+    place_type: ''
+    deity: ''
+    country: 鲁恩王国
+    role: ''
+    notable_events: []
+    status: 现存
+    sources: []
+    confidence: 中
+
+  # M2.85 内容填充 P2：勇士与海酒吧（源：诡秘之主原作数据/05-地理/地点.yaml，原作 type=）
+  # ⚠️ loot 是**项目派生**（原作地点没有掉落数据）
+  - id: warrior_and_sea_bar
+    name: 勇士与海酒吧
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 便士, weight: 8, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·“头脑漫游者”的虚质光点9个/信息洪流遗留光点, weight: 6, minQty: 1, maxQty: 2, bindType: unbound }
+    events: [ daily_002, daily_001, daily_030 ]
+    adjacent: [ pritz, pritz_harbor ]
+    name_note: ''
+    place_type: ''
+    deity: ''
+    country: 鲁恩王国
+    role: ''
+    notable_events: []
+    status: 现存
+    sources: []
+    confidence: 中
+  - id: hornacis_peak
+    name: 霍纳奇斯峰
+    danger: 5
+    min_seq: 5
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·曼德拉草纯露
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·林地巨妖的血液
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·格里格尔首领的眼眸
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 便士
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_025, daily_024, daily_023 ]
+    adjacent:
+      - north_continent
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 峰顶曾被转移到星界（世界地理总览 §1.2）
+  - id: fusac_highland
+    name: 弗萨克高原
+    danger: 4
+    min_seq: 7
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·木樨花纯露
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·树人导师的金色树叶三片
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·死于仪式异变者的脸皮9张
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 夜香草
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_012, daily_011, daily_010 ]
+    adjacent:
+      - north_continent
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 北大陆山脉与高原（§2.2）
+  - id: ruen_great_river
+    name: 鲁恩大河
+    danger: 3
+    min_seq: 8
+    max_seq: 0
+    loot:
+      - itemId: 主材料·新生之芽
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+      - itemId: 主材料·祭海之贝
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: unbound
+      - itemId: 主材料·永夜之幕
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: unbound
+      - itemId: 潮湿的火柴
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: unbound
+    events: [ daily_025, daily_024, daily_023 ]
+    adjacent:
+      - north_continent
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 北大陆主要河流（§2.3）
+  - id: interior_sea
+    name: 间海
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·树人的叶子
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·死于恶灵附身之人的脑浆
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·永暗石一个
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 便士
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_018, daily_017, daily_016 ]
+    adjacent:
+      - north_continent
+      - ice_bear_isle
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 冰熊与海豹的栖息地（生态与栖息地 §6.1）
+  - id: ice_bear_isle
+    name: 冰熊岛
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·樱桃李汁液
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·水仙花汁液
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·沼泽巨人的血液
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 夜香草
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_022, daily_021, daily_020 ]
+    adjacent:
+      - interior_sea
+      - north_sea
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 间海—北海交界处的岛屿，栖息冰熊与海豹（§6.2）
+    # M2.90 补：**14 个区域节点指着它，而它从来没被建成地点。**
+    #
+    # 依据：domain/geo/coordinates.ts 的 REGION_CENTERS 里 north_continent 有坐标
+    #（北大陆 = 北美洲），而 locations 里只有南 / 东 / 西三个大陆节点 —— 少了一个。
+    # 后果有两个，都不报错：
+    #   · `weather.test.ts` 的「指到的地点必须存在」直接红（14 处引用全部悬空）；
+    #   · 这些区域在 `.走` 里少一条出路 —— 玩家看不见的那种半坏。
+    #
+    # loot 按大陆节点同构填：素材**全部取自本大陆已有产出**，没有新增 id；
+    # events 留空 —— 大陆不是事件舞台，那一层属于它下面的城镇与街区。
+  - id: north_continent
+    name: 北大陆
+    danger: 3
+    min_seq: 9
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·圣盐
+        weight: 10
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·银粉
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 潮湿的火柴
+        weight: 5
+        minQty: 1
+        maxQty: 2
+        bindType: unbound
+      - itemId: 便士
+        weight: 10
+        minQty: 3
+        maxQty: 9
+        bindType: unbound
+    adjacent:
+      - hornacis_peak
+      - fusac_highland
+      - ruen_great_river
+      - interior_sea
+      - raging_sea
+      - sunia_sea
+      - fog_sea
+      - north_sea
+      - rocky_range
+      - great_plain
+      - mississippi_river
+      - gulf_coast
+      - arctic_tundra
+      - maple_forest
+  - id: south_continent
+    name: 南大陆
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·死于诅咒者的血液
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·永生之蝉栖息之树的树皮
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·海水、湖水、冰川水各
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 潮湿的火柴
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_016, daily_015, daily_014 ]
+    adjacent:
+      - byron
+      - bone_market
+      - raging_sea
+      - pas_valley
+      - hagati_grass
+      - andes_range
+      - pampas_plain
+      - patagonia
+      - equator_jungle
+      - amazon_delta
+      - star_plateau
+      - south_jungle
+      - highland_kingdom
+      - polar_sea
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 信仰死神的土著部落与原始雨林（§1.1、§6.1）
+  - id: pas_valley
+    name: 帕斯河谷
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·水堇纯露
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·活人的鲜血
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·游荡之皮的脓液
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 便士
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_026, daily_025, daily_024 ]
+    adjacent:
+      - south_continent
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 南大陆地名（§6.1）
+  - id: hagati_grass
+    name: 哈加提草原
+    danger: 3
+    min_seq: 7
+    max_seq: 0
+    loot:
+      - itemId: 主材料·全知之页
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+      - itemId: 主材料·“哭泣婴儿”花一朵
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: unbound
+      - itemId: 主材料·“森林之子”的脑袋（头部有畸形之角形似冠冕的深绿近黑狒狒）
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: unbound
+      - itemId: 夜香草
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: unbound
+    events: [ daily_007, daily_006, daily_005 ]
+    adjacent:
+      - south_continent
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 南大陆地名（§6.1）
+  - id: star_plateau
+    name: 星星高原
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·活蜘蛛一只
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·湖中之灵的伴生物
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·灵体之虫一条
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 潮湿的火柴
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_001, daily_030, daily_029 ]
+    adjacent:
+      - south_continent
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 南大陆地名（§6.1）
+  - id: south_jungle
+    name: 原始雨林
+    danger: 5
+    min_seq: 5
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·深红彼岸花精油
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·火蝾螈的血液
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·烈焰巨树的树皮
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 便士
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_007, daily_006, daily_005 ]
+    adjacent:
+      - south_continent
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 南大陆「湿热的原始雨林」（§6.1）
+  - id: highland_kingdom
+    name: 高地王国
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·源于“熵之公爵”或相应事物的污染物
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·灵界七光之一的祝福，积攒超过百年的幸运
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·狩猎黑蛛的毒腺一个
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 夜香草
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_021, daily_020, daily_019 ]
+    adjacent:
+      - south_continent
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 南大陆王国之一（§6.1）
+  - id: east_continent
+    corruption_source: true
+    name: 东大陆（神弃之地）
+    danger: 5
+    min_seq: 4
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·灰暗魔狼的血液
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·烈酒
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·用灵性血液绘制的星图一副
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 潮湿的火柴
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_016, daily_015, daily_014 ]
+    adjacent:
+      - sunia_sea
+      - silver_city
+      - giant_court
+      - alps_range
+      - rhine_river
+      - nordic_fjord
+      - mediterranean_shore
+      - carpathian
+      - nose_ruins
+      - god_war_ruins
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 整片大陆被黑暗笼罩，植物几乎无法生长（§6.1）
+  - id: silver_city
+    name: 白银城
+    danger: 5
+    min_seq: 5
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·灾厄不死鸟的血液
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·独眼白牛的血液
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·白橡树果实两颗
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 便士
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_021, daily_020, daily_019 ]
+    adjacent:
+      - east_continent
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 神弃之地上仅存的人城（§6.1）
+  - id: giant_court
+    name: 巨人王庭
+    danger: 5
+    min_seq: 4
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·牛齿芍药粉末
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·用盐制净化法处理过的海蓝水晶一块
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·皇冠猎隼的鸟爪一只
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 夜香草
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_021, daily_020, daily_019 ]
+    adjacent:
+      - east_continent
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 神弃之地深处，灵界联系的唯一出入口（§6.1）
+  - id: nose_ruins
+    name: 诺斯城遗迹
+    danger: 5
+    min_seq: 5
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·狮身人的血液
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·白芥子
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·神佑水晶的附着物
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 潮湿的火柴
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_009, daily_008, daily_007 ]
+    adjacent:
+      - east_continent
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 诡术邪怪（变形者）出没（§6.2）
+  - id: west_continent
+    name: 西大陆
+    danger: 5
+    min_seq: 3
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·电气石
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·盛开的红栗花一朵
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·紫水晶一枚
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 便士
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_028, daily_027, daily_026 ]
+    adjacent:
+      - fog_sea
+      - himalaya_range
+      - gobi_waste
+      - siberia_taiga
+      - asian_river
+      - southeast_jungle
+      - elf_homeland
+      - fog_barrier
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 精灵故乡，被灰雾屏障封印（§1.1）
+  - id: elf_homeland
+    name: 精灵故乡
+    danger: 5
+    min_seq: 3
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·白芥子9粒
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·神圣光辉石伴生液
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·纯白精灵花3瓣
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 夜香草
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_002, daily_001, daily_030 ]
+    adjacent:
+      - west_continent
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 西大陆，精灵的来处（§6.1）
+  - id: fog_barrier
+    name: 灰雾屏障
+    danger: 5
+    min_seq: 4
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·真实有效的王国或帝国戒严令
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·红冠凤仙草粉末
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·绿橄榄
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 潮湿的火柴
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_016, daily_015, daily_014 ]
+    adjacent:
+      - west_continent
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 隔开西大陆与东大陆的屏障（§6.1）
+  - id: raging_sea
+    name: 狂暴海
+    danger: 5
+    min_seq: 5
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·秋水仙精华
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·纯白罂粟花
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·胡桃一颗
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 便士
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_004, daily_003, daily_002 ]
+    adjacent:
+      - north_continent
+      - south_continent
+      - storm_sea
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 常年电闪雷鸣、磁场紊乱；第四纪末死神陨落于此（§6.1）
+  - id: sunia_sea
+    name: 苏尼亚海
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·红头蝙蝠的牙齿3颗（这两个可同等替换成血族或人造吸血鬼对应的部位）
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·罗勒
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·自身创造的血裔的头发
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 夜香草
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_022, daily_021, daily_020 ]
+    adjacent:
+      - north_continent
+      - sunia_island
+      - coral_reef
+      - ghost_sea
+      - east_continent
+      - god_war_ruins
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 南北大陆之东（§1.1）
+  - id: sunia_island
+    name: 苏尼亚岛
+    danger: 4
+    min_seq: 5
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·纯酒精
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·腐烂羽蛇的体液
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·自身血液
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 潮湿的火柴
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_020, daily_019, daily_018 ]
+    adjacent:
+      - sunia_sea
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 大灾变后精灵仅剩的聚居地（§6.1）
+  - id: fog_sea
+    corruption_source: true
+    name: 迷雾海
+    danger: 5
+    min_seq: 5
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·羊须草纯露
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·自身制造的、超过一百年的、与堕落相关的传说一份（写在纸上）
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·茴香
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 便士
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_008, daily_007, daily_006 ]
+    adjacent:
+      - north_continent
+      - abyss_mouth
+      - deep_trench
+      - lost_isle
+      - west_continent
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 深渊入口在此（§6.1）
+  - id: abyss_mouth
+    corruption_source: true
+    name: 深渊入口
+    danger: 5
+    min_seq: 3
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·自己的鲜血
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·自身设计的密码一套（写于纸上）
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·蓝臻尤加利精油
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 夜香草
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_018, daily_017, daily_016 ]
+    adjacent:
+      - fog_sea
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 迷雾海深处的深渊入口（§6.1、生态 §4）
+  - id: north_sea
+    name: 北海
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·自身发明的一种药剂
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·莳萝精油
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·血族公爵或对应序列人造吸血鬼的血液
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 潮湿的火柴
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_003, daily_002, daily_001 ]
+    adjacent:
+      - north_continent
+      - ice_bear_isle
+      - frozen_sea
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 北大陆之北（§1.1）
+  - id: polar_sea
+    name: 极地海
+    danger: 5
+    min_seq: 5
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·自身谋害的第一个同种族者的心脏1个（或类似器官）
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·蓝色曼陀罗汁液
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·被囚禁的灵魂一个
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 便士
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_010, daily_009, daily_008 ]
+    adjacent:
+      - south_continent
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 南大陆之南（§1.1）
+  - id: god_war_ruins
+    corruption_source: true
+    name: 神战遗迹
+    danger: 5
+    min_seq: 4
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·落叶松精油
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·血液300毫升（这两样可用“逐光者”的部位取代）
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·被血月照耀过七次（每次至少一刻钟）的水
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 夜香草
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_029, daily_028, daily_027 ]
+    adjacent:
+      - sunia_sea
+      - east_continent
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 苏尼亚海最东面，有许多异变的怪物（§6.1）
+  - id: calderon_city
+    name: 卡尔德隆城
+    danger: 5
+    min_seq: 3
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·薰衣草纯露
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·被困鬼魂残留的粉末
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·诱人堕落的心灵深渊气息1缕
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 潮湿的火柴
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_020, daily_019, daily_018 ]
+    adjacent:
+      - spirit_world
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 被丢到灵界深处的神国；灵界掠夺者栖居（生态 §2、§6.2）
+  - id: spirit_world
+    name: 灵界
+    danger: 5
+    min_seq: 3
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·血眼黑山羊的尾巴
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·被诅咒的物品1件
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·迷宫鹦鹉的血液
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 便士
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_022, daily_021, daily_020 ]
+    adjacent:
+      - above_grey_fog
+      - calderon_city
+      - spirit_deep
+      - mist_town
+      - star_realm_gate
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 与现实沟通的高维空间，有灵界七光（§1.2）
+  - id: spirit_deep
+    name: 灵界深处
+    danger: 5
+    min_seq: 4
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·被害者的眼泪
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·象征过王权的冠冕一顶
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·遇害者的内脏7组
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 夜香草
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_008, daily_007, daily_006 ]
+    adjacent:
+      - spirit_world
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 灵界的外层与深处的区分（§1.2）
+  - id: mist_town
+    name: 迷雾小镇
+    danger: 5
+    min_seq: 5
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·被闪电劈焦的木头
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·迷幻草精油
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·金手柑汁液
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 潮湿的火柴
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_028, daily_027, daily_026 ]
+    adjacent:
+      - spirit_world
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 封印物 0-17 把人「擦除」进过的灵界附属小镇（§1.2）
+  - id: star_realm_gate
+    name: 星界之门
+    danger: 5
+    min_seq: 2
+    max_seq: 0
+    loot:
+      - itemId: 辅助材料·费内波特苍蝇碾成的粉末
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·邪神之眼的灰液
+        weight: 7
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 辅助材料·铁臂兽人的血液
+        weight: 4
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+      - itemId: 便士
+        weight: 1
+        minQty: 1
+        maxQty: 2
+        bindType: bound
+    events: [ daily_024, daily_023, daily_022 ]
+    adjacent:
+      - spirit_world
+    # M2.85 扩图（依据：诡秘之主原作数据/05-地理/世界地理总览.md 与 08-生物与怪物/生态与栖息地.md）
+    # 神灵神国所在之层；第四纪末七神迁入（§1.2）
+  - id: rocky_range
+    name: 落基山脉
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 北大陆西侧山脉（北美落基山对照）
+    lat: 44
+    lon: -110
+    loot:
+      - itemId: 辅助材料·曼德拉草纯露
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·林地巨妖的血液
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·格里格尔首领的眼眸
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+    events: [ daily_004, daily_003, daily_002 ]
+    adjacent:
+      - north_continent
+  - id: great_plain
+    name: 大平原
+    danger: 3
+    min_seq: 7
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 北大陆中部平原
+    lat: 42
+    lon: -100
+    loot:
+      - itemId: 主材料·命运之线
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+      - itemId: 主材料·深海的回声
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+      - itemId: 主材料·命途之梭
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+    events: [ daily_008, daily_007, daily_006 ]
+    adjacent:
+      - north_continent
+  - id: mississippi_river
+    name: 密西河
+    danger: 3
+    min_seq: 8
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 北大陆主要河流（§2.3 鲁恩水系的对照）
+    lat: 35
+    lon: -90
+    loot:
+      - itemId: 主材料·新生之芽
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+      - itemId: 主材料·祭海之贝
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+      - itemId: 主材料·永夜之幕
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+    events: [ daily_014, daily_013, daily_012 ]
+    adjacent:
+      - north_continent
+  - id: gulf_coast
+    name: 南湾岸
+    danger: 3
+    min_seq: 7
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 北大陆南岸（墨西哥湾对照）
+    lat: 28
+    lon: -90
+    loot:
+      - itemId: 主材料·拆解之匙
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+      - itemId: 主材料·既视之环
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+      - itemId: 主材料·总目之册
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+    events: [ daily_023, daily_022, daily_021 ]
+    adjacent:
+      - north_continent
+  - id: arctic_tundra
+    name: 北境苔原
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 北大陆北境
+    lat: 68
+    lon: -100
+    loot:
+      - itemId: 辅助材料·樱桃李汁液
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·水仙花汁液
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·沼泽巨人的血液
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+    events: [ daily_017, daily_016, daily_015 ]
+    adjacent:
+      - north_continent
+  - id: maple_forest
+    name: 枫林
+    danger: 3
+    min_seq: 7
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 北大陆东北的密林
+    lat: 47
+    lon: -75
+    loot:
+      - itemId: 主材料·不坠之旗
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+      - itemId: 主材料·通晓之印
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+      - itemId: 主材料·“古代邪物”的精神集合体
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+    events: [ daily_015, daily_014, daily_013 ]
+    adjacent:
+      - north_continent
+  - id: andes_range
+    name: 安第山脉
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 南大陆西侧山脉（安第斯对照）
+    lat: -20
+    lon: -70
+    loot:
+      - itemId: 辅助材料·水堇纯露
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·活人的鲜血
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·游荡之皮的脓液
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+    events: [ daily_011, daily_010, daily_009 ]
+    adjacent:
+      - south_continent
+  - id: pampas_plain
+    name: 潘帕草原
+    danger: 3
+    min_seq: 7
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 南大陆南部草原
+    lat: -35
+    lon: -60
+    loot:
+      - itemId: 主材料·全知之页
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+      - itemId: 主材料·“哭泣婴儿”花一朵
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+      - itemId: 主材料·“森林之子”的脑袋（头部有畸形之角形似冠冕的深绿近黑狒狒）
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+    events: [ daily_029, daily_028, daily_027 ]
+    adjacent:
+      - south_continent
+  - id: patagonia
+    name: 荒尾之地
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 南大陆最南端（巴塔哥尼亚对照）
+    lat: -50
+    lon: -70
+    loot:
+      - itemId: 辅助材料·活蜘蛛一只
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·湖中之灵的伴生物
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·灵体之虫一条
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+    events: [ daily_016, daily_015, daily_014 ]
+    adjacent:
+      - south_continent
+  - id: equator_jungle
+    name: 赤道雨林
+    danger: 5
+    min_seq: 5
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 南大陆赤道一带的湿热雨林
+    lat: -3
+    lon: -60
+    loot:
+      - itemId: 辅助材料·深红彼岸花精油
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·火蝾螈的血液
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·烈焰巨树的树皮
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+    events: [ daily_029, daily_028, daily_027 ]
+    adjacent:
+      - south_continent
+  - id: amazon_delta
+    name: 大河三角洲
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 南大陆大河的入海口
+    lat: -1
+    lon: -50
+    loot:
+      - itemId: 辅助材料·源于“熵之公爵”或相应事物的污染物
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·灵界七光之一的祝福，积攒超过百年的幸运
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·狩猎黑蛛的毒腺一个
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+    events: [ daily_023, daily_022, daily_021 ]
+    adjacent:
+      - south_continent
+  - id: alps_range
+    name: 阿尔卑斯山脉
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 东大陆中部的山脉（阿尔卑斯对照）
+    lat: 46
+    lon: 10
+    loot:
+      - itemId: 辅助材料·灰暗魔狼的血液
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·烈酒
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·用灵性血液绘制的星图一副
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+    events: [ daily_012, daily_011, daily_010 ]
+    adjacent:
+      - east_continent
+  - id: rhine_river
+    name: 莱茵河
+    danger: 3
+    min_seq: 7
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 东大陆主要河流
+    lat: 50
+    lon: 8
+    loot:
+      - itemId: 主材料·“贤者”非凡特性1份或者（“幻想古妖”的结晶，“头脑漫游者”的触须）
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+      - itemId: 主材料·人身狮的大脑
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+      - itemId: 主材料·变形怪的大脑
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+    events: [ daily_019, daily_018, daily_017 ]
+    adjacent:
+      - east_continent
+  - id: nordic_fjord
+    name: 北地峡湾
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 东大陆北端的峡湾
+    lat: 62
+    lon: 10
+    loot:
+      - itemId: 辅助材料·牛齿芍药粉末
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·用盐制净化法处理过的海蓝水晶一块
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·皇冠猎隼的鸟爪一只
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+    events: [ daily_023, daily_022, daily_021 ]
+    adjacent:
+      - east_continent
+  - id: mediterranean_shore
+    name: 内海沿岸
+    danger: 3
+    min_seq: 7
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 东大陆南岸（地中海对照）
+    lat: 40
+    lon: 15
+    loot:
+      - itemId: 主材料·人面笼草一朵
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+      - itemId: 主材料·古老怨灵的诅咒物
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+      - itemId: 主材料·复仇之影最大的碎片
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+    events: [ daily_023, daily_022, daily_021 ]
+    adjacent:
+      - east_continent
+  - id: carpathian
+    name: 喀尔巴阡密林
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 东大陆东部的密林
+    lat: 47
+    lon: 25
+    loot:
+      - itemId: 辅助材料·电气石
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·盛开的红栗花一朵
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·紫水晶一枚
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+    events: [ daily_001, daily_030, daily_029 ]
+    adjacent:
+      - east_continent
+  - id: himalaya_range
+    name: 极高山脉
+    danger: 5
+    min_seq: 5
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 西大陆的高耸山脉（喜马拉雅对照）
+    lat: 30
+    lon: 85
+    loot:
+      - itemId: 辅助材料·白芥子9粒
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·神圣光辉石伴生液
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·纯白精灵花3瓣
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+    events: [ daily_022, daily_021, daily_020 ]
+    adjacent:
+      - west_continent
+  - id: gobi_waste
+    name: 戈壁
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 西大陆的荒漠
+    lat: 43
+    lon: 105
+    loot:
+      - itemId: 辅助材料·真实有效的王国或帝国戒严令
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·红冠凤仙草粉末
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·绿橄榄
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+    events: [ daily_010, daily_009, daily_008 ]
+    adjacent:
+      - west_continent
+  - id: siberia_taiga
+    name: 极北针叶林
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 西大陆北部的针叶林
+    lat: 62
+    lon: 100
+    loot:
+      - itemId: 辅助材料·秋水仙精华
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·纯白罂粟花
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·胡桃一颗
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+    events: [ daily_024, daily_023, daily_022 ]
+    adjacent:
+      - west_continent
+  - id: asian_river
+    name: 东流大河
+    danger: 3
+    min_seq: 7
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 西大陆的东流大河
+    lat: 32
+    lon: 115
+    loot:
+      - itemId: 主材料·完整的阿斯曼之脑一个
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+      - itemId: 主材料·彩色鲤鱼的尾巴
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+      - itemId: 主材料·星纹邪怪的大脑
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: unbound
+    events: [ daily_005, daily_004, daily_003 ]
+    adjacent:
+      - west_continent
+  - id: southeast_jungle
+    name: 南洋雨林
+    danger: 5
+    min_seq: 5
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 西大陆东南的雨林
+    lat: 5
+    lon: 110
+    loot:
+      - itemId: 辅助材料·纯酒精
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·腐烂羽蛇的体液
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·自身血液
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+    events: [ daily_010, daily_009, daily_008 ]
+    adjacent:
+      - west_continent
+  - id: deep_trench
+    name: 深海沟
+    danger: 5
+    min_seq: 4
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 迷雾海深处的海沟
+    lat: 10
+    lon: -150
+    loot:
+      - itemId: 辅助材料·羊须草纯露
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·自身制造的、超过一百年的、与堕落相关的传说一份（写在纸上）
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·茴香
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+    events: [ daily_003, daily_002, daily_001 ]
+    adjacent:
+      - fog_sea
+  - id: storm_sea
+    name: 风暴海域
+    danger: 5
+    min_seq: 5
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 狂暴海中最凶的一段
+    lat: 12
+    lon: -70
+    loot:
+      - itemId: 辅助材料·自己的鲜血
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·自身设计的密码一套（写于纸上）
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·蓝臻尤加利精油
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+    events: [ daily_015, daily_014, daily_013 ]
+    adjacent:
+      - raging_sea
+  - id: frozen_sea
+    name: 冰封海域
+    danger: 4
+    min_seq: 6
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 北海的冰封区
+    lat: 80
+    lon: 20
+    loot:
+      - itemId: 辅助材料·自身发明的一种药剂
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·莳萝精油
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·血族公爵或对应序列人造吸血鬼的血液
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+    events: [ daily_014, daily_013, daily_012 ]
+    adjacent:
+      - north_sea
+  - id: lost_isle
+    name: 失落岛屿
+    danger: 5
+    min_seq: 5
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 迷雾海中未被记入海图的岛
+    lat: 5
+    lon: -160
+    loot:
+      - itemId: 辅助材料·自身谋害的第一个同种族者的心脏1个（或类似器官）
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·蓝色曼陀罗汁液
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·被囚禁的灵魂一个
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+    events: [ daily_010, daily_009, daily_008 ]
+    adjacent:
+      - fog_sea
+  - id: ghost_sea
+    name: 幽灵海域
+    danger: 5
+    min_seq: 4
+    max_seq: 0
+    # M2.85 扩图第二批（按地球真实地形；用户：「地球是圆的，而诡秘之主的世界其实也就是地球」）
+    # 苏尼亚海中传说有幽灵帝国的海域
+    lat: 25
+    lon: -35
+    loot:
+      - itemId: 辅助材料·落叶松精油
+        weight: 10
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·血液300毫升（这两样可用“逐光者”的部位取代）
+        weight: 7
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+      - itemId: 辅助材料·被血月照耀过七次（每次至少一刻钟）的水
+        weight: 4
+        minQty: 1
+        maxQty: 1
+        bindType: bound
+    events: [ daily_029, daily_028, daily_027 ]
+    adjacent:
+      - sunia_sea
+
+  # M2.95：埃斯科森港（第 29 座城市）的城区。
+  # 邻接写的是**普利兹港**：它是鲁恩的港口城市，与这座岛之间有一条定期船（见 routes.yaml）。
+  # ⚠️ 一个地点必须至少有一个邻居 —— 只加地点不加邻接，「无邻居」那条检查会红。
+  - id: escosen_port_center
+    name: 埃斯科森港城区
+    min_seq: 9
+    max_seq: 0
+    danger: 2
+    loot:
+      - { itemId: 便士, weight: 10, minQty: 1, maxQty: 3, bindType: unbound }
+      - { itemId: 辅助材料·圣盐, weight: 6, minQty: 1, maxQty: 1, bindType: unbound }
+    events: [ daily_018, daily_017 ]
+    adjacent:
+      - pritz

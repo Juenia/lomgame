@@ -1,0 +1,35 @@
+id: daily_015
+name: 不点灯的那一遍
+trigger:
+  type: daily
+  weight: 5
+  cond: []
+  location:
+    - 无光地下室
+effects:
+  - { dig: 3 }
+  - { cor: 2 }
+  - { mad: 1 }
+texts:
+  priv: |
+    无光的地下室里，你没有点灯，只凭手感走完了整套流程。
+    做完之后，你不确定自己刚才念的是不是自己的名字。
+  group: 地下室的灯始终没有亮。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 点上灯，再走一遍
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      灯亮了。这一次你看清了墙上的刻痕。
+  - key: '2'
+    label: 想想刚才念的是谁的名字
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你想了很久。想起来的那个名字不是你自己的。
+  - key: '3'
+    label: 把整套流程重念一次，这次出声
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你出声念完了。念到一半的时候，屋里有人应了一声。

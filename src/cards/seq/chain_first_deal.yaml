@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：签了字（设 flag `first_deal`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_first_deal
+name: 条款生效了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:first_deal'
+effects:
+  - { cor: 3 }
+  - { hp: -2 }
+texts:
+  priv: |
+    那天早上你醒来，发现自己做了一件从没打算做的事。
+    **你不记得是怎么决定的。**
+    桌上有一张纸条，上面写着：「第一条」。
+    你把纸条烧了。
+  group: 有人说自己早上做了件莫名其妙的事，想不起来为什么。
+daily_limit: 1

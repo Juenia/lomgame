@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **三级链的第三段（终点）**。
+# 前置链：第一段设 `road` → 第二段读它、设 `road_again` → 本卡读 `road_again`。
+# 本卡**不再设新 flag** —— 链到此为止。
+id: chain3_road_again
+name: 那条路自己来找你
+trigger:
+  type: daily
+  weight: 10
+  cond:
+    - 'flag:road_again'
+effects:
+  - { dig: 4 }
+  - { cor: 3 }
+texts:
+  priv: |
+    你没有去找那条路。
+    **它自己出现在你楼下。**
+    就在你每天出门的那个拐角，多了一条岔口。
+    你站在路口看了很久，然后绕开走了。
+  group: 有人这两天出门都绕远路。
+daily_limit: 1

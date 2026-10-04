@@ -1,0 +1,346 @@
+# NPC 晋升轨道（M2.85 世界演化第一步）
+#
+# 数据来源：诡秘之主原作数据/10-人物 的 sequence 字段（晋升轨迹原文）
+#
+# 共 41 条（有序列记载的人物）。
+#
+# 读取点：`.图鉴 途径 <途径名>` —— 会显示这条途径的神、走在上面的人、以及「距登神还有几档」。
+#
+# ⚠️ 下一步（未做）：让这些轨迹**随世界时间推进**。现在它是静态记载 ——
+#
+#    一个「命运之轮」途径的 NPC 就算登神，世界也还不会知道（该途径目前无神，威尔·昂赛汀序列 1）。
+meta:
+  source: 诡秘之主原作数据/10-人物/*.yaml 的 sequence 字段（晋升轨迹原文）
+  count: 41
+  transform_note: raw 是原作原文（未改写）；startSequence/currentSequence/stages 由 parseSequenceText 解析（「序列 9-占卜家 → 0-愚者」→ 起点 9、当前 0、2 段）。
+  layer_note: ⚠️ 这是**静态轨迹**。让它随世界时间推进（NPC 晋升、登神改变世界）是世界演化的下一步。
+  fill_note: M2.85 世界演化第一步：回答「谁在同一条途径上、谁最接近登神、哪条途径还没有神」。
+npc_tracks:
+  - id: klein_moretti
+    name: 克莱恩·莫雷蒂
+    raw: 9-占卜家 → 0-愚者（半个旧日“诡秘之主”）
+    startSequence: 9
+    currentSequence: 0
+    stages: 2
+    pathways:
+      - seer
+      - door
+      - error
+  - id: audrey_hall
+    name: 奥黛丽·霍尔
+    raw: 9-观众 → 3-织梦人
+    startSequence: 9
+    currentSequence: 3
+    stages: 2
+    pathways:
+      - spectator
+  - id: alger_wilson
+    name: 阿尔杰·威尔逊
+    raw: 8-暴怒之民 → 4-灾难主祭
+    startSequence: 8
+    currentSequence: 4
+    stages: 2
+    pathways:
+      - sailor
+  - id: derrick_berg
+    name: 戴里克·伯格
+    raw: 9-歌颂者 → 4-无暗者
+    startSequence: 9
+    currentSequence: 4
+    stages: 2
+    pathways:
+      - sun
+  - id: fors_wall
+    name: 佛尔思·沃尔
+    raw: 9-学徒 → 4-秘法师（《诡秘之主》完结时）
+    startSequence: 9
+    currentSequence: 4
+    stages: 2
+    pathways:
+      - door
+  - id: xio_derecha
+    name: 休·迪尔查
+    raw: 9-仲裁人 → 4-律令法师
+    startSequence: 9
+    currentSequence: 4
+    stages: 2
+    pathways:
+      - arbiter
+  - id: cattleya
+    name: 嘉德丽雅
+    raw: 5-星象师 → 3-预言大师
+    startSequence: 5
+    currentSequence: 3
+    stages: 2
+    pathways:
+      - mystery_pryer
+  - id: emlyn_white
+    name: 埃姆林·怀特
+    raw: 7-吸血鬼 → 4-巫王
+    startSequence: 7
+    currentSequence: 4
+    stages: 2
+    pathways:
+      - apothecary
+  - id: leonard_mitchell
+    name: 伦纳德·米切尔
+    raw: 8-午夜诗人 → 4-守夜人
+    startSequence: 8
+    currentSequence: 4
+    stages: 2
+    pathways:
+      - sleepless
+  - id: gehrman_sparrow
+    name: 格尔曼·斯帕罗
+    raw: 随本体克莱恩·莫雷蒂的序列推进
+    # M2.90 补：raw 说「随本体克莱恩·莫雷蒂的序列推进」⇒ 与克莱恩一致（那一条是 0）
+    startSequence: 0
+    currentSequence: 0
+    stages: 1
+    pathways:
+      - seer
+  - id: rosell_gustav
+    name: 罗塞尔·古斯塔夫
+    raw: 9-通识者 → 1-知识皇帝 → 0-黑皇帝
+    startSequence: 9
+    currentSequence: 0
+    stages: 3
+    pathways: []
+  - id: lumian_lee
+    name: 卢米安·李
+    raw: 0（真神；“灾祸主宰”）
+    # M2.90 补：raw 自己写着「0（真神）」—— 原解析器只认「N-名称」，这一档没认出来
+    startSequence: 0
+    currentSequence: 0
+    stages: 1
+    pathways: []
+  - id: dunn_smith
+    name: 邓恩·史密斯
+    raw: 7-梦魇
+    startSequence: 7
+    currentSequence: 7
+    stages: 1
+    pathways:
+      - sleepless
+  - id: daly_simone
+    name: 戴莉·西蒙妮
+    raw: 7-通灵者 → 5-看门人
+    startSequence: 7
+    currentSequence: 5
+    stages: 2
+    pathways:
+      - corpse_collector
+  - id: frye
+    name: 弗莱
+    raw: 9-收尸人 → 7-通灵者
+    startSequence: 9
+    currentSequence: 7
+    stages: 2
+    pathways:
+      - corpse_collector
+  - id: old_neil
+    name: 老尼尔
+    raw: 低序列非凡者（萌娘百科导航模板将其列入“低序列非凡者”）
+    # M2.90 补：raw 只写「低序列非凡者」⇒ 取低序列那一段的**下界 9**（宁可低估，不夸大）
+    startSequence: 9
+    currentSequence: 9
+    stages: 1
+    pathways: []
+  - id: mr_a
+    name: A先生
+    raw: 5-牧羊人
+    startSequence: 5
+    currentSequence: 5
+    stages: 1
+    pathways: []
+  - id: rosago
+    name: 罗萨戈
+    raw: 5-秘偶大师
+    startSequence: 5
+    currentSequence: 5
+    stages: 1
+    pathways:
+      - seer
+  - id: maric
+    name: 马里奇
+    raw: 6-活尸 → 5-怨魂
+    startSequence: 6
+    currentSequence: 5
+    stages: 2
+    pathways: []
+  - id: susie
+    name: 苏茜
+    raw: 9-观众 → 5-梦境行者
+    startSequence: 9
+    currentSequence: 5
+    stages: 2
+    pathways:
+      - spectator
+  - id: danitz
+    name: 达尼兹·迪布瓦
+    raw: 7-纵火家 → 6-阴谋家
+    startSequence: 7
+    currentSequence: 6
+    stages: 2
+    pathways:
+      - hunter
+  - id: anderson_hood
+    name: 安德森·胡德
+    raw: 5-收割者
+    startSequence: 5
+    currentSequence: 5
+    stages: 1
+    pathways:
+      - hunter
+  - id: edwina_edwards
+    name: 艾德雯娜·爱德华兹
+    raw: 5-秘术导师
+    startSequence: 5
+    currentSequence: 5
+    stages: 1
+    pathways:
+      - reader
+  - id: frank_lee
+    name: 弗兰克·李
+    raw: 6-生物学家 → 5-德鲁伊
+    startSequence: 6
+    currentSequence: 5
+    stages: 2
+    pathways:
+      - mother
+  - id: arrodes
+    name: 阿罗德斯
+    raw: 无序列；位格为圣者层次
+    # M2.90 补：raw 写「无序列；位格为圣者层次」⇒ 取圣者档（3—4）里的**下界 4**（宁可低估）
+    startSequence: 4
+    currentSequence: 4
+    stages: 1
+    pathways: []
+  - id: solomon
+    name: “黑皇帝”所罗门
+    raw: 0（真神）
+    # M2.90 补：raw 自己写着「0（真神）」—— 原解析器只认「N-名称」，这一档没认出来
+    startSequence: 0
+    currentSequence: 0
+    stages: 1
+    pathways:
+      - lawyer
+  - id: alistair_tudor
+    name: “血皇帝”亚利斯塔·图铎
+    raw: 0（真神）
+    # M2.90 补：raw 自己写着「0（真神）」—— 原解析器只认「N-名称」，这一档没认出来
+    startSequence: 0
+    currentSequence: 0
+    stages: 1
+    pathways: []
+  - id: trenthorst
+    name: “夜皇”特伦索斯特
+    raw: 0（真神）
+    # M2.90 补：raw 自己写着「0（真神）」—— 原解析器只认「N-名称」，这一档没认出来
+    startSequence: 0
+    currentSequence: 0
+    stages: 1
+    pathways: []
+  - id: salinger
+    name: “冥皇”萨林格尔
+    raw: 0（真神）
+    # M2.90 补：raw 自己写着「0（真神）」—— 原解析器只认「N-名称」，这一档没认出来
+    startSequence: 0
+    currentSequence: 0
+    stages: 1
+    pathways:
+      - corpse_collector
+  - id: bethel_abraham
+    name: 伯特利·亚伯拉罕
+    raw: 1-星之匙
+    startSequence: 1
+    currentSequence: 1
+    stages: 1
+    pathways:
+      - door
+  - id: antigonus
+    name: 安提哥努斯
+    raw: 2-奇迹师（曾容纳“愚者”唯一性，为天使之王）
+    startSequence: 2
+    currentSequence: 2
+    stages: 1
+    pathways:
+      - seer
+  - id: pales_zoroaster
+    name: 帕列斯·索罗亚斯德
+    raw: 1-时之虫 → 2-命运木马
+    startSequence: 1
+    currentSequence: 1
+    stages: 2
+    pathways:
+      - error
+  - id: azik_eggs
+    name: 阿兹克·艾格斯
+    raw: 2-死亡执政官
+    startSequence: 2
+    currentSequence: 2
+    stages: 1
+    pathways:
+      - corpse_collector
+  - id: bernadette_gustav
+    name: 贝尔纳黛·古斯塔夫
+    raw: 3-预言大师 → 2-贤者
+    startSequence: 3
+    currentSequence: 2
+    stages: 2
+    pathways:
+      - mystery_pryer
+  - id: will_auceptin
+    name: 威尔·昂赛汀
+    raw: 1-巨蛇
+    startSequence: 1
+    currentSequence: 1
+    stages: 1
+    pathways:
+      - monster
+  - id: reinette_tinicole
+    name: 蕾妮特·缇尼科尔
+    raw: 2-古代邪物
+    startSequence: 2
+    currentSequence: 2
+    stages: 1
+    pathways: []
+  - id: colin_iliad
+    name: 科林·伊利亚特
+    raw: 4-猎魔者 → 3-银骑士
+    startSequence: 4
+    currentSequence: 3
+    stages: 2
+    pathways:
+      - warrior
+  - id: lovia_tiffany
+    name: 洛薇雅·蒂芙尼
+    raw: 5-牧羊人 → 4-黑骑士
+    startSequence: 5
+    currentSequence: 4
+    stages: 2
+    pathways:
+      - secrets_supplicant
+  - id: sharon
+    name: 莎伦
+    raw: 5-怨魂 → 4-木偶
+    startSequence: 5
+    currentSequence: 4
+    stages: 2
+    pathways:
+      - prisoner
+  - id: trissy
+    name: 特莉丝
+    raw: 8-教唆者 → 4-绝望魔女
+    startSequence: 8
+    currentSequence: 4
+    stages: 2
+    pathways:
+      - assassin
+  - id: ince_zangwill
+    name: 因斯·赞格威尔
+    raw: 5-看门人 → 4-守夜人
+    startSequence: 5
+    currentSequence: 4
+    stages: 2
+    pathways: []

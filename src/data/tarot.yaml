@@ -1,0 +1,368 @@
+# 塔罗牌 · 大阿卡那（M2.85 内容填充）
+#
+# 数据来源：诡秘之主原作数据/12-仪式与占卜/塔罗牌.yaml
+#   萌娘百科《非凡途径》（牌名 + 对应途径）／百度百科《亵渎之牌》（22 张牌名与下落）／原文 ch5、ch7、ch94
+#   三方互证，confidence = 高。
+#
+# 读取点：`.占卜` 的回执 —— 每次占卜按 seed 抽一张与问卜者途径对应的牌（见 src/router/commands/divination.ts）。
+# ⚠️ 本表不含任何项目自造内容；symbolism / storyNote 均为原作数据原文口径。
+meta:
+  system_name: 塔罗牌 / 大阿卡那（Major Arcana）
+  total_major_arcana: 22
+  origin_in_world: 由时任因蒂斯共和国执政官的罗塞尔·古斯塔夫在约一百七十多年前发明，最初是带象征符号的'图形牌'，用于占卜
+  structural_rule: 每条神之途径对应一张大阿卡那牌；塔罗牌体系对应卡巴拉生命之树中的二十二条'径'
+  source: 诡秘之主原作数据/12-仪式与占卜/塔罗牌.yaml（萌娘百科《非凡途径》+ 百度百科《亵渎之牌》+ 原文，三方互证）
+  confidence: 高（22 条牌名三源一致）
+  fill_note: M2.85 内容填充 P1：本表**全部字段来自原作数据**，未做任何推测性补全。
+cards:
+  - number: 0
+    id: the_fool
+    name: 愚者
+    nameEn: The Fool
+    pathway: seer
+    pathwayName: 占卜家途径
+    sequence0: 愚者
+    sequence9: 占卜家
+    organizations:
+      - 安提哥努斯家族
+      - 查拉图家族
+      - 密修会
+    holder: 克莱恩·莫雷蒂（周明瑞），塔罗会创始人兼首领
+    symbolism: 开始、潜力、一无所知；象征一个未成熟灵魂的开端。小说中'一个愚者的旅程'象征主角从人到神的渐变，以及人性与神性对抗、融合的精神旅行
+    storyNote: 克莱恩被马戏团占卜师抽出的第一张牌即'愚者'，序号 0，牌面画着穿华丽衣物、戴绚烂头饰、肩扛手杖、杖头挂行李、身后有小狗拉拽的年轻人
+    evidence: 萌娘百科《非凡途径》；百度百科《塔罗牌》条目；原文 ch5、ch7、ch94
+    confidence: 高
+  - number: 1
+    id: the_magician
+    name: 魔术师
+    nameEn: The Magician
+    pathway: door
+    pathwayName: 学徒途径（门途径）
+    sequence0: 门
+    sequence9: 学徒
+    organizations:
+      - 亚伯拉罕家族
+    holder: 佛尔思·沃尔（塔罗会'魔术师'女士，著名作家，亚伯拉罕家族的弟子）
+    symbolism: 积极的阳面象征；掌握技艺与创造，把潜能转化为现实
+    storyNote: 原文 ch5 的桌上塔罗中即出现'魔术师'；ch326 提及罗塞尔制作的'亵渎之牌'时与'魔术师'牌相关
+    evidence: 萌娘百科《非凡途径》与《塔罗会》；原文 ch5
+    confidence: 高
+  - number: 2
+    id: the_high_priestess
+    name: 女祭司
+    nameEn: The High Priestess（原作口径 The Priestess）
+    pathway: perfect
+    pathwayName: 通识者途径（完美者途径）
+    sequence0: 完美者
+    sequence9: 通识者
+    organizations:
+      - 蒸汽教会
+    holder: null
+    symbolism: 内敛的智慧与直觉、隐藏的知识；与'知识就是力量'的通识者途径相配
+    storyNote: null
+    evidence: 萌娘百科《非凡途径》
+    confidence: 高（对应关系）/ 中（象征释义为读者理解）
+  - number: 3
+    id: the_empress
+    name: 女皇
+    nameEn: The Empress
+    pathway: assassin
+    pathwayName: 刺客途径（魔女途径）
+    sequence0: 魔女
+    sequence9: 刺客
+    organizations:
+      - 魔女教派
+      - 灵知会
+    holder: null
+    symbolism: 丰饶、孕育与母性——在《诡秘之主》中被反讽性地赋予'魔女'途径（该途径序列1~6的魔药名称可加'魔女'后缀）
+    storyNote: "'魔女'牌上的女性部分，罗塞尔的画像会变成女性"
+    evidence: 萌娘百科《非凡途径》；百度百科《亵渎之牌》
+    confidence: 高
+  - number: 4
+    id: the_emperor
+    name: 皇帝
+    nameEn: The Emperor
+    pathway: lawyer
+    pathwayName: 律师途径（黑皇帝途径）
+    sequence0: 黑皇帝
+    sequence9: 律师
+    organizations:
+      - 所罗门皇室
+      - 图铎家族
+      - 特伦索斯特家族
+    holder: null
+    symbolism: 秩序、权威、规则与统治；'黑皇帝'牌被非凡特性聚合定律'吸引'到贝克兰德
+    storyNote: 原文 ch7 奥黛丽提到塔罗牌中有'皇帝'这张主牌
+    evidence: 萌娘百科《非凡途径》；百度百科《亵渎之牌》；原文 ch7
+    confidence: 高
+  - number: 5
+    id: the_hierophant
+    name: 教皇
+    nameEn: The Hierophant
+    pathway: sailor
+    pathwayName: 水手途径（暴君途径）
+    sequence0: 暴君
+    sequence9: 水手（古称'海眷者'）
+    organizations:
+      - 风暴之主教会
+    holder: 阿尔杰·威尔逊（塔罗会'倒吊人'先生，前风暴教会主教；'暴君'牌由亚当→克莱恩→阿尔韦·威尔逊流转）
+    symbolism: 传统、制度化的权威与信仰；对应风暴之主教会这一正统教会体系
+    storyNote: "'暴君'牌原是亚当持有，后经克莱恩转交阿尔杰·威尔逊"
+    evidence: 萌娘百科《非凡途径》；百度百科《亵渎之牌》；萌娘百科《塔罗会》
+    confidence: 高
+  - number: 6
+    id: the_lovers
+    name: 恋人
+    nameEn: The Lovers
+    pathway: error
+    pathwayName: 偷盗者途径（错误途径）
+    sequence0: 错误
+    sequence9: 偷盗者
+    organizations:
+      - 阿蒙家族
+      - 雅各家族
+      - 索罗亚斯德家族
+      - 命运隐士会
+    holder: null
+    symbolism: 结合、选择与另一种性别的强烈吸引力；愚人开始感受到平衡的趋势，逐渐成为关系中的一方
+    storyNote: B 站读者整理的对应分析把该牌与'偷盗者'途径相配，并引塔罗'愚人之旅'解读
+    evidence: 萌娘百科《非凡途径》
+    confidence: 高（对应关系）/ 中（象征释义）
+  - number: 7
+    id: the_chariot
+    name: 战车
+    nameEn: The Chariot
+    pathway: hunter
+    pathwayName: 猎人途径（红祭司途径）
+    sequence0: 红祭司
+    sequence9: 猎人
+    organizations:
+      - 索伦家族
+      - 艾因霍恩家族
+      - 铁血十字会
+    holder: 卢米安·李（塔罗会'战车'先生，'病教'所信仰的'病神'）
+    symbolism: 事业上的成功、自信与野心；有形地控制自己拥有的一切。红祭司的权能象征战争，战争有组织纪律性
+    storyNote: "'红祭司'牌由索伦·艾因霍恩·梅迪奇流转至克莱恩"
+    evidence: 萌娘百科《非凡途径》；百度百科《亵渎之牌》；萌娘百科《塔罗会》
+    confidence: 高
+  - number: 8
+    id: justice
+    name: 正义
+    nameEn: Justice
+    pathway: spectator
+    pathwayName: 观众途径（空想家途径）
+    sequence0: 空想家
+    sequence9: 观众
+    organizations:
+      - 心理炼金会
+      - 黄昏隐士会
+    holder: 奥黛丽·霍尔（塔罗会'正义'女士，霍尔家族千金，心理炼金会评议团委员'傲慢'）
+    symbolism: 因果、责任与纠正错误，使未来沿更好的方向前进；愚人必须做重要决定
+    storyNote: 原文 ch7：奥黛丽在塔罗会上自选代号'正义'
+    evidence: 萌星百科《非凡途径》与《塔罗会》；原文 ch7
+    confidence: 高
+  - number: 9
+    id: the_hermit
+    name: 隐者
+    nameEn: The Hermit
+    pathway: mystery_pryer
+    pathwayName: 窥秘人途径（隐者途径）
+    sequence0: 隐者
+    sequence9: 窥秘人
+    organizations:
+      - 摩斯苦修会
+      - 要素黎明
+    holder: 嘉德丽雅（塔罗会'隐者'女士，前海盗将军、现'星星女王'，摩斯苦修会成员）
+    symbolism: 内省、独行与追寻真理的隐者；与'窥秘人'对神秘知识的全面掌握相配
+    storyNote: 罗塞尔正是使用'隐者'途径序列1'知识皇帝'的能力制作了 22 张亵渎之牌
+    evidence: 萌娘百科《非凡途径》与《塔罗会》；百度百科《亵渎之牌》
+    confidence: 高
+  - number: 10
+    id: wheel_of_fortune
+    name: 命运之轮
+    nameEn: Wheel of Fortune
+    pathway: monster
+    pathwayName: 怪物途径（命运之轮途径）
+    sequence0: 命运之轮
+    sequence9: 怪物
+    organizations:
+      - 生命学派
+    holder: null
+    symbolism: 命运的转动、概率与无常；神话生物形态即由水银色符号连成的巨蛇，每个转轮上都有不同标识
+    storyNote: null
+    evidence: 萌娘百科《非凡途径》；百度百科《亵渎之牌》
+    confidence: 高
+  - number: 11
+    id: strength
+    name: 力量
+    nameEn: Strength
+    pathway: warrior
+    pathwayName: 战士途径（黄昏巨人途径）
+    sequence0: 黄昏巨人
+    sequence9: 战士（古称'超凡战士''神血战士'）
+    organizations:
+      - 战神教会
+      - 白银城
+    holder: null
+    symbolism: 整个途径都充满战斗的力量，巨人本身就是力量的象征
+    storyNote: null
+    evidence: 萌娘百科《非凡途径》；B 站读者整理《塔罗牌与神之途径》
+    confidence: 高（对应关系）
+  - number: 12
+    id: the_hanged_man
+    name: 倒吊人
+    nameEn: The Hanged Man
+    pathway: secrets_supplicant
+    pathwayName: 秘祈人途径（倒吊人途径）
+    sequence0: 倒吊人
+    sequence9: 秘祈人
+    organizations:
+      - 极光会
+      - 救赎蔷薇
+    holder: 阿尔杰·威尔逊（塔罗会'倒吊人'先生）
+    symbolism: 换位思考、牺牲与视角的逆转；序列3'三首圣堂'的形态（两侧肩头各长出一个蒙着阴影的头颅，一老一少）即三种思考
+    storyNote: 原文 ch93：很多人相信罗塞尔大帝在发明塔罗牌时参照过'真实造物主'的形象——真实造物主曾以'倒吊的巨人''阴影帷幕后的眼睛'等形象出现，于是有了'倒吊人'这张牌
+    evidence: 萌娘百科《非凡途径》与《塔罗会》；原文 ch93
+    confidence: 高
+  - number: 13
+    id: death
+    name: 死神
+    nameEn: Death
+    pathway: corpse_collector
+    pathwayName: 收尸人途径（死神途径）
+    sequence0: 死神
+    sequence9: 收尸人
+    organizations:
+      - 艾格斯家族
+      - 灵教团
+      - 永生会
+    holder: null
+    symbolism: 终结、转化与死亡的必然；该途径的圣者/天使形态为羽蛇
+    storyNote: "'死神'牌在百度百科下落清单中亦写作'永眠者'牌（'死神'牌）"
+    evidence: 萌娘百科《非凡途径》；百度百科《亵渎之牌》
+    confidence: 高
+  - number: 14
+    id: temperance
+    name: 节制
+    nameEn: Temperance
+    pathway: prisoner
+    pathwayName: 囚犯途径（被缚者途径）
+    sequence0: 被缚者
+    sequence9: 囚犯
+    organizations:
+      - 玫瑰学派
+    holder: 莎伦（塔罗会'节制'女士，玫瑰学派节制系成员）
+    symbolism: 调和、克制与自我约束；'心是身的囚犯，身是世界的囚犯'——被束缚的疯狂与被压抑的欲望
+    storyNote: 原文 ch5：桌上塔罗中可见'节制'主牌
+    evidence: 萌娘百科《非凡途径》与《塔罗会》；原文 ch5
+    confidence: 高
+  - number: 15
+    id: the_devil
+    name: 恶魔
+    nameEn: The Devil
+    pathway: criminal
+    pathwayName: 罪犯途径（深渊途径）
+    sequence0: 深渊
+    sequence9: 罪犯
+    organizations:
+      - 拜血教
+    holder: null
+    symbolism: 欲望、束缚与堕落；'深渊无所固定，你最恐惧什么或最向往什么，你就看到什么'
+    storyNote: null
+    evidence: 萌娘百科《非凡途径》；百度百科《亵渎之牌》
+    confidence: 高
+  - number: 16
+    id: the_tower
+    name: 塔
+    nameEn: The Tower
+    pathway: reader
+    pathwayName: 阅读者途径（白塔途径）
+    sequence0: 白塔
+    sequence9: 阅读者
+    organizations:
+      - 知识与智慧之神教会
+    holder: null
+    symbolism: 突如其来的剧变与解放——一束强光直射高塔，居住者摇摇欲坠；若要解放自己就需要一次剧烈的变动
+    storyNote: 萌娘百科写作'塔'，其他整理亦作'高塔'
+    evidence: 萌娘百科《非凡途径》；B 站读者整理《塔罗牌与神之途径》
+    confidence: 高（对应关系）
+  - number: 17
+    id: the_star
+    name: 星星
+    nameEn: The Star
+    pathway: sleepless
+    pathwayName: 不眠者途径（黑暗途径）
+    sequence0: 黑暗
+    sequence9: 不眠者
+    organizations:
+      - 黑夜女神教会
+    holder: 伦纳德·米切尔（塔罗会'星星'先生，黑夜女神教会高级执事）
+    symbolism: 希望、指引与夜幕中的光；与'黑夜女神'体系相配
+    storyNote: 原文 ch38：克莱恩在占卜俱乐部翻开的第一张塔罗牌就是'星星'，**逆位**
+    evidence: 萌娘百科《非凡途径》与《塔罗会》；原文 ch38
+    confidence: 高
+  - number: 18
+    id: the_moon
+    name: 月亮
+    nameEn: The Moon
+    pathway: apothecary
+    pathwayName: 药师途径（月亮途径）
+    sequence0: 月亮
+    sequence9: 药师
+    organizations:
+      - 血族
+      - 大地母神教会
+      - 玫瑰学派
+      - 生命学派
+    holder: 埃姆林·怀特（塔罗会'月亮'先生，血族伯爵，大地母神教会高级执事）
+    symbolism: 幻象、潜意识与阴性能量；'月亮'牌中被'堕落母神'安排了陷阱
+    storyNote: 该牌为罗塞尔在受污染状态下制作，翻到序列0后在红月照耀下会显现'堕落母神'恩赐途径的内容
+    evidence: 萌娘百科《非凡途径》与《塔罗会》；百度百科《亵渎之牌》
+    confidence: 高
+  - number: 19
+    id: the_sun
+    name: 太阳
+    nameEn: The Sun
+    pathway: sun
+    pathwayName: 歌颂者途径（太阳途径）
+    sequence0: 太阳
+    sequence9: 歌颂者
+    organizations:
+      - 永恒烈阳教会
+    holder: 戴里克·伯格（塔罗会'太阳'先生，罗思德群岛新白银城长老，愚者教会大主教）
+    symbolism: 光明、生命力与成功；歌颂者'赞美太阳，用歌声带来勇气和力量，带来虔诚和服从'
+    storyNote: 原文 ch7：戴里克被拉入灰雾后自选代号'太阳'
+    evidence: 萌娘百科《非凡途径》与《塔罗会》
+    confidence: 高
+  - number: 20
+    id: judgement
+    name: 审判
+    nameEn: Judgement
+    pathway: arbiter
+    pathwayName: 仲裁人途径（审判者途径）
+    sequence0: 审判者
+    sequence9: 仲裁人
+    organizations:
+      - 奥古斯都家族
+      - 卡斯蒂亚家族
+      - 鲁恩王国部分官方势力
+    holder: 休·迪尔查（塔罗会'审判'女士，鲁恩王国军情九处处长）
+    symbolism: 清算、觉醒与最终裁决；'仲裁人'倾向于维护当前秩序，拥有让人信服的魅力和足够的权威
+    storyNote: null
+    evidence: 萌娘百科《非凡途径》与《塔罗会》；百度百科《亵渎之牌》
+    confidence: 高
+  - number: 21
+    id: the_world
+    name: 世界
+    nameEn: The World
+    pathway: mother
+    pathwayName: 耕种者途径（母亲途径）
+    sequence0: 母亲
+    sequence9: 耕种者
+    organizations:
+      - 大地母神教会
+    holder: 格尔曼·斯帕罗（塔罗会'世界'先生——实为'愚者'其它眷者的公共身份，使用者包括克莱恩·莫雷蒂、夏洛克·莫里亚蒂、道恩·唐泰斯、梅林·赫尔墨斯，均为同一人）
+    symbolism: 完成、圆满与完美升华的结尾；原文 ch517：'这个顺序并非根据座位排列而来，依循于塔罗牌的规律，**愚者是包含所有可能的开始，世界是完美升华的结尾**'
+    storyNote: ⚠️ 注意区分两件事：(1) 塔罗会代号'世界'由克莱恩的小号共用；(2) 对应牌面'世界'的途径是**耕种者/母亲途径**（序列0'母亲'）。'世界'牌上罗塞尔的画像会变成女性甚至怀孕
+    evidence: 萌娘百科《非凡途径》与《塔罗会》；原文 ch517；百度百科《亵渎之牌》
+    confidence: 高

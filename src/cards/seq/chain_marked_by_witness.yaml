@@ -1,0 +1,24 @@
+# 事件卡链（M2.87）—— **后续卡**：只有触发过前置卡的人才抽得到。
+# 前置：lost_001 认错的人（设 flag `marked_by_witness`）
+# 判据：`cond: flag:marked_by_witness`。
+#
+# ⚠️ 这一类此前**一条都没有**：全库 29 张卡设了 flag，而要求 flag 的卡是 **0 张** ——
+#    flag 设了就再没有人读，等于写了一半的链。这张是它的后半段。
+id: chain_marked_by_witness
+name: 他找来了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:marked_by_witness'
+effects:
+  - { dig: 2 }
+  - { cor: 2 }
+texts:
+  priv: |
+    那个人认出你的时候，你没有否认。
+    过了几天他又来了 —— 这次他带着别人。
+    **那个人比你高，也比你安静。**
+    他们没说话，只是站在街对面看了你一会儿，走了。
+  group: 有人这两天一直被人隔着街看。
+daily_limit: 1

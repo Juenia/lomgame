@@ -1,0 +1,34 @@
+id: seq7_001
+name: 另外几根线
+trigger:
+  type: daily
+  weight: 10
+  cond: []
+  min_seq: 7
+effects:
+  - { dig: 3 }
+  - { mad: 1 }
+texts:
+  priv: |
+    你伸手去够雾里的东西，指尖先碰到了另外几根线 —— 它们都连着同一件事，只是落点不同。
+    你松开手的时候，有一条留在了你掌心里。
+    序列 7 的人第一次看见的不是答案，是「答案不止一个」。
+  group: 礼拜堂里有什么东西轻轻响了一声。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把留在掌心的那根收起来
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你把它绕在指上。它很细，也很凉。
+  - key: '2'
+    label: 再伸手去够一次
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你又伸了手。这次碰到了四根 —— 而它们全都在往回缩。
+  - key: '3'
+    label: 看看那几根线都连到哪
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      你顺着看。它们连到的是同一件事，而落点各在一个人的手上。

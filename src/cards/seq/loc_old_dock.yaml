@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「老码头」（old_dock，危险度 2）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_old_dock
+name: 绳子结成了人形
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:老码头'
+effects:
+  - { dig: 2 }
+  - { mad: 1 }
+texts:
+  priv: |
+    码头上的缆绳泡了海水，硬得像铁。
+    有一根靠在木桩上，你没有在意。
+    走过去之后你回头 —— **那根绳子的结，是个人形。**
+    手、头、两条腿，都在。你走回去看，它还是绳子。
+  group: 老码头那根缆绳上有个结，看着像人。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把那个结解开
+    effects: [ { dig: 7, hp: 2, cor: 3, mad: 4 } ]
+    text: |
+      你去解。绳子很硬。
+      **解到一半的时候它自己散开了** —— 散成一堆，没有形状。
+  - key: '2'
+    label: 退开两步再看一次
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你退开两步。它还是绳子。
+      **而你再往前走一步** —— 人形又回来了。
+  - key: '3'
+    label: 伸手摸摸那根绳子
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你摸了摸。是硬的。
+      **而有一处是软的** —— 正好在「头」那个位置。

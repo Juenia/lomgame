@@ -1,0 +1,33 @@
+id: daily_025
+name: 兑现的人情
+trigger:
+  type: daily
+  weight: 4
+  cond:
+    - flag:owes_favor
+  cooldown_days: 7
+effects:
+  - { dp: 1 }
+  - { cor: 1 }
+texts:
+  priv: |
+    那笔人情被兑现了。对方没有多要，但你付出的东西不在账面上。
+  group: 一笔旧账今晚清了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把账本上那一行划掉
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你划掉了。墨还没干的时候，那一行又浮出来了。
+  - key: '2'
+    label: 问他还要什么
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      他说不要了。而他说这话的时候在看你的手。
+  - key: '3'
+    label: 记下自己付出的是什么
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      你想了半天，写下了两个字 —— 而你自己都不确定那是你要付出的东西。

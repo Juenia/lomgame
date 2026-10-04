@@ -1,0 +1,38 @@
+id: path_reader_005
+name: 已经写在上面的字
+trigger:
+  type: daily
+  weight: 6
+  cond: [ 'pathway:reader' ]
+  min_seq: 4
+  cooldown_days: 5
+effects:
+  - { dig: 7 }
+  - { mad: 2 }
+texts:
+  priv: |
+    你正要落笔，发现纸上已经有了一行。
+    是你自己的字迹，写的是你**准备写的那句话的后半段**。
+    预言家不是看见未来，是**先看见了记录**。你把笔放下，把那行字读完。读完你就明白：这不是预告，是提醒 —— 提醒你待会儿别改主意。
+  group: 屋里的烛火晃了一下，影子换了个方向。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把那行字读完
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你读完了。它只有半句。
+      **而写完这半句的人** —— 笔迹和你一模一样，连那个习惯性的拖笔都有。
+  - key: '2'
+    label: 接着把整句写下去
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你写完了。写完纸上什么都不剩。
+      **只剩你刚写的那一行** —— 前面那半句不见了。
+  - key: '3'
+    label: 把纸烧掉
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你烧了。灰是白的。
+      **而灰落在桌上拼成一行** —— 还是那半句。

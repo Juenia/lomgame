@@ -1,0 +1,24 @@
+# 事件卡链（M2.87）—— **后续卡**：只有触发过前置卡的人才抽得到。
+# 前置：daily_008 雾上的名字（设 flag `marked_by_entity`）
+# 判据：`cond: flag:marked_by_entity`。
+#
+# ⚠️ 这一类此前**一条都没有**：全库 29 张卡设了 flag，而要求 flag 的卡是 **0 张** ——
+#    flag 设了就再没有人读，等于写了一半的链。这张是它的后半段。
+id: chain_marked_by_entity
+name: 它留了记号
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:marked_by_entity'
+effects:
+  - { mad: 3 }
+  - { cor: 2 }
+texts:
+  priv: |
+    你回去照了镜子。
+    **左手腕内侧有一小块** —— 不疼，不痒，颜色比旁边浅。
+    你以前没注意过这里。
+    你把袖子拉下来，拉了两次。
+  group: 那个人这半个月一直穿长袖。
+daily_limit: 1

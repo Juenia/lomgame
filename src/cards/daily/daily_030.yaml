@@ -1,0 +1,33 @@
+id: daily_030
+name: 擦干净
+trigger:
+  type: daily
+  weight: 7
+  cond: []
+effects:
+  - { item: 黑纱手套, n: 1 }
+  - { cor: -2 }
+  - { dig: 1 }
+texts:
+  priv: |
+    你戴上黑纱手套，按规程把一处污染的痕迹擦干净。
+    擦到最后，手套比痕迹更脏。
+  group: 有人清理了一处不该留下的痕迹。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把手套处理掉
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你烧了它。烧的时候有股很淡的甜味。
+  - key: '2'
+    label: 看看擦出来的痕迹是什么
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      痕迹是干的 —— 而它本来不该是干的。
+  - key: '3'
+    label: 再擦一遍
+    effects: [ { dig: 4, hp: 1, mad: 1 } ]
+    text: |
+      第二遍擦下来的是灰。你把它也收了起来。

@@ -1,0 +1,37 @@
+id: path_spectator_001
+name: 他在想别的事
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:spectator' ]
+  min_seq: 9
+effects:
+  - { dig: 4 }
+  - { mp: -2 }
+texts:
+  priv: |
+    对面的人笑着说「没事」。
+    你听见的不是这两个字 —— 是他笑之前咽的那一下。
+    观众最先学会的是：**人说的话，和他想让你听见的话，不是同一句**。
+  group: 酒馆里有个人一直在看别人，自己没怎么说话。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 接着跟他聊下去
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你接着聊。他答得很顺。
+      **而他咽的那一下越来越频繁** —— 你数了七次。
+  - key: '2'
+    label: 点破他咽的那一下
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你说了。他愣了一下，然后笑了。
+      **而笑到一半他停了** —— 他什么都没再说，只是把酒喝完了。
+  - key: '3'
+    label: 再安静地看他一会儿
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你不说话，只是看。他慢慢坐不住了。
+      **而他一直没走** —— 他大概在等你说出来。

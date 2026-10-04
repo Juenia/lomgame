@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「墓园小径」（graveyard_path，危险度 3）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_graveyard_path
+name: 多了一座
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:墓园小径'
+effects:
+  - { mad: 3 }
+  - { cor: 1 }
+texts:
+  priv: |
+    这条小径你走过很多次，哪座碑在哪你都记得。
+    今天多了一座。很新，石头的颜色都比旁边浅。
+    **碑上没有名字。**
+    你站了一会儿。风把草吹得响。
+  group: 墓园里多了一座无名的新碑，守墓的人说不知道是谁立的。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 走近看那块碑
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你走近看。碑面无字，但有一层很薄的土。
+      **土上有指印** —— 从上往下抹的，抹了三道。
+  - key: '2'
+    label: 按老路把碑数一遍
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你数了一遍。一共二百零七座。
+      **而你记得以前是二百零六** —— 你以前每次都数。
+  - key: '3'
+    label: 去问守墓的人
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你问了。他说他没立过。
+      **而他说他昨天数的时候还没有** —— 他也数。

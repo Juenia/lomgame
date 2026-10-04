@@ -1,0 +1,32 @@
+id: daily_004
+name: 守夜三圈
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - flag:night_watch_duty
+effects:
+  - { dig: 2 }
+  - { mad: 1 }
+texts:
+  priv: |
+    这一夜的排班落在你身上。你按守夜人的规矩走完三圈，脚步与呼吸都压得很低。
+  group: 钟楼敲了三下，没有人抬头。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 走完三圈，回去睡
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你躺下的时候天快亮了。
+  - key: '2'
+    label: 在第二圈停一下，听
+    effects: [ { dig: 5, cor: 1, mad: 2 } ]
+    text: |
+      你停住了。钟楼那边没有敲，而你已经听见了三下。
+  - key: '3'
+    label: 多走一圈
+    effects: [ { dig: 4, hp: 1, mad: 1 } ]
+    text: |
+      第四圈走完的时候，你的脚步声比刚才多了一下。

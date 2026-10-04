@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **三级链的第三段（终点）**。
+# 前置链：第一段设 `party_trust` → 第二段读它、设 `party_trust_broken` → 本卡读 `party_trust_broken`。
+# 本卡**不再设新 flag** —— 链到此为止。
+id: chain3_party_trust_broken
+name: 剩下的人怎么想
+trigger:
+  type: daily
+  weight: 10
+  cond:
+    - 'flag:party_trust_broken'
+effects:
+  - { dig: 3 }
+  - { cor: 3 }
+texts:
+  priv: |
+    你们散了之后，剩下的人来找过你。
+    他们问的是同一件事：**「你早就知道？」**
+    你说不知道。他们看着你，没有说信不信。
+    从那以后你们还是一起走，但走得不那么近了。
+  group: 那几个人最近还在一起，但话少了。
+daily_limit: 1

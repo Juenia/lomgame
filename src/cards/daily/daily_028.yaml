@@ -1,0 +1,34 @@
+id: daily_028
+name: 雾里结出的晶体
+trigger:
+  type: hidden
+  weight: 3
+  cond:
+    - dig>=80
+  cooldown_days: 7
+effects:
+  - { item: 主材料·灰雾结晶, n: 1 }
+  - { dig: 2 }
+  - { cor: 2 }
+texts:
+  priv: |
+    灰雾里结出了一小颗晶体。你把它收进内袋，那里从此一直是凉的。
+  group: 灰雾深处有什么凝结了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把晶体收好
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      内袋一直是凉的。凉了一整夜。
+  - key: '2'
+    label: 把它拿出来看清楚
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你举到光下看。里面有一小块东西在动。
+  - key: '3'
+    label: 把它放回雾里
+    effects: [ { dig: 3 } ]
+    text: |
+      你放了回去。它落进雾里没有声音。

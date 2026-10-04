@@ -1,0 +1,37 @@
+id: path_lawyer_001
+name: 所有的规定都能被解释
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:lawyer' ]
+  min_seq: 9
+effects:
+  - { dig: 4 }
+  - { cor: 1 }
+texts:
+  priv: |
+    你把那份条文读了三遍，找到一处标点上的空子。
+    它不是漏洞，是**写的人当时没想到还能这么断句**。
+    黑皇帝这一途的人，靠的不是违法，是比写的人更懂那行字。
+  group: 事务所里有人笑了很久，笑得很轻。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 按那个断句把事办成
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你办了。办得很干净。
+      **而对方到最后都不知道自己输在哪** —— 他只说这批文件写得怪。
+  - key: '2'
+    label: 把那个空子记下来
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你记在册子最后一页。
+      **记的时候你手很稳** —— 而那一页已经记了七条了。
+  - key: '3'
+    label: 去问写条文的人当时怎么想的
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你问了。他说那段是他赶时间写的。
+      **而他说这话的时候** —— 一直在看你的册子。

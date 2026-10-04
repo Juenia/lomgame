@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `broke_a_promise` → 后续卡 `chain_broke_a_promise`
+id: start_broke_a_promise
+name: 没做到
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { cor: 2 }
+  - { mad: 2 }
+  - { flag: broke_a_promise }
+texts:
+  priv: |
+    你答应过的事没有办到。
+    不是办不到 —— 是你后来不想办了。
+    **你把这件事放在心里压了几天。**
+    今天你在街上看见了他，他没提那件事。
+  group: 那两个人以前总在一起，最近不一起了。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 主动跟他提这件事
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你提了。他说他早忘了。
+      **而他说话的时候** —— 眼睛一直没有看你。
+  - key: '2'
+    label: 不提，转身走
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你转身走了。他也没有叫住你。
+      **而这件事一直在你心里** —— 压得比前几天更沉。
+  - key: '3'
+    label: 去把答应的事补上
+    effects: [ { dig: 7, hp: 2, cor: 3, mad: 3 } ]
+    text: |
+      你去办了。办完已经是晚上。
+      **而办的时候你才知道** —— 这件事本来就不该答应。

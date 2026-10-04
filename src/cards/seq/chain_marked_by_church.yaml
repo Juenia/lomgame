@@ -1,0 +1,24 @@
+# 事件卡链（M2.87）—— **后续卡**：只有触发过前置卡的人才抽得到。
+# 前置：lost_002 被记下的脸（设 flag `marked_by_church`）
+# 判据：`cond: flag:marked_by_church`。
+#
+# ⚠️ 这一类此前**一条都没有**：全库 29 张卡设了 flag，而要求 flag 的卡是 **0 张** ——
+#    flag 设了就再没有人读，等于写了一半的链。这张是它的后半段。
+id: chain_marked_by_church
+name: 来敲门
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:marked_by_church'
+effects:
+  - { dig: 3 }
+  - { cor: 2 }
+texts:
+  priv: |
+    敲门的是两个人，穿得很整齐。
+    「例行拜访，」他们说。
+    **你请他们进来了。** 他们坐了一刻钟，问了三句话，走了。
+    走之后你才发现，他们谁都没喝那杯茶。
+  group: 那户人家昨天接待了两个穿得很整齐的人。
+daily_limit: 1

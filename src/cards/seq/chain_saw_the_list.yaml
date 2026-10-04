@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：看到了一份名单（设 flag `saw_the_list`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_saw_the_list
+name: 前面那些勾
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:saw_the_list'
+effects:
+  - { mad: 4 }
+  - { dig: 3 }
+texts:
+  priv: |
+    你去打听了前面那些名字。
+    第一个搬走了，第二个死了，第三个失踪。
+    **第四个是你认识的那个。** 他上个月还在。
+    你没有再往下问。
+  group: 有人在打听几个很久没出现的人。
+daily_limit: 1

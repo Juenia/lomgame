@@ -1,0 +1,34 @@
+id: seq7_004
+name: 三十年前的石窟
+trigger:
+  type: daily
+  weight: 10
+  cond: []
+  min_seq: 7
+effects:
+  - { dig: 3 }
+  - { mad: 2 }
+texts:
+  priv: |
+    你在梦里没有睡着，也没有醒着 —— 你站在同一个石窟里，但那是它**三十年前**的样子。
+    水还在，灯还在，站在那儿的人已经不在名册上了。
+    醒来的时候你手里多了一点东西，你想不起来是捡的还是它自己跟上来的。
+  group: 石窟深处的潮声停了一下。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 看清楚手里那点东西
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你摊开手。是一小块石头 —— 而它是热的。
+  - key: '2'
+    label: 在石窟里走一圈
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你走了一圈。走到最里面的时候，潮声停了。
+  - key: '3'
+    label: 找那个人站过的位置
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你找到了。地上有一双鞋印 —— 而鞋印的方向是朝里的。

@@ -1,0 +1,39 @@
+id: path_warrior_004
+name: 替你挡下的那一下
+trigger:
+  type: daily
+  weight: 6
+  cond: [ 'pathway:warrior' ]
+  min_seq: 5
+  cooldown_days: 4
+effects:
+  - { dig: 6 }
+  - { hp: -8 }
+  - { flag: rescued_by_party }
+texts:
+  priv: |
+    那东西绕到你身后的时候，你来不及转身。
+    有人替你挡了 —— 你不认识他，他也没说话，只是把肩转过来对着那道伤口。
+    守护者的路是**把背留给别人**。你把他扶起来的时候，他问你为什么不躲。你说：躲了就该你趟这儿了。
+  group: 有人闷哼了一声，随后是金属落地的声音。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把他扶起来
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你把他扶起来。肩上的伤很深。
+      **而他一直在看你身后** —— 他大概在确认那个东西走了没有。
+  - key: '2'
+    label: 问他为什么替你挡
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      他答得很简单：他背对着的时候，也有人替他挡过。
+      **而他说那个人已经不在了** —— 他说这话的时候在笑。
+  - key: '3'
+    label: 回头去找那个东西
+    effects: [ { dig: 7, hp: 3, cor: 3, mad: 3 } ]
+    text: |
+      你把背转向巷子。它还在。
+      **而你这次没有躲** —— 你把肩转了过去。

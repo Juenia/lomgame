@@ -1,0 +1,24 @@
+# 事件卡链（M2.87）—— **后续卡**：只有触发过前置卡的人才抽得到。
+# 前置：daily_029 一周没睡（设 flag `sleepless_week`）
+# 判据：`cond: flag:sleepless_week`。
+#
+# ⚠️ 这一类此前**一条都没有**：全库 29 张卡设了 flag，而要求 flag 的卡是 **0 张** ——
+#    flag 设了就再没有人读，等于写了一半的链。这张是它的后半段。
+id: chain_sleepless_week
+name: 第八天
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:sleepless_week'
+effects:
+  - { hp: -2 }
+  - { mad: 2 }
+texts:
+  priv: |
+    第八天你睡着了 —— 不知道怎么就睡着的。
+    **睡了两个钟头。**
+    醒过来的时候你以为过了很久，天还是黑的。
+    你想再睡，睡不着了。
+  group: 那个人昨天睡了两个钟头，起来之后更差了。
+daily_limit: 1

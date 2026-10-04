@@ -1,0 +1,183 @@
+# 教会技能（M2.17）—— 达到教内档位就解锁的**第二层能力**。
+#
+# 与 abilities.yaml 的关系：那一份是**途径能力**（序列晋升解锁），这一份是**教会技能**（教内档位解锁）。
+# 两者是两层，可以叠加 —— 合并规则在 src/domain/ability/ability.ts 的 mergeAbilityEffects
+# （M2.17 起它的输入放宽为「只要有 effect 就行」，途径能力与教会技能都进得去）。
+#
+# 为什么分文件、而不是在 abilities.yaml 里加一列：
+#   abilities.yaml 的每一条都要求 pathway + seq（途径能力的两把钥匙）；
+#   教会技能的钥匙是 churchId + rank。混在一张表里，schema 就得为「既不是途径、也不是教会」
+#   再开一种状态 —— 而那个状态没有任何内容需要它。
+#
+# 解锁条件：**免费**（达到档位就有），不加消耗、不落库、算出来。
+#   与 M2.16 的 rank 同一条原则：解锁条件是档位的函数，落库会引入同步问题。
+#   理由与代价见 docs/M2.17-技能树.md §三。
+#
+# rank 是**档位索引**（0 起，与 churches.yaml 的 ranks 顺序、NUMERIC.church.ranks 的数组同源）：
+#   本表只用 1 / 2 / 3 —— 第 2、3、4 档，对应贡献门槛 [5, 25, 125] 点
+#   （M2.16 实测的 P50 / P75 / P90 量级：够得着、也够稀有）。
+#
+# ⚠️ **只做途径已实现的教会**：黑夜女神（sleepless）、战神（warrior）、
+#    **风暴之主（sailor，M2.19 接入）**。其余四家在 churches.yaml 里还没有可入教的途径，
+#    写出来也没有玩家能解锁 —— 所以这张表里**不出现它们**（不是写空数组：没写 = 还没做）。
+
+churchAbilities:
+  # ---------------- 黑夜女神（sleepless）：感知与自保向 ----------------
+  - id: night_goddess_1_vigil_eye
+    churchId: night_goddess
+    rank: 1
+    name: 守夜人的眼
+    effect: { exploreDangerMultiplier: 0.9 }
+    description: 你知道夜里的东西什么时候会动 —— 探索危险降 10%。
+
+  - id: night_goddess_2_soothing
+    churchId: night_goddess
+    rank: 2
+    name: 安眠的抚慰
+    effect: { maxMpBonus: 10 }
+    description: 会里的安眠祷词让灵性恢复得更彻底 —— 灵性上限 +10。
+
+  - id: night_goddess_3_dream_road
+    churchId: night_goddess
+    rank: 3
+    name: 梦中的路
+    effect: { divinationExtraOmen: 1 }
+    description: 女神在梦里多给你看一条岔路 —— 占卜多看到一条卜象。
+
+  # ---------------- 战神（warrior）：体魄与先手向 ----------------
+  - id: god_of_war_1_battle_breath
+    churchId: god_of_war
+    rank: 1
+    name: 战场的呼吸
+    effect: { maxHpBonus: 5 }
+    description: 教里的呼吸法让伤口结得更快 —— 生命上限 +5。
+
+  # ⚠️ M2.18（D3）：这一条**换了字段**。
+  #
+  # 原来是 `initiativeBonus: 1`，但 M2.17 的 A2 取证发现它**没有任何读者** ——
+  # 而 M2.10 的回合序是「**发起者先手**」（一个硬编码的设计决定，不是 roll），
+  # 没有可以注入先攻的判定点；硬接要去重写刚验收过的回合序（任务书 §九 明确不要）。
+  #
+  # 所以换成有读者的 maxHpBonus（**id 保留**，避免动既有引用）。
+  # `AbilityEffectSchema.initiativeBonus` 本身**不删** —— abilities.yaml 的 warrior_8 还在用，
+  # 而且 test/w4-edge.test.ts 的用例名就是「先攻加成等当前未接入战斗系统的字段照样能查出来」。
+  - id: god_of_war_2_first_strike
+    churchId: god_of_war
+    rank: 2
+    name: 硬骨头
+    effect: { maxHpBonus: 5 }
+    description: 挨打挨出来的本事 —— 生命上限 +5。
+
+  - id: god_of_war_3_unbroken
+    churchId: god_of_war
+    rank: 3
+    name: 不败的体魄
+    effect: { maxHpBonus: 10 }
+    description: 战神的印记烙在身上，皮肉不再轻易裂开 —— 生命上限再 +10。
+
+  # ---------------- 风暴之主（sailor）：在风浪里站稳向 ----------------
+  #
+  # M2.19：这一家的途径（sailor）落地之后，它从「写出来也没有玩家能解锁」变成了第三家能入教的教会。
+  # 只加**一条**（rank 1）：steam 那边的 3 条是 M2.17 分档设计的产物，
+  # 本轮的目的是让这条途径的技能树有一个真的入口，不是把三家拉齐 ——
+  # 档位 2/3 加什么，等 sailor 的序列 8 配方与晋升链路接上之后再定。
+  #
+  # ⚠️ effect 用 `exploreDangerMultiplier`（读点：router/commands/explore.ts），
+  # **不新造字段** —— 与水手序列 8 的「走得更稳」同一条线索。
+  - id: storm_lord_1_steady_deck
+    churchId: storm_lord
+    rank: 1
+    name: 甲板上的脚
+    effect: { exploreDangerMultiplier: 0.95 }
+    description: 会里的人教你怎样在晃动的甲板上站住 —— 探索危险降 5%。
+
+  # M2.19：补齐到三条（与女神 / 战神对齐）。
+  # 理由不是「凑数」：可争的三对里有一对是「风暴↔战神」，只有一条探索向技能的水手
+  # 在那一对里等于没练过 —— 结构指标达标不等于那条路真能打（K9 的同一条道理）。
+  # effect 仍然只用既有字段（maxMpBonus / maxHpBonus 的读点见 domain/ability/ability.ts 的合并规则）。
+  - id: storm_lord_2_windward
+    churchId: storm_lord
+    rank: 2
+    name: 向风的肺
+    effect: { maxMpBonus: 10 }
+    description: 逆风里换气换惯了 —— 灵性上限 +10。
+
+  - id: storm_lord_3_storm_eye
+    churchId: storm_lord
+    rank: 3
+    name: 风暴眼
+    effect: { maxHpBonus: 10 }
+    description: 站在风暴的中心，反而听不见风 —— 生命上限 +10。
+
+  # ---------------- M2.26 第一批：蒸汽与机械之神（perfect）----------------
+  #
+  # 进入这张表的**前提是这家教会已经有可入教的途径**（见文件顶部的注释）——
+  # M2.26 第一批之前，这一家写出来也没有玩家能解锁，所以一直不在表里。
+  # effect 的三个字段全部是已有字段（与前三家同源）。
+  - id: god_of_steam_1_true_measure
+    churchId: god_of_steam
+    rank: 1
+    name: 准绳
+    effect: { exploreDangerMultiplier: 0.9 }
+    description: 你手里的尺子从来没有量错过 —— 探索危险降 10%。
+
+  - id: god_of_steam_2_spare_parts
+    churchId: god_of_steam
+    rank: 2
+    name: 备件
+    effect: { maxHpBonus: 10 }
+    description: 你身上总带着一块能替换的零件 —— 生命上限 +10。
+
+  - id: god_of_steam_3_blueprint
+    churchId: god_of_steam
+    rank: 3
+    name: 图纸
+    effect: { divinationExtraOmen: 1 }
+    description: 图纸上多画了一条你没走过的路 —— 占卜多看到一条卜象。
+
+  # ---------------- M2.26 第二批：知识与智慧之神（reader）----------------
+  # 三条的 effect 全部复用已有字段（与前面四家同源）。
+  - id: god_of_knowledge_1_card_index
+    churchId: god_of_knowledge
+    rank: 1
+    name: 索引卡
+    effect: { exploreDangerMultiplier: 0.9 }
+    description: 你手里的索引比地图准 —— 探索危险降 10%。
+
+  - id: god_of_knowledge_2_margin_notes
+    churchId: god_of_knowledge
+    rank: 2
+    name: 页边注
+    effect: { maxMpBonus: 10 }
+    description: 前人写在页边的注让咒文读起来更省力 —— 灵性上限 +10。
+
+  - id: god_of_knowledge_3_cross_reference
+    churchId: god_of_knowledge
+    rank: 3
+    name: 交叉索引
+    effect: { divinationExtraOmen: 1 }
+    description: 两份互不相干的记载对上了 —— 占卜多看到一条卜象。
+
+  # ---------------- M2.26 第三批：大地母神（mother）----------------
+  # 三条的 effect 全部复用已有字段（与前面五家同源）。
+  # 取向与 mother 的途径能力一致：**活着**（血上限 / 危险倍率），不是输出。
+  - id: earth_mother_1_seed_keeping
+    churchId: earth_mother
+    rank: 1
+    name: 存种
+    effect: { maxHpBonus: 5 }
+    description: 留一份种子在手里，人就不容易把自己耗干 —— 生命上限 +5。
+
+  - id: earth_mother_2_soil_blessing
+    churchId: earth_mother
+    rank: 2
+    name: 沃土
+    effect: { exploreDangerMultiplier: 0.9 }
+    description: 你踩过的地方会记住你 —— 探索危险降 10%。
+
+  - id: earth_mother_3_harvest_vigil
+    churchId: earth_mother
+    rank: 3
+    name: 丰收守夜
+    effect: { maxHpBonus: 10 }
+    description: 熬过一整季的人身上有那种味道 —— 生命上限 +10。

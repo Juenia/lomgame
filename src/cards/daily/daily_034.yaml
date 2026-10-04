@@ -1,0 +1,36 @@
+# 原著依据：《日常生活.md》light_grade ——「别说煤气灯，连煤油灯都不该奢望，使用蜡烛才是符合身份和地位的表现」（ch2）
+# 本项目从该素材融合为事件卡（不是原作的原文，是依据它写的事件）。
+id: daily_034
+name: 蜡烛才是本分
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - hp<60
+effects:
+  - { mad: 2 }
+  - { hp: -2 }
+  - { dig: 1 }
+texts:
+  priv: |
+    房东来收租，看见你点着煤气灯，皱了很久的眉。
+    「用蜡烛，」她说，「那才是我们这样人该用的。」她走的时候把阀门拧小了。
+  group: 楼道里的灯暗了一格。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 换成蜡烛
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你点上了蜡烛。屋里暗了一格，而你觉得踏实。
+  - key: '2'
+    label: 把阀门拧回去
+    effects: [ { dig: 4, mad: 1 } ]
+    text: |
+      你拧了回去。煤气灯重新亮起来。
+  - key: '3'
+    label: 问她为什么在意这个
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      她说有些人不用灯也看得见 —— 而那种人晚上不该亮着。

@@ -1,0 +1,31 @@
+id: daily_016
+name: 第七次才亮
+trigger:
+  type: daily
+  weight: 4
+  cond: []
+effects:
+  - { item: 潮湿的火柴, n: 1 }
+  - { mp: -1 }
+texts:
+  priv: |
+    火柴受了潮，划了七次才亮。你盯着那点光，想起一个很久以前的下午。
+  group: 有人划亮了第七根火柴。
+daily_limit: 2
+
+options:
+  - key: '1'
+    label: 把火柴吹灭
+    effects: [ { dig: 3 } ]
+    text: |
+      你吹灭了它。屋里又黑了。
+  - key: '2'
+    label: 看着那点光，想那个下午
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你想起来了 —— 那个下午你也在划火柴。
+  - key: '3'
+    label: 再划一根
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      这次一下就亮了。

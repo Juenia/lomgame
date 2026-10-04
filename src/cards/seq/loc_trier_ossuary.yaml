@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「白骨圣堂」（trier_ossuary，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_trier_ossuary
+name: 柱子还在长
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:白骨圣堂'
+effects:
+  - { cor: 3 }
+  - { hp: 2 }
+texts:
+  priv: |
+    圣堂的柱子是骨头垒的，这一点你早就知道。
+    **但你不知道它们还在长。**
+    你摸到接缝那里，新的骨茬是白的，还带着温度。
+    你把手收回来，在衣服上擦了擦。
+  group: 那座白骨圣堂的柱子，比上个月高了一点。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 再去摸一次接缝
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你又摸了一次。新的骨茬还是温的。
+      **而这次接缝的位置变了** —— 比刚才高了一指。
+  - key: '2'
+    label: 量一量柱子现在多高
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你用步子量了。三步半。
+      **而你记得上个月是三步** —— 你上次来也量过。
+  - key: '3'
+    label: 问圣堂的人这柱子多久修一次
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      他说从来不修。
+      **而他说每晚都有人来点灯** —— 点灯的人从来不从正门进。

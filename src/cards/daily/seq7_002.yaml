@@ -1,0 +1,35 @@
+id: seq7_002
+name: 多看见一层
+trigger:
+  type: daily
+  weight: 10
+  cond: []
+  min_seq: 7
+  cooldown_days: 3
+effects:
+  - { dig: 2 }
+  - { cor: 1 }
+texts:
+  priv: |
+    同一片雾，你今天看见的东西比昨天多一层。
+    以前它是「雾」，现在它是「有人在雾里排过队」—— 脚印是往里的，没有往外的。
+    走下序列的人看到的世界，和走上来的那些人看到的，从来不是同一个。
+  group: 雾里有人咳了一声。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 顺着那串脚印往里走
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你往里走。脚印越来越密，而它们还是只有一个方向。
+  - key: '2'
+    label: 站在原地再看一遍
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你又看了一遍。这次看见的是脚印的深浅 —— 它们是踩在同一个位置上的。
+  - key: '3'
+    label: 把看见的这一层记下来
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你写下了两行。写完再看，第二行比第一行浅。

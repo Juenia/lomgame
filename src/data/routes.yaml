@@ -1,0 +1,518 @@
+# 航线（M2.7 主任务三）：城市之间的有向边。每条边**两个方向各一条记录**，
+# 因为「顺流而下 8 小时」与「逆流而上 12 小时」本来就该是两个数。
+#
+# 前 5 对来自任务书 §3.3 的航线表，**一个数没改**：
+#   廷根市 → 贝克兰德   陆路  8h   20 便士  危险 0.2
+#   贝克兰德 → 普利兹港 陆路 12h   30 便士  危险 0.3
+#   普利兹港 → 苏尼亚海 海路 24h  100 便士  危险 0.5
+#   苏尼亚海 → 拜朗     海路 48h  200 便士  危险 0.7
+#   贝克兰德 → 特里尔   海路 72h  300 便士  危险 0.6
+#
+# 另外 2 对是 M2.7 的**补充边**（任务书没写，理由如下）：
+#   廷根市 → 普利兹港   陆路 10h   25 便士  危险 0.25
+#     —— 出生在廷根（权重 30，最大的一群）的玩家如果只能去贝克兰德，
+#        「移动」这条路在 3 天的实例测试里只剩一个目的地，看不出地理的意义。
+#   普利兹港 → 特里尔   海路 36h  120 便士  危险 0.55
+#     —— 因蒂斯与鲁恩之间原本只有 72h / 300 便士的航线（要绕整个大陆），
+#        补一条近海航线之后，两个国家之间第一次有了「当天出发、一天半到」的选择。
+#
+# events 是路途事件池（事件 id 见 src/domain/geo/events.ts）：
+#   陆路：盗匪 / 野兽 / 迷雾 / 同行旅人 / 灵界渗透
+#   海路：风浪 / 海怪 / 迷雾 / 幽灵船 / 同行旅人 / 灵界渗透
+# 池子只决定「这条路上可能出现什么」；具体抽中谁由 numeric.geo.seaEvents / landEvents 的权重决定。
+routes:
+  - { id: tingen-backlund, from: tingen, to: backlund, type: land, duration_hours: 8, cost_penny: 20, danger: 0.2, events: [ bandit, beast, fog, traveler, spirit_tide ] }
+  - { id: backlund-tingen, from: backlund, to: tingen, type: land, duration_hours: 8, cost_penny: 20, danger: 0.2, events: [ bandit, beast, fog, traveler, spirit_tide ] }
+  - { id: backlund-pritz, from: backlund, to: pritz, type: land, duration_hours: 12, cost_penny: 30, danger: 0.3, events: [ bandit, beast, fog, traveler, spirit_tide ] }
+  - { id: pritz-backlund, from: pritz, to: backlund, type: land, duration_hours: 12, cost_penny: 30, danger: 0.3, events: [ bandit, beast, fog, traveler, spirit_tide ] }
+  - { id: tingen-pritz, from: tingen, to: pritz, type: land, duration_hours: 10, cost_penny: 25, danger: 0.25, events: [ bandit, beast, fog, traveler, spirit_tide ] }
+  - { id: pritz-tingen, from: pritz, to: tingen, type: land, duration_hours: 10, cost_penny: 25, danger: 0.25, events: [ bandit, beast, fog, traveler, spirit_tide ] }
+
+  - { id: pritz-sunia, from: pritz, to: sunia, type: sea, duration_hours: 24, cost_penny: 100, danger: 0.5, events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ] }
+  - { id: sunia-pritz, from: sunia, to: pritz, type: sea, duration_hours: 24, cost_penny: 100, danger: 0.5, events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ] }
+  - { id: sunia-byron, from: sunia, to: byron, type: sea, duration_hours: 48, cost_penny: 200, danger: 0.7, events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ] }
+  - { id: byron-sunia, from: byron, to: sunia, type: sea, duration_hours: 48, cost_penny: 200, danger: 0.7, events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ] }
+  - { id: backlund-trier, from: backlund, to: trier, type: sea, duration_hours: 72, cost_penny: 300, danger: 0.6, events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ] }
+  - { id: trier-backlund, from: trier, to: backlund, type: sea, duration_hours: 72, cost_penny: 300, danger: 0.6, events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ] }
+  - { id: pritz-trier, from: pritz, to: trier, type: sea, duration_hours: 36, cost_penny: 90, danger: 0.55, events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ] }
+  - { id: trier-pritz, from: trier, to: pritz, type: sea, duration_hours: 36, cost_penny: 90, danger: 0.55, events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ] }
+
+  # M2.85 内容填充 P2：康斯顿城 ↔ 廷根市（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: konstun-tingen
+    from: konstun
+    to: tingen
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.3
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：康斯顿城 ↔ 廷根市（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: tingen-konstun
+    from: tingen
+    to: konstun
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.3
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：恩马特港 ↔ 廷根市（同区域连接；项目派生：海路 36h/120p，danger 取两端区域均值）
+  - id: enmat-tingen
+    from: enmat
+    to: tingen
+    type: sea
+    duration_hours: 36
+    cost_penny: 120
+    danger: 0.3
+    events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：恩马特港 ↔ 廷根市（同区域连接；项目派生：海路 36h/120p，danger 取两端区域均值）
+  - id: tingen-enmat
+    from: tingen
+    to: enmat
+    type: sea
+    duration_hours: 36
+    cost_penny: 120
+    danger: 0.3
+    events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：斯托恩城 ↔ 廷根市（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: storn-tingen
+    from: storn
+    to: tingen
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.3
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：斯托恩城 ↔ 廷根市（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: tingen-storn
+    from: tingen
+    to: storn
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.3
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：贝尔丹市 ↔ 廷根市（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: beldan-tingen
+    from: beldan
+    to: tingen
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.3
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：贝尔丹市 ↔ 廷根市（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: tingen-beldan
+    from: tingen
+    to: beldan
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.3
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：利蒙市 ↔ 廷根市（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: limon-tingen
+    from: limon
+    to: tingen
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.3
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：利蒙市 ↔ 廷根市（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: tingen-limon
+    from: tingen
+    to: limon
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.3
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：康纳特市 ↔ 廷根市（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: connate-tingen
+    from: connate
+    to: tingen
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.3
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：康纳特市 ↔ 廷根市（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: tingen-connate
+    from: tingen
+    to: connate
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.3
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：班西港 ↔ 廷根市（同区域连接；项目派生：海路 36h/120p，danger 取两端区域均值）
+  - id: banshee_port-tingen
+    from: banshee_port
+    to: tingen
+    type: sea
+    duration_hours: 36
+    cost_penny: 120
+    danger: 0.3
+    events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：班西港 ↔ 廷根市（同区域连接；项目派生：海路 36h/120p，danger 取两端区域均值）
+  - id: tingen-banshee_port
+    from: tingen
+    to: banshee_port
+    type: sea
+    duration_hours: 36
+    cost_penny: 120
+    danger: 0.3
+    events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：达米尔港 ↔ 廷根市（同区域连接；项目派生：海路 36h/120p，danger 取两端区域均值）
+  - id: damir_port-tingen
+    from: damir_port
+    to: tingen
+    type: sea
+    duration_hours: 36
+    cost_penny: 120
+    danger: 0.3
+    events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：达米尔港 ↔ 廷根市（同区域连接；项目派生：海路 36h/120p，danger 取两端区域均值）
+  - id: tingen-damir_port
+    from: tingen
+    to: damir_port
+    type: sea
+    duration_hours: 36
+    cost_penny: 120
+    danger: 0.3
+    events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：拉姆德镇 ↔ 廷根市（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: ramd_town-tingen
+    from: ramd_town
+    to: tingen
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.3
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：拉姆德镇 ↔ 廷根市（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: tingen-ramd_town
+    from: tingen
+    to: ramd_town
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.3
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：维尼亚镇 ↔ 廷根市（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: vinia_town-tingen
+    from: vinia_town
+    to: tingen
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.3
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：维尼亚镇 ↔ 廷根市（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: tingen-vinia_town
+    from: tingen
+    to: vinia_town
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.3
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：比戈尔 ↔ 特里尔（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: bigorre-trier
+    from: bigorre
+    to: trier
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.5
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：比戈尔 ↔ 特里尔（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: trier-bigorre
+    from: trier
+    to: bigorre
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.5
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：达列日 ↔ 特里尔（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: daliege-trier
+    from: daliege
+    to: trier
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.5
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：达列日 ↔ 特里尔（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: trier-daliege
+    from: trier
+    to: daliege
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.5
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：奥米尔 ↔ 特里尔（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: aumir-trier
+    from: aumir
+    to: trier
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.5
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：奥米尔 ↔ 特里尔（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: trier-aumir
+    from: trier
+    to: aumir
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.5
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：科尔杜村 ↔ 特里尔（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: koldur-trier
+    from: koldur
+    to: trier
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.5
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：科尔杜村 ↔ 特里尔（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: trier-koldur
+    from: trier
+    to: koldur
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.5
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：新白银城 ↔ 新月城（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: new_silver_city-new_moon_city
+    from: new_silver_city
+    to: new_moon_city
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.9
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：新白银城 ↔ 新月城（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: new_moon_city-new_silver_city
+    from: new_moon_city
+    to: new_silver_city
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.9
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：新月城 ↔ 新白银城（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: silver_city-new_silver_city
+    from: silver_city
+    to: new_silver_city
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.9
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：白银城 ↔ 新白银城（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: new_silver_city-silver_city
+    from: new_silver_city
+    to: silver_city
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.9
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：月城 ↔ 新白银城（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: moon_city-new_silver_city
+    from: moon_city
+    to: new_silver_city
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.9
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：月城 ↔ 新白银城（同区域连接；项目派生：陆路 10h/25p，danger 取两端区域均值）
+  - id: new_silver_city-moon_city
+    from: new_silver_city
+    to: moon_city
+    type: land
+    duration_hours: 10
+    cost_penny: 25
+    danger: 0.9
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：saint_miron ↔ backlund：该区域只有一座城，按原作地理位置就近连通（跨区域）
+  - id: saint_miron-backlund
+    from: saint_miron
+    to: backlund
+    type: land
+    duration_hours: 24
+    cost_penny: 60
+    danger: 0.5
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：saint_miron ↔ backlund：该区域只有一座城，按原作地理位置就近连通（跨区域）
+  - id: backlund-saint_miron
+    from: backlund
+    to: saint_miron
+    type: land
+    duration_hours: 24
+    cost_penny: 60
+    danger: 0.5
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：fennepot_city ↔ trier：该区域只有一座城，按原作地理位置就近连通（跨区域）
+  - id: fennepot_city-trier
+    from: fennepot_city
+    to: trier
+    type: land
+    duration_hours: 24
+    cost_penny: 60
+    danger: 0.5
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：fennepot_city ↔ trier：该区域只有一座城，按原作地理位置就近连通（跨区域）
+  - id: trier-fennepot_city
+    from: trier
+    to: fennepot_city
+    type: land
+    duration_hours: 24
+    cost_penny: 60
+    danger: 0.5
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：aisara ↔ backlund：该区域只有一座城，按原作地理位置就近连通（跨区域）
+  - id: aisara-backlund
+    from: aisara
+    to: backlund
+    type: land
+    duration_hours: 24
+    cost_penny: 60
+    danger: 0.5
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：aisara ↔ backlund：该区域只有一座城，按原作地理位置就近连通（跨区域）
+  - id: backlund-aisara
+    from: backlund
+    to: aisara
+    type: land
+    duration_hours: 24
+    cost_penny: 60
+    danger: 0.5
+    events: [ bandit, beast, fog, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：byam ↔ byron：该区域只有一座城，按原作地理位置就近连通（跨区域）
+  - id: byam-byron
+    from: byam
+    to: byron
+    type: sea
+    duration_hours: 48
+    cost_penny: 180
+    danger: 0.5
+    events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：byam ↔ byron：该区域只有一座城，按原作地理位置就近连通（跨区域）
+  - id: byron-byam
+    from: byron
+    to: byam
+    type: sea
+    duration_hours: 48
+    cost_penny: 180
+    danger: 0.5
+    events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：东大陆（神弃之地）与南大陆之间的跨海航线 —— 项目要求：地图上每座城都要能从廷根走到（原作里它们近乎隔绝，这里是**项目派生**）
+  - id: silver_city-byam
+    from: silver_city
+    to: byam
+    type: sea
+    duration_hours: 60
+    cost_penny: 240
+    danger: 0.8
+    events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：东大陆（神弃之地）与南大陆之间的跨海航线 —— 项目要求：地图上每座城都要能从廷根走到（原作里它们近乎隔绝，这里是**项目派生**）
+  - id: byam-silver_city
+    from: byam
+    to: silver_city
+    type: sea
+    duration_hours: 60
+    cost_penny: 240
+    danger: 0.8
+    events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：东大陆（神弃之地）与南大陆之间的跨海航线 —— 项目要求：地图上每座城都要能从廷根走到（原作里它们近乎隔绝，这里是**项目派生**）
+  - id: moon_city-silver_city
+    from: moon_city
+    to: silver_city
+    type: sea
+    duration_hours: 60
+    cost_penny: 240
+    danger: 0.8
+    events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ]
+
+  # M2.85 内容填充 P2：东大陆（神弃之地）与南大陆之间的跨海航线 —— 项目要求：地图上每座城都要能从廷根走到（原作里它们近乎隔绝，这里是**项目派生**）
+  - id: silver_city-moon_city
+    from: silver_city
+    to: moon_city
+    type: sea
+    duration_hours: 60
+    cost_penny: 240
+    danger: 0.8
+    events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ]
+
+  # M2.95：通往埃斯科森港（第 29 座城市）的那条船。双向两条，与其它航线同一口径。
+  # 40 小时、140 便士：比班西港那条（36 小时 / 120）稍远 —— 它在迪西海湾最南，再往南就是狂暴海。
+  # ⚠️ 加城市不加航线 = 玩家到不了：地图上有一座城，`.移动` 里永远看不到它。
+  - id: escosen_port-pritz
+    from: escosen_port
+    to: pritz
+    type: sea
+    duration_hours: 40
+    cost_penny: 140
+    danger: 0.35
+    events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ]
+  - id: pritz-escosen_port
+    from: pritz
+    to: escosen_port
+    type: sea
+    duration_hours: 40
+    cost_penny: 140
+    danger: 0.35
+    events: [ storm, sea_monster, fog, ghost_ship, traveler, spirit_tide ]

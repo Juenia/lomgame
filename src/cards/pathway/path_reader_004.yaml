@@ -1,0 +1,38 @@
+id: path_reader_004
+name: 三本书说的是同一件事
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:reader' ]
+  min_seq: 6
+  cooldown_days: 4
+effects:
+  - { dig: 6 }
+  - { item: 旧日记残页, n: 1 }
+texts:
+  priv: |
+    一本写于一七三二年，一本写于异国，一本没有署名。
+    三本书里都提到同一场雾，日期差三个月。
+    博学者知道：**两份记载不一致时，先别急着分真假 —— 先问它们是不是在说同一件事的不同位置**。你把三页抄在一起，中间那一页的纸比你手上的旧。
+  group: 书架深处有什么东西轻轻滑了一下。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把三页抄在一起
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你抄在一起，并排看。
+      **三处说的是同一场雾** —— 而每一处都发生在不同的地方。
+  - key: '2'
+    label: 去查那三本书的来源
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      你查了两本。第三本没有登记。
+      **而它一直在这排架子上** —— 管理员说它昨天才出现。
+  - key: '3'
+    label: 把中间那一页拿去对纸
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你对着光比了一下。纸不一样。
+      **而墨是一样的** —— 同一砚墨，写了相隔一百年的三本书。

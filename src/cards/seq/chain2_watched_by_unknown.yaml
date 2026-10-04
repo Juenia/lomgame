@@ -1,0 +1,22 @@
+# 事件卡链（M2.87）—— **链的第二段**（三级链的中间那一环）。
+# 前置：设 flag `watched_by_unknown` 的那张卡
+# 自身：要 `flag:watched_by_unknown`，并**设出** `watcher_seen`（供第三段读）
+id: chain2_watched_by_unknown
+name: 你看清了他的脸
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:watched_by_unknown'
+effects:
+  - { dig: 4 }
+  - { cor: 2 }
+  - { flag: watcher_seen }
+texts:
+  priv: |
+    你这次没有抬头，只是把眼睛转过去。
+    **看清了。** 那张脸你认识 —— 是三年前给你送过信的人。
+    他也在看你。对视的一瞬间他没有躲。
+    然后他把窗帘拉上了。
+  group: 对面那栋楼那扇窗昨天拉上了窗帘，再没打开。
+daily_limit: 1

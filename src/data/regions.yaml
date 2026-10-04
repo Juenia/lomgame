@@ -1,0 +1,554 @@
+# 世界地理（M2.7 主任务一）：区域 → 城市 → 地点
+#
+# 三处口径写在最前面：
+#   1. pathways 是**设计意图**：任务书 §3.2 表里那些尚未实现的途径（门 / 秘法师 / 错误 /
+#      观众 / 收尸人 / 窥秘人）记在这里，与 numeric.promotion.sequenceGating.planned
+#      同一手法 —— 设计意图有一个可被引用的落点，而不是散在某份报告里。
+#      **出生校验只读 cities.yaml 的 pathways**，这个字段没有任何代码读它。
+#      M2.19：水手（sailor）已实现，所以它从这条口径里移出（取值域是已知途径的并集，
+#      所以这几行仍然写得进去，只是不再代表「尚未实现」）。
+#   2. danger 是 0—1 的区域危险度：它影响的是「这条路有多不安」，
+#      不是「你能不能走」——能不能走只由 RouteSchema 的 cost/duration 与玩家的钱、AP 决定。
+#   3. cities 是冗余索引（真相在 cities.yaml 的 region_id），
+#      放它的唯一理由是一屏展示区域时不用再扫一遍城市表。
+regions:
+  - id: loen
+    name: 鲁恩王国
+    type: continent
+    danger: 0.3
+    cities: [ tingen, backlund, pritz, konstun, enmat, storn, beldan, limon, connate, banshee_port, damir_port, ramd_town, vinia_town, konstun, enmat, storn, beldan, limon, connate, banshee_port, damir_port, ramd_town, vinia_town, escosen_port ]
+    # M2.71：补上 perfect（M2.26 给了 backlund）与 sailor（M2.19 给了 pritz）——
+    # 这两条途径实现时只改了城市，区域这份设计记录没人读、也就没人同步。
+    # 现在由 link-check 第 5 项守着：城市开放的途径必须在所属区域的 pathways 里。
+    # M2.76：本区域所辖城市开放途径的**并集**（两处必须一致，link-check 守着）
+    pathways: [ seer, sleepless, mystery_pryer, secrets_supplicant, warrior, perfect, door, spectator, lawyer, sailor, assassin, hunter, monster ]
+
+  - id: intez
+    name: 因蒂斯
+    type: continent
+    danger: 0.5
+    cities: [ trier, bigorre, daliege, aumir, koldur, bigorre, daliege, aumir, koldur ]
+    # M2.71：补上 reader（M2.26 第二批给了 trier）
+    # M2.76：本区域所辖城市开放途径的**并集**（两处必须一致，link-check 守着）
+    pathways: [ seer, warrior, reader, sun, error, arbiter ]
+
+  - id: south
+    name: 南大陆
+    type: continent
+    danger: 0.8
+    cities: [ byron ]
+    # M2.71：补上 mother（M2.26 第三批给了拜朗）
+    # M2.76：本区域所辖城市开放途径的**并集**（两处必须一致，link-check 守着）
+    pathways: [ sleepless, seer, mother, corpse_collector, apothecary, criminal, prisoner ]
+
+  - id: sunia
+    name: 苏尼亚海
+    type: sea
+    danger: 0.6
+    cities: [ sunia ]
+    # M2.76：原来写的是 mysticism（秘法师），而那个 id 在原著里没有落点（已删除）。
+    # 苏尼亚海在设定上是风暴之主的地盘，所以这一片海设计上传承的就是 sailor ——
+    # 它与上面的 `cities` 口径一致（海域只有一座城市 storm_cape，途径由区域决定）。
+    # M2.76：本区域所辖城市开放途径的**并集**（两处必须一致，link-check 守着）
+    pathways: [ sailor ]
+
+  # 下面两个海域是任务书 §2.1 列出的另外两片海（迷雾海、狂暴海）。
+  # 本版**没有城市**：它们是 M2.8 非凡生物分布与后续海域玩法的落点，
+  # 现在只登记层级，不产生任何航线 —— 所以对现有玩法零影响。
+  - id: mist_sea
+    name: 迷雾海
+    type: sea
+    danger: 0.7
+    cities: []
+    pathways: []
+
+  - id: rage_sea
+    name: 狂暴海
+    type: sea
+    danger: 0.9
+    cities: []
+    pathways: []
+
+  # ===== M2.85 内容填充 P2：弗萨克帝国（源：诡秘之主原作数据/05-地理/国家.yaml）=====
+  # 途径派生：royal_pathway（猎人途径（序列 0 尊名“红祭司”））+ religion 神明的途径（战神）
+  # ⚠️ 原作对南大陆各国**没有**皇室途径与国教记载 → pathways 留空（不编造）；这些区域的城市 birth_weight = 0（只能到达）
+  - id: forsak
+    name: 弗萨克帝国
+    type: continent
+    danger: 0.4
+    cities: [ saint_miron ]
+    pathways: [ hunter, warrior ]
+    country_name: 弗萨克帝国
+    name_en: Forsak Empire
+    government: 帝国（政体细节未在可核验来源中找到）
+    capital: 圣密隆
+    language: ''
+    currency: ''
+    state_religion: [ 战神 ]
+    royal_pathway: 猎人途径（序列 0 尊名“红祭司”）
+    status: 现存
+    continent: 北大陆北部
+    origin: ''
+    sources: []
+    confidence: 中高（政体细节为「未找到」，其余中高）
+
+  # ===== M2.85 内容填充 P2：费内波特王国（源：诡秘之主原作数据/05-地理/国家.yaml）=====
+  # 途径派生：royal_pathway（仲裁人途径（序列 0 尊名“审判者”））+ religion 神明的途径（大地母神）
+  # ⚠️ 原作对南大陆各国**没有**皇室途径与国教记载 → pathways 留空（不编造）；这些区域的城市 birth_weight = 0（只能到达）
+  - id: fennepot
+    name: 费内波特王国
+    type: continent
+    danger: 0.4
+    cities: [ fennepot_city ]
+    pathways: [ arbiter, mother ]
+    country_name: 费内波特王国
+    name_en: Fennepot Kingdom
+    government: 王国（政体细节未在可核验来源中找到）
+    capital: 费内波特城
+    language: ''
+    currency: ''
+    state_religion: [ 大地母神 ]
+    royal_pathway: 仲裁人途径（序列 0 尊名“审判者”）
+    status: 现存
+    continent: 北大陆南部
+    origin: ''
+    sources: []
+    confidence: 中高（政体细节为「未找到」）
+
+  # ===== M2.85 内容填充 P2：伦堡（源：诡秘之主原作数据/05-地理/国家.yaml）=====
+  # 途径派生：royal_pathway（未载）+ religion 神明的途径（知识与智慧之神）
+  # ⚠️ 原作对南大陆各国**没有**皇室途径与国教记载 → pathways 留空（不编造）；这些区域的城市 birth_weight = 0（只能到达）
+  - id: luenburg
+    name: 伦堡
+    type: continent
+    danger: 0.4
+    cities: [ aisara ]
+    pathways: [ reader ]
+    country_name: 伦堡
+    name_en: ''
+    government: 未在可核验来源中找到
+    capital: 艾萨拉
+    language: ''
+    currency: ''
+    state_religion: [ 知识与智慧之神 ]
+    royal_pathway: ''
+    status: 现存（小国）
+    continent: 北大陆，鲁恩-费内波特交界处、因蒂斯-费内波特交界处
+    origin: 领土原本属于费内波特王国，于第五纪 738 年的背誓之战后独立
+    sources: []
+    confidence: 中高
+
+  # ===== M2.85 内容填充 P2：马锡（源：诡秘之主原作数据/05-地理/国家.yaml）=====
+  # 途径派生：royal_pathway（未载）+ religion 神明的途径（知识与智慧之神）
+  # ⚠️ 原作对南大陆各国**没有**皇室途径与国教记载 → pathways 留空（不编造）；这些区域的城市 birth_weight = 0（只能到达）
+  - id: maxi
+    name: 马锡
+    type: continent
+    danger: 0.4
+    cities: []
+    pathways: [ reader ]
+    country_name: 马锡
+    name_en: ''
+    government: ''
+    capital: ''
+    language: ''
+    currency: ''
+    state_religion: [ 知识与智慧之神 ]
+    royal_pathway: ''
+    status: 现存（小国）
+    continent: 北大陆，鲁恩-费内波特交界处
+    origin: 领土原本属于费内波特王国，于第五纪 738 年的背誓之战后独立
+    sources: []
+    confidence: 中高（国名写法存疑，见 alias_note）
+
+  # ===== M2.85 内容填充 P2：塞加尔（源：诡秘之主原作数据/05-地理/国家.yaml）=====
+  # 途径派生：royal_pathway（未载）+ religion 神明的途径（知识与智慧之神）
+  # ⚠️ 原作对南大陆各国**没有**皇室途径与国教记载 → pathways 留空（不编造）；这些区域的城市 birth_weight = 0（只能到达）
+  - id: segal
+    name: 塞加尔
+    type: continent
+    danger: 0.4
+    cities: []
+    pathways: [ reader ]
+    country_name: 塞加尔
+    name_en: ''
+    government: ''
+    capital: ''
+    language: ''
+    currency: ''
+    state_religion: [ 知识与智慧之神 ]
+    royal_pathway: ''
+    status: 现存（小国）
+    continent: 北大陆，鲁恩-费内波特交界处
+    origin: 领土原本属于费内波特王国，于第五纪 738 年的背誓之战后独立
+    sources: []
+    confidence: 中高
+
+  # ===== M2.85 内容填充 P2：东拜朗（源：诡秘之主原作数据/05-地理/国家.yaml）=====
+  # 途径派生：royal_pathway（未载）+ religion 神明的途径（未载）
+  # ⚠️ 原作对南大陆各国**没有**皇室途径与国教记载 → pathways 留空（不编造）；这些区域的城市 birth_weight = 0（只能到达）
+  - id: east_byron
+    name: 东拜朗
+    type: continent
+    danger: 0.7
+    cities: [ byam ]
+    pathways: []
+    country_name: 东拜朗
+    name_en: ''
+    government: ''
+    capital: ''
+    language: ''
+    currency: ''
+    state_religion: []
+    royal_pathway: ''
+    status: 现存（地区／殖民统治区）
+    continent: 南大陆
+    origin: ''
+    sources: []
+    confidence: 中高
+
+  # ===== M2.85 内容填充 P2：西拜朗（源：诡秘之主原作数据/05-地理/国家.yaml）=====
+  # 途径派生：royal_pathway（未载）+ religion 神明的途径（未载）
+  # ⚠️ 原作对南大陆各国**没有**皇室途径与国教记载 → pathways 留空（不编造）；这些区域的城市 birth_weight = 0（只能到达）
+  - id: west_byron
+    name: 西拜朗
+    type: continent
+    danger: 0.7
+    cities: []
+    pathways: []
+    country_name: 西拜朗
+    name_en: ''
+    government: ''
+    capital: ''
+    language: ''
+    currency: ''
+    state_religion: []
+    royal_pathway: ''
+    status: 现存（地区／殖民统治区）
+    continent: 南大陆
+    origin: ''
+    sources: []
+    confidence: 中高
+
+  # ===== M2.85 内容填充 P2：高地王国（源：诡秘之主原作数据/05-地理/国家.yaml）=====
+  # 途径派生：royal_pathway（未载）+ religion 神明的途径（未载）
+  # ⚠️ 原作对南大陆各国**没有**皇室途径与国教记载 → pathways 留空（不编造）；这些区域的城市 birth_weight = 0（只能到达）
+  - id: highland_kingdom
+    name: 高地王国
+    type: continent
+    danger: 0.7
+    cities: []
+    pathways: []
+    country_name: 高地王国
+    name_en: ''
+    government: ''
+    capital: ''
+    language: ''
+    currency: ''
+    state_religion: []
+    royal_pathway: ''
+    status: 存续情况不确定（第五纪初期存在）
+    continent: 南大陆
+    origin: 第四纪拜朗帝国的分支
+    sources: []
+    confidence: 中
+
+  # ===== M2.85 内容填充 P2：帕斯王国（源：诡秘之主原作数据/05-地理/国家.yaml）=====
+  # 途径派生：royal_pathway（未载）+ religion 神明的途径（未载）
+  # ⚠️ 原作对南大陆各国**没有**皇室途径与国教记载 → pathways 留空（不编造）；这些区域的城市 birth_weight = 0（只能到达）
+  - id: pas_kingdom
+    name: 帕斯王国
+    type: continent
+    danger: 0.7
+    cities: []
+    pathways: []
+    country_name: 帕斯王国
+    name_en: ''
+    government: ''
+    capital: ''
+    language: ''
+    currency: ''
+    state_religion: []
+    royal_pathway: ''
+    status: 已灭亡
+    continent: 南大陆
+    origin: ''
+    sources: []
+    confidence: 中高
+
+  # ===== M2.85 内容填充 P2：拜朗帝国（源：诡秘之主原作数据/05-地理/国家.yaml）=====
+  # 途径派生：royal_pathway（未载）+ religion 神明的途径（未载）
+  # ⚠️ 原作对南大陆各国**没有**皇室途径与国教记载 → pathways 留空（不编造）；这些区域的城市 birth_weight = 0（只能到达）
+  - id: byron_empire
+    name: 拜朗帝国
+    type: continent
+    danger: 0.7
+    cities: []
+    pathways: []
+    country_name: 拜朗帝国
+    name_en: ''
+    government: ''
+    capital: 未在可核验来源中找到
+    language: ''
+    currency: ''
+    state_religion: []
+    royal_pathway: ''
+    status: 已灭亡（第四纪）
+    continent: 南大陆
+    origin: 第四纪，死神在南大陆统一了丰收平原和远古森林，建立拜朗帝国、成为冥皇
+    sources: []
+    confidence: 中高
+
+  # ===== M2.85 内容填充 P2：白银之国（源：诡秘之主原作数据/05-地理/国家.yaml）=====
+  # 途径派生：royal_pathway（未载）+ religion 神明的途径（未载）
+  # ⚠️ 原作对南大陆各国**没有**皇室途径与国教记载 → pathways 留空（不编造）；这些区域的城市 birth_weight = 0（只能到达）
+  - id: silver_kingdom
+    corruption_source: true
+    name: 白银之国
+    type: continent
+    danger: 0.9
+    cities: [ new_silver_city, new_moon_city, silver_city, moon_city ]
+    pathways: []
+    country_name: 白银之国
+    name_en: ''
+    government: ''
+    capital: ''
+    language: ''
+    currency: ''
+    state_religion: []
+    royal_pathway: ''
+    status: 已演变为白银城（历史政权）
+    continent: 东大陆（神弃之地）
+    origin: 原本处于巨人王庭的统治下、信仰“丰收女神”欧弥贝拉，得到远古太阳神的救赎后改信，将远古太阳神尊为全知全能的造物主
+    sources: []
+    confidence: 中高
+
+  # ═══════════ M2.93：**历史政权与海域**（区域 17 → 28）═══════════
+  #
+  # 补的是原作《05-地理/国家.yaml》里剩下没落地的 6 个**历史政权**（19 国里其余 13 个已在上面），
+  # 加上 5 片还没登记的海域（项目的地点表里已经有这些节点，区域这一层一直空着）。
+  #
+  # ⚠️ 历史政权的 `cities` 一律是空的 —— 它们已经灭亡，现在没有城市属于它们。
+  #    这也意味着 link-check 第 5 项（城市开放的途径必须在区域 pathways 里）在这里不触发；
+  #    `pathways` 写的是原作给的 `ruler_pathway`，是**设计记录**，不是现在的传承。
+  # ⚠️ 海域的 id 与 locations.yaml 里的海域节点**同名** —— 这是有意的，
+  #    与既有的 `sunia`（既是区域又是城市）同一条口径：同一片海在两层的 id 应当一致。
+  - id: solomon_empire_1
+    name: 所罗门第一帝国
+    type: continent
+    danger: 0.5
+    cities: []
+    pathways: [ lawyer ]
+    country_name: 所罗门第一帝国
+    name_en: ''
+    government: 帝国（第四纪）
+    capital: 间海南岸、霍纳奇斯山脉源头（已埋进历史与尘埃）
+    language: ''
+    currency: ''
+    state_religion: []
+    royal_pathway: 律师途径（序列 0 尊名「黑皇帝」）
+    status: 已灭亡（第四纪）
+    continent: 北大陆（含南大陆部分地区）
+    origin: 「黑皇帝」所罗门建立，统治整个北大陆以及南大陆的部分地区。图铎与特伦索斯特连同大多数贵族家族背叛了他，六神也达成一致，最终促成了他的陨落。
+    sources: []
+    confidence: 中高
+
+  - id: solomon_empire_2
+    name: 所罗门第二帝国
+    type: continent
+    danger: 0.5
+    cities: []
+    pathways: [ lawyer ]
+    country_name: 所罗门第二帝国
+    name_en: ''
+    government: 帝国（第四纪，重建）
+    capital: 圣密隆
+    language: ''
+    currency: ''
+    state_religion: []
+    royal_pathway: 律师途径
+    status: 已灭亡（第四纪，四皇之战后）
+    continent: 北大陆
+    origin: 所罗门回归后重建，疆域与现在的弗萨克帝国基本等同。四皇之战中他再次陨落 —— 那一次没有再回来。
+    sources: []
+    confidence: 中高
+
+  - id: tuduo_empire
+    name: 图铎帝国
+    type: continent
+    danger: 0.6
+    cities: []
+    pathways: [ hunter ]
+    country_name: 图铎帝国
+    name_en: ''
+    government: 帝国（第四纪）
+    capital: 特里尔
+    language: ''
+    currency: ''
+    state_religion: []
+    royal_pathway: 猎人途径（序列 0 尊名「红祭司」）
+    status: 已灭亡（第四纪，四皇之战后）
+    continent: 北大陆
+    origin: 「血皇帝」图铎建立，疆域包含现在因蒂斯共和国的全部国土。四皇之战中他陨落，图铎的贵族家族随后被七神追杀。
+    sources: []
+    confidence: 中高
+
+  - id: trenthorst_empire
+    name: 特伦索斯特帝国
+    type: continent
+    danger: 0.6
+    cities: []
+    pathways: [ arbiter ]
+    country_name: 特伦索斯特帝国
+    name_en: ''
+    government: 帝国（第四纪）
+    capital: 贝克兰德
+    language: ''
+    currency: ''
+    state_religion: []
+    royal_pathway: 仲裁人途径（序列 0 尊名「审判者」）
+    status: 已灭亡（第四纪，四皇之战后）
+    continent: 北大陆
+    origin: 「夜皇」特伦索斯特建立，四皇里实力最强。他陨落之后，四大贵族家族瓜分了北大陆 —— 鲁恩、因蒂斯、弗萨克、费内波特都是从那里来的。
+    sources: []
+    confidence: 中高
+
+  - id: night_kingdom
+    name: 夜之国
+    type: continent
+    danger: 0.8
+    cities: []
+    pathways: [ sleepless ]
+    country_name: 夜之国
+    name_en: ''
+    government: 隐秘国度（第四纪）
+    capital: 霍纳奇斯山脉（不对外开放）
+    language: ''
+    currency: ''
+    state_religion: []
+    royal_pathway: 黑夜途径
+    status: 已灭亡（第四纪末、第五纪初被黑夜女神教会覆灭）
+    continent: 北大陆
+    origin: 「毁灭魔狼」弗雷格拉陨落后，安提哥努斯与姐姐「天之母亲」逃进霍纳奇斯山脉建立。它撑了很久，最后被从山下上来的教会抹掉。
+    sources: []
+    confidence: 中高
+
+  - id: intis_kingdom
+    name: 因蒂斯王国
+    type: continent
+    danger: 0.4
+    cities: []
+    pathways: [ hunter ]
+    country_name: 因蒂斯王国
+    name_en: ''
+    government: 王国（第五纪 1173 年前）
+    capital: 特里尔
+    language: ''
+    currency: ''
+    state_religion: []
+    royal_pathway: 猎人途径（红祭司）
+    status: 已被共和国取代（第五纪 1173 年）
+    continent: 北大陆
+    origin: 索伦家族的王国。罗塞尔·古斯塔夫在查拉图帮助下推翻了它，把因蒂斯改成了共和国 —— 现在的因蒂斯就是从那一天开始的。
+    sources: []
+    confidence: 中高
+
+  - id: storm_sea
+    name: 风暴海
+    type: sea
+    danger: 0.7
+    cities: []
+    pathways: [ sailor ]
+    country_name: 风暴海
+    name_en: ''
+    government: ''
+    capital: ''
+    language: ''
+    currency: ''
+    state_religion: []
+    royal_pathway: 风暴之主
+    status: 现存
+    continent: 五大海洋之一
+    origin: 风暴之主的地盘。这一片海上的航路要先问过祂的教会 —— 而祂的教会从不回答「能不能」，只回答「你敢不敢」。
+    sources: []
+    confidence: 中高
+
+  - id: ghost_sea
+    name: 幽灵海
+    type: sea
+    danger: 0.8
+    cities: []
+    pathways: [ corpse_collector ]
+    country_name: 幽灵海
+    name_en: ''
+    government: ''
+    capital: ''
+    language: ''
+    currency: ''
+    state_religion: []
+    royal_pathway: 死神
+    status: 现存
+    continent: 五大海洋之一
+    origin: 名字来自那些不肯沉下去的东西。死神途径的人在这一片海上比在任何岸上都自在。
+    sources: []
+    confidence: 中高
+
+  - id: north_sea
+    name: 北海
+    type: sea
+    danger: 0.6
+    cities: []
+    pathways: [ sailor ]
+    country_name: 北海
+    name_en: ''
+    government: ''
+    capital: ''
+    language: ''
+    currency: ''
+    state_religion: []
+    royal_pathway: ''
+    status: 现存
+    continent: 五大海洋之一
+    origin: 北大陆与极地之间的那一段水路，冬天结冰、夏天起雾 —— 两边都不好走。
+    sources: []
+    confidence: 中高
+
+  - id: interior_sea
+    name: 间海
+    type: sea
+    danger: 0.6
+    cities: []
+    pathways: [ sailor ]
+    country_name: 间海
+    name_en: ''
+    government: ''
+    capital: ''
+    language: ''
+    currency: ''
+    state_religion: []
+    royal_pathway: ''
+    status: 现存
+    continent: 五大海洋之一
+    origin: 夹在北大陆中间的那片海。所罗门第一帝国的都城原本就在它的南岸 —— 现在那里什么都没有。
+    sources: []
+    confidence: 中高
+
+  - id: frozen_sea
+    name: 冰封海域
+    type: sea
+    danger: 0.9
+    cities: []
+    pathways: []
+    country_name: 冰封海域
+    name_en: ''
+    government: ''
+    capital: ''
+    language: ''
+    currency: ''
+    state_religion: []
+    royal_pathway: ''
+    status: 现存
+    continent: 五大海洋之一
+    origin: 地图上画到那里就停笔了。去过的人回来说「什么都没有」，可说这话的人后来都不肯再提。
+    sources: []
+    confidence: 中高

@@ -1,0 +1,24 @@
+# 事件卡链（M2.87）—— **后续卡**：只有触发过前置卡的人才抽得到。
+# 前置：lost_007 / path_warrior_004（设 flag `rescued_by_party`）
+# 判据：`cond: flag:rescued_by_party`。
+#
+# ⚠️ 这一类此前**一条都没有**：全库 29 张卡设了 flag，而要求 flag 的卡是 **0 张** ——
+#    flag 设了就再没有人读，等于写了一半的链。这张是它的后半段。
+id: chain_rescued_by_party
+name: 轮到你
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:rescued_by_party'
+effects:
+  - { hp: 3 }
+  - { dig: 2 }
+texts:
+  priv: |
+    上次是他把你拖出来的。
+    这次他躺在地上，血把衣服湿了一大片。
+    **你把他背起来了。** 比你想的重。
+    走了很远，他一直没出声，你差点以为他不行了。
+  group: 昨晚有人背着一个受伤的人走了很远的路。
+daily_limit: 1

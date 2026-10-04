@@ -1,0 +1,43 @@
+# 地点专属（M2.87）。地点：「幽灵船墓地」（ghost_graveyard，危险度 5）
+# 本卡由该地点的原作设定与名字意象推演出一个具体场景（不是引述设定）。
+# 只有站在这个地点的人抽得到 —— 判据是 `cond: location:<地点名>`。
+# ⚠️ 这里用的是**地点名**不是 id：`loadRegistryFile` 收的是 `location.name`（见 cards/loader.ts），
+#    而 admin 的字段提示当时写着「必须是一个真实地点 id」—— 两处不一致，已一并修掉。
+id: loc_ghost_graveyard
+name: 帆是好的
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:幽灵船墓地'
+effects:
+  - { dig: 3 }
+  - { mad: 2 }
+texts:
+  priv: |
+    那片海上停着很多船，一动不动。
+    你看得最近的那条 —— 船身已经烂穿了，木头是黑的。
+    **但帆是好的。** 白的，绷得很紧，像刚升上去。
+    你在岸上站了很久。帆一直没有动，也没有落下来。
+  group: 那片海上的船，帆都是新的。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 找条小船划过去
+    effects: [ { dig: 7, hp: 3, cor: 3, mad: 4 } ]
+    text: |
+      你划过去了。船很近，但你划了很久。
+      **到了跟前** —— 那条船的甲板上有一层新灰。
+  - key: '2'
+    label: 在岸上数一数有多少条船
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你数了。三十一条。
+      **数到第三十二条的时候** —— 你抬头，雾里还有。
+  - key: '3'
+    label: 等那面帆动一下
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你站着等。帆一直绷着。
+      **天快黑的时候它动了一下** —— 动的方向是往里，不是往外。

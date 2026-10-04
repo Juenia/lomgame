@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「海浪教堂」（sea_wave_church，危险度 1）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_sea_wave_church
+name: 地上有水
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:海浪教堂'
+effects:
+  - { dig: 2 }
+  - { mp: 1 }
+texts:
+  priv: |
+    海浪教堂里总是潮的。
+    今天你进门的时候，**地中央有一摊水**。
+    形状很整齐，像是有什么东西在那里站过。
+    你绕过它走过去。上完香出来，水已经干了。
+  group: 海浪教堂的地上有一摊水，干了之后留了一圈印子。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 站在那摊水的位置上
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你站上去了。脚下是凉的。
+      **而上完香出来** —— 那摊水干了，你站过的地方没有印子。
+  - key: '2'
+    label: 蹲下看那圈印子
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你蹲下来看。印子是圆的。
+      **而它的直径比你脚大** —— 大了一圈半。
+  - key: '3'
+    label: 问执事今天谁来上过香
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      他说今天没人来。
+      **而香炉里的香是热的** —— 他伸手摸了一下，没再说话。

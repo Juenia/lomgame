@@ -1,0 +1,39 @@
+id: path_warrior_003
+name: 猎魔的规矩
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:warrior' ]
+  min_seq: 4
+  cooldown_days: 3
+effects:
+  - { dig: 6 }
+  - { cor: 2 }
+  - { item: 淬火匕首, n: 1 }
+texts:
+  priv: |
+    猎魔者有三条规矩，第三条是「不要看它的眼睛」。
+    你照做了。你盯着它的影子，从影子的形状判断它什么时候会扑过来。
+    它扑空的时候你听见它发出一声近似人的叹息 —— 你没抬头。规矩之所以是规矩，就是因为**看过的人都没能把它讲出来**。
+  group: 巷子里有什么东西撞翻了木桶，声音断得很突然。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 盯着影子不动
+    effects: [ { dig: 6, hp: 2, cor: 2 } ]
+    text: |
+      你盯着影子。它扑空了。
+      **而那声叹息之后** —— 影子比刚才短了一寸。
+  - key: '2'
+    label: 抬头看它的眼睛
+    effects: [ { dig: 7, hp: 3, cor: 4, mad: 4 } ]
+    text: |
+      你抬头了。你看清了它。
+      **而规矩之所以是规矩** —— 你现在明白了，也已经晚了。
+  - key: '3'
+    label: 退出去，把巷子让给它
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你退到巷口。它没有追。
+      **而你在巷口站了很久** —— 直到里面那点动静自己停了。

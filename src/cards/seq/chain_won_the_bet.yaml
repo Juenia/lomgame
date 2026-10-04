@@ -1,0 +1,21 @@
+# 事件卡链（M2.87）—— **新链的第二段**。
+# 前置：赌赢了（设 flag `won_the_bet`）
+# ⚠️ 这一段**只有触发过前置卡的人才抽得到** —— 这就是「链」的定义。
+id: chain_won_the_bet
+name: 运气是要还的
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:won_the_bet'
+effects:
+  - { hp: -2 }
+  - { mad: 2 }
+texts:
+  priv: |
+    赢完之后第三天，你摔了一跤。
+    第四天，家里进了贼。第五天，收到一封坏消息。
+    **你算了一下：正好是那天赢的数。**
+    你在桌边坐了很久。
+  group: 那个人赢了一大笔之后，这几天一直不顺。
+daily_limit: 1

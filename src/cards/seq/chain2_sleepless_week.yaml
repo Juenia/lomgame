@@ -1,0 +1,22 @@
+# 事件卡链（M2.87）—— **链的第二段**（三级链的中间那一环）。
+# 前置：设 flag `sleepless_week` 的那张卡
+# 自身：要 `flag:sleepless_week`，并**设出** `sleep_debt`（供第三段读）
+id: chain2_sleepless_week
+name: 账来了
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:sleepless_week'
+effects:
+  - { hp: -3 }
+  - { mad: 3 }
+  - { flag: sleep_debt }
+texts:
+  priv: |
+    那天补的两个钟头没有用。
+    账是慢慢来的 —— 先是手抖，然后是看东西发花。
+    **今天你在街上认错了人**，喊了一个不该喊的名字。
+    对方回头了。你赶紧低头走开。
+  group: 有人昨天在街上把陌生人认成了熟人。
+daily_limit: 1

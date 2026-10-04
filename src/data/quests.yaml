@@ -1,0 +1,363 @@
+# 委托表（M2.85 RPG 化 D）
+#
+# 共 24 条：8 类委托人 × 三种委托（猎杀 / 探路 / 跑腿）。
+#
+# ⚠️ 这不是新造的世界观 —— 是把已有的机制接起来：**交好的 NPC 会请你办事**。
+#
+#   · 委托人按途径分（占卜师 / 雇佣武士 / 守夜人 / 老船长 / 猎手 / 治安官 / 药剂师 / 掮客）
+#
+#   · 门槛是**好感**（猎杀要 40、其余 25）—— 与 npc-relation.ts 的亲近档位对齐
+#
+#   · 完成后给好感 + 便士，并写进 npc_deeds（他会记着这件事）
+#
+meta:
+  source: M2.85 RPG 化 D：**任务系统** —— 用现有机制组合出「委托」
+  count: 24
+  note: ⚠️ 委托不是新造的世界观，而是把已有的东西接起来：**交好的 NPC 会请你办事**（用户拍板「交好的 NPC 可能在某个时刻帮助玩家」的反面）。
+  gate_note: 接委托的门槛是 **好感**（hunt 要 40、其余 25）—— 与 npc-relation.ts 的「亲近」档位对齐（≥25 warm / ≥60 close）。
+  reward_note: 奖励数值是项目派生值（好感 + 便士）；没有原作依据，因为原著里没有「任务面板」这种东西。
+quests:
+  - id: quest_seer_hunt
+    kind: hunt
+    from: 占卜师
+    minAffinity: 40
+    minSequence: 9
+    title: 猎杀：占卜师的托付
+    text: 去把那片灰雾里的东西处理掉 —— 它不该待在离人这么近的地方。
+    condition: 击败一只指定途径的生物
+    targetPathway: seer
+    reward:
+      affinity: 12
+      penny: 40
+      note: 他记你这份人情
+      equipmentChance: 0.06
+    tier: 2
+  - id: quest_seer_explore
+    kind: explore
+    from: 占卜师
+    minAffinity: 25
+    minSequence: 9
+    title: 探路：占卜师的托付
+    text: 去那片灰雾里的东西看一眼。看清楚就行，别多待。
+    condition: 到过指定地点
+    reward:
+      affinity: 8
+      penny: 20
+      note: 他欠你一次
+      equipmentChance: 0
+    tier: 1
+  - id: quest_seer_deliver
+    kind: deliver
+    from: 占卜师
+    minAffinity: 25
+    minSequence: 9
+    title: 跑腿：占卜师的托付
+    text: 把这件东西送到那片灰雾里的东西 —— 别问为什么，也别打开。
+    condition: 把物品带到指定地点
+    reward:
+      affinity: 8
+      penny: 20
+      note: 他欠你一次
+      equipmentChance: 0
+    tier: 1
+  - id: quest_warrior_hunt
+    kind: hunt
+    from: 雇佣武士
+    minAffinity: 40
+    minSequence: 9
+    title: 猎杀：雇佣武士的托付
+    text: 去把那件事处理掉 —— 它不该待在离人这么近的地方。
+    condition: 击败一只指定途径的生物
+    targetPathway: warrior
+    reward:
+      affinity: 12
+      penny: 40
+      note: 他记你这份人情
+      equipmentChance: 0.06
+    tier: 2
+  - id: quest_warrior_explore
+    kind: explore
+    from: 雇佣武士
+    minAffinity: 25
+    minSequence: 9
+    title: 探路：雇佣武士的托付
+    text: 去那件事看一眼。看清楚就行，别多待。
+    condition: 到过指定地点
+    reward:
+      affinity: 8
+      penny: 20
+      note: 他欠你一次
+      equipmentChance: 0
+    tier: 1
+  - id: quest_warrior_deliver
+    kind: deliver
+    from: 雇佣武士
+    minAffinity: 25
+    minSequence: 9
+    title: 跑腿：雇佣武士的托付
+    text: 把这件东西送到那件事 —— 别问为什么，也别打开。
+    condition: 把物品带到指定地点
+    reward:
+      affinity: 8
+      penny: 20
+      note: 他欠你一次
+      equipmentChance: 0
+    tier: 1
+  - id: quest_sleepless_hunt
+    kind: hunt
+    from: 守夜人
+    minAffinity: 40
+    minSequence: 9
+    title: 猎杀：守夜人的托付
+    text: 去把那件事处理掉 —— 它不该待在离人这么近的地方。
+    condition: 击败一只指定途径的生物
+    targetPathway: sleepless
+    reward:
+      affinity: 12
+      penny: 40
+      note: 他记你这份人情
+      equipmentChance: 0.06
+    tier: 2
+  - id: quest_sleepless_explore
+    kind: explore
+    from: 守夜人
+    minAffinity: 25
+    minSequence: 9
+    title: 探路：守夜人的托付
+    text: 去那件事看一眼。看清楚就行，别多待。
+    condition: 到过指定地点
+    reward:
+      affinity: 8
+      penny: 20
+      note: 他欠你一次
+      equipmentChance: 0
+    tier: 1
+  - id: quest_sleepless_deliver
+    kind: deliver
+    from: 守夜人
+    minAffinity: 25
+    minSequence: 9
+    title: 跑腿：守夜人的托付
+    text: 把这件东西送到那件事 —— 别问为什么，也别打开。
+    condition: 把物品带到指定地点
+    reward:
+      affinity: 8
+      penny: 20
+      note: 他欠你一次
+      equipmentChance: 0
+    tier: 1
+  - id: quest_sailor_hunt
+    kind: hunt
+    from: 老船长
+    minAffinity: 40
+    minSequence: 9
+    title: 猎杀：老船长的托付
+    text: 去把那件事处理掉 —— 它不该待在离人这么近的地方。
+    condition: 击败一只指定途径的生物
+    targetPathway: sailor
+    reward:
+      affinity: 12
+      penny: 40
+      note: 他记你这份人情
+      equipmentChance: 0.06
+    tier: 2
+  - id: quest_sailor_explore
+    kind: explore
+    from: 老船长
+    minAffinity: 25
+    minSequence: 9
+    title: 探路：老船长的托付
+    text: 去那件事看一眼。看清楚就行，别多待。
+    condition: 到过指定地点
+    reward:
+      affinity: 8
+      penny: 20
+      note: 他欠你一次
+      equipmentChance: 0
+    tier: 1
+  - id: quest_sailor_deliver
+    kind: deliver
+    from: 老船长
+    minAffinity: 25
+    minSequence: 9
+    title: 跑腿：老船长的托付
+    text: 把这件东西送到那件事 —— 别问为什么，也别打开。
+    condition: 把物品带到指定地点
+    reward:
+      affinity: 8
+      penny: 20
+      note: 他欠你一次
+      equipmentChance: 0
+    tier: 1
+  - id: quest_hunter_hunt
+    kind: hunt
+    from: 猎手
+    minAffinity: 40
+    minSequence: 9
+    title: 猎杀：猎手的托付
+    text: 去把林子边界上的那头野兽处理掉 —— 它不该待在离人这么近的地方。
+    condition: 击败一只指定途径的生物
+    targetPathway: hunter
+    reward:
+      affinity: 12
+      penny: 40
+      note: 他记你这份人情
+      equipmentChance: 0.06
+    tier: 2
+  - id: quest_hunter_explore
+    kind: explore
+    from: 猎手
+    minAffinity: 25
+    minSequence: 9
+    title: 探路：猎手的托付
+    text: 去林子边界上的那头野兽看一眼。看清楚就行，别多待。
+    condition: 到过指定地点
+    reward:
+      affinity: 8
+      penny: 20
+      note: 他欠你一次
+      equipmentChance: 0
+    tier: 1
+  - id: quest_hunter_deliver
+    kind: deliver
+    from: 猎手
+    minAffinity: 25
+    minSequence: 9
+    title: 跑腿：猎手的托付
+    text: 把这件东西送到林子边界上的那头野兽 —— 别问为什么，也别打开。
+    condition: 把物品带到指定地点
+    reward:
+      affinity: 8
+      penny: 20
+      note: 他欠你一次
+      equipmentChance: 0
+    tier: 1
+  - id: quest_arbiter_hunt
+    kind: hunt
+    from: 治安官
+    minAffinity: 40
+    minSequence: 9
+    title: 猎杀：治安官的托付
+    text: 去把那件事处理掉 —— 它不该待在离人这么近的地方。
+    condition: 击败一只指定途径的生物
+    targetPathway: arbiter
+    reward:
+      affinity: 12
+      penny: 40
+      note: 他记你这份人情
+      equipmentChance: 0.06
+    tier: 2
+  - id: quest_arbiter_explore
+    kind: explore
+    from: 治安官
+    minAffinity: 25
+    minSequence: 9
+    title: 探路：治安官的托付
+    text: 去那件事看一眼。看清楚就行，别多待。
+    condition: 到过指定地点
+    reward:
+      affinity: 8
+      penny: 20
+      note: 他欠你一次
+      equipmentChance: 0
+    tier: 1
+  - id: quest_arbiter_deliver
+    kind: deliver
+    from: 治安官
+    minAffinity: 25
+    minSequence: 9
+    title: 跑腿：治安官的托付
+    text: 把这件东西送到那件事 —— 别问为什么，也别打开。
+    condition: 把物品带到指定地点
+    reward:
+      affinity: 8
+      penny: 20
+      note: 他欠你一次
+      equipmentChance: 0
+    tier: 1
+  - id: quest_apothecary_hunt
+    kind: hunt
+    from: 药剂师
+    minAffinity: 40
+    minSequence: 9
+    title: 猎杀：药剂师的托付
+    text: 去把那件事处理掉 —— 它不该待在离人这么近的地方。
+    condition: 击败一只指定途径的生物
+    targetPathway: apothecary
+    reward:
+      affinity: 12
+      penny: 40
+      note: 他记你这份人情
+      equipmentChance: 0.06
+    tier: 2
+  - id: quest_apothecary_explore
+    kind: explore
+    from: 药剂师
+    minAffinity: 25
+    minSequence: 9
+    title: 探路：药剂师的托付
+    text: 去那件事看一眼。看清楚就行，别多待。
+    condition: 到过指定地点
+    reward:
+      affinity: 8
+      penny: 20
+      note: 他欠你一次
+      equipmentChance: 0
+    tier: 1
+  - id: quest_apothecary_deliver
+    kind: deliver
+    from: 药剂师
+    minAffinity: 25
+    minSequence: 9
+    title: 跑腿：药剂师的托付
+    text: 把这件东西送到那件事 —— 别问为什么，也别打开。
+    condition: 把物品带到指定地点
+    reward:
+      affinity: 8
+      penny: 20
+      note: 他欠你一次
+      equipmentChance: 0
+    tier: 1
+  - id: quest_assassin_hunt
+    kind: hunt
+    from: 掮客
+    minAffinity: 40
+    minSequence: 9
+    title: 猎杀：掮客的托付
+    text: 去把那件事处理掉 —— 它不该待在离人这么近的地方。
+    condition: 击败一只指定途径的生物
+    targetPathway: assassin
+    reward:
+      affinity: 12
+      penny: 40
+      note: 他记你这份人情
+      equipmentChance: 0.06
+    tier: 2
+  - id: quest_assassin_explore
+    kind: explore
+    from: 掮客
+    minAffinity: 25
+    minSequence: 9
+    title: 探路：掮客的托付
+    text: 去那件事看一眼。看清楚就行，别多待。
+    condition: 到过指定地点
+    reward:
+      affinity: 8
+      penny: 20
+      note: 他欠你一次
+      equipmentChance: 0
+    tier: 1
+  - id: quest_assassin_deliver
+    kind: deliver
+    from: 掮客
+    minAffinity: 25
+    minSequence: 9
+    title: 跑腿：掮客的托付
+    text: 把这件东西送到那件事 —— 别问为什么，也别打开。
+    condition: 把物品带到指定地点
+    reward:
+      affinity: 8
+      penny: 20
+      note: 他欠你一次
+      equipmentChance: 0
+    tier: 1

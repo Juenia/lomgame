@@ -1,0 +1,701 @@
+# 势力引导（M2.7.6 §5.3）：走上途径的**保底那条路**。
+#
+# 一家势力 = 一座城市里的一群人 + 他们传承的那条途径 + 他们会让新人做的几件小事。
+# 玩家在第 N 天（N ≤ 12）被某一家找上，做完一件事，拿到配方，然后自己调制服用。
+#
+# 为什么「谁先注意到你」是权重而不是配额：
+#   任务书 §2.3 的表里，每座城市两家势力，但两家的分量不一样（教会 vs 夜巡者）。
+#   ⚠️ **M2.19 起普利兹港有三家**（多了一家传水手途径的引水人协会）——
+#      两家是任务书写表时的规模，不是上限：这张表的条数由「这座城里有多少条途径传承」决定，
+#      而 pritz 在 M2.19 开了第三条途径（sailor）。权重会自动归一化（0.7 / 0.3 / 0.3）。
+#   priority 表达的就是这个分量 —— primary 0.7 / secondary 0.3
+#   （数值在 NUMERIC.initiation.factionPriority）。
+#   白银之城那种「三家都很隐秘」的样本因此不需要改代码：三家都写 secondary 就行。
+#
+# 任务的两种判法（见 domain/initiation/guided.ts 的 isTaskDone）：
+#   visit   —— 到过那个地点就算（送信、传话）
+#   explore —— 必须在那里探索过一次（观察、找东西）
+# 两者都不要求玩家按 action 那行字原样发指令：判定的是结果，不是过程。
+#
+# ⚠️ action 一律写「探索 <地点名>」：.移动 是**跨城市**移动，
+#    同城换地点只有 .探索 一条路（探索本身就会把人落到那个地点上）。
+#    写「移动 某地点」会让玩家发出一条必然失败的建议 —— 而那是内容表能犯的最贵的错。
+#
+# ⚠️ target 必须是**本城**的地点的 id（src/data/locations.yaml），
+#    否则会出现「他让你去一个你到不了的地方」。lint 在启动时校验（data/loader.ts）。
+factions:
+  # ---------------- 廷根市：教会（愚者）/ 夜巡者（不眠者） ----------------
+  - id: church_tingen
+    name: 廷根教会
+    city: tingen
+    pathway: seer
+    priority: primary
+    greeting: 你停下脚步的时候，那个人已经站在那儿了。他穿得很普通，但站得太直，像是在等一个从不迟到的人。
+    tasks:
+      - id: deliver_letter
+        text: 把这封信送到黑荆棘修道院。别拆。
+        action: 探索 黑荆棘修道院
+        target: blackthorn_abbey
+        kind: visit
+      - id: observe_stranger
+        text: 去烛火书店，看看那个穿灰外套的人。看完就回来，别搭话。
+        action: 探索 烛火书店
+        target: candle_bookstore
+        kind: explore
+      - id: find_book
+        text: 在墓园小径找一本没有封面的书。它应该还在那儿。
+        action: 探索 墓园小径
+        target: graveyard_path
+        kind: explore
+
+  - id: nightwatch_tingen
+    name: 夜巡者
+    city: tingen
+    pathway: sleepless
+    priority: secondary
+    greeting: 那个人是后半夜出现的。你分不清他是刚来，还是一直都在。
+    tasks:
+      - id: night_watch
+        text: 今晚替我去老码头站一会儿。看见什么都别出声。
+        action: 探索 老码头
+        target: old_dock
+        kind: explore
+      - id: check_cellar
+        text: 去无光地下室看看，还有没有人在下面。
+        action: 探索 无光地下室
+        target: dark_cellar
+        kind: explore
+
+  # ---------------- 贝克兰德：军方（战士）/ 学者圈（愚者） ----------------
+  - id: military_backlund
+    name: 军方
+    city: backlund
+    pathway: warrior
+    priority: primary
+    greeting: 那个人穿着没有徽记的制服。他没有问你的名字，先看了你的手。
+    tasks:
+      - id: inspect_bridge
+        text: 去大桥走一趟，数清楚桥上有几个哨位。
+        action: 探索 大桥区
+        target: backlund_bridge
+        kind: explore
+      - id: deliver_report
+        text: 把这份报告送到圣赛琳娜教堂。别在路上打开它。
+        action: 探索 圣塞琳娜大教堂
+        target: backlund_cathedral
+        kind: visit
+      - id: walk_slum
+        text: 去东区走一圈。回来告诉我，你看见了几个不该在那儿的人。
+        action: 探索 东区贫民窟
+        target: backlund_slum
+        kind: explore
+
+  - id: scholars_backlund
+    name: 学者圈
+    city: backlund
+    pathway: seer
+    priority: secondary
+    greeting: 他在剧院的休息厅里叫住你，说话很轻，像是怕被幕布后面的人听见。
+    tasks:
+      - id: watch_play
+        text: 去看一场戏。看完告诉我，第三幕里少了什么。
+        action: 探索 皇家剧院
+        target: backlund_theatre
+        kind: explore
+      - id: find_notes
+        text: 东区有人在卖一叠手稿。去把它买下来，别问来路。
+        action: 探索 东区贫民窟
+        target: backlund_slum
+        kind: explore
+
+  # ---- M2.26 第二批：完美者（perfect）----
+  #
+  # 这一家与 M2.19 给普利兹港加的引水人协会是**同一件事**，而且那次已经写明了原理（见下方 pritz 段）：
+  #   保底那条路（pickGuidedFaction）与自己找那条路（rollRecipeClue）**都只认本城势力名单**。
+  #   贝克兰德原来只有军方（战士）与学者圈（愚者）两家 ⇒ 完美者的配方在这座城里**根本翻不出来**，
+  #   哪怕 cities.yaml 开了 perfect、材料也有产出点 —— 玩家永远拿不到那张纸。
+  #
+  # ⚠️ 症状极具误导性：perfect = 0 人看起来像「期望太低 / 抽样运气」，
+  #    实际是**结构性的 0**（期望本来就是 0）。M2.26 第一批就是误判成前者收尾的。
+  #
+  # priority 与学者圈一样是 secondary：军方仍然是这座城最常找上你的那家人。
+  - id: steam_guild
+    name: 机械师行会
+    city: backlund
+    pathway: perfect
+    priority: secondary
+    greeting: 那个人手上有机油的味道，指节上全是旧疤。他没抬头，先问你有没有听见什么东西在响。
+    tasks:
+      - id: check_rivets
+        text: 去年那座桥的钢梁是我们换的。去走一遍，听听有没有哪颗铆钉在响。
+        action: 探索 大桥区
+        target: backlund_bridge
+        kind: explore
+      - id: count_workers
+        text: 东区有台机器早该停了。去数一数它旁边还剩几个人。
+        action: 探索 东区贫民窟
+        target: backlund_slum
+        kind: visit
+
+  # ---------------- 普利兹港：船员工会（不眠者）/ 退役军官（战士）/ 引水人协会（水手） ----------------
+  - id: sailors_union
+    name: 船员工会
+    city: pritz
+    pathway: sleepless
+    priority: primary
+    greeting: 那个人手上全是缆绳磨出来的口子。他说他见过你这样的眼神，在很多人脸上。
+    tasks:
+      - id: night_harbor
+        text: 今晚在港口待着。别睡，也别问为什么。
+        action: 探索 潮汐码头
+        target: pritz_harbor
+        kind: explore
+      - id: light_house
+        text: 去港务局门口看一眼公告板。今天贴上去的那张，明天就会撕掉。
+        action: 探索 普利兹港
+        target: pritz
+        kind: visit
+
+  - id: veterans_pritz
+    name: 退役军官
+    city: pritz
+    pathway: warrior
+    priority: secondary
+    greeting: 他瘸着一条腿走过来，先把酒杯推到你面前，然后才开口。
+    tasks:
+      - id: sweep_market
+        text: 咸鱼市场后面那条巷子里有些东西不该留在那儿。去清一遍。
+        action: 探索 咸鱼市场
+        target: fish_market
+        kind: explore
+      - id: count_crates
+        text: 去码头数一数今天的货箱。少了几箱，我要知道是哪几箱。
+        action: 探索 潮汐码头
+        target: pritz_harbor
+        kind: explore
+
+  # ---- M2.19：水手（sailor）----
+  #
+  # 这一家是**「水手能不能被玩家走通」的那个闸门**：
+  #   · 保底那条路 —— 每日结算从**本城势力**里挑一家（pickGuidedFaction）；
+  #   · 自己找那条路 —— 5% 的配方线索也走同一份本城势力名单（rollRecipeClue）。
+  # 普利兹港原来只有不眠者与战士两家，于是**水手的配方在这座城里根本翻不出来**：
+  # 途径开了（cities.yaml 的 pathways 里有 sailor）、材料有产出点，玩家却永远拿不到那张纸。
+  #
+  # priority 与退役军官一样是 secondary：船员工会仍然是这座港口最常找上你的那家人。
+  - id: harbor_pilots
+    name: 引水人协会
+    city: pritz
+    pathway: sailor
+    priority: secondary
+    greeting: 那个人手一直搭在缆桩上，像是在等船，又像是在等别的什么。他说，海上的事，岸上的人只看得见一半。
+    tasks:
+      - id: ask_the_wind
+        text: 去潮汐码头，找到今早从外海回来的那条船，问船主一句话：风是从哪边转的。
+        action: 探索 潮汐码头
+        target: pritz_harbor
+        kind: explore
+      - id: tide_board
+        text: 去普利兹港的港务局门口看一眼潮汐牌。只记数字，别抄下来。
+        action: 探索 普利兹港
+        target: pritz
+        kind: visit
+
+  # ---------------- 特里尔：情报部（愚者）/ 雇佣兵（战士） ----------------
+  - id: intel_trier
+    name: 情报部
+    city: trier
+    pathway: seer
+    priority: primary
+    greeting: 那个人把报纸折起来放在桌上，头版朝下。他说，坐吧，你正好挡着门口。
+    tasks:
+      - id: listen_cafe
+        text: 去情报咖啡馆坐一下午，听他们说什么。别记笔记。
+        action: 探索 情报咖啡馆
+        target: intel_cafe
+        kind: explore
+      - id: visit_quarter
+        text: 去外国人聚居区走一趟。找一个叫「灰先生」的人，找到也不用说话。
+        action: 探索 异邦人街区
+        target: foreign_quarter
+        kind: visit
+
+  - id: mercenary_trier
+    name: 雇佣兵
+    city: trier
+    pathway: warrior
+    priority: secondary
+    greeting: 那个人把刀放在桌上，刀柄朝你。他说，拿不拿随你，我只是想看看你的手会不会抖。
+    tasks:
+      - id: check_ironworks
+        text: 钢铁厂昨晚出了事。去看看还有几个活人。
+        action: 探索 铁工厂
+        target: ironworks
+        kind: explore
+      - id: walk_streets
+        text: 晚上绕着旧城区走一圈，走到第三个路口就回来。
+        action: 探索 特里尔
+        target: trier
+        kind: explore
+
+  # ---- M2.26 第二批：阅读者（reader）----
+  #
+  # 同上：特里尔原来只有情报部（愚者）与雇佣兵（战士）两家 ⇒ 阅读者的配方在这座城里翻不出来。
+  #
+  # ⚠️ 这两个任务的 target 都是**本城**地点，而且都与 reader 的落点同源：
+  #    异邦人街区正是主材料·褪色书页 / 无名手稿的产出点（locations.yaml）。
+  - id: bookmen_trier
+    name: 旧书商
+    city: trier
+    pathway: reader
+    priority: secondary
+    greeting: 那个人一直在翻一本没有书脊的书。等你站定，他才合上，说，你来晚了三十年。
+    tasks:
+      - id: buy_loose_pages
+        text: 异邦人街区有人在卖一叠没有署名的书页。去买下来，别问是谁写的。
+        action: 探索 异邦人街区
+        target: foreign_quarter
+        kind: explore
+      - id: read_the_board
+        text: 情报咖啡馆的报架上有昨天的报纸。站在原地读完它，读完就走，别带走。
+        action: 探索 情报咖啡馆
+        target: intel_cafe
+        kind: visit
+
+  # ---------------- 拜朗：死神教会（不眠者）/ 部落萨满（愚者） ----------------
+  - id: death_church_byron
+    name: 死神教会
+    city: byron
+    pathway: sleepless
+    priority: primary
+    greeting: 那个人戴着兜帽，脸在阴影里。他说话的时候，你听见四周的虫鸣停了一瞬。
+    tasks:
+      - id: bone_market
+        text: 去白骨市场，把这块牌子交给第三个摊主。他会知道该给你什么。
+        action: 探索 骨市
+        target: bone_market
+        kind: visit
+      - id: keep_watch
+        text: 在城里守一夜。不要碰任何人，也不要应声。
+        action: 探索 拜朗
+        target: byron
+        kind: explore
+
+  - id: shaman_byron
+    name: 部落萨满
+    city: byron
+    pathway: seer
+    priority: secondary
+    greeting: 那个老人一直在火边坐着。等你走近，他才抬起头，说了一句你听不懂的话。
+    tasks:
+      - id: sun_temple
+        text: 去太阳神庙的台阶上坐着，坐到太阳落下去。
+        action: 探索 太阳神殿
+        target: sun_temple
+        kind: explore
+      - id: bone_oath
+        text: 去骨市找一块刻着眼睛的石头。它应该还在第三个摊子后面。
+        action: 探索 骨市
+        target: bone_market
+        kind: explore
+
+  # ---- M2.26 第三批：母亲（mother，大地母神）----
+  #
+  # 这一家是**「母亲能不能被玩家走通」的那个闸门**，与 M2.19 给普利兹港加的引水人协会、
+  # M2.26 第二批给贝克兰德 / 特里尔加的两家是同一件事：
+  #   保底那条路（pickGuidedFaction）与自己找那条路（rollRecipeClue）**都只认本城势力名单**。
+  # 拜朗原来只有死神教会（不眠者）与部落萨满（愚者）两家 ⇒ 母亲的配方在这座城里翻不出来。
+  #
+  # ⚠️ 这正是 K18 说的「没人守的那一端」：cities.yaml 开了 mother、材料有产出点，
+  #    而这条途径在这座城里的期望**是 0**（不是「低」）。现在两端都有人守了：
+  #      · content-diagnostics §1 会直接打印「传承势力 0 家」；
+  #      · data/loader.ts 的交叉校验会报 error、服务端起不来。
+  #
+  # priority 与部落萨满一样是 secondary：死神教会仍然是这座城最常找上你的那家人。
+  - id: field_wardens_byron
+    name: 守田人
+    city: byron
+    pathway: mother
+    priority: secondary
+    greeting: 那个人蹲在地头，手里捏着一把土。他没有站起来，只是问你：这块地，你觉得还能不能救。
+    tasks:
+      - id: count_sprouts
+        text: 太阳神殿后墙外那块地荒了三年。去看看土里还有没有活的东西。
+        action: 探索 太阳神殿
+        target: sun_temple
+        kind: explore
+      - id: fetch_seed_bag
+        text: 骨市第三个摊子后面挂着一袋种子。去把它拿回来，别问价钱。
+        action: 探索 骨市
+        target: bone_market
+        kind: visit
+
+  # ============================================================================
+  # M2.76：新途径的引导势力（city 与 cities.yaml 的 pathways 对齐）
+  #
+  # link-check 的要求是「城市开放的每一条途径都要有一家势力传承它」——少一家，
+  # 那条途径在这座城里的期望就是 **0**（不是「低」）：玩家永远翻不到配方线索。
+  #
+  # ⚠️ 任务地点必须是**普通人到得了的**（`min_seq: 9`）：接任务的人还没有序列，
+  #    给一个 `min_seq: 8` 的地点等于让他去一个他到不了的地方（link-check 会拦）。
+  # ============================================================================
+
+  # M2.76：mystery_pryer —— 廷根市
+  - id: faction_mystery_pryer
+    name: 秘盟
+    city: tingen
+    pathway: mystery_pryer
+    priority: secondary
+    greeting: 那个人在书店的角落里翻了很久，最后把一本书塞回架上 —— 塞反了。
+    tasks:
+      - id: mystery_pryer_task_1
+        text: 去看看那个地方，回来告诉我你看见了什么。
+        action: 探索 廷根市
+        target: tingen
+        kind: explore
+      - id: mystery_pryer_task_2
+        text: 那里有件东西，帮我拿回来 —— 别问为什么。
+        action: 探索 迷雾街区
+        target: mist_street
+        kind: explore
+      - id: mystery_pryer_task_3
+        text: 去待一会儿。不用做什么，待着就行。
+        action: 探索 老码头
+        target: old_dock
+        kind: explore
+
+  # M2.76：secrets_supplicant —— 廷根市
+  - id: faction_secrets_supplicant
+    name: 静默会
+    city: tingen
+    pathway: secrets_supplicant
+    priority: secondary
+    greeting: 他没有说话，只是把椅子往旁边挪了半尺，给你让出一个位置。
+    tasks:
+      - id: secrets_supplicant_task_1
+        text: 去看看那个地方，回来告诉我你看见了什么。
+        action: 探索 廷根市
+        target: tingen
+        kind: explore
+      - id: secrets_supplicant_task_2
+        text: 那里有件东西，帮我拿回来 —— 别问为什么。
+        action: 探索 迷雾街区
+        target: mist_street
+        kind: explore
+      - id: secrets_supplicant_task_3
+        text: 去待一会儿。不用做什么，待着就行。
+        action: 探索 老码头
+        target: old_dock
+        kind: explore
+
+  # M2.76：door —— 贝克兰德
+  - id: faction_door
+    name: 门径学会
+    city: backlund
+    pathway: door
+    priority: secondary
+    greeting: 他站在门边，没有推门，也没有敲门 —— 他只是站在那里，门就开了。
+    tasks:
+      - id: door_task_1
+        text: 去看看那个地方，回来告诉我你看见了什么。
+        action: 探索 贝克兰德
+        target: backlund
+        kind: explore
+      - id: door_task_2
+        text: 那里有件东西，帮我拿回来 —— 别问为什么。
+        action: 探索 大桥区
+        target: backlund_bridge
+        kind: explore
+      - id: door_task_3
+        text: 去待一会儿。不用做什么，待着就行。
+        action: 探索 皇家剧院
+        target: backlund_theatre
+        kind: explore
+
+  # M2.76：spectator —— 贝克兰德
+  - id: faction_spectator
+    name: 观想社
+    city: backlund
+    pathway: spectator
+    priority: secondary
+    greeting: 那个人一直在看你，但你回头的时候他在看别处。
+    tasks:
+      - id: spectator_task_1
+        text: 去看看那个地方，回来告诉我你看见了什么。
+        action: 探索 贝克兰德
+        target: backlund
+        kind: explore
+      - id: spectator_task_2
+        text: 那里有件东西，帮我拿回来 —— 别问为什么。
+        action: 探索 大桥区
+        target: backlund_bridge
+        kind: explore
+      - id: spectator_task_3
+        text: 去待一会儿。不用做什么，待着就行。
+        action: 探索 皇家剧院
+        target: backlund_theatre
+        kind: explore
+
+  # M2.76：lawyer —— 贝克兰德
+  - id: faction_lawyer
+    name: 皇律事务所
+    city: backlund
+    pathway: lawyer
+    priority: secondary
+    greeting: 他递过来一份合同，条款只有一行，字很小。
+    tasks:
+      - id: lawyer_task_1
+        text: 去看看那个地方，回来告诉我你看见了什么。
+        action: 探索 贝克兰德
+        target: backlund
+        kind: explore
+      - id: lawyer_task_2
+        text: 那里有件东西，帮我拿回来 —— 别问为什么。
+        action: 探索 大桥区
+        target: backlund_bridge
+        kind: explore
+      - id: lawyer_task_3
+        text: 去待一会儿。不用做什么，待着就行。
+        action: 探索 皇家剧院
+        target: backlund_theatre
+        kind: explore
+
+  # M2.76：assassin —— 普利兹港
+  - id: faction_assassin
+    name: 暗巷
+    city: pritz
+    pathway: assassin
+    priority: secondary
+    greeting: 你走过去的时候，巷子里的人已经不见了 —— 但你确定刚才那里站着一个人。
+    tasks:
+      - id: assassin_task_1
+        text: 去看看那个地方，回来告诉我你看见了什么。
+        action: 探索 普利兹港
+        target: pritz
+        kind: explore
+      - id: assassin_task_2
+        text: 那里有件东西，帮我拿回来 —— 别问为什么。
+        action: 探索 潮汐码头
+        target: pritz_harbor
+        kind: explore
+      - id: assassin_task_3
+        text: 去待一会儿。不用做什么，待着就行。
+        action: 探索 咸鱼市场
+        target: fish_market
+        kind: explore
+
+  # M2.76：hunter —— 普利兹港
+  - id: faction_hunter
+    name: 红猎团
+    city: pritz
+    pathway: hunter
+    priority: secondary
+    greeting: 那个人身上有烟火味，指节上有旧伤，笑起来的时候不太像在笑。
+    tasks:
+      - id: hunter_task_1
+        text: 去看看那个地方，回来告诉我你看见了什么。
+        action: 探索 普利兹港
+        target: pritz
+        kind: explore
+      - id: hunter_task_2
+        text: 那里有件东西，帮我拿回来 —— 别问为什么。
+        action: 探索 潮汐码头
+        target: pritz_harbor
+        kind: explore
+      - id: hunter_task_3
+        text: 去待一会儿。不用做什么，待着就行。
+        action: 探索 咸鱼市场
+        target: fish_market
+        kind: explore
+
+  # M2.76：monster —— 普利兹港
+  - id: faction_monster
+    name: 赌命人
+    city: pritz
+    pathway: monster
+    priority: secondary
+    greeting: 他把一枚硬币弹到桌上，硬币立住了。他没有去扶。
+    tasks:
+      - id: monster_task_1
+        text: 去看看那个地方，回来告诉我你看见了什么。
+        action: 探索 普利兹港
+        target: pritz
+        kind: explore
+      - id: monster_task_2
+        text: 那里有件东西，帮我拿回来 —— 别问为什么。
+        action: 探索 潮汐码头
+        target: pritz_harbor
+        kind: explore
+      - id: monster_task_3
+        text: 去待一会儿。不用做什么，待着就行。
+        action: 探索 咸鱼市场
+        target: fish_market
+        kind: explore
+
+  # M2.76：sun —— 特里尔
+  - id: faction_sun
+    name: 烈阳修道会
+    city: trier
+    pathway: sun
+    priority: primary
+    greeting: 那个人站在光里，逆着光看你。他的影子很短，短得不太对。
+    tasks:
+      - id: sun_task_1
+        text: 去看看那个地方，回来告诉我你看见了什么。
+        action: 探索 特里尔
+        target: trier
+        kind: explore
+      - id: sun_task_2
+        text: 那里有件东西，帮我拿回来 —— 别问为什么。
+        action: 探索 情报咖啡馆
+        target: intel_cafe
+        kind: explore
+      - id: sun_task_3
+        text: 去待一会儿。不用做什么，待着就行。
+        action: 探索 铁工厂
+        target: ironworks
+        kind: explore
+
+  # M2.76：error —— 特里尔
+  - id: faction_error
+    name: 谬误社
+    city: trier
+    pathway: error
+    priority: secondary
+    greeting: 你明明锁了门，他却是从门里走进来的。
+    tasks:
+      - id: error_task_1
+        text: 去看看那个地方，回来告诉我你看见了什么。
+        action: 探索 特里尔
+        target: trier
+        kind: explore
+      - id: error_task_2
+        text: 那里有件东西，帮我拿回来 —— 别问为什么。
+        action: 探索 情报咖啡馆
+        target: intel_cafe
+        kind: explore
+      - id: error_task_3
+        text: 去待一会儿。不用做什么，待着就行。
+        action: 探索 铁工厂
+        target: ironworks
+        kind: explore
+
+  # M2.76：arbiter —— 特里尔
+  - id: faction_arbiter
+    name: 仲裁庭
+    city: trier
+    pathway: arbiter
+    priority: secondary
+    greeting: 他把一份判决书推过来，被告那一栏是空的。
+    tasks:
+      - id: arbiter_task_1
+        text: 去看看那个地方，回来告诉我你看见了什么。
+        action: 探索 特里尔
+        target: trier
+        kind: explore
+      - id: arbiter_task_2
+        text: 那里有件东西，帮我拿回来 —— 别问为什么。
+        action: 探索 情报咖啡馆
+        target: intel_cafe
+        kind: explore
+      - id: arbiter_task_3
+        text: 去待一会儿。不用做什么，待着就行。
+        action: 探索 铁工厂
+        target: ironworks
+        kind: explore
+
+  # M2.76：corpse_collector —— 拜朗
+  - id: faction_corpse_collector
+    name: 收尸人公会
+    city: byron
+    pathway: corpse_collector
+    priority: primary
+    greeting: 他推着一辆车经过，车轮很响，但车上盖着的布一动不动。
+    tasks:
+      - id: corpse_collector_task_1
+        text: 去看看那个地方，回来告诉我你看见了什么。
+        action: 探索 拜朗
+        target: byron
+        kind: explore
+      - id: corpse_collector_task_2
+        text: 那里有件东西，帮我拿回来 —— 别问为什么。
+        action: 探索 骨市
+        target: bone_market
+        kind: explore
+      - id: corpse_collector_task_3
+        text: 去待一会儿。不用做什么，待着就行。
+        action: 探索 太阳神殿
+        target: sun_temple
+        kind: explore
+
+  # M2.76：apothecary —— 拜朗
+  - id: faction_apothecary
+    name: 月下药房
+    city: byron
+    pathway: apothecary
+    priority: secondary
+    greeting: 药柜后面的人没有抬头，只说了一句：你脸色不太好。
+    tasks:
+      - id: apothecary_task_1
+        text: 去看看那个地方，回来告诉我你看见了什么。
+        action: 探索 拜朗
+        target: byron
+        kind: explore
+      - id: apothecary_task_2
+        text: 那里有件东西，帮我拿回来 —— 别问为什么。
+        action: 探索 骨市
+        target: bone_market
+        kind: explore
+      - id: apothecary_task_3
+        text: 去待一会儿。不用做什么，待着就行。
+        action: 探索 太阳神殿
+        target: sun_temple
+        kind: explore
+
+  # M2.76：criminal —— 拜朗
+  - id: faction_criminal
+    name: 深渊教团
+    city: byron
+    pathway: criminal
+    priority: secondary
+    greeting: 那个人的影子比他的动作慢 —— 慢得能看出来。
+    tasks:
+      - id: criminal_task_1
+        text: 去看看那个地方，回来告诉我你看见了什么。
+        action: 探索 拜朗
+        target: byron
+        kind: explore
+      - id: criminal_task_2
+        text: 那里有件东西，帮我拿回来 —— 别问为什么。
+        action: 探索 骨市
+        target: bone_market
+        kind: explore
+      - id: criminal_task_3
+        text: 去待一会儿。不用做什么，待着就行。
+        action: 探索 太阳神殿
+        target: sun_temple
+        kind: explore
+
+  # M2.76：prisoner —— 拜朗
+  - id: faction_prisoner
+    name: 锁链会
+    city: byron
+    pathway: prisoner
+    priority: secondary
+    greeting: 他手腕上有很深的勒痕，但他手上没有链子。
+    tasks:
+      - id: prisoner_task_1
+        text: 去看看那个地方，回来告诉我你看见了什么。
+        action: 探索 拜朗
+        target: byron
+        kind: explore
+      - id: prisoner_task_2
+        text: 那里有件东西，帮我拿回来 —— 别问为什么。
+        action: 探索 骨市
+        target: bone_market
+        kind: explore
+      - id: prisoner_task_3
+        text: 去待一会儿。不用做什么，待着就行。
+        action: 探索 太阳神殿
+        target: sun_temple
+        kind: explore

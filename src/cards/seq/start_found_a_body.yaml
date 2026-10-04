@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `found_a_body` → 后续卡 `chain_found_a_body`
+id: start_found_a_body
+name: 先到的人
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { mad: 3 }
+  - { dig: 3 }
+  - { flag: found_a_body }
+texts:
+  priv: |
+    你是第一个到的。
+    **尸体还没凉。**
+    你在旁边站了一会儿，然后做了该做的事 —— 报官、等、答话。
+    回去的路上你才发现，自己刚才一直没害怕。
+  group: 那条巷子昨天出了事，第一个到的是个路人。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 回头再看一眼
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你回去了。官差已经在了。
+      **而他们说的是另一条巷子** —— 他们说今天只出了这一件事。
+  - key: '2'
+    label: 去查这人是谁
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你查了。他是这一带的报童。
+      **而他每天早上都从那扇门前面过** —— 你见过他很多次。
+  - key: '3'
+    label: 把「自己没害怕」这件事记下来
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你写了下来。写完再看那行字。
+      **字很稳** —— 稳得不像在写一段这样的话。

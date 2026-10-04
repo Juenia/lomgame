@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「珊瑚暗礁」（coral_reef，危险度 3）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_coral_reef
+name: 礁石里的骨头
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:珊瑚暗礁'
+effects:
+  - { dig: 3 }
+  - { cor: 2 }
+texts:
+  priv: |
+    退潮的时候露出来的礁石上，什么都有。
+    你看见一根**很长的骨头**，卡在珊瑚缝里。
+    不是鱼的 —— 太直了。
+    你没有去拔它。你记下了位置。
+  group: 珊瑚暗礁的缝里卡着很长的骨头，捞不上来。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 下水去拔那根骨头
+    effects: [ { dig: 7, hp: 2, cor: 3, mad: 3 } ]
+    text: |
+      你下去了。骨头卡得很紧。
+      **你把它拔出来的时候** —— 珊瑚缝里还有第二根。
+  - key: '2'
+    label: 记住它的位置
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你在岸上找了两个参照物，记了下来。
+      **第二天再看** —— 那片礁石退得更远了，骨头露出来一半。
+  - key: '3'
+    label: 去问渔户这礁石的事
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      他们说那片礁不许靠近。
+      **而其中一个说漏了嘴** —— 他说以前有人去捞过东西。

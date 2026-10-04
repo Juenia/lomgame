@@ -1,0 +1,33 @@
+id: daily_020
+name: 停了一拍的脚步声
+trigger:
+  type: random
+  weight: 4
+  cond:
+    - mad>=70
+effects:
+  - { cor: 2 }
+  - { mad: 2 }
+  - { flag: watched_by_unknown }
+texts:
+  priv: |
+    你确信有人在看你。你看回去的时候，那条街空着，但脚步声停了一拍。
+  group: 街上没人，可有人停了一下。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 站住，回头看
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你回头。街上空着。而你脚下多了一个影子。
+  - key: '2'
+    label: 加快脚步走开
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你走快了。身后的脚步也跟着快 —— 还是慢你一拍。
+  - key: '3'
+    label: 对着空街说一句话
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你开口了。它没有回答，但它停下了。

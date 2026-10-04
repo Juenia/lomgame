@@ -1,0 +1,33 @@
+id: daily_029
+name: 一周没睡
+trigger:
+  type: daily
+  weight: 6
+  cond:
+    - mad>=30
+effects:
+  - { mad: 2 }
+  - { dig: 1 }
+  - { flag: sleepless_week }
+texts:
+  priv: |
+    这一周你几乎没有睡。奇怪的是，思路反而比睡着的时候清楚。
+  group: 有人连续第七个夜晚没有关灯。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 逼自己躺下
+    effects: [ { dig: 2, mad: 1 } ]
+    text: |
+      你躺下了。眼睛一直睁着，直到天亮。
+  - key: '2'
+    label: 继续不睡
+    effects: [ { dig: 5, cor: 2, mad: 3 } ]
+    text: |
+      第八夜。你比昨天更清楚，也更不像自己。
+  - key: '3'
+    label: 把这七夜想清楚的事记下来
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你写了三页。写完再看，第一页的字你不认识。

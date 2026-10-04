@@ -1,0 +1,37 @@
+id: path_seer_005
+name: 岔路上的三条影子
+trigger:
+  type: daily
+  weight: 6
+  cond: [ 'pathway:seer' ]
+  min_seq: 5
+  cooldown_days: 4
+effects:
+  - { dig: 5 }
+  - { mp: -4 }
+texts:
+  priv: |
+    路口只有两条路，你却看见三条影子往前走。
+    多出来的那一条走得最急 —— 那是最坏的那个未来，它总是最先出发。
+    你选了慢的那条。不是你勇敢，是你**已经看见过那条急的结局**。
+  group: 路口的风停了一瞬。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 走那条慢的
+    effects: [ { dig: 4 } ]
+    text: |
+      你选了慢的那条。走出一段之后你回头看，第三条影子已经不见了。
+  - key: '2'
+    label: 停下来，等那条急的走完
+    effects: [ { dig: 6, mad: 2 } ]
+    text: |
+      你站在路口没动。那条最急的影子走完了它自己的路 ——
+      你没跟上去，**但你看见了它的结局**。看完之后你在原地站了很久。
+  - key: '3'
+    label: 跟上去，看看那是谁的影子
+    effects: [ { dig: 5, cor: 1 } ]
+    text: |
+      你跟了几步就停住了。
+      那条影子的身形不是你的 —— **它比你要高一点，肩膀也更窄**。

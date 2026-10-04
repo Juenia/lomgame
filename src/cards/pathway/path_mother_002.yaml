@@ -1,0 +1,38 @@
+id: path_mother_002
+name: 他的烧退不下去
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:mother' ]
+  min_seq: 8
+effects:
+  - { dig: 5 }
+  - { mp: -3 }
+  - { hp: 4 }
+texts:
+  priv: |
+    药都用过了，烧还是退不下去。
+    你把手放在他额头上，感觉到的东西不是热 —— 是**有什么在他身体里不肯走**。
+    医师治的不只是病。你把袖子卷起来，坐在床边守到天亮。天亮时他的呼吸平了，你的手心却凉了一整天。
+  group: 屋里安静下来，只有呼吸声。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 守到天亮
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你坐到天亮。他的呼吸平了。
+      **而你的手心凉了一整天** —— 凉到晚上才回来。
+  - key: '2'
+    label: 把手一直按在他额头上
+    effects: [ { dig: 6, hp: 2, cor: 2, mad: 2 } ]
+    text: |
+      你没松手。那个东西在你手底下动了很久。
+      **天亮的时候它走了** —— 走的时候你听见了一声很像叹气的声音。
+  - key: '3'
+    label: 问那个不肯走的东西是谁
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你在心里问了一句。没有回答。
+      **而他的嘴动了一下** —— 说的是一个名字，不是他自己的。

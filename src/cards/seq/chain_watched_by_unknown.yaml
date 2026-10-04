@@ -1,0 +1,24 @@
+# 事件卡链（M2.87）—— **后续卡**：只有触发过前置卡的人才抽得到。
+# 前置：daily_020 / mortal_letter（设 flag `watched_by_unknown`）
+# 判据：`cond: flag:watched_by_unknown`。
+#
+# ⚠️ 这一类此前**一条都没有**：全库 29 张卡设了 flag，而要求 flag 的卡是 **0 张** ——
+#    flag 设了就再没有人读，等于写了一半的链。这张是它的后半段。
+id: chain_watched_by_unknown
+name: 看回去
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:watched_by_unknown'
+effects:
+  - { dig: 3 }
+  - { cor: 1 }
+texts:
+  priv: |
+    那种被看着的感觉今天又来了。
+    以前你都是装作没察觉。
+    **今天你看回去了。**
+    对面那扇窗后面什么都没有 —— 但你确定刚才有。
+  group: 有人昨天抬头盯着对面那栋楼看了很久。
+daily_limit: 1

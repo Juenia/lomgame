@@ -1,0 +1,34 @@
+id: seq7_006
+name: 隔一会儿一次的呼吸
+trigger:
+  type: daily
+  weight: 9
+  cond: []
+  min_seq: 7
+effects:
+  - { dig: 3 }
+  - { mad: 1 }
+texts:
+  priv: |
+    坑底的东西还在呼吸，但它的呼吸不是「一直在」的 —— 是**隔一会儿一次**，
+    像有人在很远的地方替它数着。
+    你站在边上看了一会儿，才明白那不是它在呼吸，是这地方在替它呼吸。
+  group: 疫病坑底下有什么东西翻了个身。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 下到坑底去看
+    effects: [ { dig: 7, hp: 3, cor: 3, mad: 4 } ]
+    text: |
+      你下去了。底下什么都没有 —— 而空气是动的。
+  - key: '2'
+    label: 在边上听完一整轮
+    effects: [ { dig: 5, cor: 2, mad: 2 } ]
+    text: |
+      你听完了一整轮。一轮是七次。
+  - key: '3'
+    label: 数一数隔多久一次
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      你数了：每隔六十下心跳一次。而你自己的心跳正好是那个数。

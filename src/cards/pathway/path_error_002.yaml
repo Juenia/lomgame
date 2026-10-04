@@ -1,0 +1,37 @@
+id: path_error_002
+name: 走直线回到原点
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:error' ]
+  min_seq: 5
+effects:
+  - { dig: 6 }
+  - { mp: -4 }
+texts:
+  priv: |
+    你沿街一直走，没有拐弯。
+    十分钟后你回到了出发的那盏灯下面。
+    你没有慌 —— 你蹲下来，把地上那块砖挪了半寸，然后再走一次。
+  group: 街上有个人的步子很奇怪，像是在绕一个看不见的圈。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把砖挪半寸，再走一次
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你把砖挪了半寸，又走了一遍。
+      **这次走到了街尾** —— 而街尾那盏灯你从来没见过。
+  - key: '2'
+    label: 蹲下来看看那块砖
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你蹲下来看。砖是普通的砖。
+      **而它比旁边那块低一线** —— 像是被很多人踩过。
+  - key: '3'
+    label: 不走了，站在原地
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你站住了。街上的人从你身边过去。
+      **而他们绕开的弧度是一样的** —— 每一个人都绕了同一个圈。

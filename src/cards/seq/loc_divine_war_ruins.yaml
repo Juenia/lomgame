@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「神战遗迹」（divine_war_ruins，危险度 3）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_divine_war_ruins
+name: 这里的时间不对
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:神战遗迹'
+effects:
+  - { mad: 3 }
+  - { dig: 3 }
+texts:
+  priv: |
+    遗迹里的石头都是断的，断了很久。
+    你走了半个钟头，**影子没有动过**。
+    你抬头看天。太阳在原来的位置上。
+    你原路退出来。出来的时候影子才动了。
+  group: 神战遗迹里有人在里面待了半个钟头，出来说时间不对。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 再走进去一次
+    effects: [ { dig: 7, cor: 3, mad: 4 } ]
+    text: |
+      你又进去了。这次你数着步子。
+      **数到两百步的时候** —— 你发现自己在同一条断墙边上。
+  - key: '2'
+    label: 退出来，看自己的影子
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你退出来。影子动了。
+      **而它动得比你快** —— 你快走，它更快。
+  - key: '3'
+    label: 捡一块断石头带出来
+    effects: [ { dig: 6, dp: 1 } ]
+    text: |
+      你捡了一块，揣进兜里。
+      **出了遗迹再看** —— 那块石头是完整的，一点没断。

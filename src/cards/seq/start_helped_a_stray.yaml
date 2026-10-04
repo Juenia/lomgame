@@ -1,0 +1,42 @@
+# 事件卡链（M2.87）—— **新链的第一段**。
+# 触发：任意已入途径的人（`pathway:initiated`）
+# 设出 flag `helped_a_stray` → 后续卡 `chain_helped_a_stray`
+id: start_helped_a_stray
+name: 喂了一只野猫
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'pathway:initiated'
+effects:
+  - { hp: 1 }
+  - { dig: 1 }
+  - { flag: helped_a_stray }
+texts:
+  priv: |
+    那只猫瘦，但不怕人。
+    你给了它半块面包，它吃得很慢。
+    **吃完之后它没有走。** 它在你脚边坐下来了。
+    你蹲了一会儿，起身走了。它跟了半条街。
+  group: 那只一直躲人的野猫昨天跟着一个人走了半条街。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 回头把它带回家
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你回头抱起了它。它没有挣扎。
+      **而它比你抱起来的时候轻** —— 轻得不像一只活物。
+  - key: '2'
+    label: 不回头，接着走
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你走完了那条街。回头的时候它还在街口。
+      **而它没有跟过来** —— 它只是坐着看。
+  - key: '3'
+    label: 第二天再去那个地方
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你去了。它还在那儿。
+      **而它面前摆着半块面包** —— 和你昨天给的那半块一样大。

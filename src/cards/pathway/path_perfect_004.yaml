@@ -1,0 +1,38 @@
+id: path_perfect_004
+name: 它自己转起来了
+trigger:
+  type: daily
+  weight: 7
+  cond: [ 'pathway:perfect' ]
+  min_seq: 6
+  cooldown_days: 3
+effects:
+  - { dig: 6 }
+  - { mad: 1 }
+texts:
+  priv: |
+    你松开手，齿轮组没有停。
+    机械专家造的东西不需要人推 —— 它需要的是**你不在场**。
+    你退到门边看它转。转到第四十圈的时候你意识到：它转的方向和你装的时候是反的。你没装反。
+  group: 屋里响起一阵均匀的机械声。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 退到门边看它转
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你退到门边。它一直转。
+      **转到第五十圈的时候** —— 你听见里面有一声很轻的咔。
+  - key: '2'
+    label: 走过去把它拆了
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你走过去按住了它。它停了。
+      **而齿轮还在动** —— 隔着你的手，你摸得到。
+  - key: '3'
+    label: 数它转了多少圈
+    effects: [ { dig: 7, cor: 3, mad: 3 } ]
+    text: |
+      你数到一百二十圈，然后停了。
+      **因为你发现它是按你的数转的** —— 你数慢一点，它也慢一点。

@@ -1,0 +1,401 @@
+# 正神教会（M2.15）—— 七正神的骨架：途径绑定 / 教义 / 禁忌 / 等级阶梯 / 据点 / 彼此的关系。
+#
+# ⚠️ 这不是 factions.yaml。
+#   factions.yaml（M2.7.6）＝ **引导势力**：谁会来找你、让你替他做什么。10 家世俗组织，绑城市，不绑途径。
+#   churches.yaml（M2.15）＝ **正神教会**：信谁、信什么、地盘在哪、与谁为敌。7 家，绑途径。
+#   两份表没有任何数据关系（见 docs/M2.15-前置调查.md §A4：还有一个 M2.6 的 factions **表**，
+#   那是通缉系统的势力范围，第三个同名物）。
+#
+# 本轮（M2.15）只做**骨架**：声明 + 交叉校验。入教 / 贡献 / 教义 flag / 技能树是 M2.16，
+# 教会之间的争夺与 PVP 加成是 M2.17，隐秘组织 / 学会 / 邪教是 M2.18。
+#
+# ============================ 途径绑定：这一轮的关键不确定点 ============================
+#
+# 已拍的前提是「教会与途径强绑定」（风暴之主教会只收水手）。M2.15 写这份表时 MVP 只实现了
+# **三条**途径（seer / warrior / sleepless），七正神里有五家的途径还没做；
+# **M2.19 实现了第四条 sailor（水手），于是风暴之主从「绑不上」搬进了「能绑上的」那一栏。**
+#
+#   能绑上的（pathway 写真实 id）：
+#     night_goddess  黑夜女神  ← sleepless（不眠者）  ✅ 原作一致
+#     god_of_war     战神      ← warrior  （战士）    ✅ 原作一致
+#     storm_lord     风暴之主  ← sailor   （水手）    ✅ M2.19 接入
+#
+#   绑不上的（pathway: null，plannedPathway 写**那条途径的 id**）：
+#     god_of_steam         蒸汽与机械之神    → perfect  完美者
+#     eternal_blazing_sun  永恒烈阳          → sun      太阳
+#     god_of_knowledge     知识与智慧之神    → reader   阅读者
+#     earth_mother         大地母神          → mother   母亲
+#
+#   四个 id 与 cities.yaml 的 planned_pathways **共用同一个枚举**
+#   （geo/types.ts 的 PlannedPathwayIdSchema）：由 M2.15 首次登记，命名口径是**途径名英译**
+#   （与 seer = 愚者途径同一口径），不是序列 9 的魔药名。
+#   sailor 原先也在这个枚举里（M2.7 登记的第一批），M2.19 实现它时把它**移进了 PathwayIdSchema**。
+#
+#   ⚠️ 第三条途径 **seer（占卜家 / 愚者）在七正神里没有落点** ——
+#      愚者是独立于七正神的隐秘存在（愚者教会是后来的事），七正神中没有哪一位走这条途径。
+#      所以它**不硬绑**给知识与智慧之神（任务书 A1 表里那个「seer 或对应途径」的提示是错的，
+#      知识与智慧之神的途径在原作里是「阅读者」）。
+#
+#   硬绑一个错的途径，症状是「玩家入了教却拿到不相干的途径加成」——
+#   那是 M2.16 里最难查的一类 bug。所以**对不上的一律 null**。
+#
+# ============================ 其余字段的口径 ============================
+#
+#   dogma / taboos / ranks 是**声明**，本轮没有任何机制读它们：
+#   教义 flag 判定、等级贡献、技能树全部在 M2.16。
+#   禁忌写成**可判定的行为短句**（「不得在夜里对同伴出手」），不写气氛描写 ——
+#   内容表给下一轮留的应该是一条能被翻译成判据的句子。
+#
+#   seats 是**据点城市 id**（cities.yaml），语义是「这座城市的教会势力存在」，
+#   不是「占了哪块地」—— 后者是任务 B 的动态据点，本轮现场算、不落库。
+#
+#   relations 只写**非中立**的对（未声明的一律 neutral），且必须对称：
+#   A 对 B 是 hostile，B 对 A 就必须是 hostile。loader 里有校验。
+#
+#   ⚠️ relations 的取值是 **MVP 起跑值**，只保证自洽（对称、自反中立）与两条锚点：
+#      女神与烈阳、战神对立；知识之神保持中立。
+#      逐条按原作校准是内容同学的事，也是 M2.17「动态关系」那一轮的起点。
+#
+# ============================ M2.19：风暴—女神 这一对为什么改了 ============================
+#
+# **改动**：风暴之主由「与女神同盟」改成「与女神、战神都敌对」。
+# M2.15 原文的锚点是「女神—风暴—蒸汽—母神互为同盟」，本轮**有意识地校准**了其中一对。
+#
+# 理由是可争教会对数（M2.18-参数扫描 §四 记下的那个杠杆）：
+#
+#   · 判定口径：一对「可争教会」= 两家教会的 pathway 都非 null（有玩家能入教）
+#     且 relations 互为 hostile。争夺只发生在敌对教会之间，同盟与中立不争。
+#   · 实现 sailor **之前**，hostile 的对只有「女神 ↔ 战神」与「女神 ↔ 烈阳」两对，
+#     而烈阳那一家绑的是 sun（还没实现，没有玩家能入教）—— 所以**实际可争只有 1 对**，
+#     这也是 M2.18 实测「5 次胜利」的直接来源。
+#   · 接入 sailor **之后**，能入教的教会变成三家：女神（sleepless）/ 战神（warrior）/ 风暴（sailor）。
+#     三家两两组合恰好 3 对，所以**要拿到「可争对数 ≥ 3」就必须让这三家两两敌对** ——
+#     女神与战神本来就是 hostile，缺的那两条边只能从风暴这里出。
+#   · 若保留「女神—风暴同盟」，可争对数就是 2（女神↔战神、风暴↔战神），达标不了。
+#
+# 这是**内容锚点的改动**，不是判定层改动：conflict / territory 的数值一个都没动，
+# 改的只是「谁跟谁为敌」。蒸汽与机械之神（perfect）仍然与风暴同盟 —— 它没有玩家，
+# 所以这一对不参与「可争」的计数，保留它可以让世界看起来不只剩一种关系。
+
+churches:
+  # ---------------- 风暴之主 ----------------
+  - id: storm_lord
+    name: 风暴之主
+    type: church
+    # ✅ M2.19 已实现：sailor（水手）—— 风暴之主的途径（序列 9 水手 → 序列 0 风暴之主）
+    # id 沿用 M2.7 登记的历史值 sailor（见 geo/types.ts 的 PathwayIdSchema 注释：不改名的理由）
+    pathway: sailor
+    plannedPathway: null
+    dogma: 风暴是一切的开始，也是一切的结束；站得稳的人，才配留在甲板上。
+    # M2.17：**只声明、没有 when**。
+    # ⚠️ M2.19 更新：sailor 已经实现、风暴之主现在**可以入教了**，但这三条判据仍然留在
+    # 「纯声明」状态 —— 翻译判据（when + penalty）要一条条去核对手里有什么检查点，
+    # 而 M2.19 任务 3 的范围是「途径能走通 + 可争教会对数」。
+    # 所以这里**标签没变、when 仍然不写**：schema 允许省略 when（= 纯声明），
+    # 并且禁止这种条目写 penalty —— 「还没做」与「做了、判据是空的」是两种状态。
+    # 下一轮补判据时，参考黑夜女神那三条的写法（每条后面记实测触发量级）。
+    # M2.26 第三批：**这一轮就是 M2.19 注释里说的「下一轮」** —— 补判据。
+    # 三条都按 M2.17 §三 的口径（同一教义在可判定维度上的空间投射）。
+    taboos:
+      - id: storm_lord_no_leaving_post
+        when: { action: battle, target: fleeing }
+        penalty: { mad: 2, cor: 1 }
+        # ✅ 这一条终于可以用**战斗内**的落点了：M2.18（F）给 action 加了 battle/challenge、
+        #    给判据加了 target（fleeing / mortal）。「在风暴来临前离开岗位」= 撤退。
+        text: 风暴里没有人可以转身 —— 你背对它，它就记住你了
+      - id: storm_lord_no_hiding_omens
+        when: { action: explore, location: coral_reef }
+        penalty: { mad: 2, cor: 2 }
+        # 珊瑚暗礁是**藏在水面之下的东西** —— 「隐瞒海上的预兆」的空间投射
+        text: 暗礁从不出声，但它一直在那儿 —— 预兆不该被压在水底下
+      - id: storm_lord_no_haggling
+        when: { action: explore, location: fish_market }
+        penalty: { mad: 1, cor: 2 }
+        # 咸鱼市场就是讨价还价的地方（退役军官的任务也指向它）——「主的殿堂」的空间投射
+        text: 主的殿堂不是讲价的地方 —— 别把咸鱼市场那一套带进来
+    ranks:
+      - { id: believer, name: 信徒 }
+      - { id: deacon, name: 执事 }
+      - { id: priest, name: 司铎 }
+      - { id: bishop, name: 主教 }
+      - { id: archbishop, name: 大主教 }
+      - { id: pontiff, name: 教宗 }
+    seats: [ backlund, pritz ]
+    # M2.19：**与女神、战神改为敌对**（原来只写「与蒸汽同盟」）。
+    # 理由是可争教会对数 —— 见文件顶部那段注释的第四节。
+    relations:
+      god_of_steam: ally
+      night_goddess: hostile
+      god_of_war: hostile
+
+  # ---------------- 蒸汽与机械之神 ----------------
+  - id: god_of_steam
+    name: 蒸汽与机械之神
+    type: church
+    # M2.26 第一批：完美者途径已实现，绑上（`plannedPathway` 同时置 null —— 两处必须一致，
+    # test/m2-15.test.ts 的「待定四家」用例守着这件事）
+    pathway: perfect
+    plannedPathway: null
+    dogma: 齿轮不空转，蒸汽不白费；主把世界造成一台机器，人只需把它修好。
+    # M2.26 第三批：途径实现、有玩家能入教了 ⇒ 判据必须真的跑得起来（M2.17 §三 的口径）。
+    # 三家的改写原则与战神那三条完全一致：**取同一教义在可判定维度上的空间投射**
+    # （原文落在「对象是不是机器 / 图纸给谁 / 有没有动手」上，而判据只有 action + 地点 + 档位）。
+    taboos:
+      - id: god_of_steam_no_breaking_machines
+        when: { action: explore, location: rusted_gallery }
+        penalty: { mad: 2, cor: 1 }
+        # 锈蚀回廊 = 机器被废弃、锈掉的现场 —— 「毁坏尚能运转的机械」的空间投射
+        text: 锈掉的东西不是坏了，是没人修 —— 完美者不该在锈蚀回廊里转
+      - id: god_of_steam_no_leaking_blueprints
+        when: { action: explore, location: foreign_quarter }
+        penalty: { mad: 1, cor: 2 }
+        # 「教会之外的人」= 异邦人街区 —— 把图纸带到这里，就是带出了教会
+        text: 图纸该留在工坊里 —— 不要把它带到异邦人街区去
+      - id: god_of_steam_no_prayer_over_maintenance
+        when: { action: ritual, rankAbove: 1 }
+        penalty: { mad: 2, cor: 2 }
+        # 「凭祈祷代替检修」= 用仪式代替动手；rankAbove 1 用档位表达「受过教导没有」
+        # （与 night_goddess_no_hasty_ritual 同一手法）
+        text: 主把世界造成一台机器 —— 跪着它不会自己转起来
+    ranks:
+      - { id: believer, name: 信徒 }
+      - { id: craftsman, name: 匠师 }
+      - { id: mechanic, name: 技师 }
+      - { id: bishop, name: 主教 }
+      - { id: archbishop, name: 大主教 }
+      - { id: pontiff, name: 教宗 }
+    seats: [ backlund, pritz ]
+    relations:
+      storm_lord: ally
+      night_goddess: ally
+      # M2.26 第一批：随完美者途径一起落地的两条敌对边。
+      # 依据 docs/M2.25-三途径总账.md §一：可争对数从 3 走向 6，这两条是其中之二。
+      god_of_knowledge: hostile
+      god_of_war: hostile
+
+  # ---------------- 永恒烈阳 ----------------
+  - id: eternal_blazing_sun
+    name: 永恒烈阳
+    type: church
+    # M2.76：**太阳途径已落地**（22 条正途径全部实现）——
+    # 所以这家教会从「绑不上、登记 id」变成真的绑上：pathway 置 sun、plannedPathway 归 null
+    # （两处必须恰有一个非空，validateChurches 守着这一条）。
+    pathway: sun
+    plannedPathway: null
+    dogma: 太阳照见每一处阴影；不必问它为何灼烧，只须站到光里去。
+    # M2.76：**这一轮就是 M2.17 注释里说的「下一轮」** —— sun 途径已落地，
+    # 教会的 taboos 从「纯声明」补成「有判据」（判据只引用 seats 城市里的地点，
+    # 它在 backlund 与 trier 有堂口）。
+    taboos:
+      - id: eternal_blazing_sun_no_night_ritual
+        text: 不得在日落后举行公开仪式
+        # 太阳教会的核心禁忌：日落之后的公开仪式等于把光让给别的东西
+        when: { action: ritual, location: trier }
+        penalty: { mad: 2, cor: 2 }
+      - id: eternal_blazing_sun_no_veiled_face
+        text: 不得遮着脸进入神殿
+        when: { action: explore, location: backlund_cathedral }
+        penalty: { mad: 1, cor: 2 }
+      - id: eternal_blazing_sun_no_shadow_in_sanctuary
+        text: 不得把阴影里的东西带进圣所
+        when: { action: explore, location: trier_ossuary }
+        penalty: { mad: 2, cor: 1 }
+    ranks:
+      - { id: believer, name: 信徒 }
+      - { id: deacon, name: 执事 }
+      - { id: priest, name: 司铎 }
+      - { id: bishop, name: 主教 }
+      - { id: archbishop, name: 大主教 }
+      - { id: pontiff, name: 教宗 }
+    seats: [ backlund, trier ]
+    relations:
+      night_goddess: hostile
+
+  # ---------------- 知识与智慧之神 ----------------
+  - id: god_of_knowledge
+    name: 知识与智慧之神
+    type: church
+    # 途径未实现：阅读者途径。M2.15 登记 id reader
+    # ⚠️ 不是 seer（愚者）—— 愚者不在七正神之列，这条途径在本轮绑不到任何一家。
+    # M2.26 第二批：阅读者途径已实现，绑上（plannedPathway 同时置 null）
+    pathway: reader
+    plannedPathway: null
+    dogma: 知道一件事的代价，是永远不再满足于不知道。
+    # M2.26 第三批：途径实现 ⇒ 补判据（同蒸汽那三条的口径：空间投射）。
+    taboos:
+      - id: god_of_knowledge_no_burning_books
+        when: { action: explore, location: rusted_gallery }
+        penalty: { mad: 3, cor: 1 }
+        # 锈蚀回廊是**书的坟场**（烂在那里没人读）—— 「焚书」的空间投射
+        text: 烂在那里也是一种焚毁 —— 读者不该在锈蚀回廊里转
+      - id: god_of_knowledge_no_unverified_claims
+        when: { action: explore, location: intel_cafe }
+        penalty: { mad: 2, cor: 1 }
+        # 情报咖啡馆里全是**未经证实的说法**（它的势力任务原话就是「听他们说什么，别记笔记」）
+        text: 听来的东西不能当结论 —— 别在情报咖啡馆里坐太久
+      - id: god_of_knowledge_no_wish_for_answers
+        when: { action: ritual, rankAbove: 1 }
+        penalty: { mad: 2, cor: 2 }
+        # 「向神许愿」= 仪式；档位表达「受过教导没有」（与女神 / 蒸汽那两条同一手法）
+        text: 答案是读出来的，不是求来的 —— 未经指引不得擅自举行仪式
+    ranks:
+      - { id: believer, name: 信徒 }
+      - { id: scribe, name: 书记 }
+      - { id: scholar, name: 学者 }
+      - { id: bishop, name: 主教 }
+      - { id: archbishop, name: 大主教 }
+      - { id: pontiff, name: 教宗 }
+    seats: [ backlund, trier ]
+    relations:
+      # M2.26 第一批：完美者途径落地后新增的这一对（机械 ↔ 知识）——
+      # 它是可争对数 4 → 5 的那一条。
+      # ⚠️ 除此之外**一律不声明**（含知识与母神 / 战神 / 风暴）⇒ 全 neutral。
+      #   设计依据 docs/M2.25-三途径总账.md §一：「god_of_knowledge 全中立保持，只加蒸汽这一条」；
+      #   6 对 hostile 是拍板数字，多一对就变成 7 对。
+      god_of_steam: hostile
+
+  # ---------------- 大地母神 ----------------
+  - id: earth_mother
+    name: 大地母神
+    type: church
+    # M2.26 第三批：母亲途径已实现，绑上（plannedPathway 同时置 null）
+    pathway: mother
+    plannedPathway: null
+    dogma: 土地给什么，人就收什么；多拿的那一份，土地会自己拿回去。
+    # M2.26 第三批：途径实现 ⇒ 补判据（同蒸汽 / 知识那六条的口径：空间投射）。
+    taboos:
+      - id: earth_mother_no_fallow_field
+        when: { action: explore, location: sun_temple }
+        penalty: { mad: 2, cor: 1 }
+        # 守田人那条势力任务原话就是「太阳神殿后墙外那块地荒了三年」—— 荒地就在那里
+        text: 荒着的地也是一种亏欠 —— 母亲的信徒不该绕着它走
+      - id: earth_mother_no_harming_breeding_stock
+        when: { action: explore, location: plague_camp }
+        penalty: { mad: 3, cor: 1 }
+        # 疫病营地是「生命被提前了结」的现场 —— 与「不得伤害怀胎的牲畜」同一条教义的投射
+        # ⚠️ 用 challenge + mortal 是**错的**：那一条判的是「对未持械的人出手」，语义完全不同。
+        text: 还没长成的东西不该提前了结 —— 疫病营地不是母亲该去的地方
+      - id: earth_mother_no_selling_before_harvest
+        when: { action: explore, location: bone_market }
+        penalty: { mad: 1, cor: 2 }
+        # 骨市是**交易场所**（南大陆的材料流通节点）—— 「收获之前先卖掉」的空间投射
+        text: 地里的东西还没熟，就先摆上了摊子 —— 母亲的信徒不该在骨市里谈价
+    ranks:
+      - { id: believer, name: 信徒 }
+      - { id: field_warden, name: 农祭 }
+      - { id: priest, name: 司祭 }
+      - { id: bishop, name: 主教 }
+      - { id: archbishop, name: 大主教 }
+      - { id: pontiff, name: 教宗 }
+    seats: [ backlund, byron ]
+    relations:
+      night_goddess: ally
+      # M2.26 第三批：随母亲途径一起落地的那一对（大地丰饶 ↔ 战争践踏），
+      # 依据 docs/M2.25-母神途径设计.md §五 —— 可争对数 5 → 6 的那一条。
+      # ⚠️ 母神↔风暴**保持 neutral**（设计 §五 / 总账 §三：她再加一条就会成为最活跃的争夺方）。
+      god_of_war: hostile
+
+  # ---------------- 战神 ----------------
+  - id: god_of_war
+    name: 战神
+    type: church
+    # ✅ 已实现：warrior（战士）—— 原作里战神就是「战士」途径的序列 0
+    pathway: warrior
+    plannedPathway: null
+    dogma: 战场是唯一诚实的审判；活下来的人说出口的话，才叫真理。
+    # M2.17：三条判据。原文那三条（背对敌人逃跑 / 对手放下武器后继续动手 / 对未持械的人出手）
+    # 全部落在**战斗回合**里，而本轮的检查点是五类动作（探索 / 使用 / 仪式 / 捐献 / 扮演）——
+    # 战斗类判据要等 M2.18 的对抗层。所以这里翻译的是同一套教义在**战场之外**的投射：
+    # 战士不该去看假的厮杀、不该跪、不该躲。
+    taboos:
+      # 实测 257 次/片 —— 本批触发量最大的一条
+      - id: god_of_war_no_false_battle
+        when: { action: explore, location: backlund_theatre }
+        penalty: { mad: 2, cor: 1 }
+        text: 舞台上的厮杀是假的 —— 战士不该在剧院里消磨时间
+      # 实测 58 次/片
+      - id: god_of_war_no_kneeling
+        when: { action: explore, location: backlund_cathedral }
+        penalty: { mad: 2, cor: 1 }
+        text: 战士的祈祷在战场上 —— 不必去座堂里跪着
+      # 实测 70 次/片
+      - id: god_of_war_no_hiding
+        when: { action: explore, location: backlund_slum }
+        penalty: { mad: 1, cor: 2 }
+        text: 战士不在阴沟里躲藏
+      # ============ M2.18（F）：**战斗类判据** ============
+      #
+      # M2.17 那三条是「探索某地点」的投射；这三条才是原文的**战斗内**落点。
+      # 三条原文里**这一批只落地一条**（见 docs/M2.18-F交付说明.md）：
+      #   · 对未持械的人出手  → ✅ 落地（challenge + mortal）
+      #   · 背对敌人逃跑      → ⏸ **判据先不写**：检查点要动 battleTurn 的返回结构，
+      #     而那是 M2.9 刚验收过的主链路。写一条没有检查点的判据 = 死配置。
+      #   · 对手放下武器后继续动手 → ❌ **没有落点**：PVP 里认输 = 战斗立即结束，
+      #     不存在「认输之后还能继续打」的窗口。
+      - id: god_of_war_no_striking_mortal
+        when: { action: challenge, target: mortal }
+        penalty: { mad: 3, cor: 1 }
+        text: 不得对未持械的人出手 —— 还没有途径的人不该是你的对手
+    ranks:
+      - { id: believer, name: 信徒 }
+      - { id: soldier, name: 士兵 }
+      - { id: officer, name: 军官 }
+      - { id: bishop, name: 主教 }
+      - { id: archbishop, name: 大主教 }
+      - { id: pontiff, name: 教宗 }
+    # pritz 是刻意加的：warrior 在 pritz 开放，而本轮已实现的途径只有 warrior / sleepless ——
+    # 少了这一座，普利兹港的战士在 M2.16 里就没有任何一家正神教会可入
+    # （「已实现途径 × 出生城市」的覆盖矩阵见 docs/M2.15-交付说明.md）。
+    seats: [ backlund, pritz, trier ]
+    relations:
+      night_goddess: hostile
+      # M2.19：风暴之主的途径（sailor）落地之后，这一对才第一次有「两边的玩家都存在」的可能
+      storm_lord: hostile
+      # M2.26 第一批：蒸汽（完美者）落地后新增的这一对（造物 ↔ 毁坏）
+      god_of_steam: hostile
+      # M2.26 第三批：母亲落地后的对称侧（relations 必须对称，loader 校验）
+      earth_mother: hostile
+
+  # ---------------- 黑夜女神 ----------------
+  - id: night_goddess
+    name: 黑夜女神
+    type: church
+    # ✅ 已实现：sleepless（不眠者）—— 原作里黑夜女神就是「不眠者」途径的序列 0
+    pathway: sleepless
+    plannedPathway: null
+    dogma: 安眠与死亡是同一扇门的两面；不必害怕，只要别在门开的时候回头。
+    # M2.17：这三条**翻译成了判据**（when + penalty）—— 这一家的途径已实现，
+    # 有玩家能入教，所以判据必须真的跑得起来。
+    # 每条后面的「实测」是 m217a 跑批（25 人 × 30 天 × 1 片，16 个入教者）里的触发量级，
+    # 用来核对判据是不是死配置（见 docs/M2.17-教义flag.md §四）。
+    taboos:
+      # 实测 22 次/片
+      - id: night_goddess_no_sun_temple
+        when: { action: explore, location: sun_temple }
+        penalty: { mad: 3, cor: 1 }
+        text: 不得向太阳低头 —— 不要踏进烈阳的圣所
+      # 实测约 20 次/片（情报咖啡馆等特里尔的地点）
+      - id: night_goddess_no_rival_city
+        when: { action: explore, cityId: trier }
+        penalty: { mad: 2, cor: 1 }
+        text: 战神的城里没有黑夜的位置 —— 不要在特里尔逗留
+      # rankAbove 1 = 只有信徒/守夜人两档受约束（高阶已受过教导，不再算「擅自」）
+      - id: night_goddess_no_hasty_ritual
+        when: { action: ritual, rankAbove: 1 }
+        penalty: { mad: 2, cor: 2 }
+        text: 未经守夜人见证，不得擅自举行仪式
+    ranks:
+      - { id: believer, name: 信徒 }
+      - { id: night_watch, name: 守夜人 }
+      - { id: priest, name: 司铎 }
+      - { id: bishop, name: 主教 }
+      - { id: archbishop, name: 大主教 }
+      - { id: pontiff, name: 教宗 }
+    seats: [ tingen, backlund, pritz, byron ]
+    relations:
+      # M2.19：风暴之主由 ally 改成 hostile（见文件顶部注释第四节）
+      storm_lord: hostile
+      god_of_steam: ally
+      earth_mother: ally
+      eternal_blazing_sun: hostile
+      god_of_war: hostile

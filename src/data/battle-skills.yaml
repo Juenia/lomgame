@@ -1,0 +1,1207 @@
+# 战斗技能表（M2.85 RPG 化 C）
+#
+# 共 110 条：22 途径 × 序列 9/7/5/3/1。
+#
+# ⚠️ 技能名与 text **逐条来自原作能力表**（pathway-abilities.yaml），source 字段就是那条能力的 id —— 可追溯、不编造。
+#
+# 效果数值（damageBonus / foeHitPenalty / …）是**项目派生值**：原著的描述里没有数字。
+#
+# 分类口径：关键词包含匹配（含「攻击/伤害/斩」= strike，含「防御/抵抗」= guard，
+#
+# 含「控制/迷惑/隐」= control，其余归 restore）—— 与 tags.ts 同一条原则，不用 LLM、不做分词。
+meta:
+  source: M2.85 RPG 化 C：**战斗深度** —— 技能从原作能力表派生
+  count: 110
+  note: ⚠️ 技能名与依据全部来自 src/data/pathway-abilities.yaml 的原文（source 字段指向能力 id），不是编造；效果数值是项目派生值。
+  kind_note: 四类：strike 强攻 / guard 防御 / control 控制 / restore 辅助。分类用关键词包含匹配（与 tags.ts 同口径，不用 LLM、不做分词）。
+  pick_note: 每个途径取序列 9/7/5/3/1 各一个 —— 与「技能是解禁不是升级」一致（序列越低，做得越多）。
+  name_note: 技能名优先取原文引号里的专有名词；没有引号则取短语并清掉尾部虚词；仍然像句子就退回序列标题。
+battle_skills:
+  - id: seer_9_restore
+    pathway: seer
+    seq: 9
+    name: 灵视
+    mpCost: 5
+    kind: restore
+    effect:
+      mpRestore: 6
+      digBonus: 0.02
+    text: 获得灵视能力。
+    source: seer_9_01
+  - id: seer_7_strike
+    pathway: seer
+    seq: 7
+    name: 伤害转移
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: · “伤害转移”：只要未直接死亡、双手还能动，就能将要害位置的伤口转移至不重要的部位，化致命伤为轻伤。
+    source: seer_7_03
+  - id: seer_5_control
+    pathway: seer
+    seq: 5
+    name: 灵体之线
+    mpCost: 12
+    kind: control
+    effect:
+      foeHitPenalty: 0.2
+    text: 能看到“灵体之线”，通过“灵体之线”找到隐藏的目标。
+    source: seer_5_01
+  - id: seer_3_strike
+    pathway: seer
+    seq: 3
+    name: 灵之虫
+    mpCost: 20
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 神性提升，能分化的“灵之虫”达到了六百条，神性花纹也变得更为复杂，更能表现力量、诡异、超凡等概念。
+    source: seer_3_01
+  - id: seer_1_control
+    pathway: seer
+    seq: 1
+    name: 诡秘之境
+    mpCost: 32
+    kind: control
+    effect:
+      foeHitPenalty: 0.35
+    text: “诡秘之境”：隐秘领域的权柄。用来创造神国雏形的能力，可以带来一定的隐秘效果。
+    source: seer_1_04
+  - id: warrior_9_strike
+    pathway: warrior
+    seq: 9
+    name: 超越常人的力量
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 超越常人的力量，超越常人的敏捷，各种武器防具精通，不存在无法使用的武器，各种格斗术掌握，不存在无法掌握的格斗流派。
+    source: warrior_9_01
+  - id: warrior_7_strike
+    pathway: warrior
+    seq: 7
+    name: 超强的力量
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 超强的力量，超强的体质，超强的敏捷，只要是武器，拿到手中，他就能以大师级水准使用，这包括非凡武器，或以剑、枪支等形式存在的神奇物品和封印物，并有效降低负面影响带来的伤害。
+    source: warrior_7_01
+  - id: warrior_5_strike
+    pathway: warrior
+    seq: 5
+    name: 守护者
+    mpCost: 12
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 凭借其非凡能力对任何类型的怪物都能造成伤害；不被幻觉迷惑。
+    source: warrior_5_01
+  - id: warrior_3_strike
+    pathway: warrior
+    seq: 3
+    name: 巨龙
+    mpCost: 20
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 守护力量实质化成了银色全身盔甲，承受打击的能力比“巨龙”要强不少。
+    source: warrior_3_03
+  - id: warrior_1_strike
+    pathway: warrior
+    seq: 1
+    name: 代行
+    mpCost: 32
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 简化的“代行”权柄：和同领域的“衰败左手”一样，“神明之手”可代表自身所效忠的神明（唯一性也算）或旧日展现威能，降下神罚，当然，只能短暂和节制，否则会逐渐丧失心智，成为真正的“奴仆”。
+    source: warrior_1_01
+  - id: sleepless_9_strike
+    pathway: sleepless
+    seq: 9
+    name: 夜越深
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 夜越深，精力越充沛，力量、敏捷、思维、灵感也会愈发超越普通人；
+    source: sleepless_9_03
+  - id: sleepless_7_control
+    pathway: sleepless
+    seq: 7
+    name: 塑梦
+    mpCost: 5
+    kind: control
+    effect:
+      foeHitPenalty: 0.2
+    text: “塑梦”：让梦境如自己设想的那样发展，从而引导目标展现出秘密，或给予恐惧，击溃精神。
+    source: sleepless_7_03
+  - id: sleepless_5_strike
+    pathway: sleepless
+    seq: 5
+    name: 在灵的掌控上有了
+    mpCost: 12
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 在灵的掌控上有了极大的提升，其实力的强弱，很多时候要看他们究竟能找到并驱使哪些亡者和自然灵，灵巫更擅长驱使自然灵，可以将自然灵与怨魂幽影封印于牙齿之上，并通过敲动牙齿将其释放，获得这些灵体的帮助，完成一心两用，甚至三用的配合，不同种类灵所擅长的都不一样；
+    source: sleepless_5_01
+  - id: sleepless_3_strike
+    pathway: sleepless
+    seq: 3
+    name: 黑暗之剑
+    mpCost: 20
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: “黑暗之剑”：从黑暗深处抽出的一把布满奇异花纹的骨制长剑，它来自黑暗的赐予，结合了安眠和恐惧的力量，挥舞长剑可使黑暗涌动，象征着黑暗里的危险，象征着无声无息的毁灭与消逝，目标被涌动的黑暗淹没后，会受到黑暗力量的感染而直接消融，化为潮水的一部分，若不提前预防，避无可避，躲无可躲。
+    source: sleepless_3_01
+  - id: sleepless_1_strike
+    pathway: sleepless
+    seq: 1
+    name: 力量、敏捷、体质
+    mpCost: 32
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 力量、敏捷、体质、速度一如骑士之名，大天使层面的骑士；
+    source: sleepless_1_01
+  - id: sailor_9_strike
+    pathway: sailor
+    seq: 9
+    name: 卓越的力量
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 拥有卓越的力量。在水中灵活得仿佛海族，能无保护下潜15米，哪怕不用任何装备，也能潜水至少十分钟；
+    source: sailor_9_01
+  - id: sailor_7_strike
+    pathway: sailor
+    seq: 7
+    name: 航海家
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 天文地理的学者，他们对磁场，对洋流、风向、云朵都有着直觉的把握。有“航海家”的船只从来不会在大海上迷路。计算力、记忆力、对距离的判断力得到强化。
+    source: sailor_7_01
+  - id: sailor_5_control
+    pathway: sailor
+    seq: 5
+    name: 歌唱
+    mpCost: 12
+    kind: control
+    effect:
+      foeHitPenalty: 0.2
+    text: “歌唱”：有用歌声影响目标的能力——因为每个人自身特质的不同，一种是用美妙的歌声干扰敌人的灵体，让他出现恍惚失神等状态，或者提高自身的爆发力；一种是模拟雷鸣，使人受到震慑；一种是靠杂乱难听的歌声让敌人烦躁，失去理智。仅凭纸团堵住耳朵和收敛灵性，只能减弱影响，没法真的隔绝。就算是失聪者，也一样能听见，这包含了灵性层面的“交流；“水幕”：
+    source: sailor_5_05
+  - id: sailor_3_strike
+    pathway: sailor
+    seq: 3
+    name: 闪电风暴
+    mpCost: 20
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: “闪电风暴”：一道道银白电蛇蹿出，带着强烈得宛若实质的的暴虐毁灭气息，密密麻麻地劈向周围，将几百米的区域笼罩在雷霆森林内，被笼罩的生物破碎蒸发而消失不见。范围攻击，不会分辨敌我；
+    source: sailor_3_02
+  - id: sailor_1_strike
+    pathway: sailor
+    seq: 1
+    name: 天罚
+    mpCost: 32
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: “天罚”：从天而降的巨大闪电，并附带瓦解、净化、摧毁等力量，对试图超越自然或超出物质的目标行为有弱点攻击般的威能，同样的，对黑暗、死亡、堕落、污秽等领域的敌人也如此——部分“雷霆”权柄衍化而来；
+    source: sailor_1_01
+  - id: perfect_9_strike
+    pathway: perfect
+    seq: 9
+    name: 记忆、学习和实践
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 记忆、学习和实践能力的非凡化，相信知识就是力量，对神秘学有粗略的了解，对王水、硝酸甘油和复杂的齿轮装置等更加精通，他们似乎什么都懂。
+    source: perfect_9_01
+  - id: perfect_7_restore
+    pathway: perfect
+    seq: 7
+    name: 不用占卜、不依靠
+    mpCost: 5
+    kind: restore
+    effect:
+      mpRestore: 10
+      digBonus: 0.02
+    text: 可以不用占卜、不依靠推理，快速鉴定神奇物品。
+    source: perfect_7_01
+  - id: perfect_5_control
+    pathway: perfect
+    seq: 5
+    name: 虚假星象
+    mpCost: 12
+    kind: control
+    effect:
+      foeHitPenalty: 0.2
+    text: “虚假星象”：伪造出一片虚假的星空，迷惑目标或干扰目标的占星；
+    source: perfect_5_01
+  - id: perfect_3_strike
+    pathway: perfect
+    seq: 3
+    name: 解离
+    mpCost: 20
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: “解离”：能发射一道光芒，破坏绝大多数物品的结构，让目标被彻底分解，化作片片屑末落地，就连色彩都蒸发般飞快消散——这是“解析”和“规律”权柄共同延伸出的应用。
+    source: perfect_3_02
+  - id: perfect_1_control
+    pathway: perfect
+    seq: 1
+    name: 文明
+    mpCost: 32
+    kind: control
+    effect:
+      foeHitPenalty: 0.35
+    text: 一定的“文明”权柄：可以让混沌沉淀出少许秩序，可以让毁灭焕发出微弱新生，可以让黑暗迸发起初光，可以依靠“文明”的重量冲击、束缚、碾压目标。
+    source: perfect_1_02
+  - id: reader_9_restore
+    pathway: reader
+    seq: 9
+    name: 记忆的提升和理解
+    mpCost: 5
+    kind: restore
+    effect:
+      mpRestore: 6
+      digBonus: 0.02
+    text: 记忆的提升和理解能力、学习能力的增强，能使用仪式魔法，如果大量阅读书籍，会有丰厚的知识储备。
+    source: reader_9_01
+  - id: reader_7_strike
+    pathway: reader
+    seq: 7
+    name: 职业
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 属于偏知识掌握和推理能力的“职业”，再附带不错的格斗和器械使用能力，行动力变强，武器精通，格斗大师，推理大师，仪式魔法大师——格斗大师是相对普通人而言，因为侦探提升的身体素质较少，所以不如擅长战斗的非凡者。
+    source: reader_7_01
+  - id: reader_5_control
+    pathway: reader
+    seq: 5
+    name: 秘术
+    mpCost: 12
+    kind: control
+    effect:
+      foeHitPenalty: 0.2
+    text: 所谓“秘术”，就是秘密的、有特殊性和独特性的法术，和“巫师”们创造的法术不同之处在于，“秘术”往往可以省略施法材料、引导咒文和绝大部分施法步骤，更为快速更为隐秘，当然，并不是所有“秘术”都可以省略那些，有前置准备的“秘术”一般而言，要么有非常特殊的效果，要么非常强大。
+    source: reader_5_04
+  - id: reader_3_strike
+    pathway: reader
+    seq: 3
+    name: 规律
+    mpCost: 20
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 一定的“规律”权柄。
+    source: reader_3_01
+  - id: reader_1_strike
+    pathway: reader
+    seq: 1
+    name: 全知
+    mpCost: 32
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 部分“全知”权柄：可以看到目标过去、现在、未来的全部信息；模仿能力和法术的效果达到原版的100%——不涉及权柄。
+    source: reader_1_01
+  - id: mother_9_strike
+    pathway: mother
+    seq: 9
+    name: 力气变得很大
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 力气变得很大；
+    source: mother_9_01
+  - id: mother_7_restore
+    pathway: mother
+    seq: 7
+    name: 治疗方面的能力有
+    mpCost: 5
+    kind: restore
+    effect:
+      mpRestore: 10
+      digBonus: 0.02
+    text: 治疗方面的能力有了拓展，可以治疗植物和农田的疾病。
+    source: mother_7_02
+  - id: mother_5_control
+    pathway: mother
+    seq: 5
+    name: 自然憎恶
+    mpCost: 12
+    kind: control
+    effect:
+      foeHitPenalty: 0.2
+    text: · “自然憎恶”：指定一个人或不超过五十人为敌对者，周围的环境将憎恶他们，给予他们足够的干扰，若环境本身存在较强的危险因素，那这些危险将极大可能以敌对者为目标爆发（比如，在山崖下战斗，上方的岩石若有掉下砸落的较高风险，那这个风险会显著增强，甚至必然爆发，如果这个风险本身发生的概率很低，则不会出现）；
+    source: mother_5_06
+  - id: mother_3_strike
+    pathway: mother
+    seq: 3
+    name: 剥夺生命
+    mpCost: 20
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: “剥夺生命”：每一次击中目标，都将使其接受死亡的考验，若无法通过，直接死亡，即使通过，也将承受生命的较大损失；一定范围内，死亡降临，哪怕没有接触，生命也将以较快的速度自然流逝。
+    source: mother_3_03
+  - id: mother_1_strike
+    pathway: mother
+    seq: 1
+    name: 能与范围内的大地
+    mpCost: 32
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 能与范围内的大地、树林、水流、山峰、矿石等自然要素真正成为一体，可以借助它们穿梭，速度各有不同（在西大陆，这被称为各种遁法），也能直接借助或利用它们的力量；
+    source: mother_1_03
+  - id: door_9_strike
+    pathway: door
+    seq: 9
+    name: 学徒
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: “学徒”们追寻着自由的足迹，不管是墙壁，还是大门，都无法阻止他们通过，这就是“开门”，当然，前提是没有非凡能力限制，或者屏障不算太厚——很显然，“学徒”没法直接穿越一座山峰。从神秘学定义来说，只要屏障还能被称为人类常规认知里的墙壁，那就不算太厚。
+    source: door_9_01
+  - id: door_7_restore
+    pathway: door
+    seq: 7
+    name: 占星术
+    mpCost: 5
+    kind: restore
+    effect:
+      mpRestore: 10
+      digBonus: 0.02
+    text: 占星术：使用水晶球进行占卜。
+    source: door_7_01
+  - id: door_5_strike
+    pathway: door
+    seq: 5
+    name: 定位
+    mpCost: 12
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: “定位”：能辨认自己所在位置位于哪里，可再好的“导航”也受限于使用的人。
+    source: door_5_01
+  - id: door_3_control
+    pathway: door
+    seq: 3
+    name: 空间隐藏
+    mpCost: 20
+    kind: control
+    effect:
+      foeHitPenalty: 0.35
+    text: “空间隐藏”可以变成临时性的“空间牢笼”，这相当于一种封印。
+    source: door_3_02
+  - id: door_1_strike
+    pathway: door
+    seq: 1
+    name: 空间破碎
+    mpCost: 32
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: “空间破碎”：又称“重力操纵”，利用星辰的力量弯曲破碎一片空间。
+    source: door_1_04
+  - id: sun_9_strike
+    pathway: sun
+    seq: 9
+    name: 体质得到增强
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 体质得到增强；赞美太阳，用歌声带来勇气和力量，带来虔诚和服从，还可以用歌声增强自己和同伴。
+    source: sun_9_01
+  - id: sun_7_guard
+    pathway: sun
+    seq: 7
+    name: 体质又得到了增强
+    mpCost: 5
+    kind: guard
+    effect:
+      damageTaken: -0.25
+      madResist: 0.1
+    text: 体质又得到了增强，对疾病对恶劣环境有了不小的抵抗能力；在本领域内的法术和祭祀能力都得到了极大提升。
+    source: sun_7_01
+  - id: sun_5_guard
+    pathway: sun
+    seq: 5
+    name: 掌握各种太阳领域
+    mpCost: 12
+    kind: guard
+    effect:
+      damageTaken: -0.25
+      madResist: 0.1
+    text: 掌握各种太阳领域神术，能净化一定范围内的死灵和污秽类生物，是污秽和死灵的克星。
+    source: sun_5_01
+  - id: sun_3_guard
+    pathway: sun
+    seq: 3
+    name: 正义导师
+    mpCost: 20
+    kind: guard
+    effect:
+      damageTaken: -0.4
+      madResist: 0.1
+    text: “正义导师”周围10公里内，符合这套“正义”认知的行为，都会被较大程度增强，包括他自身，违背了这套“正义”准则的，则会遭受很大削弱，甚至直接失效——可控制不使用这种能力，否则友方的怨魂恶灵等根本不可能靠近“正义导师”，会迅速被压制并净化，这又称“正义光环”。
+    source: sun_3_03
+  - id: sun_1_strike
+    pathway: sun
+    seq: 1
+    name: 神圣之国
+    mpCost: 32
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: “神圣之国”：创造一个足以覆盖贝克兰德的虚幻国度，在这个国度内，布满太阳的光芒，充满神圣的力量，没有一点黑暗，也不会有不死生物的存在，能有效克制黑暗途径的复活，甚至让它无效；
+    source: sun_1_02
+  - id: corpse_collector_9_restore
+    pathway: corpse_collector
+    seq: 9
+    name: 具备一定的尸体特
+    mpCost: 5
+    kind: restore
+    effect:
+      mpRestore: 6
+      digBonus: 0.02
+    text: 具备一定的尸体特质，整个人显得颇为阴森，体温较低，从而避免被无智慧的亡灵袭击，同时，他们还获得了身体素质的提升，能承受腐烂、寒冷和死亡气息的侵蚀，天然具备灵视，能直接看见部分恶灵，并且了解诸多不死生物的特点和弱处。
+    source: corpse_collector_9_01
+  - id: corpse_collector_7_control
+    pathway: corpse_collector
+    seq: 7
+    name: 灵感变得极强
+    mpCost: 5
+    kind: control
+    effect:
+      foeHitPenalty: 0.2
+    text: 灵感变得极强，哪怕闭着眼睛，也能感应到周围隐藏起来的灵；
+    source: corpse_collector_7_01
+  - id: corpse_collector_5_strike
+    pathway: corpse_collector
+    seq: 5
+    name: 可感应到冥界的入
+    mpCost: 12
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 可感应到冥界的入口，驱使里面的亡灵，就像在守卫生与死的间隔，能有限度利用生与死之间的那扇神秘的、通往冥界的大门，比如，将烙印固化在掌心，关键时刻召唤出来，将目标吸入门后；
+    source: corpse_collector_5_01
+  - id: corpse_collector_3_strike
+    pathway: corpse_collector
+    seq: 3
+    name: 净化之外的大部分
+    mpCost: 20
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 净化之外的大部分攻击都对摆渡人无效；
+    source: corpse_collector_3_03
+  - id: corpse_collector_1_control
+    pathway: corpse_collector
+    seq: 1
+    name: 灵之主宰
+    mpCost: 32
+    kind: control
+    effect:
+      foeHitPenalty: 0.35
+    text: “灵之主宰”：非能力，而是具备的特质，来源于“奴役”权柄的特质，无需刻意，就变得极为尊贵，缺少生者的气息，如同高踞无数亡灵之上的虚幻神灵，任何具备灵的生物，苍白皇帝都能压制乃至奴役（不再局限于不死生物和同途径的非凡者），或让他们一点点死去，或让他们一点点死去并成为自己的奴隶；
+    source: corpse_collector_1_01
+  - id: error_9_strike
+    pathway: error
+    seq: 9
+    name: 敏捷之手
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 敏捷之手：提升手腕和指头的稳定性和灵活度，以速度快敏捷高著称。
+    source: error_9_02
+  - id: error_7_control
+    pathway: error
+    seq: 7
+    name: 解析
+    mpCost: 5
+    kind: control
+    effect:
+      foeHitPenalty: 0.2
+    text: 能力分为三部分：一是神秘学知识掌握，二是灵性直觉增强，三是观察、联想和推导能力提升，这让一位解密学者可以从蛛丝马迹还原神秘学事件的真相或者预见事情的发展。能解析梦境、幻象等诸多谜团，还能通过解析找出敌人方位等。
+    source: error_7_01
+  - id: error_5_strike
+    pathway: error
+    seq: 5
+    name: 窃取
+    mpCost: 12
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 窃取：可以拿走别人理想和梦境。可以偷走别人的记忆，可以偷掉对方正要付诸实践的想法使其出现短暂的呆滞，但在这一阶段无法保留窃取来的想法，自身必须代替窃取的对象做出相应的行动。
+    source: error_5_01
+  - id: error_3_strike
+    pathway: error
+    seq: 3
+    name: 欺瞒
+    mpCost: 20
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 欺瞒：是对诈骗师的深化，可以误导敌人，让他出现判断上的错误，甚至能够对自然规则进行欺诈，这属于欺诈权柄的下位。
+    source: error_3_01
+  - id: error_1_strike
+    pathway: error
+    seq: 1
+    name: 时空之王
+    mpCost: 32
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 弱化的，来自“时空之王”象征的时间权柄能。
+    source: error_1_01
+  - id: mystery_pryer_9_strike
+    pathway: mystery_pryer
+    seq: 9
+    name: 在魔法、巫术、占
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 在魔法、巫术、占星术等神秘知识上有着全面但初步的了解与掌握，懂得不少仪式魔法，但很容易感知到隐藏于事物背后的某些存在，必须小心翼翼，对非凡力量充满敬畏。
+    source: mystery_pryer_9_01
+  - id: mystery_pryer_7_restore
+    pathway: mystery_pryer
+    seq: 7
+    name: 照明术
+    mpCost: 5
+    kind: restore
+    effect:
+      mpRestore: 10
+      digBonus: 0.02
+    text: 拥有了借助头脑和知识解析、研究、学习乃至创建法术的能力，虽然这存在相当大的危险性，且非常麻烦，但胜在全面，可以使用各种法术，掌握的知识越多，越全面越厉害，常见的巫师法术有：“照明术”、“除草术”、“驱邪术”、“扩音术”、“闪电术”、“造风术”、“力场之手”等。
+    source: mystery_pryer_7_01
+  - id: mystery_pryer_5_restore
+    pathway: mystery_pryer
+    seq: 5
+    name: 星象师
+    mpCost: 12
+    kind: restore
+    effect:
+      mpRestore: 14
+      digBonus: 0.02
+    text: 星象、星座、星辰、星光都是同时具备神秘学和现实天文学双重意义的概念，而“星象师”初步掌握的是这些概念神秘学方面的知识，从而可以使用对应的能力：
+    source: mystery_pryer_5_01
+  - id: mystery_pryer_3_control
+    pathway: mystery_pryer
+    seq: 3
+    name: 窥秘
+    mpCost: 20
+    kind: control
+    effect:
+      foeHitPenalty: 0.35
+    text: 真切接触到了“窥秘”这个权柄，不仅可以窥探到隐藏起来的各种秘密、各种知识、各种存在，而且还能窥探命运的秘密。
+    source: mystery_pryer_3_01
+  - id: mystery_pryer_1_restore
+    pathway: mystery_pryer
+    seq: 1
+    name: 知识皇帝
+    mpCost: 32
+    kind: restore
+    effect:
+      mpRestore: 22
+      digBonus: 0.02
+    text: “知识皇帝”：能利用灵界汇聚的那些信息，能影响七光。
+    source: mystery_pryer_1_01
+  - id: spectator_9_strike
+    pathway: spectator
+    seq: 9
+    name: 得到出众的精神
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 得到出众的精神和敏锐的观察力。
+    source: spectator_9_01
+  - id: spectator_7_strike
+    pathway: spectator
+    seq: 7
+    name: 身体素质提升
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 身体素质提升，力量和速度增强不少。视力提升，能清楚看到藏在黑暗里的物品。嗅觉能分辨更多的细微气味，从而把握住目标最真实的情绪和想法。
+    source: spectator_7_01
+  - id: spectator_5_control
+    pathway: spectator
+    seq: 5
+    name: 引导
+    mpCost: 12
+    kind: control
+    effect:
+      foeHitPenalty: 0.2
+    text: · “引导”：类似“不眠者”途径的“梦魇”，以梦境的不同变化一步步引导目标说出心底的秘密，不同的地方在于“梦魇”可以强行拉人入梦，而“梦境行者”不可以，除非用“催眠”配合；
+    source: spectator_5_02
+  - id: spectator_3_strike
+    pathway: spectator
+    seq: 3
+    name: 编织出梦境
+    mpCost: 20
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 能够编织出梦境，并将目标拉入，能编织出近乎真实的几个形象，直接攻击敌人的精神薄弱处，一步步摧毁心灵防线。一旦敌人认为这些是真的，那它们就是真的，所产生的伤害虽然不会有物理意义上的实质表现，却会让目标在不知不觉死亡，达到吓疯或者吓死的效果。哪怕不是噩梦针对的敌人，其他人只要处于噩梦中就也会遭受波及，被相应的情绪、特质、位格影响，甚至污染。
+    source: spectator_3_01
+  - id: spectator_1_control
+    pathway: spectator
+    seq: 1
+    name: 空想
+    mpCost: 32
+    kind: control
+    effect:
+      foeHitPenalty: 0.35
+    text: 掌握了部分“空想”权柄，也称“幻想成真”权柄。
+    source: spectator_1_01
+  - id: apothecary_9_restore
+    pathway: apothecary
+    seq: 9
+    name: 灵视
+    mpCost: 5
+    kind: restore
+    effect:
+      mpRestore: 6
+      digBonus: 0.02
+    text: 更偏健康领域的“灵视”；
+    source: apothecary_9_03
+  - id: apothecary_7_strike
+    pathway: apothecary
+    seq: 7
+    name: 出色的体质
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 获得出色的体质，速度和敏捷超强，自愈能力超强；
+    source: apothecary_7_03
+  - id: apothecary_5_strike
+    pathway: apothecary
+    seq: 5
+    name: 足以称得上可怕
+    mpCost: 12
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 拥有足以称得上可怕的速度和难以想象的恢复能力；
+    source: apothecary_5_01
+  - id: apothecary_3_control
+    pathway: apothecary
+    seq: 3
+    name: 召唤大师
+    mpCost: 20
+    kind: control
+    effect:
+      foeHitPenalty: 0.35
+    text: “召唤大师”的“召唤”偶尔会出现难以控制的异变，让并非来自于灵界也没签订过契约的奇怪生物降临于现实，传闻这都指向无垠而黑暗的宇宙。
+    source: apothecary_3_02
+  - id: apothecary_1_strike
+    pathway: apothecary
+    seq: 1
+    name: 美神
+    mpCost: 32
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 如果为男性，将转变为女性，并有较强的生殖繁衍欲望和神性倾向；较低层次的“美”之权柄：“美”这个象征和概念的具象化，这必然是一位代表阴性力量的雌性生物，她的容貌和魅力就是她最强的能力，所有看到“美神”身影的生命都将遭受极致之美的震撼，位格较低者会瞬间丧失心智，哪怕旧日支配者们，面对“美神”，也会产生不忍伤害或占为己有的想法、欲念，会短暂地驻足欣赏；
+    source: apothecary_1_01
+  - id: arbiter_9_strike
+    pathway: arbiter
+    seq: 9
+    name: 倾向于维护当前秩
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 倾向于维护当前秩序，拥有让人信服的魅力和足够的权威，以及应对意外的出色格斗能力。
+    source: arbiter_9_01
+  - id: arbiter_7_strike
+    pathway: arbiter
+    seq: 7
+    name: 在手上召唤出烙铁
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 可以在手上召唤出烙铁等虚幻刑具，使用它们可直接对灵体造成伤害，但需有接触，不能隔空。
+    source: arbiter_7_03
+  - id: arbiter_5_strike
+    pathway: arbiter
+    seq: 5
+    name: 惩戒
+    mpCost: 12
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: “惩戒”：可选定惩戒目标，包括但不限于触犯了某种法律或道德的、违背了自身制定规则的、对自己发动过攻击或影响过自身行为的、不属于周围环境的、不该影响现实世界的；制定惩戒目标后，“惩戒骑士”体表会浮现出晨曦般的光华，增强对惩戒对象的攻击威力和影响程度。
+    source: arbiter_5_03
+  - id: arbiter_3_strike
+    pathway: arbiter
+    seq: 3
+    name: 审判
+    mpCost: 20
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 部分“审判”权柄：“审判之剑”：对混乱之物可做出一次直接“审判”，无法躲避，目标越是混乱（也就是越背离或越扰乱当前秩序），受到的“审判”效果越强；通过这种“审判”，“混乱猎手”可以借助环境秩序瞬间跳跃到目标地点或目标身前。
+    source: arbiter_3_01
+  - id: arbiter_1_control
+    pathway: arbiter
+    seq: 1
+    name: 能中止混乱奇异
+    mpCost: 32
+    kind: control
+    effect:
+      foeHitPenalty: 0.35
+    text: · 能中止混乱奇异，本身处于独立的位置，控制着影响；
+    source: arbiter_1_04
+  - id: assassin_9_strike
+    pathway: assassin
+    seq: 9
+    name: 擅长躲藏在阴影里
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 擅长躲藏在阴影里，拥有灵巧的步伐、敏捷的动作和将全部力量爆发在一击之内的能力。
+    source: assassin_9_02
+  - id: assassin_7_control
+    pathway: assassin
+    seq: 7
+    name: 能干扰别人的占卜
+    mpCost: 5
+    kind: control
+    effect:
+      foeHitPenalty: 0.2
+    text: 能干扰别人的占卜。
+    source: assassin_7_03
+  - id: assassin_5_guard
+    pathway: assassin
+    seq: 5
+    name: 魅惑
+    mpCost: 12
+    kind: guard
+    effect:
+      damageTaken: -0.25
+      madResist: 0.1
+    text: “魅惑”变成了可以主动使用的能力，而不是被动展现的一种状态。配上自身容貌、身材和气质的展现，主动的“魅惑”能力效果会更好。被魅惑到的敌人将会对自己心软，舍不得下狠手出全力，有的甚至会放弃抵抗，只为了靠近自己。而日常的相处里，如果反复对一个人使用魅惑，长期维持，那他会真正地爱上自己。
+    source: assassin_5_02
+  - id: assassin_3_strike
+    pathway: assassin
+    seq: 3
+    name: 只要有实体媒介
+    mpCost: 20
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 只要有实体媒介，诅咒不仅能对付目标，还可以影响其直系亲属，如果使用大型的、特殊的黑魔法，有关键的媒介和布置，诅咒有可能连天使都伤害到。
+    source: assassin_3_06
+  - id: assassin_1_strike
+    pathway: assassin
+    seq: 1
+    name: 镜中世界
+    mpCost: 32
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: “镜中世界”：可直接利用镜中世界的力量和特殊，可迅速置换现实和镜像。
+    source: assassin_1_05
+  - id: criminal_9_control
+    pathway: criminal
+    seq: 9
+    name: 罪犯
+    mpCost: 5
+    kind: control
+    effect:
+      foeHitPenalty: 0.2
+    text: 和囚犯不同，他不会压抑自己，不会感觉束缚，身和心都处于恶欲的统治之下，当然，他的良知还未彻底泯灭，还不够冷酷。“罪犯”同样有着强壮的身体，敏锐的知觉和各种犯罪能力，不管骑士剑、匕首、长弓，还是手枪、步枪、六管机枪，都能熟练上手。
+    source: criminal_9_01
+  - id: criminal_7_restore
+    pathway: criminal
+    seq: 7
+    name: 掌握了涉及恶魔
+    mpCost: 5
+    kind: restore
+    effect:
+      mpRestore: 10
+      digBonus: 0.02
+    text: 掌握了涉及恶魔的诸多知识和仪式；
+    source: criminal_7_01
+  - id: criminal_5_strike
+    pathway: criminal
+    seq: 5
+    name: 掌控欲望
+    mpCost: 12
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: “掌控欲望”：能利用和操纵每个人的情绪和欲望，诱使堕落。敌人有太强烈的情绪波动，出现太明显的欲望，立刻就会自己远程控制，或埋下种子，或直接催化。这会让人暴露出诸多问题，逐渐堕落，或在关键时刻情绪失控，无法反抗，或欲望爆炸，超过身体能够负担的上限，遭受重创，乃至死亡，若目标警惕、紧绷、戒备等情绪被放大，能让其对时间的把握产生混乱。
+    source: criminal_5_01
+  - id: criminal_3_strike
+    pathway: criminal
+    seq: 3
+    name: 污染
+    mpCost: 20
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 掌握了一定的“污染”权柄，主要集中在心灵和精神方面：
+    source: criminal_3_01
+  - id: criminal_1_strike
+    pathway: criminal
+    seq: 1
+    name: 污秽
+    mpCost: 32
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 掌握了一定的“污秽”、“污染”、“腐蚀”和“火焰”权柄，核心能力与污秽、腐蚀、污染有关。
+    source: criminal_1_01
+  - id: hunter_9_strike
+    pathway: hunter
+    seq: 9
+    name: 无论力量
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 无论力量，速度，反应，还是对身体的控制能力，都获得了极大增强，既有熊的强壮，又有猫的轻灵，略等于两者的综合体。同时恢复能力也得到增强。
+    source: hunter_9_01
+  - id: hunter_7_control
+    pathway: hunter
+    seq: 7
+    name: 以太体
+    mpCost: 5
+    kind: control
+    effect:
+      foeHitPenalty: 0.2
+    text: 灵性得到了很大的提升，可以用更隐蔽也更快捷的方式开启灵视，能够看到“以太体”各个部位的颜色，不再是只有混沌单一的画面。
+    source: hunter_7_01
+  - id: hunter_5_guard
+    pathway: hunter
+    seq: 5
+    name: 弱点侦察
+    mpCost: 12
+    kind: guard
+    effect:
+      damageTaken: -0.25
+      madResist: 0.1
+    text: 弱点侦察：能从神秘学角度发现目标的弱点和防御的薄弱处。能力发动时，双眸会变成铁黑色。
+    source: hunter_5_01
+  - id: hunter_3_strike
+    pathway: hunter
+    seq: 3
+    name: 在3公里范围内使
+    mpCost: 20
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 可以在3公里范围内使用团队成员的非凡能力，还可以把自己的能力和力量也分享给他们，但能力分享给某位成员后，除了他自己，其余成员无法再使用。
+    source: hunter_3_02
+  - id: hunter_1_control
+    pathway: hunter
+    seq: 1
+    name: 征服
+    mpCost: 32
+    kind: control
+    effect:
+      foeHitPenalty: 0.35
+    text: “征服”：让目标身心灵都想要臣服，选择臣服，目标一旦被彻底“征服 ”，则永远效忠；“征服”还可以直接让人失去意识，可以直接操控生物的身体按照自己的意志行动，无论其意识存在与否。
+    source: hunter_1_01
+  - id: lawyer_9_strike
+    pathway: lawyer
+    seq: 9
+    name: 擅长发现并利用规
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 擅长发现并利用规则的漏洞和对手的薄弱之处，靠秩序打击对手，从而创造出利于自身的氛围，获得最终的胜利。
+    source: lawyer_9_02
+  - id: lawyer_7_strike
+    pathway: lawyer
+    seq: 7
+    name: 削弱
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: · 削弱：使用这种能力的前提是给予目标一定的事物，然后就能在一定时间内较大幅度削弱目标针对自身的攻击、防御或控制；
+    source: lawyer_7_02
+  - id: lawyer_5_strike
+    pathway: lawyer
+    seq: 5
+    name: 混乱
+    mpCost: 12
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: “混乱”：使锁定的目标或周围一定区域出现混乱，让攻击难以落到自己身上，让敌人容易选择错误，也能让距离的衡量标准混乱。
+    source: lawyer_5_01
+  - id: lawyer_3_strike
+    pathway: lawyer
+    seq: 3
+    name: 阶层
+    mpCost: 20
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 部分“阶层”权柄和一定的“混乱”权柄。
+    source: lawyer_3_01
+  - id: lawyer_1_strike
+    pathway: lawyer
+    seq: 1
+    name: 扭曲
+    mpCost: 32
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 部分“扭曲”权柄和部分“定义”权柄。
+    source: lawyer_1_01
+  - id: monster_9_restore
+    pathway: monster
+    seq: 9
+    name: 灵感极高
+    mpCost: 5
+    kind: restore
+    effect:
+      mpRestore: 6
+      digBonus: 0.02
+    text: 灵感极高，经常能听见别人听不见的声音，看到别人看不到的事物，以至于偶尔能窥见未来的画面，对危险有着敏锐的直觉预感。
+    source: monster_9_01
+  - id: monster_7_control
+    pathway: monster
+    seq: 7
+    name: 在日常生活里经常
+    mpCost: 5
+    kind: control
+    effect:
+      foeHitPenalty: 0.2
+    text: 在日常生活里经常会遇上出门捡钱、人体描边、投骰如同期望、喜欢的女孩子刚好喜欢自己等事情，但无法控制，属于被动，而且，这种幸运并不固定，有高低起伏，有时特别厉害，有时如同普通人，所以很难完全依靠，得尽量节制。
+    source: monster_7_01
+  - id: monster_5_strike
+    pathway: monster
+    seq: 5
+    name: 幸运
+    mpCost: 12
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 能在某种程度上掌控住自身的幸运，可以依靠本身的节制，积累起大量的"幸运"，在关键时刻以戏剧性的方式多次化解致命危机，也能时不时在平常生活里遇到概率极低的好事。
+    source: monster_5_01
+  - id: monster_3_strike
+    pathway: monster
+    seq: 3
+    name: 部分混乱权柄
+    mpCost: 20
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 部分混乱权柄。
+    source: monster_3_01
+  - id: monster_1_strike
+    pathway: monster
+    seq: 1
+    name: 循环
+    mpCost: 32
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 部分“循环”权柄（以及对应的下位“保存”和“选择”权柄）。
+    source: monster_1_01
+  - id: prisoner_9_strike
+    pathway: prisoner
+    seq: 9
+    name: 身体强壮
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 身体强壮，知觉敏锐，往往同时拥有沉默的外表和疯狂的内心。
+    source: prisoner_9_01
+  - id: prisoner_7_strike
+    pathway: prisoner
+    seq: 7
+    name: 恐怖的力量、敏捷
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 拥有恐怖的力量、敏捷和速度，自愈能力出色。
+    source: prisoner_7_02
+  - id: prisoner_5_strike
+    pathway: prisoner
+    seq: 5
+    name: 身体如同灵肉合一
+    mpCost: 12
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: 身体如同灵肉合一般，可以将自身的状态转化为真正的幽影，并获得相应的能力，比如，穿过障碍物，藏身镜子里，直接攻击对方的灵魂。而和普通的怨魂不同，哪怕拥有灵视，不到高序列，也无法发现这种幽影。
+    source: prisoner_5_02
+  - id: prisoner_3_strike
+    pathway: prisoner
+    seq: 3
+    name: 诅咒之源
+    mpCost: 20
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: “诅咒之源”：使用后伤害敌人不再会使自己受伤，除了伤害，还能通过不同的方式或相应的媒介，达到放逐、固定、沉睡等效果。
+    source: prisoner_3_04
+  - id: prisoner_1_strike
+    pathway: prisoner
+    seq: 1
+    name: 能发出直刺灵体
+    mpCost: 32
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: 能发出直刺灵体的极端邪异的嘶吼，让目标颤抖，出现一定的僵直，并令他们脑海突然空白，短暂失去所有思绪。
+    source: prisoner_1_02
+  - id: secrets_supplicant_9_restore
+    pathway: secrets_supplicant
+    seq: 9
+    name: 掌握了一定的祭祀
+    mpCost: 5
+    kind: restore
+    effect:
+      mpRestore: 6
+      digBonus: 0.02
+    text: 掌握了一定的祭祀知识和少量仪式魔法。
+    source: secrets_supplicant_9_02
+  - id: secrets_supplicant_7_strike
+    pathway: secrets_supplicant
+    seq: 7
+    name: 藏入阴影
+    mpCost: 5
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: “藏入阴影”：又称融入阴影、进入阴影。可以躲藏在阴影中，运用阴影的力量，隐蔽地跟踪敌人。
+    source: secrets_supplicant_7_01
+  - id: secrets_supplicant_5_strike
+    pathway: secrets_supplicant
+    seq: 5
+    name: 掌控阴影
+    mpCost: 12
+    kind: strike
+    effect:
+      damageBonus: 0.4
+      hitBonus: 0.05
+    text: “掌控阴影”：“操纵阴影”的进阶：能直接操纵不属于生灵的深厚阴影，让它们拥有实感，将目标束缚于内，压扁挤缩，腐蚀融化。
+    source: secrets_supplicant_5_06
+  - id: secrets_supplicant_3_strike
+    pathway: secrets_supplicant
+    seq: 3
+    name: 阴影替身之术
+    mpCost: 20
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: “阴影替身之术”：能让自己的影子替换本体承受伤害。
+    source: secrets_supplicant_3_03
+  - id: secrets_supplicant_1_strike
+    pathway: secrets_supplicant
+    seq: 1
+    name: 黑暗
+    mpCost: 32
+    kind: strike
+    effect:
+      damageBonus: 0.8
+      hitBonus: 0.05
+    text: “黑暗”：权柄体现，可以变出一片漆黑的，粘稠的，满是堕落气息的“海洋”，将敌人的攻击吞噬进去，消弭于无形。或在敌人的体表染上一层粘稠的黑色液体，以此造成干扰。
+    source: secrets_supplicant_1_01

@@ -1,0 +1,37 @@
+id: path_hunter_001
+name: 顺着痕迹走
+trigger:
+  type: daily
+  weight: 8
+  cond: [ 'pathway:hunter' ]
+  min_seq: 9
+effects:
+  - { dig: 4 }
+  - { mp: -2 }
+texts:
+  priv: |
+    泥地上有三道痕，两道深一道浅。
+    你跟着浅的那道走 —— 它才是拖东西留下的那道。
+    猎人读的不是路，是**别人走过去时有多急**。
+  group: 林子外面有人蹲着看了很久的地。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 跟着浅的那道走到底
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      你跟着浅的那道走。走了半里地。
+      **尽头是一段被拖过的草** —— 而草下面压着东西。
+  - key: '2'
+    label: 回去看那两道深的
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你回去看。那两道是蹄印。
+      **蹄印很整齐** —— 整齐得像是特意踩给你看的。
+  - key: '3'
+    label: 在泥地上留下自己的痕迹
+    effects: [ { dig: 6, cor: 2, mad: 2 } ]
+    text: |
+      你故意踩了一脚，踩得很深。
+      **第二天再来看** —— 你的脚印被人用树枝圈了起来。

@@ -1,0 +1,22 @@
+# 事件卡链（M2.87）—— **链的第二段**（三级链的中间那一环）。
+# 前置：设 flag `marked_by_church` 的那张卡
+# 自身：要 `flag:marked_by_church`，并**设出** `church_watching`（供第三段读）
+id: chain2_marked_by_church
+name: 第二次拜访
+trigger:
+  type: daily
+  weight: 9
+  cond:
+    - 'flag:marked_by_church'
+effects:
+  - { cor: 2 }
+  - { dig: 3 }
+  - { flag: church_watching }
+texts:
+  priv: |
+    他们又来了，还是那两个人。
+    这次带了一本册子，翻到某一页让你看。
+    **那一页上贴着你的照片。**
+    「例行，」他们说，「您别多想。」
+  group: 那户人家一个月里被拜访了两次。
+daily_limit: 1

@@ -1,0 +1,41 @@
+# 地点专属（M2.87）。地点：「狂野之心酒吧」（wild_heart_bar，危险度 2）
+# 本卡由该地点的设定与名字意象推演出一个具体场景（不是引述设定）。
+# 判据是 `cond: location:<地点名>`（**不是 id**，见 cards/loader.ts）。
+id: loc_wild_heart_bar
+name: 墙上那只头
+trigger:
+  type: daily
+  weight: 7
+  cond:
+    - 'location:狂野之心酒吧'
+effects:
+  - { hp: 2 }
+  - { mad: 1 }
+texts:
+  priv: |
+    墙上挂着一只野兽的头，很大。
+    老板说是他自己打的。
+    你多看了一眼 —— **它的眼睛在动**。
+    很慢，但确实在动。你把视线移开了。
+  group: 狂野之心酒吧墙上那只头，有人说是活的。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 再看它一眼
+    effects: [ { dig: 6, cor: 2, mad: 3 } ]
+    text: |
+      你又看了一眼。它也在看这边。
+      **而你确定它刚才不是朝着这个方向的。**
+  - key: '2'
+    label: 问老板那是什么时候打的
+    effects: [ { dig: 5, dp: 1 } ]
+    text: |
+      他说是十年前。
+      **而他说他当时没打中头** —— 他说他打的是身子。
+  - key: '3'
+    label: 把视线移开，喝完走
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你低下头把酒喝完。
+      **走的时候你回头看了一眼** —— 它还在原处，没有动。

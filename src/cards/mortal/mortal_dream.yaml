@@ -1,0 +1,41 @@
+# M2.7.6：普通人专属事件卡（未入途径）。
+#
+# 口径（任务书 §5.5）：**描述模糊、信息少、压迫感强**。
+# 普通人不知道雾里是什么，只知道「不该待在这里」——
+# 同一张卡在入途径之后会被另一套卡替换掉（那个版本才有名字与解释）。
+#
+# cond: pathway:mortal —— 这一条同时是「普通人看不到 daily/random 池」的另一半：
+# 两个池子靠条件与命令层的硬过滤共同分开，任何一边漏了都不会互相串味。
+id: mortal_dream
+name: 那扇门前的梦
+trigger:
+  type: random
+  weight: 12
+  cond: [ pathway:mortal ]
+effects:
+  - { mad: 2 }
+  - { flag: dream_touched }
+texts:
+  priv: |
+    你又做了那个梦。
+    梦里你站在一扇门前，门后面有人在叫你的名字。
+    你从来没走到门前过 —— 每次都差几步就醒了。
+  group: 有人又做了那个梦。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 睡前一直想着那扇门
+    effects: [ { dig: 5, cor: 2, mad: 3 } ]
+    text: |
+      你又梦见了。这次你离门近了一步。
+  - key: '2'
+    label: 记下梦里还差几步
+    effects: [ { dig: 4, dp: 1 } ]
+    text: |
+      你记下了：差四步。而昨天记的是五步。
+  - key: '3'
+    label: 今天不睡
+    effects: [ { dig: 3, mad: 1 } ]
+    text: |
+      你坐了一夜。那扇门没有出现。

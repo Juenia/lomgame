@@ -1,0 +1,32 @@
+id: daily_018
+name: 捡到一只眼睛
+trigger:
+  type: random
+  weight: 4
+  cond:
+    - mad>=60
+effects:
+  - { item: 主材料·夜之瞳, n: 1 }
+  - { cor: 1 }
+texts:
+  priv: |
+    你在黑暗里捡到一只眼睛。它没有看你，但你知道它记住了你。
+  group: 黑暗里似乎少了一只眼睛。
+daily_limit: 1
+
+options:
+  - key: '1'
+    label: 把它收起来
+    effects: [ { dig: 5, cor: 2, mad: 3 } ]
+    text: |
+      你把它包好放进内袋。它一直是温的。
+  - key: '2'
+    label: 把它放回黑暗里
+    effects: [ { dig: 3, dp: 1 } ]
+    text: |
+      你放了回去。走开的时候听见很轻的一声，像谁把眼皮合上了。
+  - key: '3'
+    label: 看看它是什么做的
+    effects: [ { dig: 6, cor: 3, mad: 3 } ]
+    text: |
+      你凑近了看。它不是玻璃的 —— 它比玻璃软。
