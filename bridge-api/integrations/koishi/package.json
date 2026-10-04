@@ -37,6 +37,13 @@
     "yaml": "^2.8.1",
     "zod": "^4.1.12"
   },
-  "homepage": "https://www.npmjs.com/package/koishi-plugin-lom-bridge",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Juenia/lomgame.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Juenia/lomgame/issues"
+  },
+  "homepage": "https://github.com/Juenia/lomgame/tree/koishi-plugin/bridge-api/integrations/koishi#readme",
   "author": "曾经"
 }
