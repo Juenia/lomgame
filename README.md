@@ -1,0 +1,175 @@
+<div align="center">
+
+# 🐝 群星的低语 × BEE
+
+**Bee 官机框架（BeeBot）桥接插件**
+
+*把 QQ 群与私聊接进《诡秘之主：群星低语》的游戏内核，再把回执发回群里*
+
+![Go](https://img.shields.io/badge/Go-1.22+-00ADD8?logo=go&logoColor=white)
+![Platform](https://img.shields.io/badge/Platform-Windows-0078D4?logo=windows&logoColor=white)
+![Arch](https://img.shields.io/badge/Arch-x86%20%2F%2032--bit-555555)
+![Build](https://img.shields.io/badge/Build-Go%20%2B%20Zig-F7A41D?logo=zig&logoColor=white)
+![License](https://img.shields.io/badge/License-%E4%B8%93%E6%9C%89-red)
+
+</div>
+
+---
+
+> **这个分支是什么**：仓库里完整的游戏项目 **+** BEE 桥接插件。
+> 项目本体的说明见 [`main` 分支的 README](https://github.com/Juenia/lomgame/blob/main/README.md)；
+> 这里只讲 BEE 这一侧怎么装、怎么配、怎么联调。
+
+---
+
+## 📦 两个实现，选一个用
+
+| | **Go 版**（推荐） | 易语言版 |
+| --- | --- | --- |
+| 目录 | `bridge-api/integrations/bee-go/` | `bridge-api/integrations/bee/` |
+| 交付物 | 一个 DLL（`build/群星的低语.dll`） | 一份可抄进 IDE 的插件源码 |
+| HTTP / JSON | Go 标准库 | 依赖第三方模块，源码里标了 ★ 待补 |
+| 内核 | **打包在 DLL 里**，插件自己拉起来 | 需要自己先跑 `bridge-api` |
+| 服务端地址 | 自动检索本机端口 | 写死在源码里，自己改 |
+| 配置 | `bridge-config.json`，改完重启插件 | 改源码里的全局变量 |
+| 设置窗口 | 只读，显示地址 / 游标 / 计数 / 最近错误 | 无 |
+| 验证情况 | 编译与单元测试都跑过 | 未在任何机器上编译验证 —— 那四个 ★ 需要按你手头的模块补全 |
+
+两者对接的是**同一份协议**，混用也行。下面的步骤以 Go 版为主。
+
+---
+
+## 🗺️ 装在哪、连什么
+
+```text
+┌──────────────┐   QQ 消息    ┌──────────────────┐   HTTP    ┌────────────────────┐
+│  BEE 框架     │ ───────────▶ │  .bee.dll 插件    │ ────────▶ │  游戏内核           │
+│ （易语言）    │ ◀─────────── │ （本分支这一侧）  │ ◀──────── │  bridge-api :3200  │
+└──────────────┘    回执       └──────────────────┘    回执    └────────────────────┘
+                                                                    ▲
+                                                       随插件打包，插件自己拉起
+```
+
+- **同机部署**（最常见）：内核 `127.0.0.1:3200`，插件里地址留空自动检索，两边都不用配口令。
+- **跨机部署**：内核那边 `BRIDGE_HOST=0.0.0.0` **且必须设 `BRIDGE_TOKEN`**，插件里把地址与口令填上。
+
+---
+
+## 🚀 快速上手（Go 版）
+
+### 1. 拿到 DLL
+
+仓库里带了一份构建好的：`bridge-api/integrations/bee-go/build/群星的低语.dll`。想自己重建见下方「构建」。
+
+### 2. 装进 BEE
+
+把 DLL 放进 BEE 的插件目录，在框架里启用。插件会：解开随身内核 → 找个空闲端口拉起来 → 自己连上去。
+
+> **连 Node 都不用装**：启用时检测环境，没有合适的 Node 就自己下一个便携版（约 34 MB，解压到插件目录里，不写系统、不需要管理员权限、卸载时跟着删）。检测结果直接显示在设置窗口里。
+
+### 3. 在群里说话
+
+```text
+.创建 曾经
+.状态
+.帮助
+```
+
+看到回执就通了。
+
+---
+
+## ⚙️ 配置
+
+配置文件：`plugin_data/<插件名>/bridge-config.json`（改完重启插件生效）。
+
+| 键 | 默认 | 说明 |
+| --- | --- | --- |
+| `api` | 空 = 自动 | 游戏内核地址。同机留空即可；跨机填完整地址，例如 `http://192.168.1.9:3200` |
+| `scanRange` | 空 | 自动检索的候选端口，写法 `3100-3300` / `3200,8080` / `3200,8000-8010` |
+| `token` | 空 | 与内核的 `BRIDGE_TOKEN` 一致。同机部署留空是**正常状态**，不是没配好 |
+| `platform` | `bee` | 写进审计与出站回源的框架名；同机两个上游不能同名 |
+| `longpollSec` | `25` | 出站长轮询一次挂多久（秒）；`0` 会退化成短轮询，不推荐 |
+| `waitMs` | `2500` | 一条消息最多等多久让回执回来 —— 它等于 BEE 处理这条消息会被卡住的上限，别往大调 |
+| `images` | `true` | 这条通道能不能发图；关掉就自动走文字卡降级 |
+| `buttons` | `true` | 能不能摆原生按钮；拿不到 AppID 时自动退回文本菜单 |
+| `richText` | `true` | 正文走不走 markdown（彩色 + 粗体）。需要 BEE 接的是 QQ 官方机器人通道 |
+| `fetchNickname` | `false` | 是否顺带取发送人昵称 |
+| `manageCore` | `true` | 本机没有内核时，插件要不要自己把随身内核拉起来。关掉就只连不管 |
+| `nodePath` | 空 = 自动 | 指定用哪个 Node 跑内核；留空先用内核包自带的那份 |
+
+---
+
+## 📐 三条必须照做的口径
+
+| # | 规矩 | 不照做会怎样 |
+| --- | --- | --- |
+| 1 | `userId` 用 **QQ 号** | 同一个人从 BEE 进来、从 Koishi 进来必须是同一个 id，否则他会变成**两个角色、两份进度** |
+| 2 | 群聊的 `targetId` 用**群号**，私聊用 **QQ 号** | 用错的话回执发不出去，而且**不报错** |
+| 3 | 能力要**如实声明** | 声明自己发不了图 / 摆不了按钮，判定层就会走文本降级；不声明的话，玩家会收到一条他永远看不到的图片消息 |
+
+能力声明（插件启动时调一次，或写在游戏机的配置里）：
+
+```json
+POST /api/v1/capabilities
+{ "platform": "bee", "images": false, "buttons": false }
+```
+
+---
+
+## 🔧 构建（Go 版）
+
+需要 Windows + Go 1.22+ + Zig，且都在 `PATH` 里。
+
+```bat
+cd bridge-api\integrations\bee-go
+build.bat
+```
+
+也可以指定产物名：`build.bat MyBridge.dll`。
+
+构建做四件事：生成插件元数据 → 把 Node 侧内核打成 `core.zip` → 编译 32 位 worker → 把 worker 与内核包一起编成资源，链接成一个 DLL。
+
+> ⚠️ 改插件名 / 作者 / 版本：改 `plugin_main.go` 顶部的四个常量。构建工具是直接读源码取的，所以必须是字符串字面量。
+> ⚠️ `PluginName` 同时决定数据目录名（`plugin_data/<PluginName>/`）—— **改名字等于配置和游标搬家**。
+
+---
+
+## 🧩 易语言版
+
+`bridge-api/integrations/bee/bee-plugin.e.txt` 是一份可以抄进易语言 IDE 的插件骨架：消息转发、回执发送、菜单按钮都写好了，**但 HTTP 与 JSON 两个子程序需要按你手头的模块补全**（源码里标了 ★）。
+
+易语言这两项能力来自第三方模块（精易模块的 `网页_访问S` / `类_json`，或支持库的 `HTTP读文件`），所以没法写死一个版本 —— 装上你的模块，把那几处补完即可。
+
+---
+
+## 🔍 联调
+
+内核这一侧自带一个零依赖探针，先把服务端单独排掉再查插件：
+
+```bash
+node bridge-api/tools/probe.mjs --text ".帮助" --user 20001
+```
+
+只声明了文本能力的通道（易语言版），把能力按上面的第 3 条关掉即可。
+
+---
+
+## 📁 目录结构
+
+```text
+bridge-api/
+├─ integrations/bee-go/        Go 版插件（插件源码 + build.bat + 单元测试 + 构建好的 DLL）
+├─ integrations/bee/           易语言版骨架与对接说明
+├─ src/ · test/ · tools/       游戏内核（HTTP API 版）与探针
+bee插件开发go模板/BeeSDK-GoLang/  Bee Go 插件开发模板：纯 C 插件壳 + 独立 Go worker，单 DLL 交付
+src/ · test/ · scripts/          项目本体（玩法判定、内容、后台）
+```
+
+---
+
+## 📜 许可
+
+游戏本体与插件均为**专有软件**，可以自由运行（包括运营自己的 QQ 群 / 频道），源代码与游戏内容不公开授权。
+
+《诡秘之主》是爱潜水的乌贼的作品；本项目为非商业同人作品，与版权方无关。
