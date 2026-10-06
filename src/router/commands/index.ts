@@ -68,7 +68,7 @@ export function registerW1Commands(router: CommandRouter): CommandRouter {
   // M2.38 任务 1（P0）：途径专属行动的**执行入口**（在此之前那张表只有文案）
   router.register('行动', handleAction);
   router.register('帮助', handleHelp);
-  // M2.86：图片版指令表（`.菜单 [编号]`，共 6 张，图带缓存）
+  // M2.86：图片版指令表（`.菜单 [编号]`，分多张，图带缓存）
   router.register('菜单', handleMenu);
   /*
    * M2.45：真机 markdown / HTML 能力探测。

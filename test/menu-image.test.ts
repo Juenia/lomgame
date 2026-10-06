@@ -18,11 +18,19 @@ import { createHarness } from './helpers/app.ts';
 
 test('图片菜单：说明表与 router.commands **完全对上**（没有第二份手抄清单）', () => {
   const harness = createHarness();
-  const real: string[] = (harness.app.router as unknown as { commands: string[] }).commands;
+  const router = harness.app.router as unknown as { commands: string[]; adminCommands: string[] };
+  const real: string[] = router.commands;
   harness.app.close();
   const documented = new Set(documentedNames());
   const internal = new Set(INTERNAL_COMMANDS);
-  const missing = real.filter((name) => !documented.has(name) && !internal.has(name));
+  /*
+   * M2.172：**管理员指令不进玩家菜单** —— 它们有自己的卡片菜单（`.管理`）。
+   *
+   * 这里排除的是 `router.adminCommands`，也就是**注册处的 admin 标记**派生出来的名单，
+   * 不是在这里再抄一份（AGENTS §3.1：手抄的那份不会报错）。
+   */
+  const admins = new Set(router.adminCommands);
+  const missing = real.filter((name) => !documented.has(name) && !internal.has(name) && !admins.has(name));
   assert.deepEqual(missing, [], '有指令没写进菜单说明：' + missing.join('、'));
   const extra = documentedNames().filter((name) => !real.includes(name));
   assert.deepEqual(extra, [], '菜单里写了不存在的指令：' + extra.join('、'));

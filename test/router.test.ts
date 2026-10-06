@@ -159,7 +159,13 @@ test('频控：5 秒内第二次 .状态 被拒', async () => {
   const blocked = await h.send({ rawText: '.状态' });
   assert.match(blocked[0]?.text ?? '', /冷却中/);
   h.advance(5000);
-  assert.match((await h.send({ rawText: '.状态' }))[0]?.text ?? '', /序列 9/);
+  /*
+   * ⚠️ M2.172 修正：这里原来断言的是 `/序列 9/`，而那一行**从 M2.45 起就在消息头里**
+   * （头像 / 昵称 / 性别 / 途径序列 / 分割线），正文只剩数值 —— 所以这条断言从那时起
+   * 一直是红的，而它守的「冷却过去之后又能用了」这件事其实是对的。
+   * 改成断言状态卡本身（生命那三个字是正文里最稳的一处）。
+   */
+  assert.match((await h.send({ rawText: '.状态' }))[0]?.text ?? '', /生命/);
   h.app.close();
 });
 
