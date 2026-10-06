@@ -22,7 +22,8 @@ import type { InteractiveOption } from '../../adapter/interactive.ts';
 import type { CommandContext, CommandResult } from '../index.ts';
 import { requireCharacter } from './common.ts';
 
-export const MENU_USAGE = '用法：.菜单 [编号] —— 图片版指令表，共 6 张';
+// 张数不写死：拆组之后它就不对了（每张不过长那条测试会先红）
+export const MENU_USAGE = '用法：.菜单 [编号] —— 图片版指令表，分多张，随时可再取';
 
 export async function handleMenu(ctx: CommandContext): Promise<CommandResult> {
   /*
