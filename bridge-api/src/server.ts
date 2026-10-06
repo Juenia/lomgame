@@ -140,6 +140,7 @@ export function createBridgeServer(options: BridgeServerOptions): Server {
               'GET  /api/v1/outbound?cursor=&wait=&platform=   取回执（长轮询）',
               'GET  /api/v1/stream?cursor=&platform=           取回执（SSE 实时）',
               'POST /api/v1/capabilities     声明这条通道能做什么',
+              'POST /api/v1/admins           上报这条通道上的管理员 id（能在群里发管理员指令的人）',
               'POST /api/v1/inline-image      上游回传「这张图换回来的公网 URL」（反向的那一条）',
               'GET  /api/v1/capabilities     看当前生效的能力',
               'GET  /api/v1/health           健康与队列状态',

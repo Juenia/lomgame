@@ -38,7 +38,15 @@ export interface CommandGroup {
 }
 
 /** 只给开发者/排障用的指令 —— **不进玩家菜单**，但对账时要认得它们 */
-export const INTERNAL_COMMANDS: readonly string[] = ['mdprobe', '探针'];
+export const INTERNAL_COMMANDS: readonly string[] = [
+  'mdprobe', '探针',
+  /*
+   * M2.172：`.遇见` 是**日常遭遇结算的入口**（菜单选项回传它的 command），
+   * 不是给玩家手打的 —— 与 mdprobe 同类，所以进这里而不是进玩家菜单。
+   * 漏在两边之外的后果是「对账测试红」—— 那正是这条清单存在的意义。
+   */
+  '遇见',
+];
 
 export const COMMAND_GROUPS: readonly CommandGroup[] = [
   {
@@ -91,11 +99,9 @@ export const COMMAND_GROUPS: readonly CommandGroup[] = [
       { name: '装备栏', brief: '看身上穿了什么（非凡物品带增幅，也带代价）' },
       { name: '装备', brief: '戴上或换下非凡物品', usage: '.装备 物品名' },
       { name: '卸下', brief: '摘下一件', usage: '.卸下 槽位' },
-      { name: '商店', brief: '看看本地这家店卖什么（每件都带按钮）', usage: '.商店' },
-  { name: '买', brief: '买一件（价格按原作物价锚点）', usage: '.买 物品名' },
-  { name: '卖', brief: '把背包里的一件换成钱（六成价）', usage: '.卖 物品名' },
       { name: '休息', brief: 'MAD-5、HP+20（每日 1 次）' },
       { name: '净化', brief: 'COR-15、MAD-8，消耗圣盐（每日 1 次）' },
+      { name: '就医', brief: '把伤治回来（重伤之后先来这里）', usage: '.就医' },
       { name: '占卜', brief: '看一段卜象（消耗灵性）', usage: '.占卜 问题' },
     ],
   },
@@ -118,9 +124,6 @@ export const COMMAND_GROUPS: readonly CommandGroup[] = [
     title: '第六步 · 纷争与世界',
     hint: '动手之前想清楚：这里归谁管。',
     commands: [
-      { name: '交易', brief: '和另一个玩家换东西（物品立即冻结）', usage: '.交易 @玩家 物品 [数量] 价格' },
-      { name: '确认', brief: '确认一笔交易', usage: '.确认 单号' },
-      { name: '取消', brief: '取消一笔交易', usage: '.取消 单号' },
       { name: '战斗', brief: '打一场（遭遇 / 挑战时用）', usage: '.战斗 攻击|防御|撤退' },
       { name: '挑战', brief: '挑战更高序列的存在 —— 有风险，也有机会登神' },
       { name: '袭击', brief: '把另一个玩家打成重伤（动手的地方归谁管，就被谁通缉）', usage: '.袭击 @玩家' },
@@ -137,6 +140,27 @@ export const COMMAND_GROUPS: readonly CommandGroup[] = [
         brief: '空出来的神位怎么争 —— 上去要撑 7 天，而别人可以直接上来杀你',
         usage: '.王座 / .王座 登位 <编号> / .王座 放弃',
       },
+    ],
+  },
+  /*
+   * M2.172：从「纷争与世界」里拆出来的第七张。
+   *
+   * 原来那一张有 **12 条**，超过「每张不过长（<= 10 条）」这条硬约束 ——
+   * 拆的依据是**玩家在什么时候用它们**：交易与世界是「平时就顺手做」的事，
+   * 而纷争那一张全是动手的（打之前要想清楚归谁管）。
+   */
+  {
+    id: 'trade',
+    title: '第七步 · 交易与世界',
+    hint: '换东西、看天、把问题报上来。',
+    commands: [
+      { name: '商店', brief: '看看本地这家店卖什么（每件都带按钮）', usage: '.商店' },
+      { name: '买', brief: '买一件（价格按原作物价锚点）', usage: '.买 物品名' },
+      { name: '卖', brief: '把背包里的一件换成钱（六成价）', usage: '.卖 物品名' },
+      { name: '交易', brief: '和另一个玩家换东西（物品立即冻结）', usage: '.交易 @玩家 物品 [数量] 价格' },
+      { name: '确认', brief: '确认一笔交易', usage: '.确认 单号' },
+      { name: '取消', brief: '取消一笔交易', usage: '.取消 单号' },
+      { name: '世界', brief: '当前时段、月相、雾日与各地天气', usage: '.世界 [地点]' },
       { name: '反馈', brief: '提交 bug 或建议', usage: '.反馈 内容' },
     ],
   },
