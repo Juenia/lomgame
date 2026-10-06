@@ -52,6 +52,14 @@ type Config struct {
 	// 留空是**正常状态**，不是配置缺失：服务端没设口令时只接受本机请求，
 	// 同机部署两边都不用配。只有跨机（BRIDGE_HOST=0.0.0.0）才必须两边填同一个值。
 	Token string "json:\"token\""
+	// AdminIDs 是**管理员名单**（M2.172）：能在群里发管理员指令的人。
+	//
+	// 填 QQ 号（BEE 这边就是 QQ 号，不是 openid）。内核自己的 .env 里也可以配一份，
+	// 两边取**并集** —— 这里是上报，不是权威。
+	//
+	// 空数组是正常状态（不是配置缺失）：那表示「管理员不在这条通道上配」。
+	AdminIDs []string `json:"adminIds"`
+
 	// Platform 是写进审计与出站回源的框架名。
 	// 同一台游戏机上两个上游的 Platform 不能相同 —— 出站回执是按它定向的。
 	Platform string "json:\"platform\""

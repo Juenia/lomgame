@@ -38,7 +38,7 @@ import type { Logger } from '../../src/infra/logger.ts';
 import type { ApiChannel } from './channel.ts';
 import type { BridgeConfig } from './config.ts';
 import type { Outbox } from './outbox.ts';
-import { capabilitiesSchema, inboundSchema, inlineImageSchema, type ErrorResponse } from './protocol.ts';
+import { adminsSchema, capabilitiesSchema, inboundSchema, inlineImageSchema, type ErrorResponse } from './protocol.ts';
 
 /** 入站报文很小（一条消息），256KB 已经绰绰有余 —— 与现有版本的 /onebot/event 同一口径 */
 const MAX_BODY = 256 * 1024;
@@ -113,6 +113,17 @@ export function createBridgeServer(options: BridgeServerOptions): Server {
             sendJson(res, 200, { ok: true, capabilities: channel.capabilitiesOf(platform) });
             return;
           }
+        }
+        /*
+         * M2.172：上游上报管理员名单。
+         *
+         * ⚠️ **必须鉴权**：这个接口能把任意 id 变成管理员 ——
+         * 也就是能封人、能关服。与其它写接口同一档（无口令时只服务本机）。
+         */
+        if (path === '/api/v1/admins' && req.method === 'POST') {
+          if (!authorized(req, url, config)) return deny(res);
+          await handleAdminsPost(req, res, options);
+          return;
         }
         if (path === '/api/v1/inline-image' && req.method === 'POST') {
           if (!authorized(req, url, config)) return deny(res);
@@ -300,6 +311,40 @@ async function handleStream(
     await outbox.wait(SSE_PING_MS, { unref: true });
   }
   res.end();
+}
+
+/**
+ * `POST /api/v1/admins`：上游把「这条通道上谁是管理员」报给内核。
+ *
+ * 幂等：同一个 platform 再报一次就是覆盖，不会累积。
+ */
+async function handleAdminsPost(
+  req: IncomingMessage,
+  res: ServerResponse,
+  options: BridgeServerOptions,
+): Promise<void> {
+  const raw = await readBody(req);
+  let body: unknown;
+  try {
+    body = raw === '' ? null : JSON.parse(raw);
+  } catch {
+    sendJson(res, 400, { ok: false, error: 'body 不是合法 JSON' } satisfies ErrorResponse);
+    return;
+  }
+  const parsed = adminsSchema.safeParse(body);
+  if (!parsed.success) {
+    sendJson(res, 400, {
+      ok: false,
+      error: '入参不合法',
+      issues: parsed.error.issues.map((i) => `${i.path.join('.') || '(root)'}: ${i.message}`),
+    } satisfies ErrorResponse);
+    return;
+  }
+  const data = parsed.data;
+  const admins = options.app.router.deps.admins;
+  admins.setRemote(data.platform, data.adminIds);
+  options.logger.info('上游上报了管理员名单', { platform: data.platform, count: data.adminIds.length });
+  sendJson(res, 200, { ok: true, platform: data.platform, adminIds: data.adminIds.length, total: admins.list().length });
 }
 
 async function handleCapabilitiesPost(

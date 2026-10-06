@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"path/filepath"
+	"reflect"
 	"strings"
 	"testing"
 )
@@ -133,7 +134,9 @@ func TestLoadConfigKeepsBrokenFile(t *testing.T) {
 func TestLoadConfigRoundTrip(t *testing.T) {
 	dir := t.TempDir()
 	saved := Config{API: "http://game.local:3200", Token: "abc", Platform: "bee-guild",
-		LongPollSec: 5, WaitMs: 800, Images: true, DebugRawCallbacks: true}
+		LongPollSec: 5, WaitMs: 800, Images: true, DebugRawCallbacks: true,
+		// M2.172：管理员名单是切片 —— 不验的话，「配了却没生效」会是一条静默缺口
+		AdminIDs: []string{"10001", "10002"}}
 	// 先归一化再存：saveConfig 自己会归一化（把空的 scanRange 填成默认区间），
 	// 不先做一次的话比的就是「归一化前 vs 归一化后」，那是这条用例的假失败
 	saved.Normalize()
@@ -144,7 +147,11 @@ func TestLoadConfigRoundTrip(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if loaded != saved {
+	/*
+	 * M2.172：这里必须用 DeepEqual —— Config 里现在有 AdminIDs（[]string），
+	 * 含切片的结构体不能用 != 比，编译期就会红。
+	 */
+	if !reflect.DeepEqual(loaded, saved) {
 		t.Fatalf("存回来的和存进去的不一样:\n got %+v\nwant %+v", loaded, saved)
 	}
 }

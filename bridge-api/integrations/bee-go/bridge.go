@@ -209,6 +209,25 @@ func (c *bridgeClient) declareCapabilities(ctx context.Context, images, buttons,
 	return err
 }
 
+// adminsPayload 是上报管理员名单的报文（M2.172）。
+type adminsPayload struct {
+	Platform string   `json:"platform"`
+	AdminIDs []string `json:"adminIds"`
+}
+
+// reportAdmins 把这条通道上的管理员名单报给内核。
+//
+// 幂等：同一个 platform 再报一次就是**覆盖**，不会累积 —— 启动时报一次即可。
+// 失败不致命：内核自己那份（.env 的 ADMIN_IDS）不受影响。
+func (c *bridgeClient) reportAdmins(ctx context.Context, adminIDs []string) error {
+	if len(adminIDs) == 0 {
+		return nil
+	}
+	payload := adminsPayload{Platform: c.platform, AdminIDs: adminIDs}
+	_, _, err := c.do(ctx, http.MethodPost, "/api/v1/admins", payload)
+	return err
+}
+
 // timeoutContext 给一次请求套上超时。
 //
 // 长轮询要留出 wait + 余量，普通请求给 15 秒 —— 判定层跑一条指令通常几十毫秒，

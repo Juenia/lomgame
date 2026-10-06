@@ -404,6 +404,18 @@ func (rt *bridgeRuntime) declareCapabilitiesLoop(ctx context.Context, client *br
 		err := client.declareCapabilities(callCtx, cfg.Images, cfg.Buttons, cfg.RichText)
 		cancel()
 		if err == nil {
+			/*
+			 * M2.172：能力声明成功之后顺手把**管理员名单**报上去。
+			 *
+			 * 放在这里而不是单独一个循环：它同样只依赖「能连上内核」这一件事，
+			 * 而名单是空的话 reportAdmins 直接返回（不会白白发一次请求）。
+			 * 失败**不**阻断：与能力声明一样，服务端有自己的那份名单。
+			 */
+			adminCtx, adminCancel := timeoutContext(ctx, 0)
+			if adminErr := client.reportAdmins(adminCtx, cfg.AdminIDs); adminErr != nil {
+				rt.state.setError("上报管理员名单失败（内核自带的名单不受影响）", adminErr)
+			}
+			adminCancel()
 			return
 		}
 		if ctx.Err() != nil {
