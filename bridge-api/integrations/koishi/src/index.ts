@@ -94,6 +94,17 @@ export interface Config {
    */
   inlineUpload: boolean;
   /**
+   * M2.172：**管理员名单**（一行一个）。
+   *
+   * 能在群里发管理员指令的人：封禁 / 解禁 / 开关游戏 / 主动推送 / 主动事件推送，
+   * 以及 .游戏状态 / .世界状态 / .机器人状态（完整清单发 .管理）。
+   *
+   * 填 **QQ 号**（OneBot 通道）；QQ 官方通道下是 openid，两者不通用，各填各的。
+   * 内核自己的 .env 里也可以配一份，两边取**并集** —— 插件这一路是上报，不是权威。
+   */
+  adminIds: string;
+
+  /**
    * 屏蔽的群（**一行一个群号**）。
    *
    * 被屏蔽的群：
@@ -173,6 +184,14 @@ export const Config: Schema<Config> = Schema.object({
   inlineUpload: Schema.boolean()
     .default(true)
     .description('声明能把图上传换公网 URL（QQ 官方通道）。换来的是「图+正文+按钮」合成一条；失败会回落成图单独发一条'),
+  adminIds: Schema.string()
+    .role('textarea')
+    .default('')
+    .description(
+      '管理员名单，一行一个（也认逗号分隔）。填 QQ 号；QQ 官方通道填 openid。' +
+        '他们能在群里用封禁 / 开关游戏 / 状态这些指令，完整清单发 `.管理`。' +
+        '改完重载插件生效；内核自己的 .env 里那份会一起合并。',
+    ),
   blockedGroups: Schema.string()
     .role('textarea')
     .default('')
@@ -255,6 +274,21 @@ export async function apply(ctx: Context, config: Config): Promise<void> {
     ...(config.token !== '' ? { token: config.token } : {}),
     platform: config.platform,
   });
+  /*
+   * M2.172：管理员名单随启动报一次。
+   *
+   * 与能力声明并列而不是塞进它里面：那两件事的失败互不相关 ——
+   * 能力声明失败会让玩家看到发不出的图，管理员名单失败只会让名单少一路。
+   * 分开报，日志上也就分得清是哪一件出了问题。
+   */
+  {
+    const adminIds = config.adminIds.split(/[\s,;，；]+/).map((s) => s.trim()).filter((s) => s !== '');
+    if (adminIds.length > 0) {
+      void client.reportAdmins(adminIds).catch((error: unknown) => {
+        ctx.logger.warn('上报管理员名单失败（内核自带的那份不受影响）：' + String(error));
+      });
+    }
+  }
   if (config.declareCapabilities) {
     void client
       .declareCapabilities({

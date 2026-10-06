@@ -168,6 +168,23 @@ export class BridgeClient {
   }
 
   /**
+   * M2.172：把这条通道上的**管理员名单**报给内核。
+   *
+   * 幂等：同一个 platform 再报一次就是覆盖，不会累积 —— 所以启动时报一次、
+   * 改了配置再报一次即可。失败不致命：内核自己那份（.env 的 ADMIN_IDS）不受影响，
+   * 管理员指令照样能用，只是少了这一路。
+   *
+   * 返回内核那边合并后的总数（调试用）。
+   */
+  async reportAdmins(adminIds: string[]): Promise<number> {
+    const body = await this.#json<{ ok: true; total: number }>('/api/v1/admins', {
+      method: 'POST',
+      body: JSON.stringify({ platform: this.#platform, adminIds }),
+    });
+    return body.total;
+  }
+
+  /**
    * 回传「这张图换回来的公网 URL」—— 协议里唯一一条反向的路。
    *
    * 换不到就传 `url: undefined` 加一句原因：服务端会回落成「图单独发一条」，

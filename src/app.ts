@@ -1,4 +1,8 @@
 import { dirname, join } from 'node:path';
+// M2.172：管理员指令的两块地基 —— 服务器开关（游戏 / 主动推送 / 主动事件推送）
+// 与管理员名单（.env 的 ADMIN_IDS + 上游插件上报）
+import { ServerSwitchRepo } from './infra/db/server-switches.ts';
+import { AdminRegistry } from './domain/admin/registry.ts';
 import { dataPath } from './infra/paths.ts';
 import { loadCardsOrThrow } from './cards/loader.ts';
 import { loadLostControlOrThrow } from './cards/lost-control.ts';
@@ -946,11 +950,21 @@ export function createApp(config: AppConfig, deps: AppDeps): App {
   const broadcastThrottle = new BroadcastThrottle();
 
   const flushBroadcasts = (): void => {
-    for (const item of broadcastThrottle.flush(now())) sendGroupText(item.groupId, item.text, item.buttons);
+    for (const item of broadcastThrottle.flush(now())) {
+      /*
+       * M2.172：本群关着主动推送的，**积压也不再发**。
+       *
+       * 不加这一条的话，关掉之后队列里那几条还会陆续冒出来 —— 运营看到的是
+       * 「我说了关，它还在发」，而那是关之前入队的。队列项不带 kind（它只是一段文本），
+       * 所以这里只判总闸；事件类的那一道在入队前已经判过了。
+       */
+      if (!serverSwitches.isOn('push', item.groupId)) continue;
+      sendGroupText(item.groupId, item.text, item.buttons);
+    }
   };
 
   /** 显著天气的全群播报：发给所有见过的群（world_state.groups_json 维护） */
-  const broadcast = (text: string, buttons?: BroadcastButton[]): void => {
+  const broadcast = (text: string, buttons?: BroadcastButton[], kind: 'world' | 'event' = 'world'): void => {
     /*
      * 先把到点的积压发掉。
      *
@@ -964,7 +978,19 @@ export function createApp(config: AppConfig, deps: AppDeps): App {
     if (groups.length === 0) return;
     const at = now();
     let queued = 0;
+    let muted = 0;
     for (const groupId of groups) {
+      /*
+       * M2.172：**两道闸门，按群判断**。
+       *
+       *   push       主动推送的总闸 —— 关掉它，世界在群里一声不吭；
+       *   push_event 事件类（灾厄）还要过第二道 —— 只关它，日常的异动照旧。
+       *
+       * 判据是**群号**而不是全局值：`isOn` 内部先看本群有没有单独设过，
+       * 没设过才落回全局 —— 「这个群单独静音」正是靠这一条成立的。
+       */
+      if (!serverSwitches.isOn('push', groupId)) { muted += 1; continue; }
+      if (kind === 'event' && !serverSwitches.isOn('push_event', groupId)) { muted += 1; continue; }
       if (broadcastThrottle.offer(groupId, text, at, buttons) === 'sent') sendGroupText(groupId, text, buttons);
       else queued += 1;
     }
@@ -982,12 +1008,26 @@ export function createApp(config: AppConfig, deps: AppDeps): App {
       ids: groups.map((g) => g.slice(0, 8)),
       // 被限流攒批的群数：正常运行恒为 0，加速跑批时才 > 0（排查配额问题时看它）
       ...(queued > 0 ? { queued } : {}),
+      // 被开关挡下的群数（排查「为什么这个群没收到」时看它）
+      ...(muted > 0 ? { muted } : {}),
       head: text.split('\n')[0] ?? '',
     });
   };
 
+  /*
+   * M2.172：**管理员指令的两块地基**。
+   *
+   * 开关从库里读（启动时全量载入内存，`game` 那一档要在每条消息上判断）；
+   * 管理员名单从环境变量装载 —— 上游插件上报的那一路由 bridge-api 的那个接口补进来。
+   */
+  const serverSwitches = new ServerSwitchRepo(db);
+  const admins = new AdminRegistry();
+  admins.loadEnv(process.env);
+
   const router = new CommandRouter({
     db,
+    serverSwitches,
+    admins,
     characters: new CharacterRepo(db),
     idempotency: new IdempotencyStore(db),
     rateLimiter: new RateLimiter(deps.rateLimits),
@@ -1316,7 +1356,13 @@ export function createApp(config: AppConfig, deps: AppDeps): App {
           tradesExpired: summary.tradesExpired,
           eventsPruned: summary.eventsPruned,
         });
-        for (const notice of summary.notifications) {
+        /*
+         * M2.172：**主动事件推送**的闸门。
+         *
+         * 这几条是私聊（失控通知等），没有群号可判 —— 所以只认全局值。
+         * 「本群主动事件推送」管的是群里的那一类（灾厄播报），与私聊不是一回事。
+         */
+        for (const notice of serverSwitches.isOn('push_event', null) ? summary.notifications : []) {
           void deps.adapter.sendPrivate(notice.userId, notice.text).catch((error: unknown) => {
             logger.error('失控通知发送失败', { error: (error as Error).message });
           });
@@ -1356,7 +1402,7 @@ export function createApp(config: AppConfig, deps: AppDeps): App {
             timeOfDay: result.clock.timeOfDay,
           });
         }
-        for (const item of result.broadcasts) broadcast(item.text, item.buttons);
+        for (const item of result.broadcasts) broadcast(item.text, item.buttons, item.kind ?? 'world');
       } catch (error) {
         logger.error('世界 tick 失败', { error: (error as Error).message });
       }

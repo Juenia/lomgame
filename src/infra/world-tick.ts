@@ -1413,6 +1413,17 @@ function runWeatherTick(
 export interface BroadcastItem {
   text: string;
   buttons?: BroadcastButton[];
+  /**
+   * M2.172：这条属于哪一类主动推送（缺省 world）。
+   *
+   *   world —— 世界的日常运转（异动 / 神降），归「主动推送」管；
+   *   event —— 灾厄（有人正在死），归「主动事件推送」管。
+   *
+   * ⚠️ 为什么不用文案判断：`calamityNotice` 与 `worldEventNotice` 的文案随时会改，
+   * 按前缀猜类型的那种判据会在某次改名后静默失效（AGENTS §3.10 第 3 条）。
+   * 类型是**产出的那一刻**就知道的事，就该在那一刻标上。
+   */
+  kind?: 'world' | 'event';
 }
 
 export function renderTickBroadcasts(
@@ -1481,12 +1492,14 @@ export function renderTickBroadcasts(
   for (const event of picked) {
     // 灾厄走**危机感模板**（它是唯一一类「有人正在死」的消息）
     if (event.type === 'calamity') {
-      out.push({ text: calamityNotice(event) });
+      out.push({ text: calamityNotice(event), kind: 'event' });
       continue;
     }
     const notice = worldEventNotice(event);
     if (notice.text.trim().length === 0) continue;
-    out.push(notice.buttons.length > 0 ? { text: notice.text, buttons: notice.buttons } : { text: notice.text });
+    out.push(notice.buttons.length > 0
+      ? { text: notice.text, buttons: notice.buttons, kind: 'world' }
+      : { text: notice.text, kind: 'world' });
   }
 
   return out;

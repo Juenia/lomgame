@@ -45,6 +45,15 @@ import { handleEncounter } from './encounter.ts';
 import { handleBattle } from './battle.ts';
 import { handleChallenge } from './challenge.ts';
 import { handleChurch, handleJoinChurch } from './church.ts';
+// M2.172：管理员指令（封禁 / 解禁 / 三组开关 / 三种状态）与它的卡片菜单
+import {
+  handleBan, handleUnban,
+  handleGameOff, handleGameOn, handleSceneGameOff, handleSceneGameOn,
+  handlePushOff, handlePushOn, handleScenePushOff, handleScenePushOn,
+  handleEventPushOff, handleEventPushOn, handleSceneEventPushOff, handleSceneEventPushOn,
+  handleGameStatus, handleWorldStatus, handleBotStatus,
+} from './admin.ts';
+import { handleAdminMenu } from './admin-menu-cmd.ts';
 
 /** 指令注册表：W1 三条 + W2 两条 + W3 八条 + W4 五条 + W6 一条 + M2.2 .世界 + M2.3 .今日 */
 export function registerW1Commands(router: CommandRouter): CommandRouter {
@@ -143,5 +152,33 @@ export function registerW1Commands(router: CommandRouter): CommandRouter {
   // M2.16：教会 —— 入教（顶级）/ 身份页（顶级）/ 捐献（子指令）
   router.register('加入教会', handleJoinChurch);
   router.register('教会', handleChurch);
+  /*
+   * ═══ M2.172：管理员指令 ═══
+   *
+   * 全部带 `{ admin: true }` —— 这一个标记同时管两件事：
+   *   · 路由层在「游戏关闭」时**放行**它们（否则关掉就再也开不回来）；
+   *   · 非管理员调用时统一回一句私聊提示（见 commands/admin.ts 的 requireAdmin）。
+   *
+   * 名单不在这里手抄：`router.adminCommands` 从注册处派生，测试拿它对账
+   * `domain/menu/admin-commands.ts` 的说明表。
+   */
+  router.register('封禁', handleBan, { admin: true });
+  router.register('解禁', handleUnban, { admin: true });
+  router.register('关闭游戏', handleGameOff, { admin: true });
+  router.register('开启游戏', handleGameOn, { admin: true });
+  router.register('关闭本群游戏', handleSceneGameOff, { admin: true });
+  router.register('开启本群游戏', handleSceneGameOn, { admin: true });
+  router.register('关闭主动推送', handlePushOff, { admin: true });
+  router.register('开启主动推送', handlePushOn, { admin: true });
+  router.register('关闭本群主动推送', handleScenePushOff, { admin: true });
+  router.register('开启本群主动推送', handleScenePushOn, { admin: true });
+  router.register('关闭主动事件推送', handleEventPushOff, { admin: true });
+  router.register('开启主动事件推送', handleEventPushOn, { admin: true });
+  router.register('关闭本群主动事件推送', handleSceneEventPushOff, { admin: true });
+  router.register('开启本群主动事件推送', handleSceneEventPushOn, { admin: true });
+  router.register('游戏状态', handleGameStatus, { admin: true });
+  router.register('世界状态', handleWorldStatus, { admin: true });
+  router.register('机器人状态', handleBotStatus, { admin: true });
+  router.register('管理', handleAdminMenu, { admin: true });
   return router;
 }

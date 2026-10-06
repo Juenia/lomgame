@@ -8,6 +8,9 @@ import type { CharacterRepo } from '../infra/db/characters.ts';
 import type { Db } from '../infra/db/sqlite.ts';
 import type { IdempotencyStore } from '../infra/idempotency.ts';
 import { RateLimiter } from '../infra/ratelimit.ts';
+// M2.172：管理员指令的两块地基 —— 服务器开关与管理员名单
+import { ServerSwitchRepo } from '../infra/db/server-switches.ts';
+import { AdminRegistry } from '../domain/admin/registry.ts';
 import type { KeyedQueue } from '../infra/queue.ts';
 import type { AuditLog } from '../infra/audit.ts';
 import type { SensitiveFilter } from '../infra/sensitive.ts';
@@ -291,6 +294,16 @@ export interface RouterDeps {
   community: CommunityBundle;
   /** W6 应急开关（封测期热修用，不改数值） */
   switches: RuntimeSwitches;
+  /**
+   * M2.172：**服务器开关**（游戏 / 主动推送 / 主动事件推送）。
+   *
+   * 它是管理员指令改的那份状态，也是 `handle()` 第一道闸门的依据 ——
+   * 放在 deps 里而不是让 app 层拦，是因为「游戏关着」这个判断需要的
+   * 群号（`msg.sceneId`）只有路由层拿得到。
+   */
+  serverSwitches?: ServerSwitchRepo;
+  /** M2.172：管理员名单（.env 的 ADMIN_IDS 与上游插件上报的并集） */
+  admins?: AdminRegistry;
   /** M2.2：世界时钟与地区天气（world_state / world_ticks / location_weather） */
   world: WorldRepo;
   /** M2.4：世界公共事件流（world_events），播报与数字回复都读它 */
@@ -663,13 +676,45 @@ export class CommandRouter {
   #lastUserId: string | null = null;
 
   constructor(deps: RouterDeps) {
-    this.#deps = deps;
+    /*
+     * M2.172：**给两个新依赖兜底**。
+     *
+     * 全仓有上百处构造 RouterDeps（测试夹具、模拟器、建号脚本），它们一个都不关心
+     * 「谁是管理员」。写成必需字段就得挨个改一遍 —— 而那是纯噪音。
+     * 所以构造时补一份内存档：开关**全开**（新增开关不许改变既有行为）、
+     * 管理员名单**为空**（谁都不是管理员）。
+     */
+    this.#deps = {
+      ...deps,
+      serverSwitches: deps.serverSwitches ?? new ServerSwitchRepo(),
+      admins: deps.admins ?? new AdminRegistry(),
+    };
+    this.#switches = this.#deps.serverSwitches!;
+    this.#admins = this.#deps.admins!;
     this.#logger = deps.logger ?? consoleLogger;
   }
 
-  register(name: string, handler: CommandHandler): this {
+  /**
+   * 管理员指令名（M2.171）。
+   *
+   * ⚠️ **从注册处派生，不另抄一份名单**（AGENTS §3.1）：手抄的那份最贵的失败方式
+   * 是不报错 —— 新加一条管理员指令而忘了加进名单，它就会在「游戏关闭」时被一起挡掉，
+   * 而测试和类型都看不出问题。
+   */
+  #adminCommands = new Set<string>();
+  /** M2.172：构造时兜底过的两个依赖（见构造函数） */
+  #switches: ServerSwitchRepo;
+  #admins: AdminRegistry;
+
+  register(name: string, handler: CommandHandler, options: { admin?: boolean } = {}): this {
     this.#handlers.set(name, handler);
+    if (options.admin === true) this.#adminCommands.add(name);
     return this;
+  }
+
+  /** 管理员指令清单（供测试与「游戏关闭时放行」判断） */
+  get adminCommands(): string[] {
+    return [...this.#adminCommands];
   }
 
   get commands(): string[] {
@@ -731,6 +776,29 @@ export class CommandRouter {
     }
 
     const explicit = parseCommand(msg.rawText);
+
+    /*
+     * ═══ M2.172：**游戏总开关与封禁** ═══
+     *
+     * 两条闸门，都只在**解析出指令之后**才查库 —— 群里大量的闲聊不该为它查一次角色。
+     *
+     *   1. 游戏关着（全局或本群）⇒ 除管理员指令外一律**静默**。
+     *      静默而不是回一句「游戏已关闭」，是因为那句提示会跟世界播报一样刷屏，
+     *      而关服期间群里本来就该安静。
+     *   2. 被封禁的人 ⇒ 同样静默。判据是角色状态（`characters.status = 'banned'`），
+     *      与后台 GM 那个「封禁」是同一个字段。
+     *
+     * ⚠️ 管理员指令**永远放行**，包括在游戏关闭时 —— 否则关掉游戏之后就再也没法开回来，
+     * 那是个不能自愈的状态。
+     */
+    if (explicit !== null && !this.#adminCommands.has(explicit.name)) {
+      const sceneKey = msg.scene === 'group' || msg.scene === 'channel' ? msg.sceneId : null;
+      if (!this.#switches.isOn('game', sceneKey)) return [];
+      if (!this.#admins.isAdmin(msg.userId)) {
+        const banned = this.#deps.characters.findByUserId(msg.userId);
+        if (banned !== null && banned.status === 'banned') return [];
+      }
+    }
     /*
      * ═══ M2.109：**未决状态不许被绕过** ═══
      *
