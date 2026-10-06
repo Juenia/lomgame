@@ -342,7 +342,16 @@ async function handleAdminsPost(
     return;
   }
   const data = parsed.data;
+  /*
+   * ⚠️ `RouterDeps.admins` 是**可选**的（测试夹具不构造它，见 router/index.ts 的构造函数注释）。
+   * 生产路径一定传（createApp 里 new 了一个），但这里是协议层，不能靠「一定」。
+   * 缺了就明确回 503 —— 而不是让一个 undefined 在运行时炸成 500。
+   */
   const admins = options.app.router.deps.admins;
+  if (admins === undefined) {
+    sendJson(res, 503, { ok: false, error: '这个内核没有管理员名单（版本不匹配）' } satisfies ErrorResponse);
+    return;
+  }
   admins.setRemote(data.platform, data.adminIds);
   options.logger.info('上游上报了管理员名单', { platform: data.platform, count: data.adminIds.length });
   sendJson(res, 200, { ok: true, platform: data.platform, adminIds: data.adminIds.length, total: admins.list().length });
