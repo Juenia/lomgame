@@ -144,9 +144,6 @@ export interface Config {
    * 开着也是「先找后拉」：已经在跑的直接复用 —— 两份内核会各自打开同一个
    * SQLite 文件，世界会被写坏。
    */
-  /** 运营后台的端口（只用来拼一个能点的地址，不影响 Koishi 自己监听哪个口） */
-  /** 交流群号（设置页里显示成一个可点的链接） */
-  community: string;
   manageCore: boolean;
   /** 用哪个 node 跑内核（留空 = 自动找一个够新的） */
   nodePath: string;
@@ -159,6 +156,28 @@ export interface Config {
   /** 存档目录（内核的 data/ 放这儿）。留空用 Koishi 数据目录 */
   dataDir: string;
 }
+
+/**
+ * 控制台配置页顶部的说明 —— **Koishi 只对插件级 `usage` 按 Markdown 渲染**。
+ *
+ * ## 为什么从 `Config.description` 搬到这儿（M2.172）
+ *
+ * 原来那段写在 `Schema.object(...).description(...)` 里，而控制台对它是**纯文本** ——
+ * 页面上看到的就是原文：`**交流群**: [1121395453](https://qm.qq.com/q/…)`，
+ * 星号与方括号一个不少，那个长 URL 既占地方又点不动（用户截图报的就是这个）。
+ *
+ * 搬成 `usage` 之后：群号与后台地址都是**点一下就能走**的短链接，URL 本身不再出现在页面上。
+ *
+ * ⚠️ 后台地址里的端口是 `corePort` 的默认值（3201）。usage 是**静态**的 ——
+ * 它是模块加载时求值的，那时还没有配置可读 —— 所以换过端口的人要照着自己那份改这条链接。
+ */
+export const usage = [
+  '**交流群**　[1121395453](https://qm.qq.com/q/wxW7hgC6sM)',
+  '',
+  '**管理后台**　[打开 127.0.0.1:3201/admin](http://127.0.0.1:3201/admin)　（端口 = 上面的 `corePort`，换过就把这条链接的端口一起换）',
+  '',
+  '《诡秘之主：群星低语》—— 内核随插件打包，装完发 `.帮助` 就能玩。',
+].join('\n');
 
 export const Config: Schema<Config> = Schema.object({
   apiBase: Schema.string().default('').description(
@@ -196,16 +215,9 @@ export const Config: Schema<Config> = Schema.object({
     .role('textarea')
     .default('')
     .description('屏蔽的群号，一行一个。被屏蔽的群不处理指令、也不主动推送；`#` 开头当注释。私聊不受影响。'),
-  /** 交流群号（顶部那行已是可点链接，这里给一个能复制的） */
-  community: Schema.string()
-    .default('1121395453')
-    .description('交流群 1121395453 —— https://qm.qq.com/q/wxW7hgC6sM（复制到浏览器打开）'),
   manageCore: Schema.boolean().default(true).description('自己拉起游戏内核（装完就能用；已在跑的直接复用）'),
   dataDir: Schema.string().default('').description('存档目录（留空用 Koishi 数据目录）'),
-}).description(
-  '**交流群**：[1121395453](https://qm.qq.com/q/wxW7hgC6sM)　点群号加群\n\n' +
-    '《诡秘之主：群星低语》—— 装完就能玩，发 `.帮助` 看指令。',
-);
+});
 
 export async function apply(ctx: Context, config: Config): Promise<void> {
   const logger = {
