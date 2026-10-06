@@ -274,6 +274,28 @@ export const capabilitiesSchema = z.strictObject({
    */
   avatarTemplate: z.string().max(256).optional(),
 });
+/**
+ * 上游上报**管理员名单**（M2.172）。
+ *
+ * ## 为什么由上游报，而不是让运营去改游戏机的 .env
+ *
+ * 管理员是「在 QQ 上按 id 认」的，而那条通道上的 id 长什么样只有上游最清楚
+ * （OneBot 下是 QQ 号，QQ 官方通道下是 openid）。让运营在机器人框架的设置页里填，
+ * 比要求他们去改游戏机的配置直觉得多。
+ *
+ * ⚠️ 这是**上报**不是**权威**：内核自己那份名单（.env 的 ADMIN_IDS）不受影响，
+ * 两边取并集。插件挂了、没上报，管理员指令照样能用。
+ *
+ * ⚠️ 同一个 `platform` 重复上报 = **覆盖它自己那一路**（不会累积）。
+ * 所以插件启动时全量报一次即可，改了配置再报一次。
+ */
+export const adminsSchema = z.strictObject({
+  platform: z.string().min(1).max(32),
+  /** 管理员 id 列表（QQ 号或 openid）。上限 200 是防呆：真配不了这么多 */
+  adminIds: z.array(z.string().min(1).max(64)).max(200),
+});
+export type AdminReport = z.infer<typeof adminsSchema>;
+
 export type Capabilities = z.infer<typeof capabilitiesSchema>;
 
 /** 补齐缺省值后的能力快照（服务端内部用） */

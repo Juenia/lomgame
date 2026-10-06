@@ -34,6 +34,8 @@
  * 这三样都在本文件里，都能单独测。
  */
 import { envGet, envSet, maskSecret, readEnv, writeEnv } from './env.ts';
+// M2.172：管理员名单的解析与写回规范化用的是同一份规则（见 domain/admin/registry.ts）
+import { parseAdminIds } from '../domain/admin/registry.ts';
 
 /**
  * 后台口令的长度下限。
@@ -245,6 +247,17 @@ export const ACCESS_KEYS: AccessKeySpec[] = [
     hint: 'POST /admin/tick 这类运维端点用的 x-admin-token（给脚本和压测工具，不是给浏览器）。留空则退回 OneBot 访问令牌',
   },
   {
+    /*
+     * M2.172：游戏内管理员名单。
+     *
+     * `apply` 是 **restart** 而不是 now —— 名单在启动时读进内存（`AdminRegistry.loadEnv`），
+     * 想做成热生效就要在写完之后回调一次 `loadEnv`。那件事没做，所以界面上不许说「已生效」：
+     * 这一屏最容易犯的错就是让人以为保存完就管事（见本文件开头那段纪律）。
+     */
+    key: 'ADMIN_IDS', label: '管理员 ID', apply: 'restart', secret: false,
+    hint: '能在群里用管理员指令的人（封禁 / 解禁 / 开关游戏 / 状态）。一行一个，也认逗号分隔；写 QQ 号（官方通道填 openid）。改完要**重启进程**才生效。上游插件（Koishi / BEE）那边填的名单会自动合并进来，两处都填也没关系',
+  },
+  {
     key: 'TRUST_PROXY', label: '信任反向代理', apply: 'now', secret: false,
     hint: '前面有自己配的反向代理时才开。开了才认 X-Forwarded-For 里的来访 IP —— 不开，审计日志记的是代理的地址；乱开，记的是攻击者自己编的地址',
   },
@@ -398,7 +411,19 @@ export function writeAccessKey(
 ): AccessWriteResult {
   const spec = ACCESS_KEYS.find((f) => f.key === key);
   if (spec === undefined) throw new Error('没有这一项配置：' + key);
-  const v = value.trim();
+  let v = value.trim();
+  /*
+   * M2.172：管理员名单**写回时规范化成一行**。
+   *
+   * 输入框是 textarea（一行一个最好读），但 .env 是「一行一个键」的格式 ——
+   * 直接写回去会把多行塞进一个键，整个 .env 从那里开始就废了（后面所有键都被当成这个值的一部分，
+   * 而 dotenv 不会报错，它只会让那些配置全部消失）。
+   */
+  if (key === 'ADMIN_IDS') {
+    const ids = parseAdminIds(v);
+    if (v.length > 0 && ids.length === 0) throw new Error('管理员 ID 里没有能认出来的值（写 QQ 号，一行一个）');
+    v = ids.join(',');
+  }
   if (key === 'ADMIN_PASSWORD') {
     const bad = checkPasswordStrength(v);
     if (bad !== null) throw new Error(bad);
