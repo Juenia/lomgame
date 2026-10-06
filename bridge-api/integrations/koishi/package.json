@@ -1,6 +1,6 @@
 {
   "name": "koishi-plugin-lom-bridge",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "《诡秘之主：群星低语》同人文字游戏 —— 内核一起打包，装完就能玩",
   "main": "lib/index.js",
   "files": [

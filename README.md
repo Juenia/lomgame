@@ -8,7 +8,7 @@
 
 ![koishi](https://img.shields.io/badge/koishi-%5E4.18-5546a3)
 ![Node](https://img.shields.io/badge/Node-%E2%89%A518-339933?logo=nodedotjs&logoColor=white)
-![version](https://img.shields.io/badge/version-1.2.4-blue)
+![version](https://img.shields.io/badge/version-1.2.5-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 `装完就能玩` —— 游戏内核随插件打包，不用另外开服务
@@ -78,6 +78,8 @@
 | `manageCore` | `true` | 自己拉起游戏内核（装完就能用）；已经在跑的直接复用 |
 | `apiBase` | 空 | 外部内核地址。留空 = 自己拉一个 |
 | `corePort` | `3201` | 自己拉内核时用的端口（避开 BEE 那边的 3200） |
+
+> 内核起来之后，运营后台在 `http://127.0.0.1:3201/admin`（端口就是上面的 `corePort`）—— 插件设置页顶部有直达链接。
 | `token` | 空 | 与内核的 `BRIDGE_TOKEN` 一致；同机部署留空 |
 | `nodePath` | 空 | 用哪个 node 跑内核（留空自动找） |
 | `autoInstallNode` | `true` | 本机没有够新的 Node 时自动下载便携版（不装进系统） |
